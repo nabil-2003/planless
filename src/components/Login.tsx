@@ -100,7 +100,6 @@ function Login() {
                         name="password"
                         value={password}
                         onChange={handlePasswordChange}
-                        placeholder="voer je wachtwoord in"
                         required
                         autoComplete="current-password"
                         className="mb-4"
