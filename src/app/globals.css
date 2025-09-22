@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.bg-blue{
+    background: var(--blue, #4CB4E7);background-color: var(--blue, #4CB4E7);
+}
+.text-dark-blue{
+    color: var(--dark-blue, #024089);color: var(--dark-blue, #024089);
+    
+}
+.bg-dark-blue{
+    background: var(--dark-blue, #024089);background-color: var(--dark-blue, #024089);
+}
+
+.text-light-blue{
+    background: var(--light-blue, #4CB4E7);background-color: var(--light-blue, #4CB4E7);
+}
+.input-bg{
+    background: var(--input-bg, #f4f4f4);background-color: var(--input-bg, #f4f4f4);
+}
