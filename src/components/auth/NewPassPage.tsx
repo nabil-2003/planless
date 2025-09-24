@@ -1,8 +1,8 @@
 'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Input, PasswordInput, Button, Label } from './ui'
-import LeftArrowIcon from './svgs/LeftArrowIcon'
+import { Input, PasswordInput, Button, Label } from '../ui'
+import LeftArrowIcon from '../svgs/LeftArrowIcon'
 import PasswordRules from './PasswordRules'
 
 function NewpassPage() {

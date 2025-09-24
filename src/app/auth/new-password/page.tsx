@@ -1,5 +1,5 @@
-import NewpassPage from '@/components/NewPassPage'
-import Reset from '@/components/Reset'
+import NewpassPage from '@/components/auth/NewPassPage'
+import Reset from '@/components/auth/Reset'
 import React from 'react'
 
 export default function page() {

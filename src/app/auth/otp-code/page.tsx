@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import LeftArrowIcon from '@/components/svgs/LeftArrowIcon'
-import OTPForm from '@/components/OTPForm'
+import OTPForm from '@/components/auth/OTPForm'
 
 export default function page() {
   return (

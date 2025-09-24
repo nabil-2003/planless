@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Input, PasswordInput, Button, Label } from './ui'
+import { Input, PasswordInput, Button, Label } from '../ui'
 
 function Login() {
     // State management
@@ -42,6 +42,7 @@ function Login() {
         
         try {
             console.log('Login attempt:', { email, password: '[REDACTED]' })
+            //handling the API will be here !!
             await new Promise(resolve => setTimeout(resolve, 1000))
             alert('Login successful!')
         } catch (error) {

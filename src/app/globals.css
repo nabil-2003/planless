@@ -1,19 +1,33 @@
 @import "tailwindcss";
+:root{
+    --dashboard-primary: #fcfcfd;
+    --logo-blue :  #4CB4E7;
+    --dark-blue : #024089;
+    --login-input-color : #f4f4f4;
+    --hover-side-nav-clr : #f2f4ff; 
 
+}
 .bg-blue{
-    background: var(--blue, #4CB4E7);background-color: var(--blue, #4CB4E7);
+    background: var(--logo-blue);background-color: var(--logo-blue);
 }
 .text-dark-blue{
-    color: var(--dark-blue, #024089);color: var(--dark-blue, #024089);
+    color: var(--dark-blue);color: var(--dark-blue);
     
 }
 .bg-dark-blue{
-    background: var(--dark-blue, #024089);background-color: var(--dark-blue, #024089);
+    background: var(--dark-blue);background-color: var(--dark-blue);
 }
 
 .text-light-blue{
-    background: var(--light-blue, #4CB4E7);background-color: var(--light-blue, #4CB4E7);
+    background: var(--logo-blue);background-color: var(--logo-blue);
 }
 .input-bg{
-    background: var(--input-bg, #f4f4f4);background-color: var(--input-bg, #f4f4f4);
+    background: var(--login-input-color);background-color: var(--login-input-color);
+}
+.bg-dashboard-primary{
+    background: var(--dashboard-primary);background-color: var(--dashboard-primary);
+}
+.hover-side-nav:hover{
+    background: var(--hover-side-nav-clr);
+       
 }

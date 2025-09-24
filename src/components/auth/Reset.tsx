@@ -1,9 +1,9 @@
 'use client'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import LeftArrowIcon from './svgs/LeftArrowIcon'
+import LeftArrowIcon from '../svgs/LeftArrowIcon'
 // Import our reusable UI components
-import { Input, Button, Label } from './ui'
+import { Input, Button, Label } from '../ui'
 
 /**
  * Password Reset Component
