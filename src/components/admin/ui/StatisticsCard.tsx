@@ -14,7 +14,7 @@ export default function StatisticsCard({ className, percentage, total, label, Ic
    function UporDown(percentage : number):typeof FaArrowDown | any {
    return percentage < 0 ? 
      <FaArrowDown 
-       className='inline text-sm rounded ml-1 p-1' 
+       className='inline text-sm rounded ml-1 p-1 ' 
        style={{ backgroundColor: '#dc2626', color: 'white' }}
      />  : 
      <FaArrowUp 

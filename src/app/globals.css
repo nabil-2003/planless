@@ -31,3 +31,15 @@
     background: var(--hover-side-nav-clr);
        
 }
+.options option:hover,
+.options option:focus,
+.options option:checked {
+    background: var(--logo-blue) !important;
+    color: white !important;
+}
+
+.options:hover,
+.options:focus {
+    border-color: var(--logo-blue);
+    box-shadow: 0 0 0 2px rgba(76, 180, 231, 0.2);
+}

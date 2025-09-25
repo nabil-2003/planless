@@ -3,11 +3,9 @@ import React from 'react'
 
 export default function layout({ children, }: { children: React.ReactNode }) {
   return (
-    <div className='flex w-full h-screen ' >
-          <LeftSide  className='w-[15%] h-full fixed   ' />
-       
-            {children}
-          
+    <div className=' w-full h-screen bg-dashboard-primary ' >
+        
+            {children}    
     </div>
 
   )
