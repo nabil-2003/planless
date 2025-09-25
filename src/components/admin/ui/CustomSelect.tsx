@@ -81,8 +81,8 @@ export default function CustomSelect({
           border border-gray-300 rounded
           bg-white cursor-pointer
           transition-all duration-200 ease-in-out
-          hover:border-blue-400 hover:shadow-sm
-          ${isOpen ? 'border-blue-400 shadow-sm' : ''}
+          hover:border-blue hover:shadow-sm
+          ${isOpen ? 'border-blue shadow-sm' : ''}
         `}
       >
         <span className={`${selectedLabel ? 'text-gray-900' : 'text-gray-500'}`}>
@@ -106,9 +106,22 @@ export default function CustomSelect({
               className={`
                 px-4 py-2 cursor-pointer
                 transition-all duration-200 ease-in-out
-                hover:bg-blue-500 hover:text-white
-                ${selectedValue === option.value ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}
+                hover:text-white
+                ${selectedValue === option.value ? 'text-white' : 'text-gray-900'}
               `}
+              style={{
+                backgroundColor: selectedValue === option.value ? 'var(--dark-blue)' : 'transparent'
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.backgroundColor = 'var(--dark-blue)'
+              }}
+              onMouseLeave={(e) => {
+                if (selectedValue === option.value) {
+                  (e.target as HTMLElement).style.backgroundColor = 'var(--dark-blue)'
+                } else {
+                  (e.target as HTMLElement).style.backgroundColor = 'transparent'
+                }
+              }}
             >
               {option.label}
             </div>

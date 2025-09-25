@@ -11,6 +11,7 @@ import CustomSelect from "@/components/admin/ui/CustomSelect"
 import { Button } from '@/components/ui';
 import Image from 'next/image';
 import PlusIcon from '@/components/svgs/Plus';
+import CustomTable from '@/components/admin/ui/CustomTable';
 export default function page() {
   const [currentFilterType, setCurrentFilterType] = React.useState('in Behandeling');
    const [currentTimeFilter, setTimeFilter] = React.useState('24 uur');
@@ -64,6 +65,7 @@ export default function page() {
      </div>
      </Button >
      </div>
+     <CustomTable />
        
      </div>
     </div>
