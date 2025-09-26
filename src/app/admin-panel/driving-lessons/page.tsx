@@ -30,7 +30,7 @@ export default function page() {
   return (
     <>
     <Header title="Rijlessen"  />
-    <div className='w-full flex '>
+    <div className='w-full flex  overflow-hidden'>
       <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
      <div className='dashboard-container w-[80%] '>
   <FIlterByType  currentFilterType={currentFilterType} chFilterByType={chFilterByType} />
@@ -68,6 +68,7 @@ export default function page() {
      <CustomTable />
        
      </div>
+   
     </div>
     </>
     
