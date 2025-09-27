@@ -12,7 +12,7 @@ export default function CustmButton(
     <button type={type} onClick={onClick} className={`${className}
      font-medium text-sm  py-2 px-4 
       transition-colors duration-200
-      outline-none cursor-pointer rounded-lg  bg-blue-300
+      outline-none cursor-pointer rounded-lg  
  `}>
         {children}
     </button>

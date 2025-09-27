@@ -170,3 +170,14 @@ input[type="date"]:focus {
 .react-datepicker__month-container {
     border-radius: 0;
 }
+
+.bordersDate{
+    background:  var(--dark-blue);
+    color: white;
+    border-radius: 5px;
+
+}
+.betweenDate{
+    background: #e8ebff;
+    color: var(--dark-blue);
+}
