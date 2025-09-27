@@ -2,7 +2,7 @@
 import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 
 
 type Data = {
@@ -27,8 +27,8 @@ export default function CustomTable({data} :{data: Array<Data>} ) {
   return (
 <>
 
-    <div className='mb-4'>
-     <ul className='  flex justify-around   border-gray-200 w-[95%] mx-3 *:h-[7vh]   bg-gray-100/90 p *:capitalize *:font-normal *:text-xs  items-center '>
+    <div className='mb-4 '>
+     <ul className='  flex justify-around   border-gray-200 w-[95%] mx-3 *:h-[7vh]   bg-[#f9fafb] p *:capitalize *:font-normal *:text-xs  items-center '>
        <li className='w-[4%] p-2  text-center flex items-center  border-gray-200 justify-center '>nr</li>
         <li className='w-[10%] p-2  text-center flex items-center  border-gray-200 justify-center'>instructeur</li>
         <li className='w-[8%] p-2  text-center flex items-center border-gray-200 justify-center'>student</li>
@@ -69,11 +69,13 @@ export default function CustomTable({data} :{data: Array<Data>} ) {
 }
 const TableElement = ({ele}: {ele: Data}) => {
   const modalRef = useRef<ActionModalRef>(null);
+    
+  
   
 
 console.log(ele)
     return(
-         <ul className=' relative border-1 border-gray-200  flex justify-around  w-[95%] mx-3 *:h-[7vh]   bg-gray-100/40 p *:capitalize *:font-normal *:text-xs  items-center '>
+         <ul className={' hover:bg-[#f2f4ff] relative border-1 border-gray-200  flex justify-around  w-[95%] mx-3 *:h-[7vh]     p *:capitalize *:font-normal *:text-xs  items-center '}>
         <li className='w-[4%] p-2  text-center flex items-center border-r-1 border-gray-200 justify-center '>1</li>
         <li className='w-[10%] p-2  text-center flex items-center justify-center '>kareem</li>
         <li className='w-[8%] p-2  text-center  flex items-center justify-center'>nabil</li>

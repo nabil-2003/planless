@@ -86,7 +86,7 @@ export default function page() {
   <FIlterByType  currentFilterType={currentFilterType} chFilterByType={chFilterByType} />
   <div className='mt-4'/>
 <TimeFilter currentFilter={currentTimeFilter} changeFilter={chTimeFilter} 
-  content={null}
+  content={true}
 />
 
   <div className='flex searchItem  mx-auto mt-4 p-4  justify-end  w-[95%] h-max  ml-auto '>
