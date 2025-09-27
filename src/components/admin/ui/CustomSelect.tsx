@@ -69,7 +69,7 @@ export default function CustomSelect({
   return (
     <div
       ref={selectRef}
-      className={`relative w-max ${className}`}
+      className={`relative  ${className}`}
     >
       {/* Select Button */}
       <div
