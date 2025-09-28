@@ -82,7 +82,7 @@ console.log(ele)
         <li className='w-[9%] p-2  text-center flex items-center justify-center'>08/11/23 09:00</li>
         <li className='w-[9%] p-2  text-center flex items-center justify-center'>08/11/24 10:00</li>
         <li className='w-[7%] p-2  text-center flex items-center justify-center'>00:00:00</li>
-        <li className='w-[9%] p-2  text-center flex items-center justify-center'>450 £</li>
+        <li className='w-[9%] p-2  text-center flex items-center justify-center'>450 €</li>
         <li className='w-[11%] p-2  text-center flex items-center justify-center'><span className='bg-[var(--table-bg-clr)] text-[var(--table-text-clr)] text-xs px-2 py-1 rounded-lg '>in Behandeling</span></li>
         <li className='w-[11%] p-2  text-center flex items-center justify-center'><span className='bg-[var(--table-bg-clr)] text-[var(--table-text-clr)] text-xs px-2 py-1 rounded-lg '>in Behandeling</span></li>
         <li className='w-[11%] p-2  text-center flex items-center justify-center'>12/10/24 09/00</li>
