@@ -2,16 +2,13 @@ import React, { useEffect, useImperativeHandle } from 'react'
 import { forwardRef } from 'react'
 import { ConfirmIcon , RejectIcon } from '@/components/svgs/ActionIcons'
 export type ActionModalRef = {
+     isOpen?: boolean
+    Close?: () => void
+    Open: () => void
  
 }
 
 
- type ModalRef = {
-    isOpen: boolean
-    Close: () => void
-    Open: () => void
-    // Add other props as needed
-  }
 type ModalProps = {
     // Add other props as needed
   }

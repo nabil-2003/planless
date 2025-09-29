@@ -42,17 +42,17 @@ export default function CustomTable({data} :{data: Array<Data>} ) {
         <li className='w-[12%] p-2  text-center flex items-center  border-gray-200 justify-center'>annuleringsreden</li>
         <li className='w-[6%] p-2  text-center flex items-center  border-gray-200 justify-center'>acties</li>
       </ul>
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-        <TableElement ele={[]} />
-              
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+        <TableElement />
+
     </div>
      <div className='w-[95%] mx-auto  mb-4 flex justify-around items-center   '>
       <span className='cursor-pointer text-sm  border-2 rounded border-[#EAECF0] hover:bg-blue-950/10 px-3 py-2 font-semibold'>Vorige</span>
@@ -67,7 +67,7 @@ export default function CustomTable({data} :{data: Array<Data>} ) {
 
   );
 }
-const TableElement = ({ele}: {ele: Data}) => {
+const TableElement = ({ele}: {ele?: Data}) => {
   const modalRef = useRef<ActionModalRef>(null);
     
   
