@@ -242,12 +242,14 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({name}, ref) => {
             
             {/* Date Selection Modals */}
             <CusTomDate 
+            className=''
               ref={startTimeModalRef}
               singleUse={true}
               onDateSelect={handleStartDateSelect}
             />
             
             <CusTomDate 
+            className=''
               ref={endTimeModalRef}
               singleUse={true}
               onDateSelect={handleEndDateSelect}
