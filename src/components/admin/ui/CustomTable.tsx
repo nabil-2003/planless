@@ -127,22 +127,22 @@ export default function CustomTable({
   return (
     <>
       {/* Table Container with Horizontal Scroll */}
-      <div className={className+ 'mb-4   w-max bg-amber-400 '}>
+      <div className={className+ 'mb-4 mr-3'}>
         {/* Table Header */}
-        <ul className='flex justify-around *:shrink-0 *:text-center border-gray-200  *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
-          <li className='w-[3vw] p-3   text-left flex items-center border-gray-200 '>nr</li>
+        <ul className='flex justify-around  *:shrink-0 *:text-center   *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
+          <li className='w-[3vw] px-3   text-left flex items-center  '>nr</li>
           <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>instructeur</li>
           <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200'>student</li>
           <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Begintijd</li>
           <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Eindtijd</li>
           <li className='w-[4vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Lesduur</li>
-          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>factuur bedrag</li>
+          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>factuur bedrag</li>
            <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200'>Rijles status</li>
           <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Betalingsstatus</li>
 
           <li className='w-[7vw] p-3 text-left flex items-center border-gray-200 '>annuleringstijd</li>
           <li className='w-[9vw] p-3 text-left flex items-center border-gray-200 '>annuleringsreden</li>
-          <li className='w-[3vw] p-3 text-left flex items-center border-gray-200 '>acties</li>
+          <li className='w-[3vw] p-3 text-left flex items-center border-gray-200 ml-2 '>acties</li>
         </ul>
 
         {/* Table Rows */}
@@ -258,14 +258,14 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
     [ColorToStatus]
   )
   return (
-    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  relative border-1 border-gray-200 flex justify-around    *:capitalize *:font-normal *:text-xs items-center'>
-      <li className='w-[3vw]  p-3 text-left flex items-center border-r-1 border-gray-200 '>{id}</li>
+    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  *:min-h-[7vh] relative border-1 border-gray-200 flex justify-around    *:capitalize *:font-normal *:text-xs items-center'>
+      <li className='w-[3vw]   text-center justify-center flex items-center border-r-1 border-gray-200 '>{id}</li>
       <li className='w-[5vw] p-3    text-left flex items-center '>{ele?.instructeur}</li>
       <li className='w-[5vw] p-3  text-left flex items-center '>{ele?.student}</li>
       <li className='w-[7vw] p-3   text-left flex items-center '>{ele?.begintijd}</li>
       <li className='w-[7vw] p-3    text-left flex items-center '>{ele?.eindtijd}</li>
       <li className='w-[4vw] p-3   text-left flex items-center '>{ele?.lesduur}</li>
-      <li className='w-[5vw] p-3   text-left flex items-center '>{ele?.factuur_bedrag}</li>
+      <li className='w-[7vw] p-3   text-left flex items-center '>{ele?.factuur_bedrag}</li>
 
       {/* Status columns with colored badges */}
       <li className='w-[7vw] p-3  text-left flex items-center justify-center'>
@@ -293,11 +293,11 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
       </li>
       
       <li className='w-[7vw]  p-3   flex items-center text-left '>{ele.annuleringstijd}</li>
-      <li className='whitespace-normal  w-[9vw] flex items-center  text-xs p-2 text-left'>{ele.annuleringsreden}</li>
+      <li className='whitespace-normal  w-[9vw] flex items-center mr-1  border-gray-200   text-xs p-2 text-left'>{ele.annuleringsreden}</li>
       
       {/* Actions column */}
-      <li className='w-[3vw] h-full p-3 flex  items-center  text-left border-l-1 border-gray-200'>
-        <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
+      <li className='w-[3vw] h-full p-3 flex  items-center  border-l-2   border-gray-200    justify-end  text-left  '>
+        <button className='outline-none ml-auto cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
       </li>

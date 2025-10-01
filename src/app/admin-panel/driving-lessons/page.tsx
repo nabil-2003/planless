@@ -180,7 +180,7 @@ export default function page() {
                             </Button >
                         </div>
                         <CustomTable  
-                            className='ml-5  capitalize'
+                            className='ml-8  capitalize'
                             filterTable={currentFilterType} 
                             data={[...parsedLessons()]}
                             searchQuery={searchQuery}
