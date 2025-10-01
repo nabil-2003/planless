@@ -213,6 +213,11 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
         colorbg: "#f2d6ff"
       },
       {
+        status: "inbehandeling",
+        colortext: "#6e3fa6",
+        colorbg: "#f2d6ff"
+      },
+      {
         status: "Geannuleerd",
         colortext: "#333333",
         colorbg: "#ededed"
