@@ -108,7 +108,7 @@ export default function page() {
                             content={true}
                         />
 
-                        <div className='flex searchItem  mx-auto mt-4 p-4  justify-end  w-[95%] h-max  ml-auto '>
+                        <div className='flex  searchItem  mx-auto  mt-4 mb-4    justify-end  w-[95%] h-max  ml-auto '>
                             <CustomSelect
                                 options={[
                                     { value: 10, label: "10" },
@@ -179,7 +179,8 @@ export default function page() {
                                 </div>
                             </Button >
                         </div>
-                        <CustomTable 
+                        <CustomTable  
+                            className='ml-5  capitalize'
                             filterTable={currentFilterType} 
                             data={[...parsedLessons()]}
                             searchQuery={searchQuery}

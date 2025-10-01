@@ -31,9 +31,10 @@ export default function CustomTable({
   searchQuery = '', 
   selectedDateRange, 
   timeFilter = '24 uur',
-  itemsPerPage = 10
+  itemsPerPage = 10, className= ''
 } :{
-  data: Array<Data_Lessons>, 
+  data: Array<Data_Lessons>,
+  className: string,
   filterTable: string,
   searchQuery?: string,
   selectedDateRange?: { firstDateMs: number; lastDateMs: number } | null,
@@ -126,22 +127,22 @@ export default function CustomTable({
   return (
     <>
       {/* Table Container with Horizontal Scroll */}
-      <div className='mb-4 overflow-x-auto'>
+      <div className={className+ 'mb-4  overflow-x-auto shaodow-sm  '}>
         {/* Table Header */}
-        <ul className='flex justify-around *:text-center border-gray-200 w-[95%] mx-3 *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
-          <li className='w-[4vw] p-2 text-center flex items-center border-gray-200 justify-center'>nr</li>
-          <li className='w-[10vw] p-2 text-center flex items-center border-gray-200 justify-center'>instructeur</li>
-          <li className='w-[10vw] p-2 text-center flex items-center border-gray-200 justify-center'>student</li>
-          <li className='w-[14vw] p-2 text-center flex items-center border-gray-200 justify-center'>Begintijd</li>
-          <li className='w-[14vw] p-2 text-center flex items-center border-gray-200 justify-center'>Eindtijd</li>
-          <li className='w-[10vw] p-2 text-center flex items-center border-gray-200 justify-center'>Lesduur</li>
-          <li className='w-[13vw] p-2 text-center flex items-center border-gray-200 justify-center'>factuur bedrag</li>
-           <li className='w-[13vw] p-2 text-center flex items-center border-gray-200 justify-center'>Rijles status</li>
-          <li className='w-[13vw] p-2 text-center flex items-center border-gray-200 justify-center'>Betalingsstatus</li>
-         
-          <li className='w-[13vw] p-2 text-center flex items-center border-gray-200 justify-center'>annuleringstijd</li>
-          <li className='w-[14vw] p-2 text-center flex items-center border-gray-200 justify-center'>annuleringsreden</li>
-          <li className='w-[6vw] p-2 text-center flex items-center border-gray-200 justify-center'>acties</li>
+        <ul className='flex justify-around *:shrink-0 *:text-center border-gray-200  mx-3 *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
+          <li className='w-[3vw] p-3   text-left flex items-center border-gray-200 '>nr</li>
+          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>instructeur</li>
+          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200'>student</li>
+          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Begintijd</li>
+          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Eindtijd</li>
+          <li className='w-[4vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Lesduur</li>
+          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>factuur bedrag</li>
+           <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200'>Rijles status</li>
+          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Betalingsstatus</li>
+
+          <li className='w-[7vw] p-3 text-left flex items-center border-gray-200 '>annuleringstijd</li>
+          <li className='w-[9vw] p-3 text-left flex items-center border-gray-200 '>annuleringsreden</li>
+          <li className='w-[3vw] p-3 text-left flex items-center border-gray-200 '>acties</li>
         </ul>
 
         {/* Table Rows */}
@@ -161,7 +162,8 @@ export default function CustomTable({
       </div>
     
       {/* Pagination Controls - Stable Layout */}
-      <div className='w-[95%] mx-auto mb-4 flex justify-between items-center'>
+     <div id='scroll' className='mt-10   w-[95%] mx-auto p-3  shadow-sm  bg-white rounded-xl'>
+       <div className='  mb-4 flex justify-between items-center'>
         <button 
           onClick={goToPrevPage}
           disabled={currentPage === 1}
@@ -197,6 +199,7 @@ export default function CustomTable({
           Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
         </span>
       </div>
+     </div>
     </>
   );
 }
@@ -255,17 +258,17 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
     [ColorToStatus]
   )
   return (
-    <ul className='*:text-center hover:bg-[#f2f4ff] relative border-1 border-gray-200 flex justify-around w-[95%] mx-3 *:h-[7vh] *:capitalize *:font-normal *:text-xs items-center'>
-      <li className='w-[4vw] p-2 text-center flex items-center border-r-1 border-gray-200 justify-center'>{id}</li>
-      <li className='w-[10vw] p-2 text-center flex items-center justify-center'>{ele?.instructeur}</li>
-      <li className='w-[10vw] p-2 text-center flex items-center justify-center'>{ele?.student}</li>
-      <li className='w-[14vw] p-2 text-center flex items-center justify-center'>{ele?.begintijd}</li>
-      <li className='w-[14vw] p-2 text-center flex items-center justify-center'>{ele?.eindtijd}</li>
-      <li className='w-[10vw] p-2 text-center flex items-center justify-center'>{ele?.lesduur}</li>
-      <li className='w-[13vw] p-2 text-center flex items-center justify-center'>{ele?.factuur_bedrag}</li>
-      
+    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  relative border-1 border-gray-200 flex justify-around  mx-3 *:h-[7vh] *:capitalize *:font-normal *:text-xs items-center'>
+      <li className='w-[3vw]  p-3 text-left flex items-center border-r-1 border-gray-200 '>{id}</li>
+      <li className='w-[5vw] p-3    text-left flex items-center '>{ele?.instructeur}</li>
+      <li className='w-[5vw] p-3  text-left flex items-center '>{ele?.student}</li>
+      <li className='w-[7vw] p-3   text-left flex items-center '>{ele?.begintijd}</li>
+      <li className='w-[7vw] p-3    text-left flex items-center '>{ele?.eindtijd}</li>
+      <li className='w-[4vw] p-3   text-left flex items-center '>{ele?.lesduur}</li>
+      <li className='w-[5vw] p-3   text-left flex items-center '>{ele?.factuur_bedrag}</li>
+
       {/* Status columns with colored badges */}
-      <li className='w-[13vw] p-2 text-center flex items-center justify-center'>
+      <li className='w-[7vw] p-3  text-left flex items-center justify-center'>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.rijles_status)?.colorbg,
@@ -277,7 +280,7 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
         </span>
       </li>
       
-      <li className='w-[13vw] p-2 text-center flex items-center justify-center'>
+      <li className='w-[7vw] p-3  text-center flex items-center '>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.betalingsstatus)?.colorbg,
@@ -289,11 +292,11 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
         </span>
       </li>
       
-      <li className='w-[13vw] p-2 text-center flex items-center justify-center'>{ele.annuleringstijd}</li>
-      <li className='whitespace-normal w-[14vw] flex items-center justify-center text-xs p-2 text-center'>{ele.annuleringsreden}</li>
+      <li className='w-[7vw]  p-3   flex items-center text-left '>{ele.annuleringstijd}</li>
+      <li className='whitespace-normal  w-[9vw] flex items-center  text-xs p-2 text-left'>{ele.annuleringsreden}</li>
       
       {/* Actions column */}
-      <li className='w-[6vw] h-full p-2 flex items-center justify-center text-center border-l-1 border-gray-200'>
+      <li className='w-[3vw] h-full p-3 flex  items-center  text-left border-l-1 border-gray-200'>
         <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
