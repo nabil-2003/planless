@@ -127,9 +127,9 @@ export default function CustomTable({
   return (
     <>
       {/* Table Container with Horizontal Scroll */}
-      <div className={className+ 'mb-4  overflow-x-auto shaodow-sm  '}>
+      <div className={className+ 'mb-4   w-max bg-amber-400 '}>
         {/* Table Header */}
-        <ul className='flex justify-around *:shrink-0 *:text-center border-gray-200  mx-3 *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
+        <ul className='flex justify-around *:shrink-0 *:text-center border-gray-200  *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
           <li className='w-[3vw] p-3   text-left flex items-center border-gray-200 '>nr</li>
           <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>instructeur</li>
           <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200'>student</li>
@@ -258,7 +258,7 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
     [ColorToStatus]
   )
   return (
-    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  relative border-1 border-gray-200 flex justify-around  mx-3 *:h-[7vh] *:capitalize *:font-normal *:text-xs items-center'>
+    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  relative border-1 border-gray-200 flex justify-around    *:capitalize *:font-normal *:text-xs items-center'>
       <li className='w-[3vw]  p-3 text-left flex items-center border-r-1 border-gray-200 '>{id}</li>
       <li className='w-[5vw] p-3    text-left flex items-center '>{ele?.instructeur}</li>
       <li className='w-[5vw] p-3  text-left flex items-center '>{ele?.student}</li>
