@@ -22,9 +22,10 @@ type CustomDateRef = {
 type PropsDate = {
   singleUse?: boolean;
   onDateSelect?: (dates: { firstDateMs: number; lastDateMs: number } | null) => void;
+  className : string ; 
 }
 
-const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false, onDateSelect }, ref) => {
+const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  className='',  onDateSelect }, ref) => {
   const [currentMonth, setCurrentMonth] = useState<number>();
   const [currentYear, setCurrentYear] = useState<number>();
   const [range, selectDateRange] = useState<string[]>([]);

@@ -3,7 +3,7 @@ import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
 import TimeFilter from '@/components/admin/TimeFIlter';
 import FIlterByType from '@/components/FIlterByType'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import CusTomDate from '@/components/admin/ui/CustomDateModal'
 import { FaRegPlusSquare, FaArrowDown, FaChartLine, FaChartBar } from 'react-icons/fa'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
@@ -11,9 +11,9 @@ import CustomSelect from "@/components/admin/ui/CustomSelect"
 import { Button } from '@/components/ui';
 import Image from 'next/image';
 import PlusIcon from '@/components/svgs/Plus';
-import CustomTable from '@/components/admin/ui/CustomTable';
+import CustomTable, {  Data_Lessons } from '@/components/admin/ui/CustomTable';
 import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
-
+import   jsonData from "@/data/lessons.json"
 type CustomDateRef = {
     firstDateMs?: number;
     lastDateMs?: number;
@@ -26,9 +26,28 @@ type CustomDateRef = {
 }
 
 export default function page() {
+
+  const  parsedLessons = useCallback(()=>{
+        const lessons: Data_Lessons[] = (jsonData as any[]).map(item => ({
+  instructeur: item.instructeur,
+  student: item.student,
+  begintijd: item.begintijd,
+  eindtijd: item.eindtijd,
+  lesduur: item.lesduur,
+  factuur_bedrag: item.factuur_bedrag,    // Fixed: use correct field name
+  betalingsstatus: item.betalingsstatus,
+  rijles_status: item.rijles_status,      // Fixed: use correct field name
+  annuleringstijd: item.annuleringstijd,
+  annuleringsreden: item.annuleringsreden,
+}));
+   return   lessons ; 
+     },[])
+
     const [currentFilterType, setCurrentFilterType] = React.useState('in Behandeling');
     const [currentTimeFilter, setTimeFilter] = React.useState('24 uur');
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const CreateModalRef = useRef<CreateModalRef>(null);
     const dateModalRef = useRef<CustomDateRef>(null);
 
@@ -96,15 +115,23 @@ export default function page() {
                                     { value: 20, label: "20" },
                                     { value: 30, label: "30" },
                                     { value: 40, label: "40" },
-                                    { value: 50, label: "50" }
+                                    { value: 50, label: "50" },
+                                    { value: 60, label: "60" },
+                                    { value: 70, label: "70" },
+                                    { value: 80, label: "80" },
+                                    { value: 90, label: "90" },
+                                    { value: 100, label: "100" },
                                 ]}
-                                defaultValue={10}
+                                value={itemsPerPage}
                                 className='mr-auto w-32'
-                                onChange={(value) => console.log('Selected:', value)}
+                                onChange={(value) => setItemsPerPage(Number(value))}
                             />
-                            <CustomSearch className='
-        w-[15vw] rounded-md outline-none p-2   bg-white  border border-gray-300
-     ' />
+                            <CustomSearch 
+                                className='w-[15vw] rounded-md outline-none p-2 bg-white border border-gray-300'
+                                value={searchQuery}
+                                onChange={(value) => setSearchQuery(value)}
+                                placeholder='Zoeken...'
+                            />
 
                             {/* Custom Date Input that opens modal */}
                             <div className='relative ml-4'>
@@ -125,7 +152,7 @@ export default function page() {
                                             d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
                                         />
                                     </svg>
-                                    <span className={`text-sm flex-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                    <span className={`text-md flex-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                         {formatDateRange()}
                                     </span>
                                     {selectedDateRange && (
@@ -152,7 +179,14 @@ export default function page() {
                                 </div>
                             </Button >
                         </div>
-                        <CustomTable data={[]} />
+                        <CustomTable 
+                            filterTable={currentFilterType} 
+                            data={[...parsedLessons()]}
+                            searchQuery={searchQuery}
+                            selectedDateRange={selectedDateRange}
+                            timeFilter={currentTimeFilter}
+                            itemsPerPage={itemsPerPage}
+                        />
 
                     </div>
 
@@ -162,6 +196,7 @@ export default function page() {
 
             {/* Custom Date Modal */}
             <CusTomDate
+            className=''
                 ref={dateModalRef}
                 singleUse={false}
                 onDateSelect={handleDateSelect}

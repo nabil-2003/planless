@@ -13,6 +13,7 @@ export default function FIlterByType({
      
     const  chFilter= (e : React.MouseEvent<HTMLLIElement> ) =>   {
         chFilterByType(e.currentTarget.getAttribute("data-filter") || "")
+       
       }
     // set the active class based on the current filter type
 

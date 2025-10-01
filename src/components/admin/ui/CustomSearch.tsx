@@ -3,15 +3,31 @@
 import SearchIcon, { SearchIconRef } from '@/components/svgs/Search'
 import React, { useState, useRef } from 'react'
 
-export default function CustomSearch({ className , type="text"}: { className: string , type?: string}) {
+export default function CustomSearch({ 
+  className, 
+  type = "text", 
+  value, 
+  onChange, 
+  placeholder = "zoeken" 
+}: { 
+  className: string, 
+  type?: string,
+  value?: string,
+  onChange?: (value: string) => void,
+  placeholder?: string
+}) {
   const icon = useRef<SearchIconRef>(null)
-  const [searchText, setSearchText] = useState("")
+  const [internalSearchText, setInternalSearchText] = useState("")
+  
+  // Use external value if provided, otherwise use internal state
+  const searchText = value !== undefined ? value : internalSearchText
+  const setSearchText = onChange !== undefined ? onChange : setInternalSearchText
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchText(value)
+    const inputValue = e.target.value
+    setSearchText(inputValue)
 
-    if (value !== "") {
+    if (inputValue !== "") {
       icon.current?.hide()
     } else {
       icon.current?.show()
@@ -25,7 +41,7 @@ export default function CustomSearch({ className , type="text"}: { className: st
         onChange={handleChange}
         value={searchText}
         className={className + " block placeholder:capitalize  placeholder:pl-10"}
-        placeholder="zoeken"
+        placeholder={placeholder}
       />
 
       {/* The icon is controlled imperatively via ref */}

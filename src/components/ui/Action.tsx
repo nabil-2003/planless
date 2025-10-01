@@ -11,12 +11,13 @@ export type ActionModalRef = {
 
 type ModalProps = {
     // Add other props as needed
+     CurrentStatus?: string
   }
-  const props = {}
 
 
 
-const Action = forwardRef<ActionModalRef, ModalProps>((props, ref) => {
+
+const Action = forwardRef<ActionModalRef, ModalProps>(({ CurrentStatus }, ref) => {
     const modalRef = React.useRef<HTMLDivElement>(null);
     
     useEffect(()=>{

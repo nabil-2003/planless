@@ -27,7 +27,7 @@ export default function StatisticsCard({ className, percentage, total, label, Ic
            <div className={`percentage  text-right mr-4 mt-3 ${percentage! < 0 ? 'text-red-500' : 'text-green-500'} `}>
             {percentage}% {UporDown(percentage!)}
            </div>
-           <div className=' text-blue-600 text-4xl text-left ml-3 font-bold'>
+           <div className=' text-[#2d46c4] text-4xl text-left ml-3 font-bold'>
            {total} 
            </div>
            <div id='data' className=' items-center text-gray-500 text-left ml-3 flex justify-between px-3 mt-2'>

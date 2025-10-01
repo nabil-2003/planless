@@ -9,6 +9,7 @@ interface Option {
 
 interface CustomSelectProps {
   options: Option[]
+  value?: string | number
   defaultValue?: string | number
   placeholder?: string
   className?: string
@@ -17,25 +18,32 @@ interface CustomSelectProps {
 
 export default function CustomSelect({
   options,
+  value,
   defaultValue,
   placeholder = "Select an option",
   className = "",
   onChange
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedValue, setSelectedValue] = useState(defaultValue || "")
+  const [selectedValue, setSelectedValue] = useState(value !== undefined ? value : (defaultValue || ""))
   const [selectedLabel, setSelectedLabel] = useState("")
   const selectRef = useRef<HTMLDivElement>(null)
 
-  // Set default selected option on mount
+  // Handle controlled vs uncontrolled behavior
+  const currentValue = value !== undefined ? value : selectedValue
+
+  // Set selected label based on current value
   useEffect(() => {
-    if (defaultValue) {
-      const option = options.find(opt => opt.value === defaultValue)
-      if (option) {
-        setSelectedLabel(option.label)
-      }
+    const option = options.find(opt => opt.value === currentValue)
+    setSelectedLabel(option ? option.label : "")
+  }, [currentValue, options])
+
+  // Update internal state when controlled value changes
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelectedValue(value)
     }
-  }, [defaultValue, options])
+  }, [value])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -53,7 +61,10 @@ export default function CustomSelect({
 
   // Handle option selection
   const handleOptionClick = (option: Option) => {
-    setSelectedValue(option.value)
+    if (value === undefined) {
+      // Uncontrolled behavior
+      setSelectedValue(option.value)
+    }
     setSelectedLabel(option.label)
     setIsOpen(false)
     if (onChange) {
@@ -107,16 +118,16 @@ export default function CustomSelect({
                 px-4 py-2 cursor-pointer
                 transition-all duration-200 ease-in-out
                 hover:text-white
-                ${selectedValue === option.value ? 'text-white' : 'text-gray-900'}
+                ${currentValue === option.value ? 'text-white' : 'text-gray-900'}
               `}
               style={{
-                backgroundColor: selectedValue === option.value ? 'var(--dark-blue)' : 'transparent'
+                backgroundColor: currentValue === option.value ? 'var(--dark-blue)' : 'transparent'
               }}
               onMouseEnter={(e) => {
                 (e.target as HTMLElement).style.backgroundColor = 'var(--dark-blue)'
               }}
               onMouseLeave={(e) => {
-                if (selectedValue === option.value) {
+                if (currentValue === option.value) {
                   (e.target as HTMLElement).style.backgroundColor = 'var(--dark-blue)'
                 } else {
                   (e.target as HTMLElement).style.backgroundColor = 'transparent'

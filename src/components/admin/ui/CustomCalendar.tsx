@@ -79,6 +79,7 @@ export default function CustomCalendar() {
         ref={dateModalRef}
         singleUse={false}
         onDateSelect={handleDateSelect}
+        className=''
       />
     </div>
   )

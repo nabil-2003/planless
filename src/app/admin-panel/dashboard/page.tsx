@@ -5,6 +5,7 @@ import Header from '@/components/admin/Header'
 import TimeFilter from '@/components/admin/TimeFIlter'
 import LessonChart from '@/components/admin/ui/LessonChart'
 import CostumChart from '@/components/admin/ui/LessonChart'
+import ChartExample from '@/components/admin/ui/ChartExample'
 import { FaArrowUp, FaArrowDown, FaChartLine, FaChartBar } from 'react-icons/fa'
 import LeftSide from '@/components/admin/LeftSide'
 export default function page() {
@@ -117,6 +118,7 @@ export default function page() {
 
           ]}
         />
+      
      </div>
 
      
