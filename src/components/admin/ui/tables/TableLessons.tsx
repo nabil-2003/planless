@@ -3,6 +3,7 @@ import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import CustomScrollBar from '../ScrollBar';
 
 // Data types
 export type Data_Lessons = {
@@ -25,7 +26,7 @@ type ColorAndStatus = {
 }
 
 // Main table component
-export default function CustomTable({
+export default function LessonsTable({
   data, 
   filterTable, 
   searchQuery = '', 
@@ -127,22 +128,22 @@ export default function CustomTable({
   return (
     <>
       {/* Table Container with Horizontal Scroll */}
-      <div className={className+ 'mb-4 mr-3'}>
+      <div  id='rijlessen-table-container' className={className+ 'mb-4'}>
         {/* Table Header */}
-        <ul className='flex justify-around  *:shrink-0 *:text-center   *:h-[7vh] bg-[#f9fafb] *:capitalize *:font-normal *:text-xs items-center'>
-          <li className='w-[3vw] px-3   text-left flex items-center  '>nr</li>
-          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200 '>instructeur</li>
-          <li className='w-[5vw] p-3  text-left flex items-center pl-3 border-gray-200'>student</li>
-          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Begintijd</li>
-          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Eindtijd</li>
-          <li className='w-[4vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Lesduur</li>
-          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>factuur bedrag</li>
-           <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200'>Rijles status</li>
-          <li className='w-[7vw] p-3  text-left flex items-center pl-3 border-gray-200 '>Betalingsstatus</li>
+        <ul className='flex  *:text-sm *:capitalize bg-tansparent border-b-1 border-gray-200  justify-around  w-max gap-2 pr-3  '>
+          <li className='w-[4vw] px-4  flex justify-center items-center py-3 '>nr</li>
+          <li className='w-[5vw]  py-4 '>instructeur</li>
+          <li className='w-[5vw] py-4 '>student</li>
+          <li className='w-[7vw] py-4  '>Begintijd</li>
+          <li className='w-[7vw] py-4  '>Eindtijd</li>
+          <li className='w-[4vw]  py-4 '>Lesduur</li>
+          <li className='w-[7vw]  py-4 '>factuur bedrag</li>
+           <li className='w-[7vw] py-4 '>Rijles status</li>
+          <li className='w-[7vw]  py-4  '>Betalingsstatus</li>
 
-          <li className='w-[7vw] p-3 text-left flex items-center border-gray-200 '>annuleringstijd</li>
-          <li className='w-[9vw] p-3 text-left flex items-center border-gray-200 '>annuleringsreden</li>
-          <li className='w-[3vw] p-3 text-left flex items-center border-gray-200 ml-2 '>acties</li>
+          <li className='w-[9vw]  py-4 '>annuleringstijd</li>
+          <li className='w-[14vw] py-4 '>annuleringsreden</li>
+          <li className='w-[3vw] px-4  flex justify-center items-center py-4 '>acties</li>
         </ul>
 
         {/* Table Rows */}
@@ -155,7 +156,7 @@ export default function CustomTable({
             />
           ))
         ) : (
-          <div className='w-[95%] mx-3 py-8 text-center text-gray-500'>
+          <div className='w-[80vw] mx-auto py-8 text-center text-gray-500'>
             Geen resultaten gevonden
           </div>
         )}
@@ -192,6 +193,7 @@ export default function CustomTable({
           Volgende
         </button>
       </div>
+      <CustomScrollBar targetId="rijlessen-table-container" orientation='horizontal' />
     
       {/* Results Counter */}
       <div className='w-[95%] mx-auto mb-4 text-center'>
@@ -258,17 +260,17 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
     [ColorToStatus]
   )
   return (
-    <ul className='*:text-center *:shrink-0  hover:bg-[#f2f4ff] bg-white  *:min-h-[7vh] relative border-1 border-gray-200 flex justify-around    *:capitalize *:font-normal *:text-xs items-center'>
-      <li className='w-[3vw]   text-center justify-center flex items-center border-r-1 border-gray-200 '>{id}</li>
-      <li className='w-[5vw] p-3    text-left flex items-center '>{ele?.instructeur}</li>
-      <li className='w-[5vw] p-3  text-left flex items-center '>{ele?.student}</li>
-      <li className='w-[7vw] p-3   text-left flex items-center '>{ele?.begintijd}</li>
-      <li className='w-[7vw] p-3    text-left flex items-center '>{ele?.eindtijd}</li>
-      <li className='w-[4vw] p-3   text-left flex items-center '>{ele?.lesduur}</li>
-      <li className='w-[7vw] p-3   text-left flex items-center '>{ele?.factuur_bedrag}</li>
+    <ul className='flex *:text-sm *:text-gray-700  w-max  border-b-1 gap-2  bg-white border-gray-200 '>
+      <li className='w-[4vw] border-x-1 border-gray-200  flex justify-center items-center py-3 '>{id}</li>
+      <li className='w-[5vw]  py-4  flex  items-center '>{ele?.instructeur}</li>
+      <li className='w-[5vw] py-4  flex  items-center'>{ele?.student}</li>
+      <li className='w-[7vw] py-4   flex  items-center'>{ele?.begintijd}</li>
+      <li className='w-[7vw]  py-4  flex  items-center '>{ele?.eindtijd}</li>
+      <li className='w-[4vw] py-4  flex  items-center'>{ele?.lesduur}</li>
+      <li className='w-[7vw] py-4  flex  items-center'>{ele?.factuur_bedrag}</li>
 
       {/* Status columns with colored badges */}
-      <li className='w-[7vw] p-3  text-left flex items-center justify-center'>
+      <li className='w-[7vw] py-4 flex  items-center'>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.rijles_status)?.colorbg,
@@ -280,7 +282,7 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
         </span>
       </li>
       
-      <li className='w-[7vw] p-3  text-center flex items-center '>
+      <li className='w-[7vw]  py-3  flex  items-center '>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.betalingsstatus)?.colorbg,
@@ -292,12 +294,11 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
         </span>
       </li>
       
-      <li className='w-[7vw]  p-3   flex items-center text-left '>{ele.annuleringstijd}</li>
-      <li className='whitespace-normal  w-[9vw] flex items-center mr-1  border-gray-200   text-xs p-2 text-left'>{ele.annuleringsreden}</li>
-      
+      <li className='w-[9vw]  py-3    flex  items-center'>{ele.annuleringstijd}</li>
+      <li className='  w-[14vw] py-3   flex  items-center'>{ele.annuleringsreden}</li>
       {/* Actions column */}
-      <li className='w-[3vw] h-full p-3 flex  items-center  border-l-2   border-gray-200    justify-end  text-left  '>
-        <button className='outline-none ml-auto cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
+      <li className='w-[4vw] px-3    py-3 flex justify-center items-center   '>
+        <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
       </li>

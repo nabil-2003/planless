@@ -1,0 +1,261 @@
+'use client'
+import MenuIcon from '@/components/svgs/MenuIcon';
+import { ActionModalRef } from '@/components/ui/Action';
+import ActionModal from '@/components/ui/Action';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import CustomScrollBar from '../ScrollBar';
+import Link from 'next/link';
+import LocationIcon from '@/components/svgs/Location';
+
+// Data types
+export type Data_Student = {
+    student: string;
+    bsn_nummer: string;
+    email: string;
+    geboortedatum: string;
+    adres: string;
+    telefoonnummer: string;
+    status: string;
+    rijbewijs_categorie: string;
+    theorie_examen: string;
+    praktijk_examen: string;
+    aantal_lessen: number;
+    laatste_les: string;
+    instructeur: string;
+    opmerkingen: string;
+}
+
+
+
+// Main table component
+export default function StudentTable({
+  data, 
+  filterTable, 
+  searchQuery = '', 
+  selectedDateRange, 
+  timeFilter = '24 uur',
+  itemsPerPage = 10, className= ''
+} :{
+  data: Array<Data_Student>,
+  className: string,
+  filterTable: string,
+  searchQuery?: string,
+  selectedDateRange?: { firstDateMs: number; lastDateMs: number } | null,
+  timeFilter?: string,
+  itemsPerPage?: number
+}) {
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  // Filter data based on all criteria
+  const filteredData = useMemo(() => {
+    let filtered = data
+    
+    // Filter by status
+  
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(item => 
+        item.student.toLowerCase().includes(query) ||
+        item.bsn_nummer.toLowerCase().includes(query) ||
+        item.email.toLowerCase().includes(query) ||
+        item.adres.toLowerCase().includes(query) ||
+        item.telefoonnummer.toLowerCase().includes(query) ||
+        item.opmerkingen.toLowerCase().includes(query)
+      )
+    }
+    
+    // Filter by date range
+    if (selectedDateRange) {
+      filtered = filtered.filter(item => {
+        const itemDate = new Date(item.geboortedatum).getTime()
+        return itemDate >= selectedDateRange.firstDateMs && itemDate <= selectedDateRange.lastDateMs
+      })
+    }
+    
+    // Filter by time period
+    if (timeFilter !== '24 uur') {
+      const now = new Date().getTime()
+      let timeFilterMs = 24 * 60 * 60 * 1000 // Default 24 hours
+      
+      switch (timeFilter) {
+        case '7 dagen':
+          timeFilterMs = 7 * 24 * 60 * 60 * 1000
+          break
+        case '30 dagen':
+          timeFilterMs = 30 * 24 * 60 * 60 * 1000
+          break
+        case '12 maanden':
+          timeFilterMs = 365 * 24 * 60 * 60 * 1000
+          break
+      }
+      
+      filtered = filtered.filter(item => {
+        const itemDate = new Date(item.geboortedatum).getTime()
+        return now - itemDate <= timeFilterMs
+      })
+    }
+    
+    return filtered
+  }, [data, filterTable, searchQuery, selectedDateRange, timeFilter])
+  
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentData = filteredData.slice(startIndex, endIndex)
+
+  // Navigation functions
+  const goToNextPage = useCallback(() => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1)
+    }
+  }, [currentPage, totalPages])
+
+  const goToPrevPage = useCallback(() => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1)
+    }
+  }, [currentPage])
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filterTable, searchQuery, selectedDateRange, timeFilter, itemsPerPage])
+
+  // Calculate scrollbar width based on container
+  useEffect(() => {
+    const updateScrollBarWidth = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth
+        setScrollBarWidth(containerWidth * 0.9) // 90% of container width
+      }
+    }
+    
+    updateScrollBarWidth()
+    window.addEventListener('resize', updateScrollBarWidth)
+    
+    return () => window.removeEventListener('resize', updateScrollBarWidth)
+  }, [])
+  return (
+    <>
+      {/* Hide native scrollbar styles */}
+      <style jsx global>{`
+        .hide-native-scroll::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-native-scroll {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+
+      {/* Table Container with Horizontal Scroll */}
+      <div ref={containerRef} id='students-table-container' className={`${className} mb-4 overflow-x-auto overflow-y-hidden hide-native-scroll`}>
+        {/* Table Header */}
+        <ul className='flex w-max relative  *:text-sm *:capitalize bg-transparent  border-b-1 gap-8 border-gray-200   pr-3'>
+          <li className='w-[4vw] px-4  flex justify-center items-center py-3 '>Nr</li>
+          <li className='w-[7vw] py-4 '>Student</li>
+          <li className='w-[7vw] py-4 '>BSN nummer</li>
+          <li className='w-[11vw]  py-4   '>Email</li>
+          <li className='w-[7vw] py-4  '>Geboortedatum</li>
+          <li className='w-[7vw] py-4 flex   items-center justify-center  '>Adres</li>
+          <li className='w-[7vw] py-4 '>Telefoonnummer</li>
+          <li className='w-[11vw] py-4 '>Opmerkingen</li>
+          <li className='w-[4vw] px-3  py-4 items-center justify-center    '>Acties</li>
+        </ul>
+
+        {/* Table Rows */}
+        {currentData.length > 0 ? (
+          currentData.map((ele, index) => (
+            <TableElement 
+              key={startIndex + index} 
+              ele={ele} 
+              id={startIndex + index + 1} 
+            />
+          ))
+        ) : (
+          <div className='w-[80vw] mx-auto py-8 text-center text-gray-500'>
+            Geen resultaten gevonden
+          </div>
+        )}
+      </div>
+    
+      {/* Pagination Controls - Stable Layout */}
+     <div id='scroll' className='mt-10   w-[95%] mx-auto p-3  shadow-sm  bg-white rounded-xl'>
+       <div className='  mb-4 flex justify-between items-center'>
+        <button 
+          onClick={goToPrevPage}
+          disabled={currentPage === 1}
+          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+            currentPage === 1 
+              ? 'text-gray-400 cursor-not-allowed' 
+              : 'cursor-pointer hover:bg-blue-950/10'
+          }`}
+        >
+          Vorige
+        </button>
+      
+        <span className='text-sm'>
+          Pagina {currentPage} van {totalPages || 1}
+        </span>
+      
+        <button 
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages || totalPages === 0}
+          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+            currentPage === totalPages || totalPages === 0
+              ? 'text-gray-400 cursor-not-allowed' 
+              : 'cursor-pointer hover:bg-blue-950/10'
+          }`}
+        >
+          Volgende
+        </button>
+      </div>
+      <CustomScrollBar 
+        targetId="students-table-container" 
+        height={scrollBarWidth} 
+        thumbHeight={120}
+        orientation='horizontal' 
+      />
+    
+      {/* Results Counter */}
+      <div className='w-[95%] mx-auto mb-4 text-center'>
+        <span className='text-sm text-gray-600'>
+          Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
+        </span>
+      </div>
+     </div>
+    </>
+  );
+}
+// Individual table row component
+const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
+  const modalRef = useRef<ActionModalRef>(null);
+
+  return (
+        <ul className='flex w-max relative bg-white  *:text-sm *:capitalize border-b-1 gap-8 border-gray-200   pr-3'>
+      <li className='w-[4vw] px-4 border-x-1 border-gray-200  flex justify-center items-center py-4 '>{id}</li>
+      <li className='w-[7vw] py-4 flex  items-center  '>{ele.student}</li>
+      <li className='w-[7vw] py-4  flex  items-center  '>{ele.bsn_nummer}</li>
+      <li    className='w-[11vw] flex  items-center    py-4 '>{ele.email}</li>
+      <li className='w-[7vw] py-4  flex  items-center   '>{ele.geboortedatum}</li>
+      <li className='w-[7vw]  py-4 flex  items-center       justify-center ' title={ele.adres}>
+        <Link href={""}  >
+            <LocationIcon w={24}  h={24} color="blue"   />
+        </Link>
+      </li>
+      <li className='w-[7vw] py-4  flex  items-center  '>{ele.telefoonnummer}</li>
+      <li className='w-[11vw] py-4 flex  items-center   ' title={ele.opmerkingen}>{ele.opmerkingen}</li>
+      <li className='w-[4vw] px-3 flex   py-4 items-center justify-center   '>
+        <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
+          <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+        </button>
+      </li>
+
+      <ActionModal CurrentStatus={''} ref={modalRef} />
+    </ul>
+  )
+}
