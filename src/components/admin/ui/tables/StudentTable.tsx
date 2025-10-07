@@ -255,7 +255,7 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
         </button>
       </li>
 
-      <ActionModal CurrentStatus={''} ref={modalRef} />
+      <ActionModal className=' right-1 ' CurrentStatus={''} ref={modalRef} />
     </ul>
   )
 }

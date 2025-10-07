@@ -25,19 +25,19 @@ import { ActionModalRef } from '@/components/ui/Action'
  * Interface defining the structure of instructor data
  */
 export type Data_Instructor = {
-    instructor: string            // Instructor name
-    bsn_nummer: string           // BSN (Social Security) number
-    email: string                // Email address
-    geboortedatum: string        // Date of birth
-    adres: string                // Address
-    telefoonnummer: string       // Phone number
-    rijbewijs: string            // Driving license type
-    vervaldatum_rijbewijs: string // License expiration date
-    medisch_certificaat: string  // Medical certificate status
-    vervaldatum_medisch: string  // Medical certificate expiration
-    registratie_nummer: string   // Registration number
-    examen_contract: string      // Exam contract status
-    opmerkingen: string          // Comments/notes
+    instructor: string              // Instructor name
+    bsn_nummer: string             // BSN (Social Security) number
+    email: string                  // Email address
+    geboortedatum: string          // Date of birth
+    adres: string                  // Address
+    telefoonnummer: string         // Phone number
+    rijbewijs: string              // Driving license type
+    vervaldatum_rijbewijs: string  // License expiration date
+    instructeurskaart: string      // Instructor card
+    kvk_uittreksel: string         // KVK extract
+    arbeidsovereenkomst: string    // Employment contract
+    contractvervaldatum: string    // Contract expiration date
+    urenregistratie: string        // Hours registration
 }
 
 /**
@@ -192,11 +192,11 @@ export default function InstructorTable({
                     <div className='w-[9vw] py-4 flex items-center table-header text-[#475467]'>Telefoonnummer</div>
                     <div className='w-[8vw] py-4 flex items-center table-header text-[#475467]'>Rijbewijs</div>
                     <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Vervaldatum Rijbewijs</div>
-                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Medisch Certificaat</div>
-                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Vervaldatum Medisch</div>
-                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Registratie Nummer</div>
-                    <div className='w-[9vw] py-4 flex items-center table-header text-[#475467]'>Examen Contract</div>
-                    <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Opmerkingen</div>
+                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Instructeurskaart</div>
+                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>KVK Uittreksel</div>
+                    <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Arbeidsovereenkomst</div>
+                    <div className='w-[9vw] py-4 flex items-center table-header text-[#475467]'>Contractvervaldatum</div>
+                    <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Urenregistratie</div>
                     <div className='w-[6vw] px-3 flex py-4 items-center justify-center table-header text-[#475467]'>Actions</div>
                 </div>
 
@@ -312,22 +312,20 @@ const TableElement = ({ ele, id }: { ele: Data_Instructor, id: number }) => {
             {/* License Expiration */}
             <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.vervaldatum_rijbewijs}</li>
             
-            {/* Medical Certificate */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.medisch_certificaat}</li>
+            {/* Instructor Card */}
+            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.instructeurskaart}</li>
             
-            {/* Medical Certificate Expiration */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.vervaldatum_medisch}</li>
+            {/* KVK Extract */}
+            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.kvk_uittreksel}</li>
             
-            {/* Registration Number */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.registratie_nummer}</li>
+            {/* Employment Contract */}
+            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.arbeidsovereenkomst}</li>
             
-            {/* Exam Contract */}
-            <li className='w-[9vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.examen_contract}</li>
+            {/* Contract Expiration */}
+            <li className='w-[9vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.contractvervaldatum}</li>
             
-            {/* Comments - Truncated to 20 characters with full text in tooltip */}
-            <li className='w-[12vw] py-4 flex items-center table-cell-text text-gray-900' title={ele.opmerkingen}>
-                {ele.opmerkingen.length > 20 ? ele.opmerkingen.substring(0, 20) + '...' : ele.opmerkingen}
-            </li>
+            {/* Hours Registration */}
+            <li className='w-[12vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.urenregistratie}</li>
             
             {/* Actions Menu */}
             <li className='w-[6vw] px-3 flex py-4 items-center justify-center'>
@@ -340,7 +338,7 @@ const TableElement = ({ ele, id }: { ele: Data_Instructor, id: number }) => {
             </li>
 
             {/* Action Modal */}
-            <ActionModal CurrentStatus={''} ref={modalRef} />
+            <ActionModal className='right-5 -top-7' CurrentStatus={''} ref={modalRef} />
         </ul>
     )
 }

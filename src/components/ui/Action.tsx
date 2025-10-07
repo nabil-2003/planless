@@ -12,12 +12,13 @@ export type ActionModalRef = {
 type ModalProps = {
     // Add other props as needed
      CurrentStatus?: string
+     className? : string 
   }
 
 
 
 
-const Action = forwardRef<ActionModalRef, ModalProps>(({ CurrentStatus }, ref) => {
+const Action = forwardRef<ActionModalRef, ModalProps>(({ className='' }, ref) => {
     const modalRef = React.useRef<HTMLDivElement>(null);
     
     useEffect(()=>{
@@ -42,9 +43,13 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ CurrentStatus }, ref) =
     }));
 
   return (
-   <div ref={modalRef} className=' hidden gap-2 tria top-9 rounded-lg z-10 -right-1.5 w-[5vw] bg-white  h-[1vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '>
-   <ConfirmIcon w='15px' h='15px'  />
+   <div ref={modalRef} className={className+' hidden gap-2 tria top-9 rounded-lg z-10 -right-1.5 w-[5vw] bg-white border-1 border-gray-300  h-[4vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '}>
+   <span onClick={()=>{alert('confirm')}} className='cursor-pointer'>
+    <ConfirmIcon  w='15px' h='15px'  />
+   </span>
+    <span className='cursor-pointer'>
    <RejectIcon w='15px' h='15px'  />
+   </span>
    </div >
 
   )

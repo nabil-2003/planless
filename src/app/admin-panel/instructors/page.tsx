@@ -90,11 +90,11 @@ export default function InstructorsPage() {
             telefoonnummer: item.telefoonnummer,
             rijbewijs: item.rijbewijs,
             vervaldatum_rijbewijs: item.vervaldatum_rijbewijs,
-            medisch_certificaat: item.medisch_certificaat,
-            vervaldatum_medisch: item.vervaldatum_medisch,
-            registratie_nummer: item.registratie_nummer,
-            examen_contract: item.examen_contract,
-            opmerkingen: item.opmerkingen,
+            instructeurskaart: item.instructeurskaart,
+            kvk_uittreksel: item.kvk_uittreksel,
+            arbeidsovereenkomst: item.arbeidsovereenkomst,
+            contractvervaldatum: item.contractvervaldatum,
+            urenregistratie: item.urenregistratie,
         }))
         return instructors
     }, [])
@@ -253,7 +253,7 @@ export default function InstructorsPage() {
                         <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
-                            className='flex items-center bg-white hover:bg-blue-700 disabled:bg-blue-300 text-white px-6 py-2 rounded-xl border-1 border-blue-600 ml-4 transition-colors font-medium'
+                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-xl border-1 border-[#024089] ml-4 transition-colors font-medium'
                         >
                             {isExporting ? (
                                 <>
@@ -262,8 +262,8 @@ export default function InstructorsPage() {
                                 </>
                             ) : (
                                 <>
-                                    <ExportIcon w='20' h='20' color='var(--dark-blue)' className='mr-2' />
-                                    <span className='text-[var(--dark-blue)]'>Export</span>
+                                    <ExportIcon w='20' h='20'  color='var(--dark-blue)' className='mr-2' />
+                                    <span className=' '>Export</span>
                                 </>
                             )}
                         </button>

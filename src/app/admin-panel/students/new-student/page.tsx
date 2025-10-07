@@ -150,10 +150,10 @@ export default function page() {
                             </form>
                         </div>
                         <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex justify-between '>
-                        <CustmButton  className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-lg '>
+                        <CustmButton  className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
                             annlueren
                         </CustmButton>
-                            <CustmButton  onClick={() => {console.log(studentDetails)}}  className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-lg '>
+                            <CustmButton  onClick={() => {console.log(studentDetails)}}  className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
                             Opslaan
                         </CustmButton>
                     </div>

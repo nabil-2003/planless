@@ -260,7 +260,7 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
     [ColorToStatus]
   )
   return (
-    <ul className='flex *:text-sm *:text-gray-700  w-max  border-b-1 gap-2  bg-white border-gray-200 '>
+    <ul className='flex relative *:text-sm *:text-gray-700  w-max  border-b-1 gap-2  bg-white border-gray-200 '>
       <li className='w-[4vw] border-x-1 border-gray-200  flex justify-center items-center py-3 '>{id}</li>
       <li className='w-[5vw]  py-4  flex  items-center '>{ele?.instructeur}</li>
       <li className='w-[5vw] py-4  flex  items-center'>{ele?.student}</li>
