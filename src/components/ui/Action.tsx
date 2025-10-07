@@ -1,6 +1,11 @@
-import React, { useEffect, useImperativeHandle } from 'react'
+import React, { useEffect, useImperativeHandle, useRef } from 'react'
 import { forwardRef } from 'react'
 import { ConfirmIcon , RejectIcon } from '@/components/svgs/ActionIcons'
+import { ModalRef } from '../admin/ui/modals/confirmModal'
+import ConfirmModal from '../admin/ui/modals/confirmModal'
+import StopModal from '../admin/ui/modals/stopModal'
+import HideModal from '../admin/ui/modals/hideModal'
+
 export type ActionModalRef = {
      isOpen?: boolean
     Close?: () => void
@@ -20,6 +25,13 @@ type ModalProps = {
 
 const Action = forwardRef<ActionModalRef, ModalProps>(({ className='' }, ref) => {
     const modalRef = React.useRef<HTMLDivElement>(null);
+     const confimModal = useRef<ModalRef>(null)
+     const stopModal = useRef<ModalRef>(null)
+       const hideModal = useRef<ModalRef>(null)
+      const openModalAction = ( ref : ModalRef | null) =>{
+          ref?.open && ref?.open() 
+
+      }
     
     useEffect(()=>{
         const handleClickOutside = (event: MouseEvent) => {
@@ -43,14 +55,21 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className='' }, ref) =>
     }));
 
   return (
-   <div ref={modalRef} className={className+' hidden gap-2 tria top-9 rounded-lg z-10 -right-1.5 w-[5vw] bg-white border-1 border-gray-300  h-[4vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '}>
-   <span onClick={()=>{alert('confirm')}} className='cursor-pointer'>
-    <ConfirmIcon  w='15px' h='15px'  />
+  <>
+   <div ref={modalRef} className={className+' hidden gap-2 tria top-9 rounded-lg z-10 -right-1.5 w-[5vw] bg-white border-1 border-gray-300  h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '}>
+   <span onClick={() => openModalAction(confimModal.current)} className='cursor-pointer'>
+    <ConfirmIcon  w='20px' h='20px'  />
    </span>
-    <span className='cursor-pointer'>
-   <RejectIcon w='15px' h='15px'  />
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <RejectIcon w='20px' h='20px' />
    </span>
    </div >
+   
+    <ConfirmModal ref={confimModal} />
+    <StopModal ref={stopModal} />
+    <HideModal ref={hideModal} />
+  </>
+
 
   )
 })

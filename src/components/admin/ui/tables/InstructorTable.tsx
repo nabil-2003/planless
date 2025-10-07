@@ -278,57 +278,58 @@ export default function InstructorTable({
  */
 const TableElement = ({ ele, id }: { ele: Data_Instructor, id: number }) => {
     const modalRef = useRef<ActionModalRef>(null)
+    
 
     return (
         <ul className='flex w-max relative bg-white border-b-1 gap-8 border-gray-200 pr-3 hover:bg-gray-50 transition-colors'>
             {/* Row Number */}
-            <li className='w-[4vw] px-4 border-x-1 border-gray-200 flex justify-center items-center py-4 table-cell-text font-medium text-gray-900'>{id}</li>
+            <li className='w-[4vw] px-4 border-x-1 border-gray-200 flex justify-center items-center py-3 table-cell-text font-medium text-gray-900'>{id}</li>
             
             {/* Instructor Name */}
-            <li className='w-[8vw] py-4 flex items-center table-cell-text capitalize text-gray-900'>{ele.instructor}</li>
+            <li className='w-[8vw] py-3 flex items-center table-cell-text capitalize text-gray-900'>{ele.instructor}</li>
             
             {/* BSN Number */}
-            <li className='w-[8vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.bsn_nummer}</li>
+            <li className='w-[8vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.bsn_nummer}</li>
             
             {/* Email */}
-            <li className='w-[12vw] flex items-center py-4 table-cell-text text-gray-900'>{ele.email}</li>
+            <li className='w-[12vw] flex items-center py-3 table-cell-text text-gray-900'>{ele.email}</li>
             
             {/* Birth Date */}
-            <li className='w-[8vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.geboortedatum}</li>
+            <li className='w-[8vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.geboortedatum}</li>
             
             {/* Address - Shows as location icon with tooltip */}
-            <li className='w-[8vw] py-4 flex items-center justify-center' title={ele.adres}>
+            <li className='w-[8vw] py-3 flex items-center justify-center' title={ele.adres}>
                 <Link href={""} className="hover:scale-110 transition-transform">
                     <LocationIcon w={24} h={24} color="blue" />
                 </Link>
             </li>
             
             {/* Phone Number */}
-            <li className='w-[9vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.telefoonnummer}</li>
+            <li className='w-[9vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.telefoonnummer}</li>
             
             {/* License Type */}
-            <li className='w-[8vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.rijbewijs}</li>
+            <li className='w-[8vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.rijbewijs}</li>
             
             {/* License Expiration */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.vervaldatum_rijbewijs}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.vervaldatum_rijbewijs}</li>
             
             {/* Instructor Card */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.instructeurskaart}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.instructeurskaart}</li>
             
             {/* KVK Extract */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.kvk_uittreksel}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.kvk_uittreksel}</li>
             
             {/* Employment Contract */}
-            <li className='w-[10vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.arbeidsovereenkomst}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.arbeidsovereenkomst}</li>
             
             {/* Contract Expiration */}
-            <li className='w-[9vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.contractvervaldatum}</li>
+            <li className='w-[9vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.contractvervaldatum}</li>
             
             {/* Hours Registration */}
-            <li className='w-[12vw] py-4 flex items-center table-cell-text text-gray-900'>{ele.urenregistratie}</li>
+            <li className='w-[12vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.urenregistratie}</li>
             
             {/* Actions Menu */}
-            <li className='w-[6vw] px-3 flex py-4 items-center justify-center'>
+            <li className='w-[6vw] px-3 flex py-3 items-center justify-center'>
                 <button 
                     className='outline-none cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors' 
                     onClick={() => { modalRef.current?.Open() }}
@@ -338,7 +339,7 @@ const TableElement = ({ ele, id }: { ele: Data_Instructor, id: number }) => {
             </li>
 
             {/* Action Modal */}
-            <ActionModal className='right-5 -top-7' CurrentStatus={''} ref={modalRef} />
+            <ActionModal className='right-5' CurrentStatus={''} ref={modalRef} />
         </ul>
     )
 }
