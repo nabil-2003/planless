@@ -56,13 +56,39 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className='' }, ref) =>
 
   return (
   <>
-   <div ref={modalRef} className={className+' hidden gap-2 tria top-9 rounded-lg z-10 -right-1.5 w-[5vw] bg-white border-1 border-gray-300  h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '}>
+   <div ref={modalRef} className={className+' hidden gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap  top-9 rounded-lg z-10 -right-1.5 w-max bg-white border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '}>
    <span onClick={() => openModalAction(confimModal.current)} className='cursor-pointer'>
     <ConfirmIcon  w='20px' h='20px'  />
    </span>
-    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+    <span  onClick={() => openModalAction(stopModal.current)} className='cursor-pointer'>
    <RejectIcon w='20px' h='20px' />
    </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/pause_icon.png" alt="" />
+   </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/download_icon.png" alt="" />
+   </span>
+       <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/eye_icon.png" alt="" />
+   </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/hide_eye_icon.png" alt="" />
+   </span>
+       <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/block_icon.png" alt="" />
+   </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/euro_icon.png" alt="" />
+   </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/write_icon.png" alt="" />
+   </span>
+    <span  onClick={() => openModalAction(hideModal.current)} className='cursor-pointer'>
+   <img width={20} height={20}  src="/delete_action_icon.png" alt="" />
+   </span>
+   
+   
    </div >
    
     <ConfirmModal ref={confimModal} />

@@ -4,6 +4,7 @@ import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import CustomScrollBar from '../ScrollBar';
+import Link from 'next/link';
 
 // Data types
 export type Data_Lessons = {
@@ -142,6 +143,7 @@ export default function LessonsTable({
           <li className='w-[7vw]  py-4  '>Betalingsstatus</li>
 
           <li className='w-[9vw]  py-4 '>annuleringstijd</li>
+          <li className='w-[7vw]  py-4 '>leeskaarten</li>
           <li className='w-[14vw] py-4 '>annuleringsreden</li>
           <li className='w-[3vw] px-4  flex justify-center items-center py-4 '>acties</li>
         </ul>
@@ -267,7 +269,12 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
       <li className='w-[7vw] py-4   flex  items-center'>{ele?.begintijd}</li>
       <li className='w-[7vw]  py-4  flex  items-center '>{ele?.eindtijd}</li>
       <li className='w-[4vw] py-4  flex  items-center'>{ele?.lesduur}</li>
-      <li className='w-[7vw] py-4  flex  items-center'>{ele?.factuur_bedrag}</li>
+      <li className='w-[7vw] py-4  flex  items-center'>
+         <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+        {ele?.factuur_bedrag}
+      </li>
 
       {/* Status columns with colored badges */}
       <li className='w-[7vw] py-4 flex  items-center'>
@@ -295,6 +302,11 @@ const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
       </li>
       
       <li className='w-[9vw]  py-3    flex  items-center'>{ele.annuleringstijd}</li>
+      <li className='w-[7vw]  py-4 '>
+        <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+      </li>
       <li className='  w-[14vw] py-3   flex  items-center'>{ele.annuleringsreden}</li>
       {/* Actions column */}
       <li className='w-[4vw] px-3    py-3 flex justify-center items-center   '>

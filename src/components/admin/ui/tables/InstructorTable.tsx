@@ -308,19 +308,40 @@ const TableElement = ({ ele, id }: { ele: Data_Instructor, id: number }) => {
             <li className='w-[9vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.telefoonnummer}</li>
             
             {/* License Type */}
-            <li className='w-[8vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.rijbewijs}</li>
+            <li className='w-[8vw] py-3 flex items-center table-cell-text text-gray-900'>
+                <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+                {ele.rijbewijs}</li>
             
             {/* License Expiration */}
             <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.vervaldatum_rijbewijs}</li>
             
             {/* Instructor Card */}
-            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.instructeurskaart}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>
+                
+                <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+                
+                {ele.instructeurskaart}</li>
             
             {/* KVK Extract */}
-            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.kvk_uittreksel}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>
+                
+                <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+                {ele.kvk_uittreksel}</li>
             
             {/* Employment Contract */}
-            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.arbeidsovereenkomst}</li>
+            <li className='w-[10vw] py-3 flex items-center table-cell-text text-gray-900'>
+                <Link href={"#"}  className='text-blue-600 underline' >
+         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+        </Link>
+                
+                
+                {ele.arbeidsovereenkomst}</li>
             
             {/* Contract Expiration */}
             <li className='w-[9vw] py-3 flex items-center table-cell-text text-gray-900'>{ele.contractvervaldatum}</li>
