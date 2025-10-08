@@ -130,11 +130,11 @@ export default function InstructorsPage() {
                 'Telefoonnummer',
                 'Rijbewijs',
                 'Vervaldatum Rijbewijs',
-                'Medisch Certificaat',
-                'Vervaldatum Medisch',
-                'Registratie Nummer',
-                'Examen Contract',
-                'Opmerkingen'
+                'Instructeurskaart',
+                'KVK Uittreksel',
+                'Arbeidsovereenkomst',
+                'Contractvervaldatum',
+                'Urenregistratie'
             ]
 
             // Create CSV content with proper escaping
@@ -149,11 +149,11 @@ export default function InstructorsPage() {
                     `"${instructor.telefoonnummer}"`,
                     `"${instructor.rijbewijs}"`,
                     `"${instructor.vervaldatum_rijbewijs}"`,
-                    `"${instructor.medisch_certificaat}"`,
-                    `"${instructor.vervaldatum_medisch}"`,
-                    `"${instructor.registratie_nummer}"`,
-                    `"${instructor.examen_contract}"`,
-                    `"${instructor.opmerkingen}"`
+                    `"${instructor.instructeurskaart}"`,
+                    `"${instructor.kvk_uittreksel}"`,
+                    `"${instructor.arbeidsovereenkomst}"`,
+                    `"${instructor.contractvervaldatum}"`,
+                    `"${instructor.urenregistratie}"`
                 ].join(','))
             ].join('\n')
 
