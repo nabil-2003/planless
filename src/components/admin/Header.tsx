@@ -24,13 +24,15 @@ export default function Header({ title }: HeaderProps) {
     return (
         <header className='h-[10vh] py-4 bg-white flex justify-between items-center w-full px-8 border-b border-b-gray-200'>
             {/* Left Section - Logo and Title */}
-            <div className='flex justify-between ml-4 h-[10vh] w-[35vw] gap-10 items-center'>
+            <div className='flex  items-center ml-4 h-[10vh] gap-10'>
                 {/* Company Logo */}
-                <Logo2 className='bg-dark self-center' width={150} height={"100%"} />
+                <div className='bg-green-500  absolute left-6'>
+                    <Logo2 className='bg-dark self-center' width={170} height={"100%"} />
+                </div>
                 
                 {/* Page Title */}
-                <h1 className='title-page capitalize text-black'>
-                    {title}
+                <h1 className='title-page ml-[17vw] first-letter:uppercase text-black'>
+                    { title}
                 </h1>
             </div>
             
@@ -42,7 +44,7 @@ export default function Header({ title }: HeaderProps) {
                 </div>
                 
                 {/* Logout Button */}
-                <button className='bg-transparent text-[var(--dark-blue)] border border-[var(--dark-blue)] px-4 py-2 rounded-md hover:bg-[var(--dark-blue)] hover:text-white transition-all duration-200 btn-text'>
+                <button className='bg-transparent text-[var(--dark-blue)] border border-[var(--dark-blue)] px-4 py-2 rounded-lg hover:bg-[var(--dark-blue)] hover:text-white transition-all duration-200 btn-text'>
                     Uitloggen
                 </button>
             </nav>

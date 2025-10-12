@@ -152,39 +152,85 @@ export default function StudentTable({
         }
       `}</style>
 
-      {/* Table Container with Horizontal Scroll */}
-      <div ref={containerRef} id='students-table-container' className={`${className} mb-4 overflow-x-auto overflow-y-hidden hide-native-scroll`}>
-        {/* Table Header */}
-        <ul className='flex w-max relative  *:text-sm *:capitalize bg-transparent  border-b-1 gap-8 border-gray-200   pr-3'>
-          <li className='w-[4vw] px-4  flex justify-center items-center py-3 '>Nr</li>
-          <li className='w-[7vw] py-4 '>Student</li>
-          <li className='w-[7vw] py-4 '>BSN nummer</li>
-          <li className='w-[11vw]  py-4   '>Email</li>
-          <li className='w-[7vw] py-4  '>Geboortedatum</li>
-          <li className='w-[7vw] py-4 flex   items-center justify-center  '>Adres</li>
-          <li className='w-[7vw] py-4 '>Telefoonnummer</li>
-          <li className='w-[11vw] py-4 '>Opmerkingen</li>
-          <li className='w-[4vw] px-3  py-4 items-center justify-center    '>Acties</li>
-        </ul>
-
-        {/* Table Rows */}
-        {currentData.length > 0 ? (
-          currentData.map((ele, index) => (
-            <TableElement 
-              key={startIndex + index} 
-              ele={ele} 
-              id={startIndex + index + 1} 
-            />
-          ))
-        ) : (
-          <div className='w-[80vw] mx-auto py-8 text-center text-gray-500'>
-            Geen resultaten gevonden
+      {/* Table Container - Three Section Layout */}
+      <div className={`${className} mb-4 w-full`} style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
+          {/* Sticky NR Column - Left */}
+          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            {/* NR Header */}
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm  border-r-1 border-gray-200'>nr</div>
+            </div>
+            {/* NR Body */}
+            <div>
+              {currentData.length > 0 ? (
+                currentData.map((student, index) => (
+                  <div 
+                    key={`nr-${startIndex + index}`} 
+                    className='bg-white border-b-1 border-gray-200'
+                    style={{ height: '52px' }}
+                  >
+                    <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm text-gray-700 border-r-1 border-gray-200'>
+                      {startIndex + index + 1}
+                    </div>
+                  </div>
+                ))
+              ) : null}
+            </div>
           </div>
-        )}
+
+          {/* Scrollable Content - Middle */}
+          <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
+            {/* Scrollable Header */}
+            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
+              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>Student</div>
+              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>BSN nummer</div>
+              <div className='w-[15vw] py-4 flex items-center text-sm  px-2'>Email</div>
+              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>Geboortedatum</div>
+              <div className='w-[8vw] py-4 flex items-center justify-center text-sm  px-2'>Adres</div>
+              <div className='w-[10vw] py-4 flex items-center text-sm  px-2'>Telefoonnummer</div>
+              <div className='w-[16vw] py-4 flex items-center text-sm  px-2 pr-6'>Opmerkingen</div>
+            </div>
+            {/* Scrollable Body */}
+            <div className='w-max'>
+              {currentData.length > 0 ? (
+                currentData.map((student, index) => (
+                  <StudentElementScrollable 
+                    key={startIndex + index} 
+                    ele={student} 
+                  />
+                ))
+              ) : (
+                <div className='w-full py-8 text-center text-gray-500'>
+                  Geen studenten gevonden
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Sticky Actions Column - Right */}
+          <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            {/* Actions Header */}
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-sm  border-l-1 border-gray-200'>acties</div>
+            </div>
+            {/* Actions Body */}
+            <div>
+              {currentData.length > 0 ? (
+                currentData.map((student, index) => (
+                  <StudentElementActions 
+                    key={`actions-${startIndex + index}`} 
+                    ele={student} 
+                  />
+                ))
+              ) : null}
+            </div>
+          </div>
+        </div>
       </div>
     
       {/* Pagination Controls - Stable Layout */}
-     <div id='scroll' className='mt-10   w-[95%] mx-auto p-3  shadow-sm  bg-white rounded-xl'>
+     <div id='scroll' className='mt-10   w-[95%] mx-auto p-3  shadow-sm  bg-white rounded-lg'>
        <div className='  mb-4 flex justify-between items-center'>
         <button 
           onClick={goToPrevPage}
@@ -236,7 +282,7 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
   const modalRef = useRef<ActionModalRef>(null);
 
   return (
-        <ul className='flex w-max relative bg-white  *:text-sm *:capitalize border-b-1 gap-8 border-gray-200   pr-3'>
+        <ul className='flex w-max relative bg-white  *:text-sm *: border-b-1 gap-8 border-gray-200   pr-3'>
       <li className='w-[4vw] px-4 border-x-1 border-gray-200  flex justify-center items-center py-4 '>{id}</li>
       <li className='w-[7vw] py-4 flex  items-center  '>{ele.student}</li>
       <li className='w-[7vw] py-4  flex  items-center  '>{ele.bsn_nummer}</li>
@@ -250,12 +296,53 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
       <li className='w-[7vw] py-4  flex  items-center  '>{ele.telefoonnummer}</li>
       <li className='w-[11vw] py-4 flex  items-center   ' title={ele.opmerkingen}>{ele.opmerkingen}</li>
       <li className='w-[4vw] px-3 flex   py-4 items-center justify-center   '>
-        <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
+        <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { modalRef.current?.Open() }}>
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
       </li>
 
       <ActionModal className=' right-1 ' CurrentStatus={''} ref={modalRef} />
     </ul>
+  )
+}
+
+// Scrollable table row component (middle section)
+const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
+  return (
+    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
+      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
+      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
+      <div className='w-[15vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
+      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
+      <div className='w-[8vw] py-4 flex items-center justify-center text-sm text-gray-700 px-2' title={ele.adres}>
+        <Link href={""} className='flex items-center justify-center'>
+          <LocationIcon w={18} h={18} color="blue" />
+        </Link>
+      </div>
+      <div className='w-[10vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
+      <div className='w-[16vw] py-4 flex items-center text-sm text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
+    </div>
+  )
+}
+
+// Actions column component for sticky right position
+const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
+  const modalRef = useRef<ActionModalRef>(null);
+
+  return (
+    <div 
+      className='bg-white border-b-1 border-gray-200'
+      style={{ height: '52px' }}
+    >
+      <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+        <button 
+          className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
+          onClick={() => { modalRef.current?.Open() }}
+        >
+          <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+        </button>
+        <ActionModal CurrentStatus={''} ref={modalRef} />
+      </div>
+    </div>
   )
 }

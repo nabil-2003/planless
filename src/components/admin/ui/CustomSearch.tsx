@@ -35,7 +35,7 @@ export default function CustomSearch({
   }
 
   return (
-    <div className="relative h-max w-max  rounded-md bg-amber-50">
+    <div className="relative h-max w-max  rounded-lg bg-amber-50">
       <input
         type={type}
         onChange={handleChange}

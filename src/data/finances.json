@@ -4,7 +4,7 @@
       "id": 1,
       "factuurdatum": "15-12-2024",
       "vervaldatum": "15-01-2025",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "factuur_bedrag": "€245,00"
     },
@@ -13,14 +13,14 @@
       "factuurdatum": "12-12-2024",
       "vervaldatum": "12-01-2025",
       "betalingsstatus": "Onbetaald",
-      "rijlesstatus": "in Behandeling",
+      "rijlesstatus": "In behandeling",
       "factuur_bedrag": "€189,00"
     },
     {
       "id": 3,
       "factuurdatum": "08-12-2024",
       "vervaldatum": "08-01-2025",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "factuur_bedrag": "€312,50"
     },
@@ -36,7 +36,7 @@
       "id": 5,
       "factuurdatum": "14-12-2024",
       "vervaldatum": "14-01-2025",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "factuur_bedrag": "€278,00"
     },
@@ -52,7 +52,7 @@
       "id": 7,
       "factuurdatum": "09-12-2024",
       "vervaldatum": "09-01-2025",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "factuur_bedrag": "€467,25"
     },
@@ -61,7 +61,7 @@
       "factuurdatum": "16-12-2024",
       "vervaldatum": "16-01-2025",
       "betalingsstatus": "Onbetaald",
-      "rijlesstatus": "inbehandeling",
+      "rijlesstatus": "In behandeling",
       "factuur_bedrag": "€134,00"
     }
   ],
@@ -70,7 +70,7 @@
       "id": 1,
       "instructeur": "Jan de Vries",
       "rijles_datum": "10-12-2024",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "urenregistratie": "8.5 uur"
     },
@@ -86,7 +86,7 @@
       "id": 3,
       "instructeur": "Mark Bakker",
       "rijles_datum": "05-12-2024",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "urenregistratie": "12.5 uur"
     },
@@ -102,7 +102,7 @@
       "id": 5,
       "instructeur": "Jan de Vries",
       "rijles_datum": "12-12-2024",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "urenregistratie": "10.0 uur"
     },
@@ -111,14 +111,14 @@
       "instructeur": "Sarah Willems",
       "rijles_datum": "16-12-2024",
       "betalingsstatus": "Onbetaald",
-      "rijlesstatus": "in Behandeling",
+      "rijlesstatus": "In behandeling",
       "urenregistratie": "7.5 uur"
     },
     {
       "id": 7,
       "instructeur": "Mark Bakker",
       "rijles_datum": "07-12-2024",
-      "betalingsstatus": "betaald",
+      "betalingsstatus": "Betaald",
       "rijlesstatus": "Voltooid",
       "urenregistratie": "15.5 uur"
     },
@@ -127,7 +127,7 @@
       "instructeur": "Lisa van Os",
       "rijles_datum": "22-12-2024",
       "betalingsstatus": "Onbetaald",
-      "rijlesstatus": "inbehandeling",
+      "rijlesstatus": "In behandeling",
       "urenregistratie": "5.0 uur"
     }
   ]

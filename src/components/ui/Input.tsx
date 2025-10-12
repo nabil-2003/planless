@@ -29,7 +29,7 @@ const Input: React.FC<InputProps> = ({
   maxLength
 }) => {
   // Styling
-  const baseClasses = 'input-bg rounded-md outline-none py-3 px-3 placeholder:text-lg transition-colors focus:outline-[#024089] focus:outline-2'
+  const baseClasses = 'input-bg rounded-lg outline-none py-3 px-3 placeholder:text-lg transition-colors focus:outline-[#024089] focus:outline-2'
   const finalClasses = `${baseClasses} ${className}`.trim()
 
   return (

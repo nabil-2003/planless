@@ -116,7 +116,7 @@ export default function page() {
             <div className='content '>
                 <Header title="Studenten" />
                 <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-[80%] '>
                         <>
                             <DetailsBar setActive={changePage} active={active} />
@@ -184,7 +184,7 @@ const DetailsPage = () => {
     return (
         <>
 
-            <div className='form-container mx-4 rounded-xl mt-4 p-4  bg-white shadow-md'>
+            <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -197,7 +197,7 @@ const DetailsPage = () => {
 
                 </form>
             </div>
-            <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Aanvullende informatie</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -222,7 +222,7 @@ const DetailsPage = () => {
 
 const CustomSchedule = () => {
     return (
-        <div className=' mx-4 rounded-xl mt-4 p-4  bg-white shadow-md'>
+        <div className=' mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
             <h1 className='font-bold text-xl '>Studentenrooster</h1>
             <ScheduleDateBar />
             <ScheduleTable />

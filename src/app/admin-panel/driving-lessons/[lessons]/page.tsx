@@ -9,7 +9,7 @@ export default function page({lessons}: {lessons: string}) {
      <div className='content'>
                     <Header title="Rijles gegevens" />
                     <div className='w-full flex   overflow-hidden'>
-                        <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+                        <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                         <div className='dashboard-container text-4xl text-center  w-[80%] '>
                            <div className='bg-white border-2 h-[70vh] border-gray-200 rounded-lg mx-3 mt-4 '>
                              <h2 className='text-left font-semibold text-2xl ml-4 mt-4'>Rijles gegevens</h2>

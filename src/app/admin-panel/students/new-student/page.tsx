@@ -124,9 +124,9 @@ export default function page() {
             <div className='content '>
                 <Header title="Studenten" />
                 <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-[80%] '>
-                        <div className='form-container mx-4 rounded-xl mt-4 p-4  bg-white shadow-md'>
+                        <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                             <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -139,7 +139,7 @@ export default function page() {
 
                             </form>
                         </div>
-                        <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+                        <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                             <h1 className='font-bold text-xl '>Aanvullende informatie</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -175,9 +175,9 @@ const Input = ({ title , type="text", placeholder, istextArea = false, onChange,
             <span className=''>{title}</span>
             {
                 !istextArea &&
-                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-md p-2  outline-none  placeholder:p-2 placeholder:capitalize' placeholder={placeholder} />
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2  outline-none  placeholder:p-2 placeholder:capitalize' placeholder={placeholder} />
                 ||
-                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-md p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize' placeholder={placeholder} />
+                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize' placeholder={placeholder} />
             }
         </div>
     )

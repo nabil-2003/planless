@@ -23,7 +23,7 @@ export default function StatisticsCard({ className, percentage, total, label, Ic
      />
     }
   return (
-    <li className={' rounded-3xl capitalize   shadow-md border-gray-200'+ className}>
+    <li className={' rounded-lg capitalize   shadow-md border-gray-200'+ className}>
            <div className={`percentage  text-right mr-4 mt-3 ${percentage! < 0 ? 'text-red-500' : 'text-green-500'} `}>
             {percentage}% {UporDown(percentage!)}
            </div>

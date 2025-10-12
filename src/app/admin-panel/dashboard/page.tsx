@@ -19,7 +19,7 @@ export default function page() {
       <Header title="dashboard overview"   />
        <div className='w-full flex border-l-[2px] border-l-gray-200 bg-dashboard-primary h-max'>
 
-        <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+        <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
      <div className='dashboard-container w-[80%] '>
         <TimeFilter  changeFilter={handleChangeFilter} className="mt-4"  currentFilter={currentFilter}/>
         <Statistcs  />

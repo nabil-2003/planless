@@ -106,7 +106,7 @@ function Reset() {
             {/* ============================= */}
             <nav className='mb-4'>
                 <Link 
-                    href='/login' 
+                    href='/auth/login' 
                     className='text-dark-blue font-bold flex items-center hover:underline transition-all duration-200'
                 >
                     <LeftArrowIcon className='inline-block scale-75 mr-2' />

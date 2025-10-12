@@ -267,20 +267,20 @@ export default function StudentsPage() {
             <Header title="financien" />
             
             <div className='w-full flex overflow-hidden'>
-                {/* Left Sidebar - Minimized */}
-                <LeftSide className='w-[15%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-xl border-2 border-gray-200 h-auto' />
+                {/* Left Sidebar - Consistent with other pages */}
+                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
-                {/* Main Content Area - Maximum Width */}
-                <div className='dashboard-container w-[85%] max-w-full px-1'>
+                {/* Main Content Area - Consistent with other pages */}
+                <div className='dashboard-container w-[80%]'>
                     {/* Spacing */}
-                    <div className='  ' />
-                     <div className='p-3 capitalize bg-white      mt-2 ml-6 flex  items-center gap-2'>
+                    <div className='mt-4' />
+                     <div className='p-3 capitalize bg-white mt-2 flex items-center gap-2 w-[95%] mx-auto'>
                       <span onClick={()=>{setActiveSide(t => "s")}} className={ActiveSide == 's' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ': 'text-gray-400 cursor-pointer y-400'}>students</span>
                       <span onClick={()=>{setActiveSide(t => "i")}} className={ActiveSide !== 's' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ': 'text-gray-400 cursor-pointer  y-400'}>instructeurs</span>
 
                      </div>
                     {/* Controls Section */}
-                    <div className='flex searchItem mx-auto mt-4 mb-4 justify-end w-[95%] h-max ml-auto'>
+                    <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -303,7 +303,7 @@ export default function StudentsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-[15vw] rounded-md outline-none p-2 bg-white border border-gray-300'
+                            className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -359,7 +359,7 @@ export default function StudentsPage() {
                         <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
-                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-xl border-1 border-[#024089] ml-4 transition-colors font-medium'
+                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
                         >
                             {isExporting ? (
                                 <>
@@ -378,7 +378,7 @@ export default function StudentsPage() {
                     {/* Finance Table - Full Width */}
                     <FinanTable
                         selectedSide={ActiveSide}  
-                        className='w-full capitalize mx-0'
+                        className='w-full  mx-0'
                         filterTable={currentFilterType} 
                         data={getCurrentData()}
                         searchQuery={searchQuery}

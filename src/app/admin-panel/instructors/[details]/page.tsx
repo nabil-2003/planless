@@ -55,7 +55,7 @@ export default function page() {
             <div className='content '>
                 <Header title="Instructeurs" />
                 <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-[80%] '>
                         <CustmButton onClick={() => { }} className="mt-4  py-3 px-6 bg-[#fe911f] ml-4 shadow-sm capitalize text-white  mr-4 flex items-center " >
                             <span>terug</span>
@@ -135,7 +135,7 @@ const DetailsPage = () => {
 
     return (
         <>
-            <div className='form-container mx-4 rounded-xl mt-4 p-4  bg-white shadow-md'>
+            <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Naam instructeur' value={instructorDetails.naam_instructeur} />
@@ -147,7 +147,7 @@ const DetailsPage = () => {
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Rijbewijsgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' onSubmit={(e) => { e.preventDefault() }}>
                     <DetailItem title='Rijbewijsnummer' value={instructorDetails.rijbewijsnummer} />
@@ -179,7 +179,7 @@ const DetailsPage = () => {
 
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Instructeursgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Instructeurskaartnummer' value={instructorDetails.instructeurskaartnummer} />
@@ -187,7 +187,7 @@ const DetailsPage = () => {
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <h1 className='font-bold text-xl '>Contractgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Contractbegindatum' value={instructorDetails.contractbegindatum} />
@@ -196,7 +196,7 @@ const DetailsPage = () => {
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-xl  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <div className='w-full  h-max gap-2 flex  flex-wrap justify-between'>
                     <h1 className='font-bold text-xl'>Documenten</h1>
                     <img className=' w-[95%] mt-2 h-[25vh] mx-auto' src="/bankcart.png" alt="" />
@@ -216,7 +216,7 @@ const DetailsPage = () => {
                     </div>
                 </div>
             </div>
-             <div className=' form-container mx-4 rounded-xl  p-4  mt-4 bg-white shadow-md'>
+             <div className=' form-container mx-4 rounded-lg  p-4  mt-4 bg-white shadow-md'>
                 <div className='w-full  h-max gap-2 flex  flex-wrap justify-between'>
                     <img className=' w-[95%] mt-2 h-[30vh] mx-auto' src="/facteur.png" alt="" />
                     <div className='w-full'>
@@ -247,7 +247,7 @@ const DetailsPage = () => {
 
 const CustomSchedule = () => {
     return (
-        <div className=' mx-4 rounded-xl mt-4 p-4  bg-white shadow-md'>
+        <div className=' mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
             <h1 className='font-bold text-xl '>Instructeurrooster</h1>
             <ScheduleDateBar />
             <ScheduleTable />

@@ -205,7 +205,7 @@ export default function InstructorsPage() {
             
             <div className='w-full flex overflow-hidden'>
                 {/* Left Sidebar */}
-                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-xl border-2 border-gray-200 h-auto' />
+                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-[80%]'>
@@ -220,7 +220,7 @@ export default function InstructorsPage() {
                     />
 
                     {/* Controls Section */}
-                    <div className='flex searchItem mx-auto mt-4 mb-4 justify-end w-[95%] h-max ml-auto'>
+                    <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -243,7 +243,7 @@ export default function InstructorsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-[15vw] rounded-md outline-none p-2 bg-white border border-gray-300'
+                            className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -253,7 +253,7 @@ export default function InstructorsPage() {
                         <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
-                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-xl border-1 border-[#024089] ml-4 transition-colors font-medium'
+                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
                         >
                             {isExporting ? (
                                 <>

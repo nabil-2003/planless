@@ -24,10 +24,11 @@ export default function FIlterByType({
   return (
           
             <ul className={className || 'mt-3 p-1 flex gap-5 *:cursor-pointer justify-start   w-full  ml-13  text-gray-600  '}>
-                    <li onClick={chFilter} data-filter="in Behandeling" className={`capitalize pb-2 px-3 ${  isActive("in Behandeling") ?  activeclass : "" }`}>in Behandeling</li>
-                    <li onClick={chFilter} data-filter="Bevestigd" className={`capitalize pb-2 px-3 ${isActive("Bevestigd") ?  activeclass : "" }`}>Bevestigd</li>
-                <li onClick={chFilter} data-filter="Geannuleerd" className={`capitalize pb-2 px-3 ${isActive("Geannuleerd") ?  activeclass : "" }`}>Geannuleerd</li>
-                <li onClick={chFilter} data-filter="Voltooid" className={`capitalize pb-2 px-3 ${isActive("Voltooid") ?  activeclass : "" }`}>Voltooid</li>
+                    <li onClick={chFilter} data-filter="Alle" className={` pb-2 px-3 ${  isActive("Alle") ?  activeclass : "" }`}>Alle</li>
+                    <li onClick={chFilter} data-filter="In behandeling" className={` pb-2 px-3 ${  isActive("In behandeling") ?  activeclass : "" }`}>In behandeling</li>
+                    <li onClick={chFilter} data-filter="Bevestigd" className={` pb-2 px-3 ${isActive("Bevestigd") ?  activeclass : "" }`}>Bevestigd</li>
+                <li onClick={chFilter} data-filter="Geannuleerd" className={` pb-2 px-3 ${isActive("Geannuleerd") ?  activeclass : "" }`}>Geannuleerd</li>
+                <li onClick={chFilter} data-filter="Voltooid" className={` pb-2 px-3 ${isActive("Voltooid") ?  activeclass : "" }`}>Voltooid</li>
             </ul>
    
   )

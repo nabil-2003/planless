@@ -130,12 +130,12 @@ export default function page() {
             <div className='content '>
                 <Header title="instructeurs" />
                 <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-xl  border-2 border-gray-200 h-auto  ' />
+                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-[80%] '>
                         <CustmButton  onClick={()=>{}} className="mt-4  py-3 px-6 bg-[#fe911f] ml-4 shadow-sm capitalize text-white  mr-4 flex items-center " >
                               <span>terug</span>
                         </CustmButton>
-                        <div className='form-container mx-4 border-2 border-gray-200 rounded-xl mt-4 p-4  bg-white '>
+                        <div className='form-container mx-4 border-2 border-gray-200 rounded-lg mt-4 p-4  bg-white '>
                             <h1 className='font-bold text-xl  '>Persoonlijke gegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -148,7 +148,7 @@ export default function page() {
 
                             </form>
                         </div>
-                    <div className=' mx-4 rounded-xl mt-4 p-4  border-2 border-gray-200  bg-white '> 
+                    <div className=' mx-4 rounded-lg mt-4 p-4  border-2 border-gray-200  bg-white '> 
                           <h1 className='font-bold text-xl  '>Rijbewijsgegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
@@ -159,14 +159,14 @@ export default function page() {
 
                             </form>
                     </div>
-                     <div className=' mx-4 rounded-xl mt-4 p-4  border-2 border-gray-200 bg-white '> 
+                     <div className=' mx-4 rounded-lg mt-4 p-4  border-2 border-gray-200 bg-white '> 
                           <h1 className='font-bold text-xl  '>Instructeursgegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                                 <Input type='text' title='Instructeurskaartnummer' value={instructor.instructeurskaartnummer} onChange={(e) => { setInstructor({ ...instructor, instructeurskaartnummer: e.target.value }) }} placeholder='KL987MN654' />
                                 <Input type='text' title='Vervaldatum instructeurskaart' value={instructor.vervaldatum_instructeurskaart} onChange={(e) => { setInstructor({ ...instructor, vervaldatum_instructeurskaart: e.target.value }) }} placeholder='29/08/2026' />
                             </form>
                     </div>
-                      <div className=' mx-4 rounded-xl mt-4 p-4  bg-white border-2 border-gray-200'> 
+                      <div className=' mx-4 rounded-lg mt-4 p-4  bg-white border-2 border-gray-200'> 
                           <h1 className='font-bold text-xl  '>Contractgegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                                 <Input type='text' title='Contractbegindatum' value={instructor.contractbegindatum} onChange={(e) => { setInstructor({ ...instructor, contractbegindatum: e.target.value }) }} placeholder='29/08/2022' />
@@ -174,7 +174,7 @@ export default function page() {
                                 <Input type='text' title='Salaris per maand' value={instructor.salaris} onChange={(e) => { setInstructor({ ...instructor, salaris: e.target.value }) }} placeholder='€3500' />
                             </form>
                     </div>
-                      <div className=' mx-4 rounded-xl mt-4 p-4  bg-white border-2 border-gray-200'> 
+                      <div className=' mx-4 rounded-lg mt-4 p-4  bg-white border-2 border-gray-200'> 
                           <h1 className='font-bold text-xl  '>Documenten uploaden</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                                 <Input type='file' title='Upload contract' value={instructor.upload_contract} onChange={(e) => { setInstructor({ ...instructor, upload_contract: e.target.value }) }} placeholder='' />
@@ -233,14 +233,14 @@ const Input = ({ title, type = "text", placeholder, istextArea = false, onChange
             {
                type !== "file" && (
                  !istextArea &&
-                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-md p-2  outline-none  placeholder:p-2 placeholder:capitalize' placeholder={placeholder} />
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2  outline-none  placeholder:p-2 placeholder:capitalize' placeholder={placeholder} />
                 ||
-                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-md p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize' placeholder={placeholder} />
+                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize' placeholder={placeholder} />
 
                ) ||
-               <div className='border-2 mt-4   border-gray-300 p-6 rounded-xl '>
+               <div className='border-2 mt-4   border-gray-300 p-6 rounded-lg '>
             
-                <div className='file border-2 border-gray-300 p-2 rounded-xl '>
+                <div className='file border-2 border-gray-300 p-2 rounded-lg '>
                     <span className='w-[5vw] h-[5vw]  rounded-lg border-2 border-[var(--dark-blue)]  border-dashed  grid  place-items-center text-lg text-[var(--dark-blue)] cursor-pointer' onClick={openFile} >+</span>
                      <input 
                         type="file" 

@@ -46,7 +46,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   }
 
   // Styling
-  const baseInputClasses = 'input-bg w-full rounded-md outline-none placeholder:text-5xl  py-3 px-3 pr-12 transition-colors focus:outline-[#024089] focus:outline-2'
+  const baseInputClasses = 'input-bg w-full rounded-lg outline-none placeholder:text-5xl  py-3 px-3 pr-12 transition-colors focus:outline-[#024089] focus:outline-2'
   const finalInputClasses = `${baseInputClasses} ${className}`.trim()
 
   return (

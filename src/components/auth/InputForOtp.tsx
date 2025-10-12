@@ -45,7 +45,7 @@ const InputForOtp = forwardRef<InputForOtpRef, InputForOtpProps>(
         onChange={(e) => handleOtpChange(e, i)}
         onKeyDown={(e) => handleOtpKeyDown(e, i)}
         ref={inputRef}
-        className="w-12 h-12 text-center rounded-md input-bg outline-[#024089] text-lg"
+        className="w-12 h-12 text-center rounded-lg input-bg outline-[#024089] text-lg"
         autoComplete="off"
         inputMode="numeric"
         pattern="[0-9]*"

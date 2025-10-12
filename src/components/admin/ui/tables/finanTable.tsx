@@ -135,52 +135,81 @@ export default function FinanTable({
         }
       `}</style>
 
-      {/* Table Container with Horizontal Scroll - Full Width */}
-      <div ref={containerRef} id='students-table-container' className={`${className} mb-4 overflow-x-auto overflow-y-hidden hide-native-scroll w-full min-w-full`}>
-        {/* Table Header */}
-        <div className='flex mx-auto w-full justify-between relative bg-[#F9FAFB] border-b-1 gap-8 border-gray-200 pr-3'>
-          <div className='w-[3vw] px-4 border-x-1 border-gray-200 flex justify-center items-center py-4 table-header text-[#475467]'>Nr</div>
-          {selectedSide === 's' ? (
-            // Student financial columns
-            <>
-              <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Factuurdatum</div>
-              <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Vervaldatum</div>
-              <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Betalingsstatus</div>
-              <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Rijlesstatus</div>
-              <div className='w-[10vw] py-4 flex items-center justify-center table-header text-[#475467]'>Factuur bedrag</div>
-            </>
-          ) : (
-            // Instructor financial columns
-            <>
-              <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Instructeur</div>
-              <div className='w-[10vw] py-4 flex items-center table-header text-[#475467]'>Rijles datum</div>
-              <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Betalingsstatus</div>
-              <div className='w-[12vw] py-4 flex items-center table-header text-[#475467]'>Rijlesstatus</div>
-              <div className='w-[12vw] py-4 flex items-center justify-center table-header text-[#475467]'>Urenregistratie</div>
-            </>
-          )}
-          <div className='w-[5vw] px-3 flex py-4 items-center justify-center table-header text-[#475467]'>Acties</div>
-        </div>
-
-        {/* Table Rows */}
-        {currentData.length > 0 ? (
-          currentData.map((ele, index) => (
-            <TableElement 
-              key={startIndex + index} 
-              ele={ele} 
-              id={startIndex + index + 1}
-              selectedSide={selectedSide}
-            />
-          ))
-        ) : (
-          <div className='w-full mx-auto py-8 text-center text-gray-500'>
-            Geen resultaten gevonden
+      {/* Table Container - Full Width */}
+      <div className={`${className} mb-4 w-full  ml-8 `} style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
+          {/* Sticky NR Column - Left */}
+          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            {/* NR Header */}
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm border-r-1 border-gray-200'>nr</div>
+            </div>
+            {/* NR Body */}
+            <div>
+              {currentData.length > 0 ? (
+                currentData.map((financial, index) => (
+                  <div 
+                    key={`nr-${startIndex + index}`} 
+                    className='bg-white border-b-1 border-gray-200'
+                    style={{ height: '52px' }}
+                  >
+                    <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm text-gray-700 border-r-1 border-gray-200'>
+                      {startIndex + index + 1}
+                    </div>
+                  </div>
+                ))
+              ) : null}
+            </div>
           </div>
-        )}
+
+          {/* Scrollable Content - Takes Full Remaining Width */}
+          <div id='financial-table-container' className='flex-1 w-full overflow-x-auto hide-native-scroll'>
+            {/* Scrollable Header */}
+            <div className='flex w-full bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              {selectedSide === 's' ? (
+                // Student financial columns
+                <>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Factuurdatum</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Vervaldatum</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Betalingsstatus</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Rijlesstatus</div>
+                  <div className='flex-1 py-4 flex items-center justify-center text-sm px-4'>Factuur bedrag</div>
+                  <div className='w-20 mr-4 py-4 flex items-center justify-center text-sm px-4'>Acties</div>
+                </>
+              ) : (
+                // Instructor financial columns
+                <>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Instructeur</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Rijles datum</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Betalingsstatus</div>
+                  <div className='flex-1 py-4 flex items-center text-sm px-4'>Rijlesstatus</div>
+                  <div className='flex-1 py-4 flex items-center justify-center text-sm px-4'>Urenregistratie</div>
+                  <div className='w-20 py-4 flex mr-4 items-center justify-center text-sm px-4'>Acties</div>
+                </>
+              )}
+            </div>
+            {/* Scrollable Body */}
+            <div className='w-full'>
+              {currentData.length > 0 ? (
+                currentData.map((financial, index) => (
+                  <FinancialElementScrollable 
+                    key={startIndex + index} 
+                    ele={financial} 
+                    selectedSide={selectedSide}
+                  />
+                ))
+              ) : (
+                <div className='w-full py-8 text-center text-gray-500'>
+                  Geen resultaten gevonden
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     
       {/* Pagination Controls - Full Width Layout */}
-      <div id='scroll' className='mt-6 w-full mx-0 p-4 shadow-sm bg-white rounded-xl border border-gray-200'>
+      <div id='scroll' className='mt-6 mx-auto w-[90%] p-4   rounded-lg border border-gray-200'>
         <div className='mb-4 flex justify-between items-center'>
           <button 
             onClick={goToPrevPage}
@@ -240,12 +269,7 @@ const TableElement = ({ ele, id, selectedSide }: {
   const ColorToStatus = useMemo(() => {
     const clt: ColorAndStatus[] = [
       {
-        status: "in Behandeling",
-        colortext: "#6e3fa6",
-        colorbg: "#f2d6ff"
-      },
-      {
-        status: "inbehandeling",
+        status: "In behandeling",
         colortext: "#6e3fa6",
         colorbg: "#f2d6ff"
       },
@@ -270,7 +294,7 @@ const TableElement = ({ ele, id, selectedSide }: {
         colorbg: "#daefff"
       },
       {
-        status: "betaald",
+        status: "Betaald",
         colortext: "#006400",
         colorbg: "#dcffd6"
       },
@@ -314,7 +338,7 @@ const TableElement = ({ ele, id, selectedSide }: {
   )
 
   return (
-    <div className='flex   justify-between   w-full relative bg-white border-b-1 gap-8 border-gray-200 pr-3'>
+    <div className='flex   justify-between    w-full relative bg-white border-b-1 gap-8 border-gray-200 pr-3'>
       <div className='w-[3vw] px-4 border-x-1 border-gray-200 flex justify-center items-center py-4 table-cell-text text-[#344054]'>{id}</div>
       
       {selectedSide === 's' ? (
@@ -388,7 +412,7 @@ const TableElement = ({ ele, id, selectedSide }: {
       )}
       
       <div className='w-[5vw] px-3 flex py-4 items-center justify-center'>
-        <button className='outline-none cursor-pointer' onClick={() => { modalRef.current?.Open() }}>
+        <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { modalRef.current?.Open() }}>
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
       </div>
@@ -398,6 +422,206 @@ const TableElement = ({ ele, id, selectedSide }: {
           ? (ele as StudentFinancialData).betalingsstatus 
           : (ele as InstructorFinancialData).betalingsstatus
       } ref={modalRef} />
+    </div>
+  )
+}
+
+// Scrollable table row component (including Actions)
+const FinancialElementScrollable = ({ ele, selectedSide }: { 
+  ele: StudentFinancialData | InstructorFinancialData, 
+  selectedSide: string 
+}) => {
+  const modalRef = useRef<ActionModalRef>(null);
+  
+  // Status color mapping
+  const ColorToStatus = useMemo(() => {
+    const clt: ColorAndStatus[] = [
+    
+      {
+        status: "In behandeling",
+        colortext: "#6e3fa6",
+        colorbg: "#f2d6ff"
+      },
+      {
+        status: "Geannuleerd",
+        colortext: "#333333",
+        colorbg: "#ededed"
+      },
+      {
+        status: "Bevestigd",
+        colortext: "#006400",
+        colorbg: "#dcffd6"
+      },
+      {
+        status: "Onbetaald",
+        colortext: "#8b0000",
+        colorbg: "#ffd6d6"
+      },
+      {
+        status: "Voltooid",
+        colortext: "#024089",
+        colorbg: "#daefff"
+      },
+      {
+        status: "Betaald",
+        colortext: "#006400",
+        colorbg: "#dcffd6"
+      },
+      {
+        status: "Betaald",
+        colortext: "#006400",
+        colorbg: "#dcffd6"
+      },
+      {
+        status: "Openstaand",
+        colortext: "#8b0000",
+        colorbg: "#ffd6d6"
+      },
+      {
+        status: "Verlopen",
+        colortext: "#333333",
+        colorbg: "#ededed"
+      },
+      {
+        status: "Gepland",
+        colortext: "#6e3fa6",
+        colorbg: "#f2d6ff"
+      },
+      {
+        status: "Afgelast",
+        colortext: "#333333",
+        colorbg: "#ededed"
+      },
+    ]
+    return clt
+  }, [])
+
+  const mapColorToStatus = useCallback(
+    (status: string) => {
+      const color = ColorToStatus.find(item => item.status.toLowerCase() === status.toLowerCase());
+      return color;
+    },
+    [ColorToStatus]
+  )
+
+  return (
+    <div className='flex w-full border-b-1 bg-white border-gray-200' style={{ height: '52px' }}>
+      {selectedSide === 's' ? (
+        // Student financial row
+        <>
+          <div className='flex-1 flex items-center text-sm text-gray-700 px-4'>{(ele as StudentFinancialData).factuurdatum}</div>
+          <div className='flex-1 flex items-center text-sm text-gray-700 px-4'>{(ele as StudentFinancialData).vervaldatum}</div>
+          <div className='flex-1 flex items-center text-sm px-4'>
+            <span
+              style={{
+                backgroundColor: mapColorToStatus((ele as StudentFinancialData).betalingsstatus)?.colorbg,
+                color: mapColorToStatus((ele as StudentFinancialData).betalingsstatus)?.colortext
+              }}
+              className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+            >
+              {(ele as StudentFinancialData).betalingsstatus}
+            </span>
+          </div>
+          <div className='flex-1 flex items-center text-sm px-4'>
+            <span
+              style={{
+                backgroundColor: mapColorToStatus((ele as StudentFinancialData).rijlesstatus)?.colorbg,
+                color: mapColorToStatus((ele as StudentFinancialData).rijlesstatus)?.colortext
+              }}
+              className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+            >
+              {(ele as StudentFinancialData).rijlesstatus}
+            </span>
+          </div>
+          <div className='flex-1 flex items-center justify-center text-sm text-gray-700 px-4'>
+            <Link href={"#"} className='text-blue-600 underline'>
+              <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+            </Link>
+            {(ele as StudentFinancialData).factuur_bedrag}
+          </div>
+          <div className='w-20 mr-4 flex items-center justify-center px-4'>
+            <button 
+              className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
+              onClick={() => { modalRef.current?.Open() }}
+            >
+              <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+            </button>
+            <ActionModal CurrentStatus={(ele as StudentFinancialData).betalingsstatus} ref={modalRef} />
+          </div>
+        </>
+      ) : (
+        // Instructor financial row
+        <>
+          <div className='flex-1 flex items-center text-sm text-gray-700 px-4'>{(ele as InstructorFinancialData).instructeur}</div>
+          <div className='flex-1 flex items-center text-sm text-gray-700 px-4'>{(ele as InstructorFinancialData).rijles_datum}</div>
+          <div className='flex-1 flex items-center text-sm px-4'>
+            <span
+              style={{
+                backgroundColor: mapColorToStatus((ele as InstructorFinancialData).betalingsstatus)?.colorbg,
+                color: mapColorToStatus((ele as InstructorFinancialData).betalingsstatus)?.colortext
+              }}
+              className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+            >
+              {(ele as InstructorFinancialData).betalingsstatus}
+            </span>
+          </div>
+          <div className='flex-1 flex items-center text-sm px-4'>
+            <span
+              style={{
+                backgroundColor: mapColorToStatus((ele as InstructorFinancialData).rijlesstatus)?.colorbg,
+                color: mapColorToStatus((ele as InstructorFinancialData).rijlesstatus)?.colortext
+              }}
+              className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+            >
+              {(ele as InstructorFinancialData).rijlesstatus}
+            </span>
+          </div>
+          <div className='flex-1 flex items-center justify-center text-sm text-gray-700 px-4'>
+            <Link href={"#"} className='text-blue-600 underline'>
+              <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
+            </Link>
+            {(ele as InstructorFinancialData).urenregistratie}
+          </div>
+          <div className='w-20 flex items-center justify-center mr-4 px-4'>
+            <button 
+              className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
+              onClick={() => { modalRef.current?.Open() }}
+            >
+              <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+            </button>
+            <ActionModal CurrentStatus={(ele as InstructorFinancialData).betalingsstatus} ref={modalRef} />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+// Actions column component for sticky right position
+const FinancialElementActions = ({ ele, selectedSide }: { 
+  ele: StudentFinancialData | InstructorFinancialData, 
+  selectedSide: string 
+}) => {
+  const modalRef = useRef<ActionModalRef>(null);
+
+  return (
+    <div 
+      className='bg-white border-b-1 border-gray-200'
+      style={{ height: '52px' }}
+    >
+      <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+        <button 
+          className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
+          onClick={() => { modalRef.current?.Open() }}
+        >
+          <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+        </button>
+        <ActionModal CurrentStatus={
+          selectedSide === 's' 
+            ? (ele as StudentFinancialData).betalingsstatus 
+            : (ele as InstructorFinancialData).betalingsstatus
+        } ref={modalRef} />
+      </div>
     </div>
   )
 }

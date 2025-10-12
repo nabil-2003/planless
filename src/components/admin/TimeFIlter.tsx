@@ -50,7 +50,7 @@ export default function TimeFilter({
                 </h1>
                 
                 {/* Time Period Options */}
-                <ul className='flex w-max mt-4 rounded-xl overflow-hidden mr-3 border border-gray-200'>
+                <ul className='flex w-max mt-4 rounded-lg overflow-hidden mr-3 border border-gray-200'>
                     <li 
                         onClick={handleCurrentFilter} 
                         data-filter="12 maanden" 
@@ -95,7 +95,7 @@ export default function TimeFilter({
             
             {/* Statistics Content Section */}
             {content && (
-                <div className='content flex w-max items-center border-2 border-gray-200 p-6 rounded-xl'>
+                <div className='content flex w-max items-center border-2 border-gray-200 p-6 rounded-lg'>
                     <div className='w-max'>
                         {/* Statistics Title */}
                         <h1 className='title-card mb-4 text-black'>
@@ -110,7 +110,7 @@ export default function TimeFilter({
                         {/* Percentage Change Indicator */}
                         <span className='btn-text flex items-center justify-center w-max'>
                             <UpIcon width={20} height={20} color="var(--dark-blue)" />
-                            <span className='text-[var(--dark-blue)] font-semibold py-1 rounded-md ml-1'>
+                            <span className='text-[var(--dark-blue)] font-semibold py-1 rounded-lg ml-1'>
                                 40%
                             </span>
                             <span className='text-gray-600 ml-2'>

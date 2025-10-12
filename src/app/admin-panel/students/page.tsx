@@ -60,7 +60,7 @@ export default function StudentsPage() {
     // ================================
     
     // Filter and search states
-    const [currentFilterType, setCurrentFilterType] = useState('in Behandeling')
+    const [currentFilterType, setCurrentFilterType] = useState('In behandeling')
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
@@ -174,7 +174,7 @@ export default function StudentsPage() {
             
             <div className='w-full flex overflow-hidden'>
                 {/* Left Sidebar */}
-                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-xl border-2 border-gray-200 h-auto' />
+                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-[80%]'>
@@ -189,7 +189,7 @@ export default function StudentsPage() {
                     />
 
                     {/* Controls Section */}
-                    <div className='flex searchItem mx-auto mt-4 mb-4 justify-end w-[95%] h-max ml-auto'>
+                    <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -212,7 +212,7 @@ export default function StudentsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-[15vw] rounded-md outline-none p-2 bg-white border border-gray-300'
+                            className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -275,7 +275,7 @@ export default function StudentsPage() {
                     
                     {/* Students Table */}
                     <StudentTable  
-                        className='ml-8 capitalize'
+                        className='ml-8 '
                         filterTable={currentFilterType} 
                         data={[...parsedStudents()]}
                         searchQuery={searchQuery}

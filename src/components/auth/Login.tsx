@@ -112,7 +112,7 @@ function Login() {
                 {/* Form actions */}
                 <div className='mb-6'>
                     <Link 
-                        href='/reset' 
+                        href='/auth/forget-password' 
                         className='text-dark-blue font-bold text-md hover:underline transition-all duration-200'
                     >
                         Wachtwoord vergeten?
