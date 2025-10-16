@@ -6,8 +6,10 @@ import TimeFilter from '@/components/admin/TimeFIlter'
 import LessonChart from '@/components/admin/ui/LessonChart'
 import CostumChart from '@/components/admin/ui/LessonChart'
 import ChartExample from '@/components/admin/ui/ChartExample'
-import { FaArrowUp, FaArrowDown, FaChartLine, FaChartBar } from 'react-icons/fa'
+import { FaArrowUp, FaArrowDown, FaChartLine, FaChartBar, FaRegCheckCircle, FaRegFileAlt, FaRegTimesCircle } from 'react-icons/fa'
 import LeftSide from '@/components/admin/LeftSide'
+import { IoFlagOutline } from 'react-icons/io5'
+import { RxTimer } from 'react-icons/rx'
 export default function page() {
   const [currentFilter, setCurrentFilter] = React.useState('20 dagen');
   const handleChangeFilter = (filter: string) => {
@@ -23,7 +25,7 @@ export default function page() {
      <div className='dashboard-container w-[80%] '>
         <TimeFilter  changeFilter={handleChangeFilter} className="mt-4"  currentFilter={currentFilter}/>
         <Statistcs  />
-        <CostumChart
+                  <CostumChart
         title='Rijlessen'
           className="mt-4"
           data={[
@@ -41,16 +43,16 @@ export default function page() {
             { month: 'Dec', "In Behandeling": 0, "Bevestigd": 45, "Geannuleerd": 50, "Afgewezen": 45, "Voltooid": 55, "Verlopen": 9 },
           ]}
           statics={[
-            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaChartLine },
-            { label: "Bevestigd", total: 300, percentage: 10.2, Icon:FaChartLine },
-            { label: "Geannuleerd", total: 150, percentage: -3.4, Icon: FaChartLine},
-            { label: "Voltooid", total: 80, percentage: -1.2, Icon:FaChartLine } ,     
-             { label: "Verlopen", total: 80, percentage: -1.2, Icon:FaChartLine }
+            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
+            { label: "Bevestigd", total: 300, percentage: 10.2, Icon: FaRegCheckCircle },
+            { label: "Geannuleerd", total: 150, percentage: -3.4, Icon: FaRegTimesCircle},
+            { label: "Voltooid", total: 80, percentage: -1.2, Icon:IoFlagOutline } ,     
+             { label: "Verlopen", total: 80, percentage: -1.2, Icon:RxTimer }
 
           ]}
         />
          <CostumChart
-         title='Rijlessen'
+         title='studerenden'
           className="mt-4"
           data={[
             { month: 'Jan', "In Behandeling": 30, "Bevestigd": 20 },
@@ -67,13 +69,13 @@ export default function page() {
             { month: 'Dec', "In Behandeling": 0, "Bevestigd": 45, },
           ]}
           statics={[
-            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaChartLine },
-            { label: "Bevestigd", total: 300, percentage: 10.2, Icon:FaChartLine },
+            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
+            { label: "Bevestigd", total: 300, percentage: 10.2, Icon:FaRegCheckCircle },
 
           ]}
         />
         <CostumChart
-         title='Rijlessen'
+         title='instructeurs'
           className="mt-4"
           data={[
             { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },
@@ -90,13 +92,36 @@ export default function page() {
             { month: 'Dec', "Gerepareerd": 0, "Openstaand": 45, },
           ]}
           statics={[
-            { label: "Gerepareerd", total: 120, percentage: 5.5, Icon: FaChartLine },
-            { label: "Openstaand", total: 300, percentage: 10.2, Icon:FaChartLine },
+            { label: "Gerepareerd", total: 120, percentage: 5.5, Icon: FaRegCheckCircle },
+            { label: "Openstaand", total: 300, percentage: 10.2, Icon: FaRegCheckCircle },
+
+          ]}
+        />
+         <CostumChart
+         title='leskaarten'
+          className="mt-4"
+          data={[
+            { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },
+            { month: 'Feb', "Gerepareerd": 25, "Openstaand": 30 },
+            { month: 'Mar', "Gerepareerd": 20, "Openstaand": 25 },
+            { month: 'Apr', "Gerepareerd": 35, "Openstaand": 40 },
+            { month: 'May', "Gerepareerd": 40, "Openstaand": 35 },
+            { month: 'Jun', "Gerepareerd": 30, "Openstaand": 30 },
+            { month: 'Jul', "Gerepareerd": 25, "Openstaand": 20 },
+            { month: 'Aug', "Gerepareerd": 20, "Openstaand": 25 },
+            { month: 'Sep', "Gerepareerd": 15, "Openstaand": 30 },
+            { month: 'Oct', "Gerepareerd": 10, "Openstaand": 35, },
+            { month: 'Nov', "Gerepareerd": 5, "Openstaand": 40, },
+            { month: 'Dec', "Gerepareerd": 0, "Openstaand": 45, },
+          ]}
+          statics={[
+            { label: "Gerepareerd", total: 120, percentage: 5.5, Icon: FaRegCheckCircle },
+            { label: "Openstaand", total: 300, percentage: 10.2, Icon: FaRegCheckCircle },
 
           ]}
         />
    <CostumChart
-         title='Rijlessen'
+         title='financiën'
           className="mt-4"
           data={[
             { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },
@@ -113,11 +138,12 @@ export default function page() {
             { month: 'Dec', "Gerepareerd": 0, "Openstaand": 45, },
           ]}
           statics={[
-            { label: "Gerepareerd", total: 120, percentage: 5.5, Icon: FaChartLine },
-            { label: "Openstaand", total: 300, percentage: 10.2, Icon:FaChartLine },
+            { label: "Gerepareerd", total: 120, percentage: 5.5, Icon: FaRegCheckCircle },
+            { label: "Openstaand", total: 300, percentage: 10.2, Icon: FaRegCheckCircle },
 
           ]}
         />
+        </div>
       
      </div>
 
@@ -125,7 +151,6 @@ export default function page() {
       
    
         
-    </div>
     </>
    
   )

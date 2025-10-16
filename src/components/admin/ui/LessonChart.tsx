@@ -1,12 +1,49 @@
 'use client'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { FaUserTie, FaUsers, FaChartLine, FaChartBar } from 'react-icons/fa';
 import { ResponsiveContainer, Tooltip, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, AreaChart, Area } from 'recharts'
 import StatisticsCard, { Statistcs } from './StatisticsCard';
 
-export default function CostumChart({className , data  ,title, statics }: { title : string , className?: string  ,  data: any[] , statics: Array<Statistcs>}) {
+
+
+
+
+export default function CostumChart({className , data=[] ,title, statics }: { title : string , className?: string  ,  data: any[] , statics: Array<Statistcs>}) {
   const colors = ['#2563EB', '#22C55E', '#EAB308', '#F59E0B', '#8B5CF6', '#EF4444'];
-  console.log();
+
+  const getColor = (status: string) => {
+
+    switch (status) {
+      case 'In Behandeling':
+        return '#2563EB'; // Blue
+      case 'Bevestigd':
+        return '#22C55E'; // Green
+      case 'Geannuleerd':
+        return '#EF4444'; // Red
+      case 'Afgewezen':
+        return '#F59E0B'; // Orange
+      case 'Voltooid':
+        return '#8B5CF6'; // Purple
+      case 'Verlopen':
+        return '#EAB308'; 
+      case 'Gerepareerd':
+        return '#2563EB';
+      case 'Openstaand': 
+        return '#F59E0B'
+        return '#22C55E';
+
+        // Yellow
+      default:
+        return '#6B7280'; // Gray for unknown statuses
+    }
+  }
+  const keys = useMemo(() => {
+    if (data.length > 0) {
+      return Object.keys(data[0]).filter(key => key !== 'month');
+    }
+    return [];
+  }, [data]);
+
   return (
      <div className={`w-[95%] mt-4 p-3 mx-auto bg-white rounded-lg border-2 border-gray-200 items-center ${className}`} style={{ height: 'auto', minHeight: '70vh' }}>
           <h1 className='font-bold text-lg text-gray-700 ml-3 mb-4'>{title}</h1>
@@ -29,30 +66,38 @@ export default function CostumChart({className , data  ,title, statics }: { titl
                 <Tooltip />
 
                 {/* Legend at bottom */}
-                <Legend
-                  verticalAlign="bottom"
-                  align='left'
-                  height={40}
-                  style={{ marginLeft: '20px' }}
-                  iconType="circle"
-                  wrapperStyle={{ fontSize: "13px" }}
-                />
+              
 
                 {/* Lines */}
                {
                 //extract all keys except 'month' to create lines dynamically
-                Object.keys(data[0]).filter(key => key !== "month").map((e,i) => (
-                  <Area type="monotone" key={i} dataKey={e} stroke={colors[i]} fill='blue' fillOpacity={0.01} strokeWidth={2} dot={false} name={e} />
-                ))
+               keys.map((e,i) => 
+                  {
+                    console.log( e , getColor(e))
+                    return(
+                  <Area type="monotone" key={i} dataKey={e} stroke={getColor(e)} fill='blue' fillOpacity={0.015} strokeWidth={2} dot={false} name={e} />
+
+                    )
+                  }
+                )
                }
                
               </AreaChart>
             </ResponsiveContainer>
+         
           </div>
-
+         <div className='w-full ml-3 flex  p-2 justify-start text-gray-500 text-sm mt-2 pr-2 '>
+                {
+                  keys.map((e,i) => (
+                    <div key={i} style={{color:getColor(e)}} className='flex items-center mr-4 '>
+                      <div className='w-3 h-3 rounded-full mr-1' style={{backgroundColor:getColor(e)}}></div>
+                      <span>{e}</span>
+                    </div>
+                  ))}
+            </div>
           {/* Statistics Cards Section */}
-          <div className='mt-6'>
-            <ul  style={{gap:15}} className='flex justify-start h-max mt-4 w-[auto] mx-auto  text-gray-600 '>
+          <div >
+            <ul  style={{gap:15}} className='flex justify-start h-max mt-2  w-[auto] mx-auto  text-gray-600 '>
            {
             //map through the statics array to render StatisticsCard components
             statics.map((stat , index) => (
