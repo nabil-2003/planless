@@ -38,6 +38,11 @@ export type Data_Instructor = {
     arbeidsovereenkomst: string    // Employment contract
     contractvervaldatum: string    // Contract expiration date
     urenregistratie: string        // Hours registration
+    // Optional / additional fields used elsewhere
+    medisch_certificaat?: string
+    vervaldatum_medisch?: string
+    registratie_nummer?: string
+    examen_contract?: string
    
 }
 
