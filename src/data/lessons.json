@@ -98,7 +98,7 @@
     "eindtijd": "01/10/24 05:02",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 684",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Geannuleerd",
     "annuleringstijd": "30/09/24 18:32",
     "annuleringsreden": "Student ziek"
@@ -124,7 +124,7 @@
     "eindtijd": "14/04/24 10:55",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 328",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Onbetaald",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "Onverwachte omstandigheden"
@@ -138,7 +138,7 @@
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 739",
     "betalingsstatus": "Geannuleerd",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "29/11/24 11:03",
     "annuleringsreden": "Student te laat"
   },
@@ -151,7 +151,7 @@
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 504",
     "betalingsstatus": "Geannuleerd",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "N.v.t."
   },
@@ -229,7 +229,7 @@
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 555",
     "betalingsstatus": "Betaald",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "17/10/24 20:48",
     "annuleringsreden": "Medische redenen"
   },
@@ -254,7 +254,7 @@
     "eindtijd": "17/08/24 06:21",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 613",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Voltooid",
     "annuleringstijd": "12/08/24 04:51",
     "annuleringsreden": "Verkeersproblemen"
@@ -267,7 +267,7 @@
     "eindtijd": "29/08/24 06:59",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 387",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Geannuleerd",
     "annuleringstijd": "28/08/24 23:29",
     "annuleringsreden": "Familie noodgeval"
@@ -307,7 +307,7 @@
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 506",
     "betalingsstatus": "Bevestigd",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "04/11/24 15:54",
     "annuleringsreden": "N.v.t."
   },
@@ -359,7 +359,7 @@
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 593",
     "betalingsstatus": "Onbetaald",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "03/07/24 17:18",
     "annuleringsreden": "Familie noodgeval"
   },
@@ -371,7 +371,7 @@
     "eindtijd": "23/05/24 01:20",
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 599",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Onbetaald",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "Verkeersproblemen"
@@ -424,7 +424,7 @@
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 512",
     "betalingsstatus": "Onbetaald",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "29/03/24 21:17",
     "annuleringsreden": "Familie noodgeval"
   },
@@ -488,7 +488,7 @@
     "eindtijd": "16/11/24 01:52",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 624",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Betaald",
     "annuleringstijd": "14/11/24 00:22",
     "annuleringsreden": "Docent verhinderd"
@@ -566,7 +566,7 @@
     "eindtijd": "11/05/24 06:17",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 313",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Voltooid",
     "annuleringstijd": "10/05/24 00:47",
     "annuleringsreden": "N.v.t."
@@ -592,7 +592,7 @@
     "eindtijd": "19/03/24 07:50",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 665",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Geannuleerd",
     "annuleringstijd": "18/03/24 18:20",
     "annuleringsreden": "Dubbele boeking"
@@ -618,7 +618,7 @@
     "eindtijd": "05/10/24 12:46",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 424",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Voltooid",
     "annuleringstijd": "04/10/24 18:16",
     "annuleringsreden": "Student ziek"
@@ -709,7 +709,7 @@
     "eindtijd": "09/04/24 09:43",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 327",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Betaald",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "N.v.t."
@@ -723,7 +723,7 @@
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 582",
     "betalingsstatus": "Voltooid",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "10/02/24 01:44",
     "annuleringsreden": "N.v.t."
   },
@@ -762,7 +762,7 @@
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 436",
     "betalingsstatus": "Onbetaald",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "30/08/24 05:53",
     "annuleringsreden": "Student ziek"
   },
@@ -826,7 +826,7 @@
     "eindtijd": "24/11/24 10:12",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 676",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Betaald",
     "annuleringstijd": "23/11/24 13:42",
     "annuleringsreden": "Instructeur verhinderd"
@@ -865,7 +865,7 @@
     "eindtijd": "19/05/24 03:02",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 279",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Bevestigd",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "Medische redenen"
@@ -904,7 +904,7 @@
     "eindtijd": "06/05/24 12:41",
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 734",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Bevestigd",
     "annuleringstijd": "04/05/24 11:41",
     "annuleringsreden": "Docent verhinderd"
@@ -1008,8 +1008,8 @@
     "eindtijd": "29/11/24 01:57",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 612",
-    "betalingsstatus": "inbehandeling",
-    "rijles_status": "inbehandeling",
+    "betalingsstatus": "in behandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "28/11/24 09:27",
     "annuleringsreden": "Auto in onderhoud"
   },
@@ -1034,7 +1034,7 @@
     "eindtijd": "25/07/24 02:38",
     "lesduur": "1:30:00",
     "factuur_bedrag": "€ 479",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Onbetaald",
     "annuleringstijd": "24/07/24 00:08",
     "annuleringsreden": "Werk conflicten"
@@ -1100,7 +1100,7 @@
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 698",
     "betalingsstatus": "Bevestigd",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "14/05/24 10:48",
     "annuleringsreden": "Examen voorbereiding"
   },
@@ -1126,7 +1126,7 @@
     "lesduur": "1:00:00",
     "factuur_bedrag": "€ 672",
     "betalingsstatus": "Betaald",
-    "rijles_status": "inbehandeling",
+    "rijles_status": "in behandeling",
     "annuleringstijd": "23/01/24 05:46",
     "annuleringsreden": "Docent verhinderd"
   },
@@ -1164,7 +1164,7 @@
     "eindtijd": "04/01/24 05:27",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 581",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Onbetaald",
     "annuleringstijd": "Niet geannuleerd",
     "annuleringsreden": "Werk conflicten"
@@ -1255,7 +1255,7 @@
     "eindtijd": "25/04/24 10:35",
     "lesduur": "0:30:00",
     "factuur_bedrag": "€ 518",
-    "betalingsstatus": "inbehandeling",
+    "betalingsstatus": "in behandeling",
     "rijles_status": "Voltooid",
     "annuleringstijd": "25/04/24 08:05",
     "annuleringsreden": "Werk conflicten"

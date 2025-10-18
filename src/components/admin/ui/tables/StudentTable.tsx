@@ -153,13 +153,13 @@ export default function StudentTable({
       `}</style>
 
       {/* Table Container - Three Section Layout */}
-      <div className={`${className} mb-4 w-full`} style={{ position: 'relative' }}>
+      <div className={`${className} mb-4 w-full scale-95 `} style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sticky NR Column - Left */}
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* NR Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm  border-r-1 border-gray-200'>nr</div>
+              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-400/10   h-full border-r-1  text-md border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
             <div>
@@ -170,7 +170,7 @@ export default function StudentTable({
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm text-gray-700 border-r-1 border-gray-200'>
+                    <div className='w-[4vw] bg-blue-400/10 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
                       {startIndex + index + 1}
                     </div>
                   </div>
@@ -183,13 +183,13 @@ export default function StudentTable({
           <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
             {/* Scrollable Header */}
             <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
-              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>Student</div>
-              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>BSN nummer</div>
-              <div className='w-[15vw] py-4 flex items-center text-sm  px-2'>Email</div>
-              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>Geboortedatum</div>
-              <div className='w-[8vw] py-4 flex items-center justify-center text-sm  px-2'>Adres</div>
-              <div className='w-[10vw] py-4 flex items-center text-sm  px-2'>Telefoonnummer</div>
-              <div className='w-[16vw] py-4 flex items-center text-sm  px-2 pr-6'>Opmerkingen</div>
+              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>Student</div>
+              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>BSN nummer</div>
+              <div className='w-[15vw] py-4 flex items-center text-md  px-2'>Email</div>
+              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>Geboortedatum</div>
+              <div className='w-[8vw] py-4 flex items-center justify-center text-md  px-2'>Adres</div>
+              <div className='w-[10vw] py-4 flex items-center text-md  px-2'>Telefoonnummer</div>
+              <div className='w-[16vw] py-4 flex items-center text-md  px-2 pr-6'>Opmerkingen</div>
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
@@ -212,7 +212,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-sm  border-l-1 border-gray-200'>acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-400/10 border-gray-200'>acties</div>
             </div>
             {/* Actions Body */}
             <div>
@@ -301,7 +301,7 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
         </button>
       </li>
 
-      <ActionModal className=' right-1 ' CurrentStatus={''} ref={modalRef} />
+      <ActionModal tableName='student' className=' right-1 ' CurrentStatus={''} ref={modalRef} />
     </ul>
   )
 }
@@ -309,18 +309,18 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
 // Scrollable table row component (middle section)
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
   return (
-    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
-      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
-      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
-      <div className='w-[15vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
-      <div className='w-[9vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
-      <div className='w-[8vw] py-4 flex items-center justify-center text-sm text-gray-700 px-2' title={ele.adres}>
+    <div className='flex hover:bg-blue-400/10 w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
+      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
+      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
+      <div className='w-[15vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
+      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
+      <div className='w-[8vw] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
         <Link href={""} className='flex items-center justify-center'>
           <LocationIcon w={18} h={18} color="blue" />
         </Link>
       </div>
-      <div className='w-[10vw] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
-      <div className='w-[16vw] py-4 flex items-center text-sm text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
+      <div className='w-[10vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
+      <div className='w-[16vw] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
     </div>
   )
 }
@@ -331,17 +331,17 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
 
   return (
     <div 
-      className='bg-white border-b-1 border-gray-200'
+      className='border-b-1 bg-blue-400/10  border-gray-200'
       style={{ height: '52px' }}
     >
-      <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+      <div className='w-[80px]  px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
         <button 
           className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
           onClick={() => { modalRef.current?.Open() }}
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal CurrentStatus={''} ref={modalRef} />
+        <ActionModal tableName='students' CurrentStatus={''} ref={modalRef} />
       </div>
     </div>
   )

@@ -129,13 +129,13 @@ export default function LessonsTable({
   return (
     <>
       {/* Table Container with Sticky NR and Actions Columns */}
-      <div className={`${className} mb-4 overflow-hidden p-1`} style={{ position: 'relative' }}>
+      <div className={`${className} mb-4 overflow-hidden p-1 scale-95 `} style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%', maxWidth: '100vw' }}>
           {/* Sticky NR Column - Left */}
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
             {/* NR Header */}
-            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm  border-r-1 border-gray-200'>Nr</div>
+            <div className='bg-blue-400/10 border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[4vw] px-4 flex justify-center items-center h-full  text-md  border-r-1 border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
             <div>
@@ -146,7 +146,7 @@ export default function LessonsTable({
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] px-4 flex justify-center items-center h-full text-sm text-gray-700 border-r-1 border-gray-200'>
+                    <div className='w-[4vw] bg-blue-400/10 px-4 flex justify-center items-center h-full  text-md text-gray-700 border-r-1 border-gray-200'>
                       {startIndex + index + 1}
                     </div>
                   </div>
@@ -159,17 +159,17 @@ export default function LessonsTable({
           <div id='rijlessen-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
             <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4 ml-2.5' style={{ height: '56px' }}>
-              <div className='w-[5vw] py-4 flex items-center text-sm  px-2'>Instructeur</div>
-              <div className='w-[5vw] py-4 flex items-center text-sm  px-2'>Student</div>
-              <div className='w-[7vw] py-4 flex items-center text-sm  px-2'>Begintijd</div>
-              <div className='w-[7vw] py-4 flex items-center text-sm  px-2'>Eindtijd</div>
-              <div className='w-[4vw] py-4 flex items-center text-sm  px-2'>Lesduur</div>
-              <div className='w-[10vw] py-4 flex items-center text-sm  px-2'>Factuur bedrag</div>
-              <div className='w-[7vw] py-4 flex items-center text-sm  px-2'>Rijles status</div>
-              <div className='w-[7vw] py-4 flex items-center text-sm  px-2'>Betalingsstatus</div>
-              <div className='w-[9vw] py-4 flex items-center text-sm  px-2'>Annuleringstijd</div>
-              <div className='w-[7vw] py-4 flex items-center text-sm  px-2'>Leskaarten</div>
-              <div className='w-[14vw] py-4 flex items-center text-sm  px-2 pr-6'>Annuleringsreden</div>
+              <div className='w-[5vw] py-4 flex items-center  text-md  px-2'>Instructeur</div>
+              <div className='w-[5vw] py-4 flex items-center  text-md  px-2'>Student</div>
+              <div className='w-[7vw] py-4 flex items-center  text-md  px-2'>Begintijd</div>
+              <div className='w-[7vw] py-4 flex items-center  text-md  px-2'>Eindtijd</div>
+              <div className='w-[4vw] py-4 flex items-center  text-md  px-2'>Lesduur</div>
+              <div className='w-[10vw] py-4 flex items-center  text-md  px-2'>Factuur bedrag</div>
+              <div className='w-[7vw] py-4 flex items-center  text-md  px-2'>Rijles status</div>
+              <div className='w-[7vw] py-4 flex items-center  text-md  px-2'>Betalingsstatus</div>
+              <div className='w-[9vw] py-4 flex items-center  text-md  px-2'>Annuleringstijd</div>
+              <div className='w-[7vw] py-4 flex items-center  text-md  px-2'>Leskaarten</div>
+              <div className='w-[14vw] py-4 flex items-center  text-md  px-2 pr-6'>Annuleringsreden</div>
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
@@ -192,7 +192,7 @@ export default function LessonsTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-sm  border-l-1 border-gray-200'>Acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full  text-md bg-blue-400/10  border-l-1 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
             <div>
@@ -215,7 +215,7 @@ export default function LessonsTable({
         <button 
           onClick={goToPrevPage}
           disabled={currentPage === 1}
-          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+          className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
             currentPage === 1 
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
@@ -224,14 +224,14 @@ export default function LessonsTable({
           Vorige
         </button>
       
-        <span className='text-sm'>
+        <span className=' text-md'>
           Pagina {currentPage} van {totalPages || 1}
         </span>
       
         <button 
           onClick={goToNextPage}
           disabled={currentPage === totalPages || totalPages === 0}
-          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+          className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
             currentPage === totalPages || totalPages === 0
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
@@ -244,7 +244,7 @@ export default function LessonsTable({
     
       {/* Results Counter */}
       <div className='w-[95%] mx-auto mb-4 text-center'>
-        <span className='text-sm text-gray-600'>
+        <span className=' text-md text-gray-600'>
           Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
         </span>
       </div>
@@ -253,117 +253,6 @@ export default function LessonsTable({
   );
 }
 // Individual table row component
-const TableElement = ({ ele, id }: { ele: Data_Lessons, id: number }) => {
-  const modalRef = useRef<ActionModalRef>(null);
-    
-  // Status color mapping
-  const ColorToStatus = useMemo(() => {
-    const clt: ColorAndStatus[] = [
-      {
-        status: "In behandeling",
-        colortext: "#6e3fa6",
-        colorbg: "#f2d6ff"
-      },
-      {
-        status: "inbehandeling",
-        colortext: "#6e3fa6",
-        colorbg: "#f2d6ff"
-      },
-      {
-        status: "Geannuleerd",
-        colortext: "#333333",
-        colorbg: "#ededed"
-      },
-      {
-        status: "Bevestigd",
-        colortext: "#006400",
-        colorbg: "#dcffd6"
-      },
-      {
-        status: "Onbetaald",
-        colortext: "#8b0000",
-        colorbg: "#ffd6d6"
-      },
-      {
-        status: "Voltooid",
-        colortext: "#024089",
-        colorbg: "#daefff"
-      },
-      {
-        status: "Betaald",
-        colortext: "#006400",
-        colorbg: "#dcffd6"
-      },
-    ]
-    return clt
-  }, [])
-
-  // Find color for status
-  const mapColorToStatus = useCallback(
-    (status: string) => {
-      const color = ColorToStatus.find(item => item.status.toLowerCase() === status.toLowerCase());
-      return color;
-    },
-    [ColorToStatus]
-  )
-  return (
-    <ul className='flex relative *:text-sm *:text-gray-700  w-max  border-b-1 gap-2  bg-white border-gray-200 '>
-      <li className='w-[4vw] border-x-1 border-gray-200  flex justify-center items-center py-3 '>{id}</li>
-      <li className='w-[5vw]  py-4  flex  items-center '>{ele?.instructeur}</li>
-      <li className='w-[5vw] py-4  flex  items-center'>{ele?.student}</li>
-      <li className='w-[7vw] py-4   flex  items-center'>{ele?.begintijd}</li>
-      <li className='w-[7vw]  py-4  flex  items-center '>{ele?.eindtijd}</li>
-      <li className='w-[4vw] py-4  flex  items-center'>{ele?.lesduur}</li>
-      <li className='w-[10vw] py-4  flex  items-center'>
-         <Link href={"#"}  className='text-blue-600 underline' >
-         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-        </Link>
-        {ele?.factuur_bedrag}
-      </li>
-
-      {/* Status columns with colored badges */}
-      <li className='w-[7vw] py-4 flex  items-center'>
-        <span
-          style={{
-            backgroundColor: mapColorToStatus(ele.rijles_status)?.colorbg,
-            color: mapColorToStatus(ele.rijles_status)?.colortext
-          }}
-          className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
-        >
-          {ele.rijles_status}
-        </span>
-      </li>
-      
-      <li className='w-[7vw]  py-3  flex  items-center '>
-        <span
-          style={{
-            backgroundColor: mapColorToStatus(ele.betalingsstatus)?.colorbg,
-            color: mapColorToStatus(ele.betalingsstatus)?.colortext
-          }}
-          className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
-        >
-          {ele.betalingsstatus}
-        </span>
-      </li>
-      
-      <li className='w-[9vw]  py-3    flex  items-center'>{ele.annuleringstijd}</li>
-      <li className='w-[7vw]  py-4 '>
-        <Link href={"#"}  className='text-blue-600 underline' >
-         <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-        </Link>
-      </li>
-      <li className='  w-[14vw] py-3   flex  items-center'>{ele.annuleringsreden}</li>
-      {/* Actions column */}
-      <li className='w-[4vw] px-3    py-3 flex justify-center items-center   '>
-        <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { modalRef.current?.Open() }}>
-          <MenuIcon s='gray' w='20px' h='20px' f='gray' />
-        </button>
-      </li>
-
-      <ActionModal CurrentStatus={ele.rijles_status} ref={modalRef} />
-    </ul>
-  )
-}
 
 // Scrollable table row component (without NR and Actions)
 const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
@@ -372,14 +261,10 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
     const clt: ColorAndStatus[] = [
       {
         status: "In behandeling",
-        colortext: "#6e3fa6",
-        colorbg: "#f2d6ff"
+        colortext: "#bc5419",
+        colorbg: "#f7d0b9"
       },
-      {
-        status: "inbehandeling",
-        colortext: "#6e3fa6",
-        colorbg: "#f2d6ff"
-      },
+     
       {
         status: "Geannuleerd",
         colortext: "#333333",
@@ -419,13 +304,13 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
   )
 
   return (
-    <div className='flex relative w-max border-b-1 gap-2 bg-white border-gray-200 ml-2.5 pr-4' style={{ height: '52px' }}>
-      <div className='w-[5vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructeur}>{ele?.instructeur}</div>
-      <div className='w-[5vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.student}>{ele?.student}</div>
-      <div className='w-[7vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.begintijd}>{ele?.begintijd}</div>
-      <div className='w-[7vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.eindtijd}>{ele?.eindtijd}</div>
-      <div className='w-[4vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesduur}>{ele?.lesduur}</div>
-      <div className='w-[10vw] flex items-center text-sm text-gray-700 px-2'>
+    <div className='flex relative w-max border-b-1  hover:bg-blue-400/10 gap-2 mr-3  border-gray-200 ml-2.5 pr-4' style={{ height: '52px' }}>
+      <div className='w-[5vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructeur}>{ele?.instructeur}</div>
+      <div className='w-[5vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.student}>{ele?.student}</div>
+      <div className='w-[7vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.begintijd}>{ele?.begintijd}</div>
+      <div className='w-[7vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.eindtijd}>{ele?.eindtijd}</div>
+      <div className='w-[4vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesduur}>{ele?.lesduur}</div>
+      <div className='w-[10vw] flex items-center  text-md text-gray-700 px-2'>
          <Link href={"#"} className='text-blue-600 underline'>
          <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
         </Link>
@@ -433,37 +318,37 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
       </div>
 
       {/* Status columns with colored badges */}
-      <div className='w-[7vw] flex items-center text-sm px-2'>
+      <div className='w-[7vw] flex items-center  text-md px-2'>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.rijles_status)?.colorbg,
             color: mapColorToStatus(ele.rijles_status)?.colortext
           }}
-          className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+          className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
         >
           {ele.rijles_status}
         </span>
       </div>
       
-      <div className='w-[7vw] flex items-center text-sm px-2'>
+      <div className='w-[7vw] flex items-center  text-md px-2'>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.betalingsstatus)?.colorbg,
             color: mapColorToStatus(ele.betalingsstatus)?.colortext
           }}
-          className='whitespace-nowrap text-xs px-2 py-1 rounded-lg'
+          className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
         >
           {ele.betalingsstatus}
         </span>
       </div>
       
-      <div className='w-[9vw] flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.annuleringstijd}>{ele.annuleringstijd}</div>
-      <div className='w-[7vw] flex items-center text-sm px-2'>
+      <div className='w-[9vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.annuleringstijd}>{ele.annuleringstijd}</div>
+      <div className='w-[7vw] flex items-center  text-md px-2'>
         <Link href={"#"} className='text-blue-600 underline'>
          <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
         </Link>
       </div>
-      <div className='w-[14vw] flex items-center text-sm text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.annuleringsreden}>{ele.annuleringsreden}</div>
+      <div className='w-[14vw] flex items-center  text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.annuleringsreden}>{ele.annuleringsreden}</div>
     </div>
   )
 }
@@ -474,7 +359,7 @@ const TableElementActions = ({ ele }: { ele: Data_Lessons }) => {
 
   return (
     <div 
-      className='bg-white border-b-1 border-gray-200'
+      className='bg-blue-400/10 border-b-1 border-gray-200'
       style={{ height: '52px' }}
     >
       <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
@@ -484,7 +369,7 @@ const TableElementActions = ({ ele }: { ele: Data_Lessons }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal CurrentStatus={ele.rijles_status} ref={modalRef} />
+        <ActionModal tableName='lessons' CurrentStatus={ele.rijles_status} ref={modalRef} />
       </div>
     </div>
   )

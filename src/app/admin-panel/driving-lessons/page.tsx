@@ -221,7 +221,13 @@ export default function DrivingLessonsPage() {
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
                         />
-
+                           {/* Add New Lesson Button */}
+                        <Button onClick={openCreateModal} className='outline-none ml-4'>
+                            <div className='flex gap-2 items-center'>
+                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
+                                Rijles toevoegen
+                            </div>
+                        </Button>
                         {/* Custom Date Input that opens modal */}
                         <div className='relative ml-4'>
                             <div
@@ -256,8 +262,7 @@ export default function DrivingLessonsPage() {
                                             dateModalRef.current?.clearSelection()
                                             setSelectedDateRange(null)
                                         }}
-                                        className='ml-2 text-gray-400 hover:text-gray-600'
-                                    >
+                                        className='ml-2 text-gray-400 hover:text-gray-600'>
                                         <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
                                         </svg>
@@ -266,18 +271,12 @@ export default function DrivingLessonsPage() {
                             </div>
                         </div>
 
-                        {/* Add New Lesson Button */}
-                        <Button onClick={openCreateModal} className='outline-none ml-4'>
-                            <div className='flex gap-2 items-center'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Rijles toevoegen
-                            </div>
-                        </Button>
+                      
                     </div>
                     
                     {/* Lessons Table */}
                     <LessonsTable  
-                        className='ml-8 '
+                        className=''
                         filterTable={currentFilterType} 
                         data={[...parsedLessons()]}
                         searchQuery={searchQuery}

@@ -219,6 +219,13 @@ export default function StudentsPage() {
                         />
 
                         {/* Custom Date Input that opens modal */}
+                        {/* Add New Student Button */}
+                        <Link href="./students/new-student" className='text-white rounded-lg p-2 bg-dark-blue ml-4'>
+                            <div className='flex gap-2 items-center'>
+                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
+                                Student toevoegen
+                            </div>
+                        </Link>
                         <div className='relative ml-4'>
                             <div
                                 onClick={openDateModal}
@@ -264,18 +271,12 @@ export default function StudentsPage() {
                             </div>
                         </div>
 
-                        {/* Add New Student Button */}
-                        <Link href="./students/new-student" className='text-white rounded-lg p-2 bg-dark-blue ml-4'>
-                            <div className='flex gap-2 items-center'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Student toevoegen
-                            </div>
-                        </Link>
+                        
                     </div>
                     
                     {/* Students Table */}
                     <StudentTable  
-                        className='ml-8 '
+                        className=' '
                         filterTable={currentFilterType} 
                         data={[...parsedStudents()]}
                         searchQuery={searchQuery}

@@ -55,20 +55,20 @@ type CustomDateRef = {
  * Manages the students section of the admin dashboard
  */
 export default function StudentsPage() {
-    
+
     // ================================
     // STATE MANAGEMENT
     // ================================
-    
+
     // Filter and search states
     const [currentFilterType, setCurrentFilterType] = useState('in Behandeling')
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [ActiveSide, setActiveSide] = useState('s')
+    const [itemsPerPage, setItemsPerPage] = useState(12)
+    const [ActiveTab, setActiveTab] = useState<'students' | 'instructeurs'>('students')
     const [isExporting, setIsExporting] = useState(false)
-    
+
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -76,43 +76,20 @@ export default function StudentsPage() {
     // ================================
     // DATA PROCESSING
     // ================================
-    
+
     /**
      * Parse and transform financial data from JSON
      * Ensures type safety and data consistency
      */
-    const parsedFinancialData = useCallback(() => {
-        const studentFinancials: StudentFinancialData[] = (financialData.students as any[]).map(item => ({
-            id: item.id,
-            factuurdatum: item.factuurdatum,
-            vervaldatum: item.vervaldatum,
-            betalingsstatus: item.betalingsstatus,
-            rijlesstatus: item.rijlesstatus,
-            factuur_bedrag: item.factuur_bedrag,
-        }))
-        
-        const instructorFinancials: InstructorFinancialData[] = (financialData.instructeurs as any[]).map(item => ({
-            id: item.id,
-            instructeur: item.instructeur,
-            rijles_datum: item.rijles_datum,
-            betalingsstatus: item.betalingsstatus,
-            rijlesstatus: item.rijlesstatus,
-            urenregistratie: item.urenregistratie,
-        }))
-        
-        return { students: studentFinancials, instructors: instructorFinancials }
-    }, [])
+
 
     // Get current data based on selected side
-    const getCurrentData = useCallback(() => {
-        const financials = parsedFinancialData()
-        return ActiveSide === 's' ? financials.students : financials.instructors
-    }, [ActiveSide, parsedFinancialData])
+
 
     // ================================
     // EVENT HANDLERS
     // ================================
-    
+
     /**
      * Opens the create new student modal
      */
@@ -180,12 +157,12 @@ export default function StudentsPage() {
      */
     const handleExportCSV = async () => {
         setIsExporting(true)
-        
+
         try {
-            const currentData = getCurrentData()
-            
+
+
             // Define CSV headers based on active side
-            const headers = ActiveSide === 's' 
+            const headers = ActiveTab === 'students'
                 ? [
                     'ID',
                     'Factuurdatum',
@@ -206,8 +183,8 @@ export default function StudentsPage() {
             // Create CSV content with proper escaping
             const csvContent = [
                 headers.join(','),
-                ...currentData.map(item => {
-                    if (ActiveSide === 's') {
+                ...[].map(item => {
+                    if (ActiveTab === 'students') {
                         const studentItem = item as any
                         return [
                             `"${studentItem.id}"`,
@@ -235,19 +212,19 @@ export default function StudentsPage() {
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
             const link = document.createElement('a')
             const url = URL.createObjectURL(blob)
-            
-            const fileName = ActiveSide === 's' 
+
+            const fileName = ActiveTab === 'students'
                 ? `financien_studenten_${new Date().toISOString().split('T')[0]}.csv`
                 : `financien_instructeurs_${new Date().toISOString().split('T')[0]}.csv`
-            
+
             link.setAttribute('href', url)
             link.setAttribute('download', fileName)
             link.style.visibility = 'hidden'
-            
+
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link)
-            
+
             console.log('CSV export completed successfully')
         } catch (error) {
             console.error('Export failed:', error)
@@ -259,33 +236,35 @@ export default function StudentsPage() {
     // ================================
     // RENDER
     // ================================
-
+   console.log("selected" , selectedDateRange)
 
     return (
         <div className='content'>
             {/* Page Header */}
             <Header title="financien" />
-            
-            <div className='w-full flex overflow-hidden'>
+
+            <div className='w-full flex '>
                 {/* Left Sidebar - Consistent with other pages */}
-                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
-                
+                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-aut' />
+
                 {/* Main Content Area - Consistent with other pages */}
-                <div className='dashboard-container w-[80%]'>
+                <div className='dashboard-container mb-8 w-[80%]'>
                     {/* Spacing */}
                     <div className='mt-4' />
-                     <div className='p-3 capitalize bg-white mt-2 flex items-center gap-2 w-[95%] mx-auto'>
-                      <span onClick={()=>{setActiveSide(t => "s")}} className={ActiveSide == 's' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ': 'text-gray-400 cursor-pointer y-400'}>students</span>
-                      <span onClick={()=>{setActiveSide(t => "i")}} className={ActiveSide !== 's' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ': 'text-gray-400 cursor-pointer  y-400'}>instructeurs</span>
+                    <div className='p-3 capitalize bg-white mt-2 flex items-center gap-2 w-[95%] mx-auto'>
+                        <span onClick={() => { setActiveTab(t => "students") }} className={ActiveTab == 'students' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ' : 'text-gray-400 cursor-pointer y-400'}>students</span>
+                        <span onClick={() => { setActiveTab(t => "instructeurs") }} className={ActiveTab == 'instructeurs' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ' : 'text-gray-400 cursor-pointer  y-400'}>instructeurs</span>
 
-                     </div>
+                    </div>
                     {/* Controls Section */}
                     <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
-                        
+
                         {/* Items Per Page Selector */}
                         <CustomSelect
                             options={[
                                 { value: 10, label: "10" },
+                                
+                                { value: 12, label: "12" },
                                 { value: 20, label: "20" },
                                 { value: 30, label: "30" },
                                 { value: 40, label: "40" },
@@ -300,9 +279,9 @@ export default function StudentsPage() {
                             className='mr-auto w-32'
                             onChange={(value) => setItemsPerPage(Number(value))}
                         />
-                        
+
                         {/* Search Input */}
-                        <CustomSearch 
+                        <CustomSearch
                             className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
@@ -310,11 +289,32 @@ export default function StudentsPage() {
                         />
 
                         {/* Custom Date Input that opens modal */}
+                        {/* Export Button */}
+                        <button
+                            onClick={handleExportCSV}
+                            disabled={isExporting}
+                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
+                        >
+                            {isExporting ? (
+                                <>
+                                    <div className='animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2'></div>
+                                    Exporteren...
+                                </>
+                            ) : (
+                                <>
+                                    <ExportIcon w='20' h='20' color='var(--dark-blue)' className='mr-2' />
+                                    <span className='group-hover:text-white'>Export</span>
+                                </>
+                            )}
+                        </button>
                         <div className='relative ml-4'>
+                            
                             <div
                                 onClick={openDateModal}
                                 className='flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 w-48 cursor-pointer hover:border-gray-400 transition-colors'
                             >
+                                
+
                                 {/* Calendar Icon */}
                                 <svg
                                     className='w-5 h-5 text-gray-400 mr-2 flex-shrink-0'
@@ -329,12 +329,12 @@ export default function StudentsPage() {
                                         d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
                                     />
                                 </svg>
-                                
+
                                 {/* Date Display */}
                                 <span className={`text-md flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                     {formatDateRange()}
                                 </span>
-                                
+
                                 {/* Clear Button Container */}
                                 <div className='w-6 flex justify-center flex-shrink-0'>
                                     {selectedDateRange && (
@@ -355,40 +355,527 @@ export default function StudentsPage() {
                             </div>
                         </div>
 
-                        {/* Export Button */}
-                        <button
-                            onClick={handleExportCSV}
-                            disabled={isExporting}
-                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
-                        >
-                            {isExporting ? (
-                                <>
-                                    <div className='animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2'></div>
-                                    Exporteren...
-                                </>
-                            ) : (
-                                <>
-                                    <ExportIcon w='20' h='20' color='var(--dark-blue)' className='mr-2' />
-                                    <span className='group-hover:text-white'>Export</span>
-                                </>
-                            )}
-                        </button>
+                        
                     </div>
-                    
+
                     {/* Finance Table - Full Width */}
                     <FinanTable
-                        selectedSide={ActiveSide}  
-                        className='w-full  mx-0'
-                        filterTable={currentFilterType} 
-                        data={getCurrentData()}
-                        searchQuery={searchQuery}
-                        timeFilter={currentTimeFilter}
-                        itemsPerPage={itemsPerPage}
+                  
+                        selectedTab={ActiveTab === 'students' ? 'student' : 'instructor'}
                         selectedDateRange={selectedDateRange}
+                        filterTable={currentFilterType}
+                        timeFilter={currentTimeFilter}
+                        searchQuery={searchQuery}
+                        itemsPerPage={itemsPerPage}
+                        instructorData={
+                            [
+                                {
+                                    "id": 1,
+                                    "instructeur": "Ahmed El Mansouri",
+                                    "rijles_datum": "2025-10-15",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Voltooid",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 2,
+                                    "instructeur": "Fatima Bennani",
+                                    "rijles_datum": "2025-10-16",
+                                    "betalingsstatus": "Onbetaald",
+                                    "rijlesstatus": "Gepland",
+                                    "urenregistratie": "1.5 uur"
+                                },
+                                {
+                                    "id": 3,
+                                    "instructeur": "Youssef Amrani",
+                                    "rijles_datum": "2025-10-17",
+                                    "betalingsstatus": "Openstaand",
+                                    "rijlesstatus": "In behandeling",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 4,
+                                    "instructeur": "Samira Tahiri",
+                                    "rijles_datum": "2025-10-18",
+                                    "betalingsstatus": "Verlopen",
+                                    "rijlesstatus": "Geannuleerd",
+                                    "urenregistratie": "0 uur"
+                                },
+                                {
+                                    "id": 5,
+                                    "instructeur": "Mohamed El Idrissi",
+                                    "rijles_datum": "2025-10-19",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Bevestigd",
+                                    "urenregistratie": "1 uur"
+                                } , 
+                                 {
+                                    "id": 1,
+                                    "instructeur": "Ahmed El Mansouri",
+                                    "rijles_datum": "2025-10-15",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Voltooid",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 2,
+                                    "instructeur": "Fatima Bennani",
+                                    "rijles_datum": "2025-10-16",
+                                    "betalingsstatus": "Onbetaald",
+                                    "rijlesstatus": "Gepland",
+                                    "urenregistratie": "1.5 uur"
+                                },
+                                {
+                                    "id": 3,
+                                    "instructeur": "Youssef Amrani",
+                                    "rijles_datum": "2025-10-17",
+                                    "betalingsstatus": "Openstaand",
+                                    "rijlesstatus": "In behandeling",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 4,
+                                    "instructeur": "Samira Tahiri",
+                                    "rijles_datum": "2025-10-18",
+                                    "betalingsstatus": "Verlopen",
+                                    "rijlesstatus": "Geannuleerd",
+                                    "urenregistratie": "0 uur"
+                                },
+                                {
+                                    "id": 5,
+                                    "instructeur": "Mohamed El Idrissi",
+                                    "rijles_datum": "2025-10-19",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Bevestigd",
+                                    "urenregistratie": "1 uur"
+                                }, 
+                                 {
+                                    "id": 1,
+                                    "instructeur": "Ahmed El Mansouri",
+                                    "rijles_datum": "2025-10-15",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Voltooid",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 2,
+                                    "instructeur": "Fatima Bennani",
+                                    "rijles_datum": "2025-10-16",
+                                    "betalingsstatus": "Onbetaald",
+                                    "rijlesstatus": "Gepland",
+                                    "urenregistratie": "1.5 uur"
+                                },
+                                {
+                                    "id": 3,
+                                    "instructeur": "Youssef Amrani",
+                                    "rijles_datum": "2025-10-17",
+                                    "betalingsstatus": "Openstaand",
+                                    "rijlesstatus": "In behandeling",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 4,
+                                    "instructeur": "Samira Tahiri",
+                                    "rijles_datum": "2025-10-18",
+                                    "betalingsstatus": "Verlopen",
+                                    "rijlesstatus": "Geannuleerd",
+                                    "urenregistratie": "0 uur"
+                                },
+                                {
+                                    "id": 5,
+                                    "instructeur": "Mohamed El Idrissi",
+                                    "rijles_datum": "2025-10-19",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Bevestigd",
+                                    "urenregistratie": "1 uur"
+                                }, 
+                                 {
+                                    "id": 1,
+                                    "instructeur": "Ahmed El Mansouri",
+                                    "rijles_datum": "2025-10-15",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Voltooid",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 2,
+                                    "instructeur": "Fatima Bennani",
+                                    "rijles_datum": "2025-10-16",
+                                    "betalingsstatus": "Onbetaald",
+                                    "rijlesstatus": "Gepland",
+                                    "urenregistratie": "1.5 uur"
+                                },
+                                {
+                                    "id": 3,
+                                    "instructeur": "Youssef Amrani",
+                                    "rijles_datum": "2025-10-17",
+                                    "betalingsstatus": "Openstaand",
+                                    "rijlesstatus": "In behandeling",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 4,
+                                    "instructeur": "Samira Tahiri",
+                                    "rijles_datum": "2025-10-18",
+                                    "betalingsstatus": "Verlopen",
+                                    "rijlesstatus": "Geannuleerd",
+                                    "urenregistratie": "0 uur"
+                                },
+                                {
+                                    "id": 5,
+                                    "instructeur": "Mohamed El Idrissi",
+                                    "rijles_datum": "2025-10-19",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Bevestigd",
+                                    "urenregistratie": "1 uur"
+                                }, 
+                                 {
+                                    "id": 1,
+                                    "instructeur": "Ahmed El Mansouri",
+                                    "rijles_datum": "2025-10-15",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Voltooid",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 2,
+                                    "instructeur": "Fatima Bennani",
+                                    "rijles_datum": "2025-10-16",
+                                    "betalingsstatus": "Onbetaald",
+                                    "rijlesstatus": "Gepland",
+                                    "urenregistratie": "1.5 uur"
+                                },
+                                {
+                                    "id": 3,
+                                    "instructeur": "Youssef Amrani",
+                                    "rijles_datum": "2025-10-17",
+                                    "betalingsstatus": "Openstaand",
+                                    "rijlesstatus": "In behandeling",
+                                    "urenregistratie": "2 uur"
+                                },
+                                {
+                                    "id": 4,
+                                    "instructeur": "Samira Tahiri",
+                                    "rijles_datum": "2025-10-18",
+                                    "betalingsstatus": "Verlopen",
+                                    "rijlesstatus": "Geannuleerd",
+                                    "urenregistratie": "0 uur"
+                                },
+                                {
+                                    "id": 5,
+                                    "instructeur": "Mohamed El Idrissi",
+                                    "rijles_datum": "2025-10-19",
+                                    "betalingsstatus": "Betaald",
+                                    "rijlesstatus": "Bevestigd",
+                                    "urenregistratie": "1 uur"
+                                }
+                            ]
+
+                        }
+                        studentData={[{
+                            id: 1,
+                            student_naam: "John Doe",
+                            factuurdatum: "2023-10-01",
+                            vervaldatum: "2023-10-15",
+                            betalingsstatus: "Betaald",
+                            rijlesstatus: "Voltooid",
+                            factuur_bedrag: "€150.00"
+                        },
+                        {
+                            id: 2,
+                            student_naam: "Jane Smith",
+                            factuurdatum: "2023-09-20",
+                            vervaldatum: "2023-10-05",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€200.00"
+
+                        },
+                        {
+                            id: 3,
+                            student_naam: "Alice Johnson",
+                            factuurdatum: "2023-08-15",
+                            vervaldatum: "2023-08-30",
+                            betalingsstatus: "Betaald",
+                            rijlesstatus: "Voltooid",
+                            factuur_bedrag: "€180.00"
+                        },
+                        {
+                            id: 4,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                        {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                          {
+                            id: 5,
+                            student_naam: "Bob Brown",
+                            factuurdatum: "2023-07-10",
+                            vervaldatum: "2023-07-25",
+                            betalingsstatus: "Openstaand",
+                            rijlesstatus: "In Behandeling",
+                            factuur_bedrag: "€220.00"
+                        }, 
+                        
+                        ]}
                     />
                 </div>
             </div>
-            
+
             {/* Create Modal */}
             <CreateModal ref={CreateModalRef} name='modal' />
 

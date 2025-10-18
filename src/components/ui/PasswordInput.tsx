@@ -19,7 +19,7 @@ interface PasswordInputProps {
 const PasswordInput: React.FC<PasswordInputProps> = ({
   value,
   onChange,
-  placeholder = '.........',
+  placeholder = '•••••••••' ,
   required = false,
   disabled = false,
   className = '',
@@ -46,13 +46,14 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   }
 
   // Styling
-  const baseInputClasses = 'input-bg w-full rounded-lg outline-none placeholder:text-5xl  py-3 px-3 pr-12 transition-colors focus:outline-[#024089] focus:outline-2'
-  const finalInputClasses = `${baseInputClasses} ${className}`.trim()
+  const baseInputClasses = ' placeholder:text-gray-400   placeholder:text-2xl  placeholder:translate-y-2 placeholder:top-0  w-full rounded-lg outline-none  py-3 px-3 pr-12 transition-colors focus:outline-[#024089] focus:outline-2'
+  const finalInputClasses = `${baseInputClasses} ${className}`
 
   return (
     <div className="relative h-max w-full placeholder:text-5xl">
       {/* Password input field */}
       <input
+      
         type={isPasswordVisible ? "text" : "password"}
         value={value}
         onChange={onChange}

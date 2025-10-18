@@ -83,7 +83,7 @@ function Login() {
                         type="email"
                         value={email}
                         onChange={handleEmailChange}
-                        placeholder="typ hier je e-mailadres"
+                        placeholder="typ hier"
                         required
                         autoComplete="email"
                         className="w-full mb-3"
@@ -103,9 +103,11 @@ function Login() {
                         onChange={handlePasswordChange}
                         required
                         autoComplete="current-password"
-                        className="mb-4"
+                        className="mb-4  input-bg text-black "
                         disabled={isLoading}
                         showToggle={isMounted}
+
+                       
                     />
                 </div>
 

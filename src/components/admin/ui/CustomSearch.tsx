@@ -40,7 +40,7 @@ export default function CustomSearch({
         type={type}
         onChange={handleChange}
         value={searchText}
-        className={className + " block placeholder:capitalize  placeholder:pl-10"}
+        className={className + " block placeholder:capitalize  pl-10"}
         placeholder={placeholder}
       />
 

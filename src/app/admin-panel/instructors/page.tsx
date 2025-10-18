@@ -35,16 +35,7 @@ import instructorsData from "@/data/instructors.json"
  * Interface for Custom Date Modal reference
  * Used for date picker functionality
  */
-type CustomDateRef = {
-    firstDateMs?: number;
-    lastDateMs?: number;
-    singleDate?: number;
-    open: () => void;
-    close: () => void;
-    getSelectedRange: () => { firstDateMs: number; lastDateMs: number } | null;
-    clearSelection: () => void;
-    setDateRange: (startDate: string, endDate: string) => void;
-}
+
 
 // ================================
 // MAIN COMPONENT
@@ -106,9 +97,7 @@ export default function InstructorsPage() {
     /**
      * Opens the create new instructor modal
      */
-    const openCreateModal = () => {
-        CreateModalRef.current?.open()
-    }
+  
 
     /**
      * Handles CSV export functionality
@@ -250,7 +239,16 @@ export default function InstructorsPage() {
                         />
 
                         
-                        <button
+                      
+
+                        {/* Add New Instructor Button */}
+                        <Link href="./instructors/new-instructor" className='text-white rounded-lg p-2 bg-dark-blue ml-4'>
+                            <div className='flex gap-2 items-center'>
+                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
+                                Instructeur toevoegen
+                            </div>
+                        </Link>
+                          <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
                             className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
@@ -267,14 +265,6 @@ export default function InstructorsPage() {
                                 </>
                             )}
                         </button>
-
-                        {/* Add New Instructor Button */}
-                        <Link href="./instructors/new-instructor" className='text-white rounded-lg p-2 bg-dark-blue ml-4'>
-                            <div className='flex gap-2 items-center'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Instructeur toevoegen
-                            </div>
-                        </Link>
                     </div>
                     
                     {/* Instructors Table */}
@@ -285,6 +275,7 @@ export default function InstructorsPage() {
                         searchQuery={searchQuery}
                         timeFilter={currentTimeFilter}
                         itemsPerPage={itemsPerPage}
+                        
                     />
                 </div>
             </div>
