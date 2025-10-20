@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import ReduxProvider from '@/components/ReduxProvider'
 // Configure Inter font with proper subsets and weights
 const inter = Inter({ 
   subsets: ["latin"],
@@ -23,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="nl" suppressHydrationWarning className={inter.variable}>
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

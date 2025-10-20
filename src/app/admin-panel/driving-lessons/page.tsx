@@ -13,7 +13,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
 import TimeFilter from '@/components/admin/TimeFIlter'
-import FIlterByType from '@/components/FIlterByType'
+import FIlterByType from '@/components/admin/FIlterByType'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import LessonsTable, { Data_Lessons } from '@/components/admin/ui/tables/TableLessons'

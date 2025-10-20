@@ -8,6 +8,9 @@
 
 import React from 'react'
 import Logo2 from '../svgs/logo2'
+import { useAppDispatch } from '@/store/hooks'
+import { logout } from '@/store/userSlice'
+import { useRouter } from 'next/navigation'
 
 /**
  * Header Component Props
@@ -21,6 +24,8 @@ interface HeaderProps {
  * Displays the main header with logo, page title, and navigation
  */
 export default function Header({ title }: HeaderProps) {
+    const dispatch = useAppDispatch()
+    const navigate = useRouter()
     return (
         <header className='h-[10vh] py-4 bg-white flex justify-between items-center w-full px-8 border-b border-b-gray-200'>
             {/* Left Section - Logo and Title */}
@@ -44,7 +49,16 @@ export default function Header({ title }: HeaderProps) {
                 </div>
                 
                 {/* Logout Button */}
-                <button className='bg-transparent text-[var(--dark-blue)] border border-[var(--dark-blue)] px-4 py-2 rounded-lg hover:bg-[var(--dark-blue)] hover:text-white transition-all duration-200 btn-text'>
+                <button 
+                
+                
+                onClick={() => {
+                    // Future: Add logout functionality here
+                    dispatch(logout())
+                    navigate.push('/auth/login')
+                    
+                }}
+                className='bg-transparent cursor-pointer text-[var(--dark-blue)] border border-[var(--dark-blue)] px-4 py-2 rounded-lg hover:bg-[var(--dark-blue)] hover:text-white transition-all duration-200 btn-text'>
                     Uitloggen
                 </button>
             </nav>

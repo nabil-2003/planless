@@ -2,8 +2,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import InputForOtp, { InputForOtpRef } from "./InputForOtp";
 import Button from "../ui/Button";
+import useLogin from "@/app/hooks/useLogin";
+import { useRouter } from "next/navigation";
 
 export default function OTPForm() {
+  const { loading  , sentOtp  ,  otpCode : otpKey } = useLogin();
+  const router = useRouter()
   // State management
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
   const [isMounted, setIsMounted] = useState(false);
@@ -15,6 +19,15 @@ export default function OTPForm() {
     inputRefs.current = Array(6).fill(null);
     setIsMounted(true);
   }, []);
+
+
+  useEffect(() => {
+
+    if(otpKey){
+       router.push('/auth/new-password')
+    }
+  },[otpKey])
+  
 
   // Event handlers
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -61,13 +74,10 @@ export default function OTPForm() {
       return;
     }
     
-    setIsLoading(true);
     
     try {
-      console.log("OTP submitted:", otpCode);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      alert('OTP verified successfully!');
+      // Simulate OTP verification process
+          sentOtp(otpCode);
     } catch (error) {
       console.error('OTP verification error:', error);
       alert('OTP verification failed. Please try again.');
@@ -103,9 +113,10 @@ export default function OTPForm() {
         type="submit"
         variant="primary"
         size="medium"
-        loading={isLoading}
+        loading={loading}
         disabled={!isFormValid || isLoading}
-        className="w-auto"
+        className="w-auto outline-none grid place-content-center p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
+
       >
         {isLoading ? 'Volgende...' : 'Volgende'}
       </Button>

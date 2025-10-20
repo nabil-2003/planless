@@ -8,7 +8,7 @@ export default function page() {
   return (
     <div className=' md:w-[50vw] md:h-full h-[70%]  flex w-[100vw]  justify-center items-center'>
     <div className="flex flex-col w-[70%]">
-      <Link href="/reset" className="mb-4 text-dark-blue font-bold flex items-center">
+      <Link href="/auth/forget-password" className="mb-4 text-dark-blue font-bold flex items-center">
         <LeftArrowIcon className="inline-block scale-75 mr-2" /> Terug
       </Link>
 

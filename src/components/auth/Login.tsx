@@ -2,19 +2,33 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { Input, PasswordInput, Button, Label } from '../ui'
-
+import useLogin from '@/app/hooks/useLogin'
+import { useRouter } from 'next/navigation'
+import { isUserInSession } from '@/store/userSlice'
 function Login() {
     // State management
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const [isMounted, setIsMounted] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [loginErr , setLoginErr]= useState<boolean>(false)
+    const {logIn , loading , error  , resetErr, user , resetAll}   = useLogin()
+    const navigate = useRouter()
+   useEffect(() => { 
+            const i = setTimeout(()=>{
+              resetErr()
+            }, 4000)
+            return () => clearTimeout(i)
+        }, [error])
+    useEffect(()=>{
+      resetAll()
+    },[navigate])
 
-    // Mount effect for hydration safety
-    useEffect(() => {
-        setIsMounted(true)
-    }, [])
 
+    useEffect(()=>{
+
+        if(user !== null || isUserInSession()){
+            navigate.push('/admin-panel/dashboard')
+        }
+    },[user])
     // Event handlers
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value.trim())
@@ -31,31 +45,31 @@ function Login() {
             alert('Please fill in all fields')
             return
         }
-        
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(email)) {
             alert('Please enter a valid email address')
             return
         }
-        
-        setIsLoading(true)
-        
+     
         try {
-            console.log('Login attempt:', { email, password: '[REDACTED]' })
-            //handling the API will be here !!
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            alert('Login successful!')
+               
+             await logIn(email, password) 
+
+
+
+
+            // Reset form
+            setEmail('')
+            setPassword('')
         } catch (error) {
             console.error('Login error:', error)
             alert('Login failed. Please try again.')
-        } finally {
-            setIsLoading(false)
-        }
+        } 
     }
 
     // Form validation
     const isFormValid = (): boolean => {
-        return email.trim() !== '' && password !== '' && isMounted
+        return email.trim() !== '' && password !== ''
     }
 
     return (
@@ -87,7 +101,7 @@ function Login() {
                         required
                         autoComplete="email"
                         className="w-full mb-3"
-                        disabled={isLoading}
+                        disabled={loading}
                     />
                 </div>
 
@@ -104,8 +118,8 @@ function Login() {
                         required
                         autoComplete="current-password"
                         className="mb-4  input-bg text-black "
-                        disabled={isLoading}
-                        showToggle={isMounted}
+                        disabled={loading}
+                      
 
                        
                     />
@@ -125,13 +139,14 @@ function Login() {
                     type="submit"
                     variant="primary"
                     size="medium"
-                    loading={isLoading}
+                    loading={loading}
                     disabled={!isFormValid()}
-                    className="w-auto"
+                    className="w-auto outline-none  flex justify-center  p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
                 >
-                    {isLoading ? 'Inloggen...' : 'Inloggen'}
+                    {loading ? 'Inloggen...' : 'Inloggen'}
                 </Button>
             </form>
+           {error && <p className='w-max mx-auto p-3 rounded-lg bg-red-500 text-white ' >{error}</p>}
         </div>
     )
 }

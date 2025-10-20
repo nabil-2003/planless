@@ -4,19 +4,40 @@ import React, { useEffect, useState } from 'react'
 import { Input, PasswordInput, Button, Label } from '../ui'
 import LeftArrowIcon from '../svgs/LeftArrowIcon'
 import PasswordRules from './PasswordRules'
+import useLogin from '@/app/hooks/useLogin'
+import { useRouter } from 'next/navigation'
 
 function NewpassPage() {
+    const {resetEmail , newPass ,error ,  otpCode  , resetAll ,resetErr, loading , isPasswordChanged } = useLogin() 
+    const router = useRouter()
     // State management
     const [password, setPassword] = useState<string>('')
     const [isValidPassword, setIsValidPassword] = useState<boolean>(false)
     const [passwordConfirm, setPasswordConfirm] = useState<string>('')
     const [isMounted, setIsMounted] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+      useEffect(() => { 
+                const i = setTimeout(()=>{
+                  resetErr()
+                }, 4000)
+                return () => clearTimeout(i)
+            }, [error])
 
+        useEffect(()=>{
+            if(!isPasswordChanged)
+                 return 
+                 const i = setTimeout(()=>{
+                  router.push('/auth/login')
+                  resetAll()
+                 },4000)
+         return () => clearTimeout(i)
+            
+        } ,[isPasswordChanged])
     // Mount effect for hydration safety
     useEffect(() => {
         setIsMounted(true)
     }, [])
+
+
 
     // Event handlers
    
@@ -49,18 +70,10 @@ function NewpassPage() {
             alert('Wachtwoord voldoet niet aan de vereisten')
             return
         }
-        
-        setIsLoading(true)
-        
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
-            alert('Wachtwoord succesvol gewijzigd!')
-        } catch (error) {
-            console.error('Password change error:', error)
-            alert('Wachtwoord wijzigen mislukt')
-        } finally {
-            setIsLoading(false)
-        }
+        if( otpCode  == null && resetEmail == null) return
+
+        await newPass(resetEmail! , password , otpCode!)
+
     }
 
     // Form validation
@@ -78,7 +91,7 @@ function NewpassPage() {
             <header className='mb-6'>
                  <nav className='mb-4'>
                 <Link 
-                    href='/login' 
+                    href='/auth/login' 
                     className='text-dark-blue font-bold flex items-center hover:underline transition-all duration-200'
                 >
                     <LeftArrowIcon className='inline-block scale-75 mr-2' />
@@ -105,7 +118,7 @@ function NewpassPage() {
                         onChange={handlePasswordChange}
                         required
                         autoComplete="new-password"
-                        disabled={isLoading}
+                        disabled={loading}
                         showToggle={isMounted}
                     />
 
@@ -126,7 +139,7 @@ function NewpassPage() {
                         required
                         autoComplete="new-password"
                         className="mb-4"
-                        disabled={isLoading}
+                        disabled={loading}
                         showToggle={isMounted}
                     />
                     
@@ -147,13 +160,25 @@ function NewpassPage() {
                     type="submit"
                     variant="primary"
                     size="medium"
-                    loading={isLoading}
-                    disabled={!isFormValid() || isLoading}
-                    className="w-auto"
+                    loading ={loading}
+                    className="w-auto outline-none flex justify-center p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
                 >
-                    {isLoading ? 'Bevestigen...' : 'Bevestigen'}
+                    {loading ? 'Bevestigen...' : 'Bevestigen'}
                 </Button>
             </form>
+            {
+                isPasswordChanged && <div className='p-3  mx-auto mt-4 rounded-lg w-max text-white  bg-green-500 '>
+                         password changed successfully 
+                      
+                </div>
+            }
+              {
+                error && <div className='p-3  mx-auto mt-4 rounded-lg w-max text-white  bg-red-500 '>
+                         {error} 
+                      
+                        
+                </div>
+            }
         </div>
     )
 }
