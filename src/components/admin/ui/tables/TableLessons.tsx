@@ -134,7 +134,7 @@ export default function LessonsTable({
           {/* Sticky NR Column - Left */}
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
             {/* NR Header */}
-            <div className='bg-blue-400/10 border-b-1 border-gray-200' style={{ height: '56px' }}>
+            <div className='bg-blue-100/10 border-b-1 border-gray-200' style={{ height: '56px' }}>
               <div className='w-[4vw] px-4 flex justify-center items-center h-full  text-md  border-r-1 border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
@@ -146,7 +146,7 @@ export default function LessonsTable({
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] bg-blue-400/10 px-4 flex justify-center items-center h-full  text-md text-gray-700 border-r-1 border-gray-200'>
+                    <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full  text-md text-gray-700 border-r-1 border-gray-200'>
                       {startIndex + index + 1}
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export default function LessonsTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full  text-md bg-blue-400/10  border-l-1 border-gray-200'>Acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full  text-md bg-blue-100/10  border-l-1 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
             <div>
@@ -304,7 +304,7 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
   )
 
   return (
-    <div className='flex relative w-max border-b-1  hover:bg-blue-400/10 gap-2 mr-3  border-gray-200 ml-2.5 pr-4' style={{ height: '52px' }}>
+    <div className='flex relative w-max border-b-1  hover:bg-blue-100/10 gap-2 mr-3  border-gray-200 ml-2.5 pr-4' style={{ height: '52px' }}>
       <div className='w-[5vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructeur}>{ele?.instructeur}</div>
       <div className='w-[5vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.student}>{ele?.student}</div>
       <div className='w-[7vw] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.begintijd}>{ele?.begintijd}</div>
@@ -359,7 +359,7 @@ const TableElementActions = ({ ele }: { ele: Data_Lessons }) => {
 
   return (
     <div 
-      className='bg-blue-400/10 border-b-1 border-gray-200'
+      className='bg-blue-100/10 border-b-1 border-gray-200'
       style={{ height: '52px' }}
     >
       <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>

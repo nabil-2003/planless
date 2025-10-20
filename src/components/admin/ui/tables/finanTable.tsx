@@ -199,8 +199,8 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
   const StudentRow = ({ item, index }: { item: StudentFinancialData; index: number }) => {
     const actionRef = useRef<ActionModalRef>(null)
     return (
-      <div key={index} className='  flex w-full justify-between  bg-white   hover:bg-blue-400/10 border-gray-200 relative' style={{ height: '52px' }}>
-        <div className='w-[4vw] px-6 py-4 flex  bg-blue-300/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
+      <div key={index} className='  flex w-full justify-between  bg-white   hover:bg-blue-100/10 border-gray-200 relative' style={{ height: '52px' }}>
+        <div className='w-[4vw] px-6 py-4 flex  bg-blue-100/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
         <div className='w-[9vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
         <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
         <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
@@ -221,7 +221,7 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
           </span>
         </div>
         <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuur_bedrag}>{item.factuur_bedrag}</div>
-        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-300/10'>
+        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>
           <span onClick={() => { actionRef.current?.Open() }} className='cursor-pointer '>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
           </span>
@@ -236,14 +236,14 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
     <div className='mx-auto relative rounded-lg  w-[95%] '>
       <header className='header  w-full '>
         <div className='flex  justify-between ' style={{ height: '52px' }}>
-          <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-300/10 font-semibold text-gray-700'>Nr</div>
+          <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-100/10 font-semibold text-gray-700'>Nr</div>
           <div className='w-[9vw] flex items-center font-semibold text-gray-700 px-2'>Student</div>
           <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Factuurdatum</div>
           <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Vervaldatum</div>
           <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Betalingsstatus</div>
           <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijlesstatus</div>
           <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Factuur bedrag</div>
-          <div className='w-max flex px-6 py-4 items-center font-semibold text-gray-700 bg-blue-300/10'>Acties</div>
+          <div className='w-max flex px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>Acties</div>
 
         </div>
 
@@ -263,8 +263,8 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
     const InstructeurRow = ({ item, index }: { item: InstructorFinancialData; index: number }) => {
     const actionRef = useRef<ActionModalRef>(null)
     return (
-      <div key={index} className='flex w-full justify-between  bg-white   hover:bg-blue-400/10 border-gray-200 relative' style={{ height: '52px' }}>
-        <div className='w-[4vw] px-6 py-4 flex  bg-blue-300/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
+      <div key={index} className='flex w-full justify-between  bg-white   hover:bg-blue-100/10 border-gray-200 relative' style={{ height: '52px' }}>
+        <div className='w-[4vw] px-6 py-4 flex  bg-blue-100/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
         <div className='w-[9vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
         <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
       
@@ -285,7 +285,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
           </span>
         </div>
         <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
-        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-300/10'>
+        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>
           <span onClick={() => { actionRef.current?.Open() }} className='cursor-pointer '>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
           </span>
@@ -303,13 +303,13 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
 
         <header className='header  w-full '>
           <div className='flex  justify-between ' style={{ height: '52px' }}>
-            <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-300/10 font-semibold text-gray-700'>Nr</div>
+            <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-100/10 font-semibold text-gray-700'>Nr</div>
             <div className='w-[9vw] flex items-center font-semibold text-gray-700 px-2'>Instructeur</div>
             <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijles datum</div>
             <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Betalingsstatus</div>
             <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijlesstatus</div>
             <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Urenregistratie</div>
-            <div className='w-[5vw] flex  justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-300/10'>Acties</div>
+            <div className='w-[5vw] flex  justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>Acties</div>
 
           </div>
 

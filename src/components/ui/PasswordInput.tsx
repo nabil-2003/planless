@@ -83,7 +83,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
             src={isPasswordVisible ? '/view.png' : '/hide.png'} 
             width={20} 
             height={20} 
-            alt={isPasswordVisible ? 'Hide password' : 'Show password'}
+            alt={isPasswordVisible ? '' : ''}
             draggable={false}
           />
         </button>

@@ -174,9 +174,7 @@ function NewpassPage() {
             }
               {
                 error && <div className='p-3  mx-auto mt-4 rounded-lg w-max text-white  bg-red-500 '>
-                         {error} 
-                      
-                        
+                         {error}    
                 </div>
             }
         </div>

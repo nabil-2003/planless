@@ -159,7 +159,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* NR Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-400/10   h-full border-r-1  text-md border-gray-200'>Nr</div>
+              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10   h-full border-r-1  text-md border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
             <div>
@@ -170,7 +170,7 @@ export default function StudentTable({
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] bg-blue-400/10 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
+                    <div className='w-[4vw] bg-blue-100/10 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
                       {startIndex + index + 1}
                     </div>
                   </div>
@@ -212,7 +212,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-400/10 border-gray-200'>acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10 border-gray-200'>acties</div>
             </div>
             {/* Actions Body */}
             <div>
@@ -309,7 +309,7 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
 // Scrollable table row component (middle section)
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
   return (
-    <div className='flex hover:bg-blue-400/10 w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
+    <div className='flex hover:bg-blue-100/10 w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
       <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
       <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
       <div className='w-[15vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
@@ -331,7 +331,7 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
 
   return (
     <div 
-      className='border-b-1 bg-blue-400/10  border-gray-200'
+      className='border-b-1 bg-blue-100/10  border-gray-200'
       style={{ height: '52px' }}
     >
       <div className='w-[80px]  px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>

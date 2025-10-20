@@ -191,7 +191,7 @@ export default function InstructorTable({
                     <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
                         {/* NR Header */}
                         <div className=' border-b-1 border-gray-200' style={{ height: '56px' }}>
-                            <div className='w-[4vw] bg-blue-400/10  px-4 flex justify-center items-center h-full text-md  border-r-1 border-gray-200'>nr</div>
+                            <div className='w-[4vw] bg-blue-100/10  px-4 flex justify-center items-center h-full text-md  border-r-1 border-gray-200'>Nr</div>
                         </div>
                         {/* NR Body */}
                         <div>
@@ -202,7 +202,7 @@ export default function InstructorTable({
                                         className='bg-white border-b-1 border-gray-200'
                                         style={{ height: '52px' }}
                                     >
-                                        <div className='w-[4vw] bg-blue-400/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
+                                        <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
                                             {startIndex + index + 1}
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@ export default function InstructorTable({
                     <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
                         {/* Actions Header */}
                         <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-                            <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-400/10  border-gray-200'>acties</div>
+                            <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10  border-gray-200'>acties</div>
                         </div>
                         {/* Actions Body */}
                         <div>
@@ -330,7 +330,7 @@ export default function InstructorTable({
 // Scrollable table row component (without NR and Actions)
 const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
     return (
-        <div className='flex relative w-max border-b-1 gap-2 bg-white hover:bg-blue-400/10 border-gray-200 ml-2.5' style={{ height: '52px' }}>
+        <div className='flex relative w-max border-b-1 gap-2 bg-white hover:bg-blue-100/10 border-gray-200 ml-2.5' style={{ height: '52px' }}>
             <div className='w-[8vw] flex items-center text-md text-gray-700'>{ele.instructor}</div>
             <div className='w-[8vw] flex items-center text-md text-gray-700'>{ele.bsn_nummer}</div>
             <div className='w-[12vw] flex items-center text-md text-gray-700'>{ele.email}</div>
@@ -378,7 +378,7 @@ const InstructorElementActions = ({ ele }: { ele: Data_Instructor }) => {
 
     return (
         <div 
-            className=' border-b-1 border-gray-200 bg-blue-400/10 '
+            className=' border-b-1 border-gray-200 bg-blue-100/10 '
             style={{ height: '52px' }}
         >
             <div className='   w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
