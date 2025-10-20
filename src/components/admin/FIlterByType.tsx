@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import Header from './admin/Header'
+import Header from './Header'
 
 export default function FIlterByType({
     className , currentFilterType , chFilterByType 

@@ -2,6 +2,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Use NEXT_PUBLIC_API_URL on client; fall back to the public API host.
+// Normalize to remove any trailing slash so templating is predictable.
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL )
 type User = any | null;
 
 type UserState = {
@@ -34,7 +37,7 @@ const initialState: UserState = {
     { rejectWithValue  }
   ) => {
     try {
-      const  res = await axios.post("https://api.planles.nl/api/admin/auth/login" , credentials )
+      const  res = await axios.post(`${API_BASE}/admin/auth/login` , credentials )
       return res.data
     } catch (error: any) {
       return rejectWithValue({message : error.message});
@@ -50,7 +53,8 @@ const resetPassword = createAsyncThunk(
   ) => {
     try {
       console.log('Dispatching resetPassword for:', emailData);
-      const  res = await axios.post(`https://api.planles.nl/api/admin/auth/forget-password`, emailData, {
+   
+      const  res = await axios.post(`${API_BASE}/admin/auth/forget-password`, emailData, {
       });
       
       console.log('res')
@@ -72,7 +76,7 @@ const newPassword = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(`https://api.planles.nl/api/admin/auth/reset-password`, emailData, {
+      const response = await axios.post(`${API_BASE}/admin/auth/reset-password`, emailData, {
         headers: {
           'Content-Type': 'application/json',
         },
