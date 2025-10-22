@@ -215,19 +215,19 @@ export default function InstructorTable({
                     <div id='instructors-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
                         {/* Scrollable Header */}
                         <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-3 ml-2.5' style={{ height: '56px' }}>
-                            <div className='w-[8vw] py-4 flex items-center text-md '>Instructeur</div>
-                            <div className='w-[8vw] py-4 flex items-center text-md '>BSN Nummer</div>
-                            <div className='w-[12vw] flex items-center py-4 text-md '>Email</div>
-                            <div className='w-[8vw] py-4 flex items-center text-md '>Geboortedatum</div>
-                            <div className='w-[8vw] py-4 flex items-center justify-center text-md '>Adres</div>
-                            <div className='w-[9vw] py-4 flex items-center text-md '>Telefoonnummer</div>
-                            <div className='w-[8vw] py-4 flex items-center text-md '>Rijbewijs</div>
-                            <div className='w-[10vw] py-4 flex items-center text-md '>Vervaldatum Rijbewijs</div>
-                            <div className='w-[10vw] py-4 flex items-center text-md '>Instructeurskaart</div>
-                            <div className='w-[10vw] py-4 flex items-center text-md '>KVK Uittreksel</div>
-                            <div className='w-[10vw] py-4 flex items-center text-md '>Arbeidsovereenkomst</div>
-                            <div className='w-[9vw] py-4 flex items-center text-md '>Contractvervaldatum</div>
-                            <div className='w-[12vw] py-4 flex items-center text-md '>Urenregistratie</div>
+                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeur</div>
+                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>BSN Nummer</div>
+                            <div className='w-[12vw] min-w-[200px] flex items-center py-4 text-md whitespace-nowrap truncate'>Email</div>
+                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Geboortedatum</div>
+                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center justify-center text-md whitespace-nowrap truncate'>Adres</div>
+                            <div className='w-[9vw] min-w-[160px] py-4 flex items-center text-md whitespace-nowrap truncate'>Telefoonnummer</div>
+                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Rijbewijs</div>
+                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Vervaldatum Rijbewijs</div>
+                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeurskaart</div>
+                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>KVK Uittreksel</div>
+                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Arbeidsovereenkomst</div>
+                            <div className='w-[9vw] min-w-[160px] py-4 flex items-center text-md whitespace-nowrap truncate'>Contractvervaldatum</div>
+                            <div className='w-[12vw] min-w-[200px] py-4 flex items-center text-md whitespace-nowrap truncate'>Urenregistratie</div>
                         </div>
                         {/* Scrollable Body */}
                         <div className='w-max'>
@@ -331,43 +331,43 @@ export default function InstructorTable({
 const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
     return (
         <div className='flex relative w-max border-b-1 gap-2 bg-white hover:bg-blue-100/10 border-gray-200 ml-2.5' style={{ height: '52px' }}>
-            <div className='w-[8vw] flex items-center text-md text-gray-700'>{ele.instructor}</div>
-            <div className='w-[8vw] flex items-center text-md text-gray-700'>{ele.bsn_nummer}</div>
-            <div className='w-[12vw] flex items-center text-md text-gray-700'>{ele.email}</div>
-            <div className='w-[8vw] flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
-            <div className='w-[8vw] flex items-center justify-center' title={ele.adres}>
+            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.instructor}</div>
+            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.bsn_nummer}</div>
+            <div className='w-[12vw] min-w-[200px] flex items-center text-md text-gray-700'>{ele.email}</div>
+            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
+            <div className='w-[8vw] min-w-[140px] flex items-center justify-center' title={ele.adres}>
                 <Link href={""} className="hover:scale-110 transition-transform">
                     <LocationIcon w={24} h={24} color="blue" />
                 </Link>
             </div>
-            <div className='w-[9vw] flex items-center text-md text-gray-700'>{ele.telefoonnummer}</div>
-            <div className='w-[8vw] flex items-center text-md text-gray-700'>
+            <div className='w-[9vw] min-w-[160px] flex items-center text-md text-gray-700'>{ele.telefoonnummer}</div>
+            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>
                 <Link href={"#"} className='text-blue-600 underline'>
                     <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
                 </Link>
                 {ele.rijbewijs}
             </div>
-            <div className='w-[10vw] flex items-center text-md text-gray-700'>{ele.vervaldatum_rijbewijs}</div>
-            <div className='w-[10vw] flex items-center text-md text-gray-700'>
+            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>{ele.vervaldatum_rijbewijs}</div>
+            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
                 <Link href={"#"} className='text-blue-600 underline'>
                     <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
                 </Link>
                 {ele.instructeurskaart}
             </div>
-            <div className='w-[10vw] flex items-center text-md text-gray-700'>
+            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
                 <Link href={"#"} className='text-blue-600 underline'>
                     <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
                 </Link>
                 {ele.kvk_uittreksel}
             </div>
-            <div className='w-[10vw] flex items-center text-md text-gray-700'>
+            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
                 <Link href={"#"} className='text-blue-600 underline'>
                     <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
                 </Link>
                 {ele.arbeidsovereenkomst}
             </div>
-            <div className='w-[9vw] flex items-center text-md text-gray-700'>{ele.contractvervaldatum}</div>
-            <div className='w-[12vw] flex items-center text-md text-gray-700'>{ele.urenregistratie}</div>
+            <div className='w-[9vw] min-w-[160px] flex items-center text-md text-gray-700'>{ele.contractvervaldatum}</div>
+            <div className='w-[12vw] min-w-[200px] flex items-center text-md text-gray-700'>{ele.urenregistratie}</div>
         </div>
     )
 }
@@ -388,7 +388,7 @@ const InstructorElementActions = ({ ele }: { ele: Data_Instructor }) => {
                 >
                     <MenuIcon s='gray' w='20px' h='20px' f='gray' />
                 </button>
-                <ActionModal className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
+                <ActionModal id={ele.bsn_nummer} className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
             </div>
         </div>
     )

@@ -8,9 +8,7 @@ export default function layout({ children, }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    if (isUserInSession()) {
-      router.push('/admin-panel/dashboard')
-    } else {
+    if (!isUserInSession()) {
       router.push('/auth/login')
     }
   }, [router])

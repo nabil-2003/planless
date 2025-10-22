@@ -333,7 +333,7 @@ const MapDays = useCallback((month : number , year : number) : DateWithDay[] => 
   return (
     <div 
       ref={refModal} 
-      className='fixed z-50 p-4 bg-white rounded-lg shadow-lg right-[30%] top-10 w-[25vw] h-[60vh] hidden'
+      className='fixed z-50 p-4 bg-white rounded-lg shadow-lg left-4 right-4 md:left-auto md:right-[30%] top-10 w-[90vw] md:w-[25vw] max-h-[70vh] overflow-y-auto hidden'
       style={{ display: 'none' }}
     >
       <div className='flex scale-90 justify-around items-center mt-2'>

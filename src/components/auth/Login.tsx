@@ -73,10 +73,10 @@ function Login() {
     }
 
     return (
-        <div className='flex flex-col w-[70%]'>
+        <div className='flex flex-col w-full sm:w-[80%] md:w-[70%] max-w-md'>
             {/* Page header */}
             <header className='mb-6'>
-                <h1 className='text-3xl font-bold mb-4'>
+                <h1 className='text-2xl md:text-3xl font-bold mb-4'>
                     Inloggen
                 </h1>
                 <p className='text-lg text-gray-600'>

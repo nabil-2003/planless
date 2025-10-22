@@ -192,12 +192,12 @@ export default function InstructorsPage() {
             {/* Page Header */}
             <Header title="Instructeurs" />
             
-            <div className='w-full flex overflow-hidden'>
+            <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                 {/* Left Sidebar */}
-                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
+                <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
-                <div className='dashboard-container w-[80%]'>
+                <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
                     {/* Spacing */}
                     <div className='mt-4' />
                     
@@ -209,7 +209,7 @@ export default function InstructorsPage() {
                     />
 
                     {/* Controls Section */}
-                    <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
+                    <div className='flex flex-wrap gap-3 searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -232,7 +232,7 @@ export default function InstructorsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
+                            className='w-full sm:w-64 md:w-72 rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'

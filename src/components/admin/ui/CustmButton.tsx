@@ -9,11 +9,18 @@ export default function CustmButton(
     , onClick?: ()=> void}) {
        
     return (
-    <button type={type} onClick={onClick} className={`${className}
-     font-medium text-sm  py-2 px-4 
-      transition-colors duration-200
-      outline-none cursor-pointer rounded-lg  
- `}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`
+        font-medium text-sm md:text-base 
+        py-2 md:py-3 px-4 md:px-6 
+        transition-colors duration-200
+        outline-none cursor-pointer rounded-lg  
+        ${className}
+      `}
+      aria-pressed={false}
+    >
         {children}
     </button>
   )

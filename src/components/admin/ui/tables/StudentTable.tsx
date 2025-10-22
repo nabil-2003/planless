@@ -183,13 +183,13 @@ export default function StudentTable({
           <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
             {/* Scrollable Header */}
             <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
-              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>Student</div>
-              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>BSN nummer</div>
-              <div className='w-[15vw] py-4 flex items-center text-md  px-2'>Email</div>
-              <div className='w-[9vw] py-4 flex items-center text-md  px-2'>Geboortedatum</div>
-              <div className='w-[8vw] py-4 flex items-center justify-center text-md  px-2'>Adres</div>
-              <div className='w-[10vw] py-4 flex items-center text-md  px-2'>Telefoonnummer</div>
-              <div className='w-[16vw] py-4 flex items-center text-md  px-2 pr-6'>Opmerkingen</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Student</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>BSN nummer</div>
+              <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Email</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Geboortedatum</div>
+              <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md  px-2 whitespace-nowrap truncate'>Adres</div>
+              <div className='w-[10vw] min-w-[160px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Telefoonnummer</div>
+              <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md  px-2 pr-6 whitespace-nowrap truncate'>Opmerkingen</div>
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
@@ -310,17 +310,17 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
   return (
     <div className='flex hover:bg-blue-100/10 w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
-      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
-      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
-      <div className='w-[15vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
-      <div className='w-[9vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
-      <div className='w-[8vw] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
+  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
+  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
+  <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
+  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
+  <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
         <Link href={""} className='flex items-center justify-center'>
           <LocationIcon w={18} h={18} color="blue" />
         </Link>
       </div>
-      <div className='w-[10vw] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
-      <div className='w-[16vw] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
+  <div className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
+  <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
     </div>
   )
 }
@@ -341,7 +341,7 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal tableName='students' CurrentStatus={''} ref={modalRef} />
+        <ActionModal id={ele.bsn_nummer} tableName='students' CurrentStatus={''} ref={modalRef} />
       </div>
     </div>
   )

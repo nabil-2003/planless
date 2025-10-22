@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from '@/components/ReduxProvider'
+import AuthRedirect from '@/components/AuthRedirect'
+import { SidebarProvider } from '@/components/admin/ui/SidebarContext'
 // Configure Inter font with proper subsets and weights
 const inter = Inter({ 
   subsets: ["latin"],
@@ -24,7 +26,10 @@ export default function RootLayout({
     <html lang="nl" suppressHydrationWarning className={inter.variable}>
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <ReduxProvider>
-          {children}
+          <SidebarProvider>
+            <AuthRedirect />
+            {children}
+          </SidebarProvider>
         </ReduxProvider>
       </body>
     </html>

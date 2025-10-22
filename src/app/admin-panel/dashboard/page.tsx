@@ -18,11 +18,11 @@ export default function page() {
   }
   return (
     <>
-      <Header title="dashboard overview"   />
-       <div className='w-full flex border-l-[2px] border-l-gray-200 bg-dashboard-primary h-max'>
+    <Header title="dashboard overview"   />
+     <div className='w-full flex flex-col md:flex-row border-l-[2px] border-l-gray-200 bg-dashboard-primary h-max'>
 
-        <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
-     <div className='dashboard-container w-[80%] '>
+      <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
+    <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
         <TimeFilter  changeFilter={handleChangeFilter} className="mt-4"  currentFilter={currentFilter}/>
         <Statistcs  />
                   <CostumChart
@@ -52,7 +52,7 @@ export default function page() {
           ]}
         />
          <CostumChart
-         title='studerenden'
+         title='studenten'
           className="mt-4"
           data={[
             { month: 'Jan', "In Behandeling": 30, "Bevestigd": 20 },
@@ -75,7 +75,7 @@ export default function page() {
           ]}
         />
         <CostumChart
-         title='instructeurs'
+         title='Instructeurs'
           className="mt-4"
           data={[
             { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },
@@ -98,7 +98,7 @@ export default function page() {
           ]}
         />
          <CostumChart
-         title='leskaarten'
+         title='Leskaarten'
           className="mt-4"
           data={[
             { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },
@@ -121,7 +121,7 @@ export default function page() {
           ]}
         />
    <CostumChart
-         title='financiën'
+         title='Financiën'
           className="mt-4"
           data={[
             { month: 'Jan', "Gerepareerd": 30, "Openstaand": 20 },

@@ -54,11 +54,11 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="Instructeurs" />
-                <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
-                    <div className='dashboard-container  w-[80%] '>
-                        <CustmButton onClick={() => { }} className="mt-4  py-3 px-6 bg-[#fe911f] ml-4 shadow-sm capitalize text-white  mr-4 flex items-center " >
-                            <span>terug</span>
+                <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                    <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
+                    <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                        <CustmButton onClick={() => { }} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
+                            <span className='text-sm md:text-base'>terug</span>
                         </CustmButton>
                         <>
                             <DetailsBar setActive={changePage} active={active} />
@@ -83,11 +83,11 @@ export default function page() {
 
 const DetailsBar = ({ active = 'details', setActive }: { active: string, setActive: (value: string) => void }) => {
     return (
-        <ul className='flex mt-4 ml-4 w-max rounded-lg shadow-sm  overflow-hidden text-gray-500 capitalize font-semibold text-sm'>
-            <li onClick={() => setActive('details')} className={`w-[7vw] text-center p-3  hover:text-[var(--dark-blue)] cursor-pointer  hover:bg-blue-700/20 ${active === 'details' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
+        <ul className='flex mt-4 ml-0 md:ml-4 w-max rounded-lg shadow-sm  overflow-hidden text-gray-500 capitalize font-semibold text-sm'>
+            <li onClick={() => setActive('details')} className={`w-32 md:w-[7vw] text-center p-3 hover:text-[var(--dark-blue)] cursor-pointer hover:bg-blue-700/20 ${active === 'details' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
                 details
             </li>
-            <li onClick={() => setActive('schedule')} className={`w-[7vw] text-center p-3  hover:text-[var(--dark-blue)]    cursor-pointer hover:bg-blue-700/10 ${active === 'schedule' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
+            <li onClick={() => setActive('schedule')} className={`w-32 md:w-[7vw] text-center p-3 hover:text-[var(--dark-blue)] cursor-pointer hover:bg-blue-700/10 ${active === 'schedule' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
                 Werkrooster
             </li>
         </ul>
@@ -95,9 +95,9 @@ const DetailsBar = ({ active = 'details', setActive }: { active: string, setActi
 }
 const DetailItem = ({ title, value = "empty" }: { title: string, value: string }) => {
     return (
-        <div className=' max-h-max form-field flex flex-col border-2 rounded-lg p-2 border-gray-200 w-[49%] mt-4'>
-            <span className=''>{title}</span>
-            <span className=' mt-2'>{value}</span>
+        <div className=' max-h-max form-field flex flex-col border-2 rounded-lg p-2 border-gray-200 w-full md:w-[49%] mt-4'>
+            <span className='text-sm md:text-base'>{title}</span>
+            <span className=' mt-2 text-sm md:text-base break-words'>{value}</span>
         </div>
     )
 }
@@ -135,8 +135,8 @@ const DetailsPage = () => {
 
     return (
         <>
-            <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
+            <div className='form-container mx-0 md:mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Persoonlijke gegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Naam instructeur' value={instructorDetails.naam_instructeur} />
                     <DetailItem title='BSN-nummer' value={instructorDetails.bsn_nummer} />
@@ -147,17 +147,17 @@ const DetailsPage = () => {
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Rijbewijsgegevens</h1>
+            <div className='mt-4 form-container mx-0 md:mx-4 rounded-lg  p-4  bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Rijbewijsgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' onSubmit={(e) => { e.preventDefault() }}>
                     <DetailItem title='Rijbewijsnummer' value={instructorDetails.rijbewijsnummer} />
                     <DetailItem title='Uitgiftedatum rijbewijs' value={instructorDetails.uitgiftedatum_rijbewijs} />
                     <DetailItem title='Vervaldatum rijbewijs' value={instructorDetails.vervaldatum_rijbewijs} />
-                    <div className='w-[49%] *:capitalize border-2 border-gray-200 rounded-lg h-[50vh]'>
+                    <div className='w-full md:w-[49%] *:capitalize border-2 border-gray-200 rounded-lg h-max md:h-[50vh]'>
                         <h1 className='font-bold mt-2 ml-2'>
                             Rijbewijs
                         </h1>
-                        <img className=' w-[95%] mt-2 h-[56%] mx-auto' src="/Id.png" alt="" />
+                        <img className=' w-full max-w-[95%] mt-2 h-auto md:h-[56%] mx-auto object-contain' src="/Id.png" alt="" />
                         <h1 className='
                                     text-sm text-gray-500 font-semibold
                                     mt-3 ml-4
@@ -171,7 +171,7 @@ const DetailsPage = () => {
 
                             10/10/2028
                         </h1>
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center'>
+                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
                             download
                         </button>
                     </div>
@@ -179,16 +179,16 @@ const DetailsPage = () => {
 
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Instructeursgegevens</h1>
+            <div className='mt-4 form-container mx-0 md:mx-4 rounded-lg  p-4  bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Instructeursgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Instructeurskaartnummer' value={instructorDetails.instructeurskaartnummer} />
                     <DetailItem title='Vervaldatum instructeurskaart' value={instructorDetails.vervaldatum_instructeurskaart} />
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Contractgegevens</h1>
+            <div className='mt-4 form-container mx-0 md:mx-4 rounded-lg  p-4  bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Contractgegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Contractbegindatum' value={instructorDetails.contractbegindatum} />
                     <DetailItem title='Contractvervaldatum' value={instructorDetails.contractvervaldatum} />
@@ -196,10 +196,10 @@ const DetailsPage = () => {
                 </form>
             </div>
 
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
+            <div className='mt-4 form-container mx-0 md:mx-4 rounded-lg  p-4  bg-white shadow-md'>
                 <div className='w-full  h-max gap-2 flex  flex-wrap justify-between'>
-                    <h1 className='font-bold text-xl'>Documenten</h1>
-                    <img className=' w-[95%] mt-2 h-[25vh] mx-auto' src="/bankcart.png" alt="" />
+                    <h1 className='font-bold text-lg md:text-xl'>Documenten</h1>
+                    <img className=' w-full max-w-[95%] mt-2 h-auto md:h-[25vh] mx-auto object-contain' src="/bankcart.png" alt="" />
                     <div className='w-full'>
                         <h1 className='
                                     text-sm text-gray-500 font-semibold
@@ -209,23 +209,23 @@ const DetailsPage = () => {
                                     text-sm text-gray-500 font-semibold
                                     mt-1 ml-9
                                     '>  10/10/2028</h1>
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center'>
+                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
                             download
                         </button>
 
                     </div>
                 </div>
             </div>
-             <div className=' form-container mx-4 rounded-lg  p-4  mt-4 bg-white shadow-md'>
+             <div className=' form-container mx-0 md:mx-4 rounded-lg  p-4  mt-4 bg-white shadow-md'>
                 <div className='w-full  h-max gap-2 flex  flex-wrap justify-between'>
-                    <img className=' w-[95%] mt-2 h-[30vh] mx-auto' src="/facteur.png" alt="" />
+                    <img className=' w-full max-w-[95%] mt-2 h-auto md:h-[30vh] mx-auto object-contain' src="/facteur.png" alt="" />
                     <div className='w-full'>
                         <h1 className='
-                                    text-md font-bold
+                                    text-base md:text-md font-bold
                                    ml-9
                                     '>KvK-nummer</h1>
                        
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center'>
+                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
                             download
                         </button>
 
@@ -233,11 +233,11 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex justify-between '>
-                <CustmButton className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
+            <div className='buttons mt-8 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
+                <CustmButton className='bg-[#fe911f] text-white w-full md:w-auto'>
                     Bewerken
                 </CustmButton>
-                <CustmButton onClick={() => { console.log(instructorDetails) }} className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
+                <CustmButton onClick={() => { console.log(instructorDetails) }} className='bg-[#2d46c4] text-white w-full md:w-auto'>
                     Exporteren
                 </CustmButton>
             </div>

@@ -123,9 +123,9 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="Studenten" />
-                <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
-                    <div className='dashboard-container  w-[80%] '>
+                <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                    <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
+                    <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
                         <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                             <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
@@ -149,7 +149,7 @@ export default function page() {
 
                             </form>
                         </div>
-                        <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex justify-between '>
+                        <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex flex-wrap gap-3 justify-between '>
                         <CustmButton  className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
                             annlueren
                         </CustmButton>
@@ -171,13 +171,13 @@ export default function page() {
 
 const Input = ({ title , type="text", placeholder, istextArea = false, onChange, value }: { type?: string, istextArea?: boolean, title: string, placeholder: string, onChange: (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, value: string }) => {
     return (
-        <div className='form-field flex flex-col w-[49%] mt-4'>
+        <div className='form-field flex flex-col w-full md:w-[49%] mt-4'>
             <span className=''>{title}</span>
             {
                 !istextArea &&
-                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2  outline-none  placeholder:p-2 placeholder:capitalize' placeholder={placeholder} />
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2  outline-none  placeholder:p-2 placeholder:capitalize w-full' placeholder={placeholder} />
                 ||
-                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize' placeholder={placeholder} />
+                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize w-full' placeholder={placeholder} />
             }
         </div>
     )

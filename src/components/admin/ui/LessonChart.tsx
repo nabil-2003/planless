@@ -86,37 +86,32 @@ export default function CostumChart({className , data=[] ,title, statics }: { ti
             </ResponsiveContainer>
          
           </div>
-         <div className='w-full ml-3 flex  p-2 justify-start text-gray-500 text-sm mt-2 pr-2 '>
-                {
-                  keys.map((e,i) => (
-                    <div key={i} style={{color:getColor(e)}} className='flex items-center mr-4 '>
-                      <div className='w-3 h-3 rounded-full mr-1' style={{backgroundColor:getColor(e)}}></div>
-                      <span>{e}</span>
-                    </div>
-                  ))}
-            </div>
+         <div id="legend" className='w-full px-2 sm:px-3 md:px-4 flex flex-wrap gap-x-4 gap-y-2 items-center justify-start text-gray-500 text-xs sm:text-sm mt-2 overflow-x-auto hide-native-scroll'>
+            {
+              keys.map((e,i) => (
+                <div key={i} className='flex items-center' style={{color:getColor(e)}}>
+                  <div className='w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full mr-1.5' style={{backgroundColor:getColor(e)}}></div>
+                  <span className='whitespace-nowrap'>{e}</span>
+                </div>
+              ))
+            }
+          </div>
           {/* Statistics Cards Section */}
-          <div >
-            <ul  style={{gap:15}} className='flex justify-start h-max mt-2  w-[auto] mx-auto  text-gray-600 '>
-           {
-            //map through the statics array to render StatisticsCard components
-            statics.map((stat , index) => (
-                < StatisticsCard 
-                  label={stat.label}
-                  key={index}       
+          <div>
+            <ul className='flex flex-wrap justify-start gap-4 h-max mt-2 w-auto mx-auto text-gray-600'>
+              {
+                // map through the statics array to render StatisticsCard components
+                statics.map((stat , index) => (
+                  <StatisticsCard 
+                    label={stat.label}
+                    key={index}
                     total={stat.total}
                     percentage={stat.percentage}
-                    className='h-[100%] w-[19%] py-2 px-1'
+                    className='h-auto w-full sm:w-[48%] lg:w-[20%] py-2 px-2'
                     Icon={stat.Icon}
-                />
-           
-            ))
-
-            
-                
-           }
-              
-              
+                  />
+                ))
+              }
             </ul>
           </div>
         </div>

@@ -22,15 +22,48 @@ export default function FIlterByType({
     return type == currentFilterType 
       }
   return (
-          
-            <ul className={className || 'mt-3 p-1 flex gap-5 *:cursor-pointer justify-start   w-full  ml-13  text-gray-600  '}>
-                    <li onClick={chFilter} data-filter="Alle" className={` pb-2 px-3 ${  isActive("Alle") ?  activeclass : "" }`}>Alle</li>
-                    <li onClick={chFilter} data-filter="In behandeling" className={` pb-2 px-3 ${  isActive("In behandeling") ?  activeclass : "" }`}>In behandeling</li>
-                    <li onClick={chFilter} data-filter="Bevestigd" className={` pb-2 px-3 ${isActive("Bevestigd") ?  activeclass : "" }`}>Bevestigd</li>
-                <li onClick={chFilter} data-filter="Geannuleerd" className={` pb-2 px-3 ${isActive("Geannuleerd") ?  activeclass : "" }`}>Geannuleerd</li>
-                <li onClick={chFilter} data-filter="Voltooid" className={` pb-2 px-3 ${isActive("Voltooid") ?  activeclass : "" }`}>Voltooid</li>
-            </ul>
-   
+    <ul
+      className={
+        className ||
+        'mt-3 p-1 flex flex-wrap gap-2 md:gap-5 *:cursor-pointer justify-start w-full ml-2 md:ml-13 text-gray-600 overflow-x-auto'
+      }
+    >
+      <li
+        onClick={chFilter}
+        data-filter="Alle"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Alle') ? activeclass : ''}`}
+      >
+        Alle
+      </li>
+      <li
+        onClick={chFilter}
+        data-filter="In behandeling"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('In behandeling') ? activeclass : ''}`}
+      >
+        In behandeling
+      </li>
+      <li
+        onClick={chFilter}
+        data-filter="Bevestigd"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Bevestigd') ? activeclass : ''}`}
+      >
+        Bevestigd
+      </li>
+      <li
+        onClick={chFilter}
+        data-filter="Geannuleerd"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Geannuleerd') ? activeclass : ''}`}
+      >
+        Geannuleerd
+      </li>
+      <li
+        onClick={chFilter}
+        data-filter="Voltooid"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Voltooid') ? activeclass : ''}`}
+      >
+        Voltooid
+      </li>
+    </ul>
   )
   
 }

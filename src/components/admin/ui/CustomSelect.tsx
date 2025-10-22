@@ -80,13 +80,13 @@ export default function CustomSelect({
   return (
     <div
       ref={selectRef}
-      className={`relative  ${className}`}
+      className={`relative ${className}`}
     >
       {/* Select Button */}
       <div
         onClick={toggleDropdown}
         className={`
-          flex items-center justify-between
+          flex items-center justify-between w-full
           px-4 py-2 
           min-w-[80px]
           border border-gray-300 rounded

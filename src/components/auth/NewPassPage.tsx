@@ -86,7 +86,7 @@ function NewpassPage() {
     }
 
     return (
-        <div className='flex flex-col w-[70%]'>
+        <div className='flex flex-col w-full sm:w-[80%] md:w-[70%] max-w-md'>
             {/* Page header */}
             <header className='mb-6'>
                  <nav className='mb-4'>
@@ -98,7 +98,7 @@ function NewpassPage() {
                     Terug
                 </Link>
             </nav>
-                <h1 className='text-3xl font-bold '>
+                <h1 className='text-2xl md:text-3xl font-bold '>
                     Wachtwoord opnieuw <br/>Instellen
                 </h1>
                

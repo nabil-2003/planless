@@ -2,11 +2,8 @@
 import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
-import React, { use, useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import CustomScrollBar from '../ScrollBar';
-import Link from 'next/link';
-import { time } from 'console';
-import TimeFilter from '../../TimeFIlter';
 
 // Data types for financial records
 export type StudentFinancialData = {
@@ -33,6 +30,9 @@ type ColorAndStatus = {
   status: string
   colorbg: string
 }
+
+// Helper to capitalize the first letter of a string (for display only)
+const cap = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
 
 const getStatusColor = (status: string): ColorAndStatus => {
@@ -194,69 +194,193 @@ export default function FinanTable({ selectedTab = "student", timeFilter, itemsP
 
 const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: StudentFinancialData) => boolean   ) => {
   if (!data) return null;
+  const filtered = data.filter(filtering)
 
-  // Small component so each row can have its own Action modal and ref
-  const StudentRow = ({ item, index }: { item: StudentFinancialData; index: number }) => {
+  const StudentScrollable = ({ item }: { item: StudentFinancialData }) => (
+    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='w-[9vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+        <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.betalingsstatus).colortext, backgroundColor: getStatusColor(item.betalingsstatus).colorbg }}>{cap(item.betalingsstatus)}</span>
+      </div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+        <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.rijlesstatus).colortext, backgroundColor: getStatusColor(item.rijlesstatus).colorbg }}>{cap(item.rijlesstatus)}</span>
+      </div>
+      <div className='w-[7vw] min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuur_bedrag}>{item.factuur_bedrag}</div>
+    </div>
+  )
+
+  const StudentActions = ({ item }: { item: StudentFinancialData }) => {
     const actionRef = useRef<ActionModalRef>(null)
     return (
-      <div key={index} className='  flex w-full justify-between  bg-white   hover:bg-blue-100/10 border-gray-200 relative' style={{ height: '52px' }}>
-        <div className='w-[4vw] px-6 py-4 flex  bg-blue-100/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
-        <div className='w-[9vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.betalingsstatus}>
-          <span className='rounded-lg p-1 text-sm' style={{
-            color: getStatusColor(item.betalingsstatus).colortext,
-            backgroundColor: getStatusColor(item.betalingsstatus).colorbg
-          }}>
-            {item.betalingsstatus}
-          </span>
-        </div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijlesstatus}>
-          <span className='rounded-lg p-1 text-sm' style={{
-            color: getStatusColor(item.rijlesstatus).colortext,
-            backgroundColor: getStatusColor(item.rijlesstatus).colorbg
-          }}>
-            {item.rijlesstatus}
-          </span>
-        </div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuur_bedrag}>{item.factuur_bedrag}</div>
-        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>
-          <span onClick={() => { actionRef.current?.Open() }} className='cursor-pointer '>
+      <div className='bg-blue-100/10 border-b-1 border-gray-200' style={{ height: '52px' }}>
+        <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+          <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { actionRef.current?.Open() }}>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
-          </span>
+          </button>
+          <ActionModal tableName='finance' CurrentStatus={item.rijlesstatus} className='right-1' ref={actionRef} />
         </div>
-        <ActionModal tableName='finance' CurrentStatus={item.rijlesstatus} className='right-4' ref={actionRef} />
       </div>
     )
   }
 
   return (
+    <>
+      <style jsx global>{`
+        .hide-native-scroll::-webkit-scrollbar { display: none; }
+        .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
 
-    <div className='mx-auto relative rounded-lg  w-[95%] '>
-      <header className='header  w-full '>
-        <div className='flex  justify-between ' style={{ height: '52px' }}>
-          <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-100/10 font-semibold text-gray-700'>Nr</div>
-          <div className='w-[9vw] flex items-center font-semibold text-gray-700 px-2'>Student</div>
-          <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Factuurdatum</div>
-          <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Vervaldatum</div>
-          <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Betalingsstatus</div>
-          <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijlesstatus</div>
-          <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Factuur bedrag</div>
-          <div className='w-max flex px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>Acties</div>
+      <div className='mb-4 w-full scale-95' style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
+          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+            </div>
+            <div>
+              {filtered.map((_, idx) => (
+                <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
+                  <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                </div>
+              ))}
+            </div>
+          </div>
 
+          <div id='finance-student-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
+            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Student</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuurdatum</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Vervaldatum</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
+              <div className='w-[7vw] min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
+            </div>
+            <div className='w-max'>
+              {filtered.length > 0 ? (
+                filtered.map((item, index) => (
+                  <StudentScrollable key={`scroll-${index}`} item={item} />
+                ))
+              ) : (
+                <div className='w-full py-8 text-center text-gray-500'>Geen gegevens gevonden</div>
+              )}
+            </div>
+          </div>
+
+          <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md bg-blue-100/10 border-l-1 border-gray-200'>Acties</div>
+            </div>
+            <div>
+              {filtered.map((item, index) => (
+                <StudentActions key={`actions-${index}`} item={item} />
+              ))}
+            </div>
+          </div>
         </div>
+      </div>
 
-      </header>
-      {
-        data.filter(filtering).map((item, index) => <StudentRow key={index} item={item} index={index} />)
-      }
+      <div className='w-[95%] mx-auto p-3 bg-white rounded-lg shadow-sm'>
+        <CustomScrollBar targetId='finance-student-table-container' orientation='horizontal' />
+      </div>
+    </>
+  )
+}
+
+// New standardized instructor finance table with sticky columns and custom horizontal scrollbar
+const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstructors : (item: InstructorFinancialData) => boolean) => {
+  if (!data) return null;
+  const filtered = data.filter(filteringInstructors)
+
+  const InstructeurScrollable = ({ item }: { item: InstructorFinancialData }) => (
+    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='w-[9vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+        <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.betalingsstatus).colortext, backgroundColor: getStatusColor(item.betalingsstatus).colorbg }}>{cap(item.betalingsstatus)}</span>
+      </div>
+      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+        <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.rijlesstatus).colortext, backgroundColor: getStatusColor(item.rijlesstatus).colorbg }}>{cap(item.rijlesstatus)}</span>
+      </div>
+      <div className='w-[7vw] min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
     </div>
-
   )
 
+  const InstructeurActions = ({ item }: { item: InstructorFinancialData }) => {
+    const actionRef = useRef<ActionModalRef>(null)
+    return (
+      <div className='bg-blue-100/10 border-b-1 border-gray-200' style={{ height: '52px' }}>
+        <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+          <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { actionRef.current?.Open() }}>
+            <MenuIcon s='gray' w='20px' h='20px' f='gray' />
+          </button>
+          <ActionModal tableName='finance' CurrentStatus={item.rijlesstatus} className='right-1' ref={actionRef} />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <style jsx global>{`
+        .hide-native-scroll::-webkit-scrollbar { display: none; }
+        .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
+      <div className='mb-4 w-full scale-95' style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
+          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+            </div>
+            <div>
+              {filtered.map((_, idx) => (
+                <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
+                  <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div id='finance-instructor-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
+            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijles datum</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
+              <div className='w-[7vw] min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Urenregistratie</div>
+            </div>
+            <div className='w-max'>
+              {filtered.length > 0 ? (
+                filtered.map((item, index) => (
+                  <InstructeurScrollable key={`scroll-${index}`} item={item} />
+                ))
+              ) : (
+                <div className='w-full py-8 text-center text-gray-500'>Geen gegevens gevonden</div>
+              )}
+            </div>
+          </div>
+
+          <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md bg-blue-100/10 border-l-1 border-gray-200'>Acties</div>
+            </div>
+            <div>
+              {filtered.map((item, index) => (
+                <InstructeurActions key={`actions-${index}`} item={item} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='w-[95%] mx-auto p-3 bg-white rounded-lg shadow-sm'>
+        <CustomScrollBar targetId='finance-instructor-table-container' orientation='horizontal' />
+      </div>
+    </>
+  )
 }
-const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstructors : (item: InstructorFinancialData) => boolean) => {
+const instructorFinanceTableLegacy = (data: InstructorFinancialData[] , filteringInstructors : (item: InstructorFinancialData) => boolean) => {
   
 
 
@@ -264,28 +388,28 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
     const actionRef = useRef<ActionModalRef>(null)
     return (
       <div key={index} className='flex w-full justify-between  bg-white   hover:bg-blue-100/10 border-gray-200 relative' style={{ height: '52px' }}>
-        <div className='w-[4vw] px-6 py-4 flex  bg-blue-100/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
-        <div className='w-[9vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
+        <div className='w-[4vw] min-w-[80px] px-6 py-4 flex  bg-blue-100/10 justify-center items-center font-semibold text-gray-700'>{item.id}</div>
+        <div className='w-[9vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
+        <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
       
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.betalingsstatus}>
+        <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={cap(item.betalingsstatus)}>
           <span className='rounded-lg p-1 text-sm' style={{
             color: getStatusColor(item.betalingsstatus).colortext,
             backgroundColor: getStatusColor(item.betalingsstatus).colorbg
           }}>
-            {item.betalingsstatus}
+            {cap(item.betalingsstatus)}
           </span>
         </div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijlesstatus}>
+        <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={cap(item.rijlesstatus)}>
           <span className='rounded-lg p-1 text-sm' style={{
             color: getStatusColor(item.rijlesstatus).colortext,
             backgroundColor: getStatusColor(item.rijlesstatus).colorbg
           }}>
-            {item.rijlesstatus}
+            {cap(item.rijlesstatus)}
           </span>
         </div>
-        <div className='w-[7vw] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
-        <div className='w-[5vw] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>
+        <div className='w-[7vw] min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
+        <div className='w-[5vw] min-w-[90px] flex   justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>
           <span onClick={() => { actionRef.current?.Open() }} className='cursor-pointer '>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
           </span>
@@ -298,18 +422,18 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
   if (!data) return null;
   return (
     <>
-      <div className='rounded-lg mx-auto  w-[95%] '>
+  <div className='rounded-lg mx-auto  w-[95%] overflow-x-auto'>
 
 
         <header className='header  w-full '>
           <div className='flex  justify-between ' style={{ height: '52px' }}>
-            <div className='w-[4vw] px-6 py-4 flex  justify-center items-center bg-blue-100/10 font-semibold text-gray-700'>Nr</div>
-            <div className='w-[9vw] flex items-center font-semibold text-gray-700 px-2'>Instructeur</div>
-            <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijles datum</div>
-            <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Betalingsstatus</div>
-            <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Rijlesstatus</div>
-            <div className='w-[7vw] flex items-center font-semibold text-gray-700 px-2'>Urenregistratie</div>
-            <div className='w-[5vw] flex  justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10'>Acties</div>
+            <div className='w-[4vw] min-w-[80px] px-6 py-4 flex  justify-center items-center bg-blue-100/10 font-semibold text-gray-700 whitespace-nowrap truncate'>Nr</div>
+            <div className='w-[9vw] min-w-[140px] flex items-center font-semibold text-gray-700 px-2 whitespace-nowrap truncate'>Instructeur</div>
+            <div className='w-[7vw] min-w-[140px] flex items-center font-semibold text-gray-700 px-2 whitespace-nowrap truncate'>Rijles datum</div>
+            <div className='w-[7vw] min-w-[140px] flex items-center font-semibold text-gray-700 px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+            <div className='w-[7vw] min-w-[140px] flex items-center font-semibold text-gray-700 px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
+            <div className='w-[7vw] min-w-[160px] flex items-center font-semibold text-gray-700 px-2 whitespace-nowrap truncate'>Urenregistratie</div>
+            <div className='w-[5vw] min-w-[90px] flex  justify-center  px-6 py-4 items-center font-semibold text-gray-700 bg-blue-100/10 whitespace-nowrap truncate'>Acties</div>
 
           </div>
 

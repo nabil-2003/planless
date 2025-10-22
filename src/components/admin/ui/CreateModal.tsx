@@ -101,12 +101,21 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({name}, ref) => {
 
     return (
         <>
-            <div className='create-modal scale-90 z-index-50  
-             absolute top-0 left-0 transform hidden  justify-center items-center w-[30vw] h-max bg-white rounded-lg border-2 border-gray-200 p-3
-                translate-x-[115%]   shadow-2xl   '  aria-modal='true' role='dialog' aria-labelledby={name} aria-describedby={`This is the ${name} modal`}
-             ref={modalRef}>
+        {/* Overlay container centered on screen */}
+        <div
+          className='create-modal fixed inset-0 hidden z-50 grid place-items-center p-2'
+          aria-modal='true'
+          role='dialog'
+          aria-labelledby={name}
+          aria-describedby={`This is the ${name} modal`}
+          ref={modalRef}
+        >
+            {/* Backdrop */}
+            <div className='absolute inset-0 bg-black/40' />
+            {/* Modal panel */}
+            <div className='relative w-[90vw] md:w-[30vw] max-w-[640px] h-max bg-white rounded-lg border-2 border-gray-200 p-3 shadow-2xl'>
                  <CreateIcon className='mx-auto ' width={120} height={120}  />
-                 <h2 className='text-center  font-bold text-2xl my-4'>Rijles toevoegen</h2>
+                 <h2 className='text-center font-bold text-2xl my-4'>Rijles toevoegen</h2>
                  <p className='text-center text-sm w-full text-gray-500 font-light'>wanneer je deze rijles toevoegt wordt de status aangepast naar <br/> <span className='font-bold'>"In behandeling"</span></p>
                  <form action="" className='mx-3'>
                      <label  htmlFor="instructeurs" className='capitalize  text-sm font- text-gray-400'>instructeur</label>
@@ -213,7 +222,7 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({name}, ref) => {
                           </button>
                         )}
                       </div>
-                     <div className='flex justify-around  gap-4 mt-6 mb-3'>
+                     <div className='flex justify-around gap-4 mt-6 mb-3'>
                         <CustmButton className='px-7 bg-white  border-[var(--dark-blue)] text-[var(--dark-blue)] hover:bg-[var(--dark-blue)] hover:text-white border-2'
                            onClick={() => {
                              console.log("cancelling form");
@@ -235,9 +244,7 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({name}, ref) => {
                           Bevestigen
                         </CustmButton>
                      </div>
-
                  </form>
-            
             </div>
             
             {/* Date Selection Modals */}
@@ -254,6 +261,7 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({name}, ref) => {
               singleUse={true}
               onDateSelect={handleEndDateSelect}
             />
+        </div>
         </>
     );
 });

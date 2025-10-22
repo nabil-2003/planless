@@ -41,16 +41,16 @@ export default function TimeFilter({
     }
 
     return (
-        <div className={`w-[95%] h-max p-3 mx-auto flex justify-between bg-white rounded-lg border-2 border-gray-200 items-center ${className}`}>
+        <div className={`w-full md:w-[95%] h-max p-3 md:p-4 mx-auto flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 justify-between bg-white rounded-lg border-2 border-gray-200 items-start ${className}`}>
             {/* Filter Options Section */}
-            <div>
+            <div className='w-full md:w-auto'>
                 {/* Section Title */}
-                <h1 className='title-section ml-3 text-gray-700'>
+                <h1 className='title-section md:ml-3 text-gray-700'>
                     Selecteer periode
                 </h1>
                 
                 {/* Time Period Options */}
-                <ul className='flex w-max mt-4 rounded-lg overflow-hidden mr-3 border border-gray-200'>
+                <ul className='flex flex-wrap w-full md:w-max mt-3 md:mt-4 rounded-lg overflow-hidden md:mr-3 border border-gray-200'>
                     <li 
                         onClick={handleCurrentFilter} 
                         data-filter="12 maanden" 
@@ -95,7 +95,7 @@ export default function TimeFilter({
             
             {/* Statistics Content Section */}
             {content && (
-                <div className='content flex w-max items-center border-2 border-gray-200 p-6 rounded-lg'>
+                <div className='content flex flex-wrap gap-3 w-full md:w-max items-center border-2 border-gray-200 p-4 md:p-6 rounded-lg'>
                     <div className='w-max'>
                         {/* Statistics Title */}
                         <h1 className='title-card mb-4 text-black'>
@@ -121,7 +121,7 @@ export default function TimeFilter({
                     
                     {/* Chart Image */}
                     <img 
-                        className='mt-auto w-[10vw] h-[100%] object-cover' 
+                        className='mt-auto w-28 md:w-[10vw] h-auto object-contain' 
                         src={"/chart.png"} 
                         alt='Statistics Chart' 
                     />

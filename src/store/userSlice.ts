@@ -4,7 +4,9 @@ import axios from 'axios';
 
 // Use NEXT_PUBLIC_API_URL on client; fall back to the public API host.
 // Normalize to remove any trailing slash so templating is predictable.
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL )
+const API_BASE = (
+  (process.env.NEXT_PUBLIC_API_URL as string) || 'https://api.planles.nl/api'
+).replace(/\/$/, '');
 type User = any | null;
 
 type UserState = {
@@ -37,10 +39,14 @@ const initialState: UserState = {
     { rejectWithValue  }
   ) => {
     try {
-      const  res = await axios.post(`${API_BASE}/admin/auth/login` , credentials )
-      return res.data
+      const res = await axios.post(`${API_BASE}/admin/auth/login`, credentials);
+      return res.data;
     } catch (error: any) {
-      return rejectWithValue({message : error.message});
+      let message = 'Login failed. Please try again.';
+      if (axios.isAxiosError(error)) {
+        message = (error.response?.data as any)?.message || error.message || message;
+      }
+      return rejectWithValue({ message });
     }
   }
 );
@@ -52,19 +58,17 @@ const resetPassword = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log('Dispatching resetPassword for:', emailData);
-   
-      const  res = await axios.post(`${API_BASE}/admin/auth/forget-password`, emailData, {
-      });
-      
-      console.log('res')
-      console.log(res)
-      return {  email : emailData.email };
+      // Fire-and-forget reset request
+      await axios.post(`${API_BASE}/admin/auth/forget-password`, emailData);
+      return { email: emailData.email };
     } catch (error: any) {
-        if(error.status){
-      return rejectWithValue({message : "user not found" });
-        }
-      return rejectWithValue({message : "you can try again later" });
+      let message = 'Password reset failed. Please try again later.';
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        if (status === 404) message = 'User not found';
+        else message = (error.response?.data as any)?.message || error.message || message;
+      }
+      return rejectWithValue({ message });
     }
   }
 );
@@ -77,15 +81,15 @@ const newPassword = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(`${API_BASE}/admin/auth/reset-password`, emailData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }); 
- 
-
-   return response.data
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return response.data;
     } catch (error: any) {
-      return rejectWithValue({message : error.message });
+      let message = 'Failed to set new password.';
+      if (axios.isAxiosError(error)) {
+        message = (error.response?.data as any)?.message || error.message || message;
+      }
+      return rejectWithValue({ message });
     }
   }
 );

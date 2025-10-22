@@ -243,21 +243,21 @@ export default function StudentsPage() {
             {/* Page Header */}
             <Header title="financien" />
 
-            <div className='w-full flex '>
+            <div className='w-full flex flex-col md:flex-row'>
                 {/* Left Sidebar - Consistent with other pages */}
-                <LeftSide className='w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-aut' />
+                <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
 
                 {/* Main Content Area - Consistent with other pages */}
-                <div className='dashboard-container mb-8 w-[80%]'>
+                <div className='dashboard-container mb-8 w-full md:w-[80%] px-4 md:px-0'>
                     {/* Spacing */}
                     <div className='mt-4' />
-                    <div className='p-3 capitalize bg-white mt-2 flex items-center gap-2 w-[95%] mx-auto'>
-                        <span onClick={() => { setActiveTab(t => "students") }} className={ActiveTab == 'students' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ' : 'text-gray-400 cursor-pointer y-400'}>students</span>
-                        <span onClick={() => { setActiveTab(t => "instructeurs") }} className={ActiveTab == 'instructeurs' ? ' p-2 border-b-3 text-[var(--dark-blue)]  border-[var(--dark-blue)]  cursor-pointer  ' : 'text-gray-400 cursor-pointer  y-400'}>instructeurs</span>
+                    <div className='p-3 capitalize bg-white mt-2 flex items-center gap-3 w-full md:w-[95%] mx-auto overflow-x-auto'>
+                        <span onClick={() => { setActiveTab(t => "students") }} className={(ActiveTab == 'students' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)] ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 border-b-3 cursor-pointer'}>students</span>
+                        <span onClick={() => { setActiveTab(t => "instructeurs") }} className={(ActiveTab == 'instructeurs' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)] ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 border-b-3 cursor-pointer'}>instructeurs</span>
 
                     </div>
                     {/* Controls Section */}
-                    <div className='flex searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
+                    <div className='flex flex-wrap gap-3 items-stretch searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
 
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -276,13 +276,13 @@ export default function StudentsPage() {
                                 { value: 100, label: "100" },
                             ]}
                             value={itemsPerPage}
-                            className='mr-auto w-32'
+                            className='w-full md:w-32 md:mr-auto'
                             onChange={(value) => setItemsPerPage(Number(value))}
                         />
 
                         {/* Search Input */}
                         <CustomSearch
-                            className='w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
+                            className='w-full md:w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -293,7 +293,7 @@ export default function StudentsPage() {
                         <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
-                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
+                            className='group flex items-center justify-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] w-full md:w-auto transition-colors font-medium'
                         >
                             {isExporting ? (
                                 <>
@@ -307,11 +307,11 @@ export default function StudentsPage() {
                                 </>
                             )}
                         </button>
-                        <div className='relative ml-4'>
+                        <div className='relative w-full md:w-auto'>
                             
                             <div
                                 onClick={openDateModal}
-                                className='flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 w-48 cursor-pointer hover:border-gray-400 transition-colors'
+                                className='flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-gray-400 transition-colors'
                             >
                                 
 
@@ -331,7 +331,7 @@ export default function StudentsPage() {
                                 </svg>
 
                                 {/* Date Display */}
-                                <span className={`text-md flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                <span className={`text-sm md:text-md flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                     {formatDateRange()}
                                 </span>
 

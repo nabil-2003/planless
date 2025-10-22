@@ -15,6 +15,7 @@ import StudentTable, { Data_Student } from '@/components/admin/ui/tables/Student
 import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
 import studentsData from "@/data/students.json"
 import CustmButton from '@/components/admin/ui/CustmButton';
+import { useRouter } from 'next/navigation';
 
 
 type CustomDateRef = {
@@ -115,9 +116,9 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="Studenten" />
-                <div className='w-full flex   overflow-hidden'>
-                    <LeftSide className='w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
-                    <div className='dashboard-container  w-[80%] '>
+                <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                    <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
+                    <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
                         <>
                             <DetailsBar setActive={changePage} active={active} />
 
@@ -141,7 +142,7 @@ export default function page() {
 
 const DetailItem = ({ title, value = "empty" }: { title: string, value: string }) => {
     return (
-        <div className='form-field flex flex-col border-2 rounded-lg p-2 border-gray-200 w-[49%] mt-4'>
+        <div className='form-field flex flex-col border-2 rounded-lg p-2 border-gray-200 w-full md:w-[49%] mt-4'>
             <span className=''>{title}</span>
             <span className=' mt-2'>{value}</span>
         </div>
@@ -151,11 +152,11 @@ const DetailItem = ({ title, value = "empty" }: { title: string, value: string }
 
 const DetailsBar = ({ active = 'details', setActive }: { active: string, setActive: (value: string) => void }) => {
     return (
-        <ul className='flex mt-4 ml-4 w-max rounded-lg shadow-sm  overflow-hidden text-gray-500 capitalize font-semibold text-sm'>
-            <li onClick={() => setActive('details')} className={`w-[7vw] text-center p-3  hover:text-[var(--dark-blue)] cursor-pointer  hover:bg-blue-700/20 ${active === 'details' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
+    <ul className='flex mt-4 ml-0 md:ml-4 w-max rounded-lg shadow-sm overflow-hidden text-gray-500 capitalize font-semibold text-sm'>
+            <li onClick={() => setActive('details')} className={`w-32 md:w-[7vw] text-center p-3  hover:text-[var(--dark-blue)] cursor-pointer  hover:bg-blue-700/20 ${active === 'details' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
                 details
             </li>
-            <li onClick={() => setActive('schedule')} className={`w-[7vw] text-center p-3  hover:text-[var(--dark-blue)]    cursor-pointer hover:bg-blue-700/10 ${active === 'schedule' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
+            <li onClick={() => setActive('schedule')} className={`w-32 md:w-[7vw] text-center p-3  hover:text-[var(--dark-blue)]    cursor-pointer hover:bg-blue-700/10 ${active === 'schedule' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
                 Werkrooster
             </li>
         </ul>
@@ -165,6 +166,7 @@ const DetailsBar = ({ active = 'details', setActive }: { active: string, setActi
 
 
 const DetailsPage = () => {
+     const navigate = useRouter()
     const [studentDetails, setStudentDetails] = useState<Data_Student>({
         student: 'aziza', 
         bsn_nummer: '3456789',
@@ -184,8 +186,8 @@ const DetailsPage = () => {
     return (
         <>
 
-            <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
+            <div className='form-container mx-0 md:mx-4 rounded-lg mt-4 p-4 bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Persoonlijke gegevens</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
                     <DetailItem title='Naam student ' value={studentDetails.student} />
@@ -197,8 +199,8 @@ const DetailsPage = () => {
 
                 </form>
             </div>
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-                <h1 className='font-bold text-xl '>Aanvullende informatie</h1>
+            <div className='mt-4 form-container mx-0 md:mx-4 rounded-lg p-4 bg-white shadow-md'>
+                <h1 className='font-bold text-lg md:text-xl'>Aanvullende informatie</h1>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
                     <DetailItem title='Naam student' value={studentDetails.student} />
@@ -207,14 +209,17 @@ const DetailsPage = () => {
 
                 </form>
             </div>
-            <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex justify-between '>
-                <CustmButton className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
-                    annlueren
-                </CustmButton>
-                <CustmButton onClick={() => { console.log(studentDetails) }} className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
-                    Opslaan
-                </CustmButton>
-            </div>
+                        <div className='buttons mt-8 mb-4 mx-auto w-full px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
+                                <CustmButton
+                                    onClick={()=>{navigate.push("/admin-panel/students")}}
+                                    className='bg-[#fe911f] text-white w-full md:w-auto'
+                                >
+                                    annuleren
+                                </CustmButton>
+                                <CustmButton onClick={() => { console.log(studentDetails) }} className='bg-[#2d46c4] text-white w-full md:w-auto'>
+                                    Opslaan
+                                </CustmButton>
+                        </div>
 
         </>
     )
@@ -222,8 +227,8 @@ const DetailsPage = () => {
 
 const CustomSchedule = () => {
     return (
-        <div className=' mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
-            <h1 className='font-bold text-xl '>Studentenrooster</h1>
+        <div className='mx-0 md:mx-4 rounded-lg mt-4 p-4 bg-white shadow-md'>
+            <h1 className='font-bold text-lg md:text-xl'>Studentenrooster</h1>
             <ScheduleDateBar />
             <ScheduleTable />
         </div>
