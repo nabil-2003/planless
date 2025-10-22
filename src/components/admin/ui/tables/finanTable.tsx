@@ -197,17 +197,17 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
   const filtered = data.filter(filtering)
 
   const StudentScrollable = ({ item }: { item: StudentFinancialData }) => (
-    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4 hover:bg-blue-100/10' style={{ height: '52px' }}>
-      <div className='w-[9vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+    <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
         <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.betalingsstatus).colortext, backgroundColor: getStatusColor(item.betalingsstatus).colorbg }}>{cap(item.betalingsstatus)}</span>
       </div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
         <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.rijlesstatus).colortext, backgroundColor: getStatusColor(item.rijlesstatus).colorbg }}>{cap(item.rijlesstatus)}</span>
       </div>
-      <div className='w-[7vw] min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuur_bedrag}>{item.factuur_bedrag}</div>
+      <div className='flex-1 basis-0 min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuur_bedrag}>{item.factuur_bedrag}</div>
     </div>
   )
 
@@ -232,31 +232,30 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
         .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      <div className='mb-4 w-full scale-95' style={{ position: 'relative' }}>
+      <div className='mb-4 w-full' style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+              <div className='w-[80px] min-w-[80px] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
             </div>
             <div>
               {filtered.map((_, idx) => (
                 <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
-                  <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                  <div className='w-[80px] min-w-[80px] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
                 </div>
               ))}
             </div>
           </div>
-
-          <div id='finance-student-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
-            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Student</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuurdatum</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Vervaldatum</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
-              <div className='w-[7vw] min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
+          <div id='finance-student-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
+            <div className='flex min-w-full w-max border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Student</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuurdatum</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Vervaldatum</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
+              <div className='flex-1 basis-0 min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
             </div>
-            <div className='w-max'>
+            <div className='min-w-full w-max'>
               {filtered.length > 0 ? (
                 filtered.map((item, index) => (
                   <StudentScrollable key={`scroll-${index}`} item={item} />
@@ -280,7 +279,7 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
         </div>
       </div>
 
-      <div className='w-[95%] mx-auto p-3 bg-white rounded-lg shadow-sm'>
+      <div className='w-full mx-0 p-3 bg-white rounded-lg shadow-sm'>
         <CustomScrollBar targetId='finance-student-table-container' orientation='horizontal' />
       </div>
     </>
@@ -293,16 +292,16 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
   const filtered = data.filter(filteringInstructors)
 
   const InstructeurScrollable = ({ item }: { item: InstructorFinancialData }) => (
-    <div className='flex w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4 hover:bg-blue-100/10' style={{ height: '52px' }}>
-      <div className='w-[9vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+    <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
         <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.betalingsstatus).colortext, backgroundColor: getStatusColor(item.betalingsstatus).colorbg }}>{cap(item.betalingsstatus)}</span>
       </div>
-      <div className='w-[7vw] min-w-[140px] flex items-center text-md px-2'>
+      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
         <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.rijlesstatus).colortext, backgroundColor: getStatusColor(item.rijlesstatus).colorbg }}>{cap(item.rijlesstatus)}</span>
       </div>
-      <div className='w-[7vw] min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
+      <div className='flex-1 basis-0 min-w-[160px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.urenregistratie}>{item.urenregistratie}</div>
     </div>
   )
 
@@ -327,30 +326,30 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
         .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      <div className='mb-4 w-full scale-95' style={{ position: 'relative' }}>
+      <div className='mb-4 w-full' style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+              <div className='w-[80px] min-w-[80px] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
             </div>
             <div>
               {filtered.map((_, idx) => (
                 <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
-                  <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                  <div className='w-[80px] min-w-[80px] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div id='finance-instructor-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
-            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijles datum</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
-              <div className='w-[7vw] min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
-              <div className='w-[7vw] min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Urenregistratie</div>
+          <div id='finance-instructor-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
+            <div className='flex min-w-full w-max bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijles datum</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>
+              <div className='flex-1 basis-0 min-w-[160px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Urenregistratie</div>
             </div>
-            <div className='w-max'>
+            <div className='min-w-full w-max'>
               {filtered.length > 0 ? (
                 filtered.map((item, index) => (
                   <InstructeurScrollable key={`scroll-${index}`} item={item} />
@@ -374,7 +373,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
         </div>
       </div>
 
-      <div className='w-[95%] mx-auto p-3 bg-white rounded-lg shadow-sm'>
+      <div className='w-full mx-0 p-3 bg-white rounded-lg shadow-sm'>
         <CustomScrollBar targetId='finance-instructor-table-container' orientation='horizontal' />
       </div>
     </>

@@ -212,7 +212,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10 border-gray-200'>acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
             <div>
