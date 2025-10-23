@@ -3,6 +3,7 @@ import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CustmButton from '@/components/admin/ui/CustmButton';
+import { Button } from '@/components/ui';
 
 type CustomDateRef = {
     firstDateMs?: number;
@@ -171,9 +172,9 @@ const DetailsPage = () => {
 
                             10/10/2028
                         </h1>
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
+                        <Button onClick={() => { alert('hello') }} className='w-full md:w-[93%] mx-auto mt-2 mb-2 grid place-content-center'>
                             download
-                        </button>
+                        </Button>
                     </div>
                 </form>
 
@@ -209,9 +210,9 @@ const DetailsPage = () => {
                                     text-sm text-gray-500 font-semibold
                                     mt-1 ml-9
                                     '>  10/10/2028</h1>
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
+                        <Button onClick={() => { alert('hello') }} className='w-full md:w-[93%] mx-auto mt-2 mb-2 grid place-content-center'>
                             download
-                        </button>
+                        </Button>
 
                     </div>
                 </div>
@@ -225,9 +226,9 @@ const DetailsPage = () => {
                                    ml-9
                                     '>KvK-nummer</h1>
                        
-                        <button onClick={() => { alert('hello') }} className=' cursor-pointer text-white w-full md:w-[93%] mx-auto bg-dark-blue p-2 mt-2 rounded-lg mb-2 grid place-content-center text-sm md:text-base'>
+                        <Button onClick={() => { alert('hello') }} className='w-full md:w-[93%] mx-auto mt-2 mb-2 grid place-content-center'>
                             download
-                        </button>
+                        </Button>
 
                     </div>
                 </div>

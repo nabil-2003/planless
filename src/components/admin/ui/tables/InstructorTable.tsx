@@ -191,7 +191,7 @@ export default function InstructorTable({
                     <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
                         {/* NR Header */}
                         <div className=' border-b-1 border-gray-200' style={{ height: '56px' }}>
-                            <div className='w-[4vw] bg-blue-100/10  px-4 flex justify-center items-center h-full text-md  border-r-1 border-gray-200'>Nr</div>
+                            <div className='w-[4vw] bg-gray-50  px-4 flex justify-center items-center h-full text-md  border-r-1 border-gray-200'>Nr</div>
                         </div>
                         {/* NR Body */}
                         <div>
@@ -202,7 +202,7 @@ export default function InstructorTable({
                                         className='bg-white border-b-1 border-gray-200'
                                         style={{ height: '52px' }}
                                     >
-                                        <div className='w-[4vw] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
+                                        <div className='w-[4vw] bg-gray-50 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
                                             {startIndex + index + 1}
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@ export default function InstructorTable({
                     <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
                         {/* Actions Header */}
                         <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-                            <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10  border-gray-200'>Acties</div>
+                            <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-gray-50  border-gray-200'>Acties</div>
                         </div>
                         {/* Actions Body */}
                         <div>
@@ -337,7 +337,7 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
             <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
             <div className='w-[8vw] min-w-[140px] flex items-center justify-center' title={ele.adres}>
                 <Link href={""} className="hover:scale-110 transition-transform">
-                    <LocationIcon w={24} h={24} color="blue" />
+                    <LocationIcon w={20} h={20} color="blue" />
                 </Link>
             </div>
             <div className='w-[9vw] min-w-[160px] flex items-center text-md text-gray-700'>{ele.telefoonnummer}</div>
@@ -378,7 +378,7 @@ const InstructorElementActions = ({ ele }: { ele: Data_Instructor }) => {
 
     return (
         <div 
-            className=' border-b-1 border-gray-200 bg-blue-100/10 '
+            className=' border-b-1 border-gray-200 bg-gray-50 '
             style={{ height: '52px' }}
         >
             <div className='   w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>

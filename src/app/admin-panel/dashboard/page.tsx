@@ -52,7 +52,7 @@ export default function page() {
           ]}
         />
          <CostumChart
-         title='studenten'
+         title='Studenten'
           className="mt-4"
           data={[
             { month: 'Jan', "In Behandeling": 30, "Bevestigd": 20 },

@@ -5,7 +5,7 @@ import axios from 'axios';
 // Use NEXT_PUBLIC_API_URL on client; fall back to the public API host.
 // Normalize to remove any trailing slash so templating is predictable.
 const API_BASE = (
-  (process.env.NEXT_PUBLIC_API_URL as string) || 'https://api.planles.nl/api'
+  (process.env.NEXT_PUBLIC_API_URL as string) 
 ).replace(/\/$/, '');
 type User = any | null;
 

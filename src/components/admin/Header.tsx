@@ -32,7 +32,7 @@ export default function Header({ title }: HeaderProps) {
     return (
         <header className='bg-white w-full border-b border-b-gray-200 h-auto md:h-[10vh] px-4 md:px-8 py-3 md:py-4 flex flex-wrap items-center justify-between gap-3'>
             {/* Left Section - Logo and Title */}
-            <div className='flex items-center ml-0 md:ml-4 h-auto md:h-[10vh] gap-3 md:gap-10'>
+            <div className='flex items-center ml-0 md:ml-0 h-auto md:h-full gap-3 md:gap-10'>
                 {/* Mobile menu toggle */}
                 <button
                   className='md:hidden p-2 rounded-md border border-gray-200 text-[var(--dark-blue)]'
@@ -53,7 +53,7 @@ export default function Header({ title }: HeaderProps) {
             </div>
             
             {/* Right Section - Navigation */}
-            <nav className='flex h-auto md:h-[100%] items-center justify-between gap-3 md:gap-4'>
+            <nav className='flex h-auto md:h-full items-center justify-between gap-3 md:gap-4'>
                 {/* Notification Icons Placeholder */}
                 <div className="flex items-center gap-4">
                     {/* Future: Add notification icons here */}

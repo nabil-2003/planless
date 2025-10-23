@@ -117,84 +117,126 @@ export default function FinanTable({ selectedTab = "student", timeFilter, itemsP
 }) { 
   const [studentFilteredData , setStudentFilteredData] = React.useState<StudentFinancialData[]>(studentData)
   const [instructorFilteredData , setInstructorFilteredData] = React.useState<InstructorFinancialData[]>(instructorData)
+  const [currentPage, setCurrentPage] = React.useState(1)
+
+  // Filter by date range only; do not slice here (pagination handled below)
   useEffect(() => { 
        if(selectedDateRange){
-          
-          setStudentFilteredData(t=>   studentData.filter(item => { 
-           const [y,m,d] = item.factuurdatum.split('-').map(Number);
-           const [y1,m1,d1] = item.vervaldatum.split('-').map(Number);
-
-           const  date = new Date(y , m -1 , d);
-           const  date1 = new Date(y1 , m1 -1 , d1);
-            return  date.getTime() >= selectedDateRange.firstDateMs && date1.getTime() <= selectedDateRange.lastDateMs
-               
-        }))
-          setInstructorFilteredData(t=>   instructorData.filter(item => { 
-           const [y,m,d] = item.rijles_datum.split('-').map(Number);
-           const  date = new Date(y , m -1 , d);
-            return  date.getTime() >= selectedDateRange.firstDateMs && date.getTime() <= selectedDateRange.lastDateMs
-               
-        }))
-     
-
-
+          setStudentFilteredData(
+            studentData.filter(item => { 
+              const [y,m,d] = item.factuurdatum.split('-').map(Number);
+              const [y1,m1,d1] = item.vervaldatum.split('-').map(Number);
+              const  date = new Date(y , m -1 , d);
+              const  date1 = new Date(y1 , m1 -1 , d1);
+              return  date.getTime() >= selectedDateRange.firstDateMs && date1.getTime() <= selectedDateRange.lastDateMs
+            })
+          )
+          setInstructorFilteredData(
+            instructorData.filter(item => { 
+              const [y,m,d] = item.rijles_datum.split('-').map(Number);
+              const  date = new Date(y , m -1 , d);
+              return  date.getTime() >= selectedDateRange.firstDateMs && date.getTime() <= selectedDateRange.lastDateMs
+            })
+          )
         } else {
-          setStudentFilteredData(t=> studentData.filter((e,i )=> i< itemsPerPage  ))
-          setInstructorFilteredData(t=> instructorData.filter((e,i )=> i< itemsPerPage  ))
+          setStudentFilteredData(studentData)
+          setInstructorFilteredData(instructorData)
         }
+  }, [selectedDateRange, studentData, instructorData])
 
-      
-  }, [searchQuery , selectedDateRange , itemsPerPage])
+  // Reset to page 1 when filters or context change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery, selectedDateRange, itemsPerPage, selectedTab])
 
 
-  const filteringStudent = useMemo(
-    () => (item: StudentFinancialData) => {
-      if (searchQuery && 
-        item.student_naam?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.factuurdatum?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.factuur_bedrag?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.vervaldatum?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.betalingsstatus?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.rijlesstatus?.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {   
-     
-      return true
-          
-          
-      }
-     
-      return false
-  
-  }, [searchQuery , selectedDateRange])
-   const filteringInstructors = (item: InstructorFinancialData) => {
-      if (searchQuery && 
-        item.instructeur?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.rijles_datum?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.betalingsstatus?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.rijlesstatus?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.urenregistratie?.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {   
-          return true 
-      }
-      return false
-  }
+  const filteredStudents = useMemo(() => {
+    if (!searchQuery) return studentFilteredData
+    const q = searchQuery.toLowerCase()
+    return studentFilteredData.filter(item =>
+      item.student_naam?.toLowerCase().includes(q) ||
+      item.factuurdatum?.toLowerCase().includes(q) ||
+      item.factuur_bedrag?.toLowerCase().includes(q) ||
+      item.vervaldatum?.toLowerCase().includes(q) ||
+      item.betalingsstatus?.toLowerCase().includes(q) ||
+      item.rijlesstatus?.toLowerCase().includes(q)
+    )
+  }, [studentFilteredData, searchQuery])
+
+  const filteredInstructors = useMemo(() => {
+    if (!searchQuery) return instructorFilteredData
+    const q = searchQuery.toLowerCase()
+    return instructorFilteredData.filter(item =>
+      item.instructeur?.toLowerCase().includes(q) ||
+      item.rijles_datum?.toLowerCase().includes(q) ||
+      item.betalingsstatus?.toLowerCase().includes(q) ||
+      item.rijlesstatus?.toLowerCase().includes(q) ||
+      item.urenregistratie?.toLowerCase().includes(q)
+    )
+  }, [instructorFilteredData, searchQuery])
+
+  const activeData = selectedTab === 'student' ? filteredStudents : filteredInstructors
+  const totalPages = Math.ceil(activeData.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const pagedData = activeData.slice(startIndex, endIndex)
  
 
-  if (selectedTab === 'student' ) {
-    console.log("data in finan table", studentData)
-    return studentFinanceTable(studentFilteredData , filteringStudent)
-  } else if (selectedTab === 'instructor') {
-    return instructorFinanceTable(instructorFilteredData , filteringInstructors)
-  }
+  return (
+    <>
+      {selectedTab === 'student' ? (
+        studentFinanceTable(pagedData as StudentFinancialData[])
+      ) : (
+        instructorFinanceTable(pagedData as InstructorFinancialData[])
+      )}
+
+      {/* Pagination + Custom Scrollbar (unified like other tables) */}
+      <div className='w-[90%] mx-auto bg-white rounded-lg p-4 border border-gray-200'>
+        <div className='flex justify-between items-center mb-4 px-4'>
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+              currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
+            }`}
+          >
+            Vorige
+          </button>
+          <span className='btn-text text-gray-600'>
+            Pagina {currentPage} van {totalPages || 1}
+          </span>
+          <button
+            onClick={() => setCurrentPage(p => (p < totalPages ? p + 1 : p))}
+            disabled={currentPage === totalPages || totalPages === 0}
+            className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+              currentPage === totalPages || totalPages === 0 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
+            }`}
+          >
+            Volgende
+          </button>
+        </div>
+        {/* Custom Scroll Bar */}
+        <CustomScrollBar 
+          targetId={selectedTab === 'student' ? 'finance-student-table-container' : 'finance-instructor-table-container'} 
+          orientation='horizontal' 
+        />
+        <div className='w-full text-center mt-4'>
+          <span className='btn-text text-gray-600'>
+            Weergaven {activeData.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, activeData.length)} van {activeData.length}
+          </span>
+        </div>
+      </div>
+    </>
+  )
 }
 
 
 
 
 
-const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: StudentFinancialData) => boolean   ) => {
+const studentFinanceTable = (data: StudentFinancialData[]) => {
   if (!data) return null;
-  const filtered = data.filter(filtering)
+  const filtered = data
 
   const StudentScrollable = ({ item }: { item: StudentFinancialData }) => (
     <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
@@ -214,7 +256,7 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
   const StudentActions = ({ item }: { item: StudentFinancialData }) => {
     const actionRef = useRef<ActionModalRef>(null)
     return (
-      <div className='bg-blue-100/10 border-b-1 border-gray-200' style={{ height: '52px' }}>
+      <div className='bg-gray-50 border-b-1 border-gray-200' style={{ height: '52px' }}>
         <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
           <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { actionRef.current?.Open() }}>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
@@ -236,12 +278,12 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] min-w-[80px] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+              <div className='w-[56px] min-w-[56px] md:w-[80px] md:min-w-[80px] px-2 md:px-4 flex justify-center items-center bg-gray-50 h-full text-sm md:text-md border-r-1 border-gray-200'>Nr</div>
             </div>
             <div>
               {filtered.map((_, idx) => (
                 <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
-                  <div className='w-[80px] min-w-[80px] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                  <div className='w-[56px] min-w-[56px] md:w-[80px] md:min-w-[80px] bg-gray-50 px-2 md:px-4 flex justify-center items-center h-full text-sm md:text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
                 </div>
               ))}
             </div>
@@ -268,7 +310,7 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
 
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md bg-blue-100/10 border-l-1 border-gray-200'>Acties</div>
+              <div className='w-[56px] md:w-[80px] px-2 md:px-3 flex justify-center items-center h-full text-sm md:text-md bg-gray-50 border-l-1 border-gray-200'>Acties</div>
             </div>
             <div>
               {filtered.map((item, index) => (
@@ -279,17 +321,15 @@ const studentFinanceTable = (data: StudentFinancialData[], filtering: (item: Stu
         </div>
       </div>
 
-      <div className='w-full mx-0 p-3 bg-white rounded-lg shadow-sm'>
-        <CustomScrollBar targetId='finance-student-table-container' orientation='horizontal' />
-      </div>
+      
     </>
   )
 }
 
 // New standardized instructor finance table with sticky columns and custom horizontal scrollbar
-const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstructors : (item: InstructorFinancialData) => boolean) => {
+const instructorFinanceTable = (data: InstructorFinancialData[]) => {
   if (!data) return null;
-  const filtered = data.filter(filteringInstructors)
+  const filtered = data
 
   const InstructeurScrollable = ({ item }: { item: InstructorFinancialData }) => (
     <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
@@ -308,7 +348,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
   const InstructeurActions = ({ item }: { item: InstructorFinancialData }) => {
     const actionRef = useRef<ActionModalRef>(null)
     return (
-      <div className='bg-blue-100/10 border-b-1 border-gray-200' style={{ height: '52px' }}>
+      <div className='bg-gray-50 border-b-1 border-gray-200' style={{ height: '52px' }}>
         <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
           <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { actionRef.current?.Open() }}>
             <MenuIcon s='gray' w='20px' h='20px' f='gray' />
@@ -330,12 +370,12 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] min-w-[80px] px-4 flex justify-center items-center bg-blue-100/10 h-full text-md border-r-1 border-gray-200'>Nr</div>
+              <div className='w-[56px] min-w-[56px] md:w-[80px] md:min-w-[80px] px-2 md:px-4 flex justify-center items-center bg-gray-50 h-full text-sm md:text-md border-r-1 border-gray-200'>Nr</div>
             </div>
             <div>
               {filtered.map((_, idx) => (
                 <div key={`nr-${idx}`} className='bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
-                  <div className='w-[80px] min-w-[80px] bg-blue-100/10 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
+                  <div className='w-[56px] min-w-[56px] md:w-[80px] md:min-w-[80px] bg-gray-50 px-2 md:px-4 flex justify-center items-center h-full text-sm md:text-md text-gray-700 border-r-1 border-gray-200'>{idx + 1}</div>
                 </div>
               ))}
             </div>
@@ -362,7 +402,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
 
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md bg-blue-100/10 border-l-1 border-gray-200'>Acties</div>
+              <div className='w-[56px] md:w-[80px] px-2 md:px-3 flex justify-center items-center h-full text-sm md:text-md bg-gray-50 border-l-1 border-gray-200'>Acties</div>
             </div>
             <div>
               {filtered.map((item, index) => (
@@ -373,9 +413,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[] , filteringInstr
         </div>
       </div>
 
-      <div className='w-full mx-0 p-3 bg-white rounded-lg shadow-sm'>
-        <CustomScrollBar targetId='finance-instructor-table-container' orientation='horizontal' />
-      </div>
+      
     </>
   )
 }

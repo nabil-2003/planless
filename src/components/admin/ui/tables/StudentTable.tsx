@@ -159,7 +159,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* NR Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center bg-blue-100/10   h-full border-r-1  text-md border-gray-200'>Nr</div>
+              <div className='w-[4vw] px-4 flex justify-center items-center bg-gray-50   h-full border-r-1  text-md border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
             <div>
@@ -170,7 +170,7 @@ export default function StudentTable({
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] bg-blue-100/10 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
+                    <div className='w-[4vw] bg-gray-50 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
                       {startIndex + index + 1}
                     </div>
                   </div>
@@ -212,7 +212,7 @@ export default function StudentTable({
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-blue-100/10 border-gray-200'>Acties</div>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-gray-50 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
             <div>
@@ -289,8 +289,8 @@ const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
       <li    className='w-[11vw] flex  items-center    py-4 '>{ele.email}</li>
       <li className='w-[7vw] py-4  flex  items-center   '>{ele.geboortedatum}</li>
       <li className='w-[7vw]  py-4 flex  items-center       justify-center ' title={ele.adres}>
-        <Link href={""}  >
-            <LocationIcon w={24}  h={24} color="blue"   />
+    <Link href={""}  >
+      <LocationIcon w={20}  h={20} color="blue"   />
         </Link>
       </li>
       <li className='w-[7vw] py-4  flex  items-center  '>{ele.telefoonnummer}</li>
@@ -316,7 +316,7 @@ const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
   <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
   <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
         <Link href={""} className='flex items-center justify-center'>
-          <LocationIcon w={18} h={18} color="blue" />
+          <LocationIcon w={20} h={20} color="blue" />
         </Link>
       </div>
   <div className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
@@ -331,7 +331,7 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
 
   return (
     <div 
-      className='border-b-1 bg-blue-100/10  border-gray-200'
+      className='border-b-1 bg-gray-50  border-gray-200'
       style={{ height: '52px' }}
     >
       <div className='w-[80px]  px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
