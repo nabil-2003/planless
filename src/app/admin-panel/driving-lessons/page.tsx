@@ -26,6 +26,7 @@ import PlusIcon from '@/components/svgs/Plus'
 
 // Data imports
 import jsonData from "@/data/lessons.json"
+import CustmButton from '@/components/admin/ui/CustmButton'
 
 // ================================
 // TYPE DEFINITIONS
@@ -193,7 +194,7 @@ export default function DrivingLessonsPage() {
                     />
 
                     {/* Controls Section */}
-                    <div className='flex flex-wrap gap-3 items-stretch searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
+                    <div className='flex flex-wrap gap-3  items-center  searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
@@ -210,29 +211,29 @@ export default function DrivingLessonsPage() {
                                 { value: 100, label: "100" },
                             ]}
                             value={itemsPerPage}
-                            className='w-full md:w-32 md:mr-auto'
+                            className='w-full md:w-32 md:mr-auto bg-white h-full'
                             onChange={(value) => setItemsPerPage(Number(value))}
                         />
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-full md:w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
+                            className='w-full md:w-[15vw]  rounded-lg outline-none p-2.5 h-full bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
                         />
                            {/* Add New Lesson Button */}
-                        <Button onClick={openCreateModal} className='outline-none w-full md:w-auto' fullWidth>
+                        <CustmButton onClick={openCreateModal} className=' rounded-2xl  bg-dark-blue p-0.5 text-white outline-none w-full md:w-auto' >
                             <div className='flex gap-2 items-center'>
                                 <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
                                 Rijles toevoegen
                             </div>
-                        </Button>
+                        </CustmButton>
                         {/* Custom Date Input that opens modal */}
-                        <div className='relative w-full md:w-auto'>
+                        <div className='relative w-full   bg-white h-full  md:w-auto'>
                             <div
                                 onClick={openDateModal}
-                                className='flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-gray-400 transition-colors'
+                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-400 transition-colors'
                             >
                                 {/* Calendar Icon */}
                                 <svg
@@ -250,7 +251,7 @@ export default function DrivingLessonsPage() {
                                 </svg>
                                 
                                 {/* Date Display */}
-                                <span className={`text-sm md:text-md flex-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                <span className={`text-sm md:text-md  p-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                     {formatDateRange()}
                                 </span>
                                 

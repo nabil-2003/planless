@@ -191,8 +191,8 @@ export default function FinanTable({ selectedTab = "student", timeFilter, itemsP
       )}
 
       {/* Pagination + Custom Scrollbar (unified like other tables) */}
-      <div className='w-[90%] mx-auto bg-white rounded-lg p-4 border border-gray-200'>
-        <div className='flex justify-between items-center mb-4 px-4'>
+      <div className='w-[90%] mx-auto bg-white rounded-lg p-4 border-gray-200'>
+        <div className='flex  justify-between items-center mb-4 px-4'>
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
@@ -239,8 +239,8 @@ const studentFinanceTable = (data: StudentFinancialData[]) => {
   const filtered = data
 
   const StudentScrollable = ({ item }: { item: StudentFinancialData }) => (
-    <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
-      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
+    <div className='flex w-full relative  bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='flex-1 basis-0 ml-6 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.student_naam}>{item.student_naam}</div>
       <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.factuurdatum}>{item.factuurdatum}</div>
       <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.vervaldatum}>{item.vervaldatum}</div>
       <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
@@ -274,7 +274,7 @@ const studentFinanceTable = (data: StudentFinancialData[]) => {
         .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      <div className='mb-4 w-full' style={{ position: 'relative' }}>
+      <div className='mb-4 w-[95%] mx-auto' style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
@@ -290,7 +290,7 @@ const studentFinanceTable = (data: StudentFinancialData[]) => {
           </div>
           <div id='finance-student-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             <div className='flex min-w-full w-max border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Student</div>
+              <div className='flex-1  ml-6 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Student</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Factuurdatum</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Vervaldatum</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
@@ -332,8 +332,8 @@ const instructorFinanceTable = (data: InstructorFinancialData[]) => {
   const filtered = data
 
   const InstructeurScrollable = ({ item }: { item: InstructorFinancialData }) => (
-    <div className='flex w-full relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
-      <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
+    <div className='flex w-full  relative bg-white border-b-1 border-gray-200 hover:bg-blue-100/10' style={{ height: '52px' }}>
+      <div className='flex-1 basis-0 min-w-[140px] ml-6 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.instructeur}>{item.instructeur}</div>
       <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={item.rijles_datum}>{item.rijles_datum}</div>
       <div className='flex-1 basis-0 min-w-[140px] flex items-center text-md px-2'>
         <span className='rounded-lg px-2 py-1 text-sm whitespace-nowrap' style={{ color: getStatusColor(item.betalingsstatus).colortext, backgroundColor: getStatusColor(item.betalingsstatus).colorbg }}>{cap(item.betalingsstatus)}</span>
@@ -366,7 +366,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[]) => {
         .hide-native-scroll { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      <div className='mb-4 w-full' style={{ position: 'relative' }}>
+      <div className='mb-4  w-[95%] mx-auto' style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
@@ -383,7 +383,7 @@ const instructorFinanceTable = (data: InstructorFinancialData[]) => {
 
           <div id='finance-instructor-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             <div className='flex min-w-full w-max bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='flex-1 basis-0 min-w-[140px] ml-6  py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijles datum</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
               <div className='flex-1 basis-0 min-w-[140px] py-4 flex items-center text-md px-2 whitespace-nowrap truncate'>Rijlesstatus</div>

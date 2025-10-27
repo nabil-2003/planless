@@ -19,25 +19,23 @@ export default function Statistcs({className}: {className?: string}) {
             total={50}
             label="rijlessen"
             Icon={FaRegFileAlt}
-            className='h-auto w-full sm:w-[48%] lg:w-[20%] '
+            className='h-auto w-full sm:w-[48%] p-2  lg:w-[20%] '
           />
           <StatisticsCard 
             percentage={-12.31}
             total={40}
             label="instructeurs"
             Icon={FaUserTie}
-            className='h-auto w-full sm:w-[48%] lg:w-[20%] '
+            className='h-auto w-full sm:w-[48%] p-2 lg:w-[20%] '
           />
            <StatisticsCard 
             percentage={2.31}
             total={500}
             label="studenten"
             Icon={FaUsers}
-             className='h-auto w-full sm:w-[48%] lg:w-[20%] '
+             className='h-auto w-full sm:w-[48%]  p-2  lg:w-[20%] '
           />
-          
-       
-        
+
       </ul>
     </div>
   )

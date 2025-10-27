@@ -232,7 +232,7 @@ export default function InstructorsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-full sm:w-64 md:w-72 rounded-lg outline-none p-2 bg-white border border-gray-300'
+                            className='w-full sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -242,8 +242,8 @@ export default function InstructorsPage() {
                       
 
                         {/* Add New Instructor Button */}
-                        <Link href="./instructors/new-instructor" className='text-white rounded-lg p-2 bg-dark-blue ml-4'>
-                            <div className='flex gap-2 items-center'>
+                        <Link href="./instructors/new-instructor" className='text-white rounded-lg  bg-dark-blue ml-4'>
+                            <div className='flex gap-2 items-center p-2.5'>
                                 <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
                                 Instructeur toevoegen
                             </div>

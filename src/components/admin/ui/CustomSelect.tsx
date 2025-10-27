@@ -80,19 +80,19 @@ export default function CustomSelect({
   return (
     <div
       ref={selectRef}
-      className={`relative ${className}`}
+      className={`relative ${className} `}
     >
       {/* Select Button */}
       <div
         onClick={toggleDropdown}
         className={`
           flex items-center justify-between w-full
-          px-4 py-2 
+          px-4 py-2.5
           min-w-[80px]
           border border-gray-300 rounded
-          bg-white cursor-pointer
-          transition-all duration-200 ease-in-out
-          hover:border-blue hover:shadow-sm
+          cursor-pointer
+          transition-all duration-200 ease-in-out 
+          hover:border-blue hover:shadow-sm  
           ${isOpen ? 'border-blue shadow-sm' : ''}
         `}
       >
@@ -101,7 +101,7 @@ export default function CustomSelect({
         </span>
         <FaChevronDown
           className={`
-            text-gray-400 text-sm transition-transform duration-200
+            text-gray-400  text-sm transition-transform duration-200
             ${isOpen ? 'rotate-180' : 'rotate-0'}
           `}
         />

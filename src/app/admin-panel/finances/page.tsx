@@ -65,7 +65,7 @@ export default function StudentsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(12)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
     const [ActiveTab, setActiveTab] = useState<'students' | 'instructeurs'>('students')
     const [isExporting, setIsExporting] = useState(false)
 
@@ -252,19 +252,17 @@ export default function StudentsPage() {
                     {/* Spacing */}
                     <div className='mt-4' />
                     <div className='p-3 capitalize bg-white mt-2 flex items-center gap-3 w-full md:w-[95%] mx-auto overflow-x-auto'>
-                        <span onClick={() => { setActiveTab(t => "students") }} className={(ActiveTab == 'students' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)] ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 border-b-3 cursor-pointer'}>students</span>
-                        <span onClick={() => { setActiveTab(t => "instructeurs") }} className={(ActiveTab == 'instructeurs' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)] ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 border-b-3 cursor-pointer'}>instructeurs</span>
+                        <span onClick={() => { setActiveTab(t => "students") }} className={(ActiveTab == 'students' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)]  border-b-3 ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 cursor-pointer'}>students</span>
+                        <span onClick={() => { setActiveTab(t => "instructeurs") }} className={(ActiveTab == 'instructeurs' ? 'text-[var(--dark-blue)] border-[var(--dark-blue)]  border-b-3 ' : 'text-gray-400 ') + 'whitespace-nowrap p-2 cursor-pointer'}>instructeurs</span>
 
                     </div>
                     {/* Controls Section */}
-                    <div className='flex flex-wrap gap-3 items-stretch searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
+                    <div className='flex flex-wrap gap-3 items-center  searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
 
                         {/* Items Per Page Selector */}
                         <CustomSelect
                             options={[
                                 { value: 10, label: "10" },
-                                
-                                { value: 12, label: "12" },
                                 { value: 20, label: "20" },
                                 { value: 30, label: "30" },
                                 { value: 40, label: "40" },
@@ -275,6 +273,7 @@ export default function StudentsPage() {
                                 { value: 90, label: "90" },
                                 { value: 100, label: "100" },
                             ]}
+                            defaultValue={10}
                             value={itemsPerPage}
                             className='w-full md:w-32 md:mr-auto'
                             onChange={(value) => setItemsPerPage(Number(value))}
@@ -282,7 +281,7 @@ export default function StudentsPage() {
 
                         {/* Search Input */}
                         <CustomSearch
-                            className='w-full md:w-[15vw] rounded-lg outline-none p-2 bg-white border border-gray-300'
+                            className='w-full md:w-[15vw] rounded-lg  outline-none p-2.5 bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
@@ -293,7 +292,7 @@ export default function StudentsPage() {
                         <button
                             onClick={handleExportCSV}
                             disabled={isExporting}
-                            className='group flex items-center justify-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] w-full md:w-auto transition-colors font-medium'
+                            className='group flex items-center justify-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2.5 rounded-lg border-1 border-[#024089] w-full md:w-auto transition-colors font-medium'
                         >
                             {isExporting ? (
                                 <>
@@ -331,7 +330,7 @@ export default function StudentsPage() {
                                 </svg>
 
                                 {/* Date Display */}
-                                <span className={`text-sm md:text-md flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                <span className={`text-sm md:text-md p-1 flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                     {formatDateRange()}
                                 </span>
 
@@ -360,7 +359,7 @@ export default function StudentsPage() {
 
                     {/* Finance Table - Full Width */}
                     <FinanTable
-                  
+                        
                         selectedTab={ActiveTab === 'students' ? 'student' : 'instructor'}
                         selectedDateRange={selectedDateRange}
                         filterTable={currentFilterType}

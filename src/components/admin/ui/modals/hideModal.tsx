@@ -47,15 +47,15 @@ const hide= forwardRef<Modalref , props>((_, ref)=>{
 
         }))
     return (
-        <div  id={'action_confirm'} className='fixed  hidden  place-items-center    inset-0  '  ref={refDiv}>
+        <div  id={'action_confirm'} className='fixed  hidden   place-items-center    inset-0  '  ref={refDiv}>
          
-                 <div  className='rounded-lg border-gray-100 shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
-                 <img src="/hide.svg" alt="" className='w-[80vw] md:w-[30vw] h-auto mx-auto mt-4' />
+                 <div  className='rounded-lg border-gray-100 bg shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
+                 <img src="/hide.svg" alt="" className='w-[50vw] md:w-[20vw] h-[10vh] mx-auto mt-4' />
                  <div className='text-center mt-4'>
                      <h3 className='text-lg font-semibold'>Wil je deze rijlessen verbergen?</h3>
                      <p className='text-sm text-gray-500'>je kunt de rijles later weer zichtbaar maken.</p>    
                  </div>
-                 <div className='w-[96%] h-max mt-4 mx-auto  flex flex-wrap gap-3 justify-around'>
+                 <div className='w-[96%] h-max   mt-4 mx-auto  flex  flex-wrap justify-around'>
                     <CustmButton onClick={()=>{close()}} className='border-2 w-full md:w-[49%] border-[var(--dark-blue)] text-[var(--dark-blue)]' >
                         annuleren
                     </CustmButton>
