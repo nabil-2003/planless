@@ -43,8 +43,8 @@ export default function page({lessons}: {lessons: string}) {
             </form>
           </div>
 
-          <div className='buttons mt-5 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-start'>
-            <CustmButton onClick={() => { navigate.push('/admin-panel/driving-lessons') }} className='text-white hover:opacity-80 capitalize py-3 px-6 mr-0 md:mr-4 bg-amber-500 w-full md:w-auto'>
+          <div className='buttons  mt-5 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
+            <CustmButton onClick={() => { navigate.back() }} className='text-white hover:opacity-80 capitalize py-3 px-6 mr-0 md:mr-4 bg-amber-500 w-full md:w-auto'>
               Annuleren
             </CustmButton>
             <CustmButton className='text-white hover:opacity-80 capitalize py-3 px-6 bg-blue-700 w-full md:w-auto'>

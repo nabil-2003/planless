@@ -16,6 +16,12 @@ import LocationIcon from '@/components/svgs/Location'
 import CustomScrollBar from '../ScrollBar'
 import ActionModal from '@/components/ui/Action'
 import { ActionModalRef } from '@/components/ui/Action'
+import { DocumentModal, DocumentModalRef } from '@/components/ui'
+import CustmButton from '../CustmButton'
+import { IdentityModal, IdentityModalRef } from '@/components/ui'
+import axios from 'axios'
+
+const buildTelHref = (value: string) => `tel:${value.replace(/[^+\d]/g, '')}`
 
 // ================================
 // TYPE DEFINITIONS
@@ -84,7 +90,6 @@ export default function InstructorTable({
     const [currentPage, setCurrentPage] = React.useState(1)
     const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
     const containerRef = useRef<HTMLDivElement>(null)
-    
     // ================================
     // DATA FILTERING AND PROCESSING
     // ================================
@@ -149,7 +154,7 @@ export default function InstructorTable({
     useEffect(() => {
         setCurrentPage(1)
     }, [filterTable, searchQuery, selectedDateRange, timeFilter, itemsPerPage])
-
+     
     /**
      * Calculate and update scrollbar width based on container size
      */
@@ -214,20 +219,20 @@ export default function InstructorTable({
                     {/* Scrollable Content - Middle */}
                     <div id='instructors-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
                         {/* Scrollable Header */}
-                        <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-3 ml-2.5' style={{ height: '56px' }}>
-                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeur</div>
-                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>BSN Nummer</div>
-                            <div className='w-[12vw] min-w-[200px] flex items-center py-4 text-md whitespace-nowrap truncate'>Email</div>
-                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Geboortedatum</div>
-                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center justify-center text-md whitespace-nowrap truncate'>Adres</div>
-                            <div className='w-[9vw] min-w-[160px] py-4 flex items-center text-md whitespace-nowrap truncate'>Telefoonnummer</div>
-                            <div className='w-[8vw] min-w-[140px] py-4 flex items-center text-md whitespace-nowrap truncate'>Rijbewijs</div>
-                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Vervaldatum Rijbewijs</div>
-                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeurskaart</div>
-                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>KVK Uittreksel</div>
-                            <div className='w-[10vw] min-w-[180px] py-4 flex items-center text-md whitespace-nowrap truncate'>Arbeidsovereenkomst</div>
-                            <div className='w-[9vw] min-w-[160px] py-4 flex items-center text-md whitespace-nowrap truncate'>Contractvervaldatum</div>
-                            <div className='w-[12vw] min-w-[200px] py-4 flex items-center text-md whitespace-nowrap truncate'>Urenregistratie</div>
+                        <div className='flex w-max pl-2 bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+                            <div className='w-[8vw] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeur</div>
+                            <div className='w-[8vw] py-4 flex items-center text-md whitespace-nowrap truncate'>BSN Nummer</div>
+                            <div className='w-[15vw]  flex items-center py-4 text-md whitespace-nowrap truncate'>Email</div>
+                            <div className='w-[8vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Geboortedatum</div>
+                            <div className='w-[8vw]  py-4 flex items-center justify-center text-md whitespace-nowrap truncate'>Adres</div>
+                            <div className='w-[9vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Telefoonnummer</div>
+                            <div className='w-[8vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Rijbewijs</div>
+                            <div className='w-[10vw] py-4 flex items-center text-md whitespace-nowrap truncate'>Vervaldatum Rijbewijs</div>
+                            <div className='w-[10vw] py-4 flex items-center text-md whitespace-nowrap truncate'>Instructeurskaart</div>
+                            <div className='w-[10vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>KVK Uittreksel</div>
+                            <div className='w-[10vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Arbeidsovereenkomst</div>
+                            <div className='w-[11vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Contractvervaldatum</div>
+                            <div className='w-[7vw]  py-4 flex items-center text-md whitespace-nowrap truncate'>Urenregistratie</div>
                         </div>
                         {/* Scrollable Body */}
                         <div className='w-max'>
@@ -236,6 +241,7 @@ export default function InstructorTable({
                                     <InstructorElementScrollable 
                                         key={startIndex + index} 
                                         ele={instructor} 
+                                       
                                     />
                                 ))
                             ) : (
@@ -329,45 +335,104 @@ export default function InstructorTable({
  */
 // Scrollable table row component (without NR and Actions)
 const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
+    const identityModal  = useRef<IdentityModalRef>(null)
+    const licenseModal = useRef<DocumentModalRef>(null)
+    const instructorCardModal = useRef<DocumentModalRef>(null)
+    const kvkModal = useRef<DocumentModalRef>(null)
+    const contractModal = useRef<DocumentModalRef>(null)
+    
+
     return (
-        <div className='flex relative w-max border-b-1 gap-2 bg-white hover:bg-blue-100/10 border-gray-200 ml-2.5' style={{ height: '52px' }}>
-            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.instructor}</div>
-            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.bsn_nummer}</div>
-            <div className='w-[12vw] min-w-[200px] flex items-center text-md text-gray-700'>{ele.email}</div>
-            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
-            <div className='w-[8vw] min-w-[140px] flex items-center justify-center' title={ele.adres}>
-                <Link href={""} className="hover:scale-110 transition-transform">
-                    <LocationIcon w={20} h={20} color="blue" />
+    <div className='flex relative pl-2 w-max border-b-1 bg-white hover:bg-blue-100/10 border-gray-200' style={{ height: '52px' }}>
+            <div className='w-[8vw]  flex items-center text-md text-gray-700'>{ele.instructor}</div>
+            <div className='w-[8vw]  flex items-center text-md text-gray-700'>{ele.bsn_nummer}</div>
+            <div className='w-[15vw]  flex items-center text-md text-gray-700'>
+                <Link href={`mailto:${ele.email}`}>
+                {ele.email}
                 </Link>
             </div>
-            <div className='w-[9vw] min-w-[160px] flex items-center text-md text-gray-700'>{ele.telefoonnummer}</div>
-            <div className='w-[8vw] min-w-[140px] flex items-center text-md text-gray-700'>
-                <Link href={"#"} className='text-blue-600 underline'>
-                    <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-                </Link>
-                {ele.rijbewijs}
+            <div className='w-[8vw]  flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
+            <div className='w-[8vw]   flex items-center justify-center'>
+                    <span onClick={()=>{identityModal.current?.open()}} 
+                    className=' hover:scale-110  cursor-pointer transition-all duration-300'>
+              <LocationIcon  w={20} h={20} color="blue" /></span>
+              <IdentityModal ref={identityModal} description={ele.adres} title='Adres bekijken'/>
             </div>
-            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>{ele.vervaldatum_rijbewijs}</div>
-            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
-                <Link href={"#"} className='text-blue-600 underline'>
-                    <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-                </Link>
-                {ele.instructeurskaart}
+              
+            <Link
+                href={buildTelHref(ele.telefoonnummer)}
+                className='w-[9vw] flex items-center text-md text-gray-700 truncate transition-colors hover:text-blue-800 cursor-pointer'
+                title={ele.telefoonnummer}
+            >
+                {ele.telefoonnummer}
+            </Link>
+            <div className='w-[8vw] flex items-center text-md text-gray-700'>
+                <button
+                    type='button'
+                    onClick={() => licenseModal.current?.open()}
+                    className='flex  cursor-pointer items-center gap-2  transition-colors hover:text-blue-800'
+                >
+                    <img src='/pdf_icon.png' width={16} height={16} alt='' />
+                    <span className='truncate'>{ele.rijbewijs}</span>
+                </button>
+                <DocumentModal
+                    ref={licenseModal}
+                    title='Rijbewijs'
+                    documentName={ele.rijbewijs}
+                    description='Download of bekijk de scan van het rijbewijs.'
+                />
             </div>
-            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
-                <Link href={"#"} className='text-blue-600 underline'>
-                    <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-                </Link>
-                {ele.kvk_uittreksel}
+            <div className='w-[10vw]  flex items-center text-md text-gray-700'>{ele.vervaldatum_rijbewijs}</div>
+            <div className='w-[10vw]  flex items-center text-md text-gray-700'>
+                <button
+                    type='button'
+                    onClick={() => instructorCardModal.current?.open()}
+                    className='flex items-center cursor-pointer   gap-2 transition-colors hover:text-blue-800'
+                >
+                    <img src='/pdf_icon.png' width={16} height={16} alt='' />
+                    <span className='truncate'>{ele.instructeurskaart}</span>
+                </button>
+                <DocumentModal
+                    ref={instructorCardModal}
+                    title='Instructeurskaart'
+                    documentName={ele.instructeurskaart}
+                    description='Instructeurskaart van de instructeur.'
+                />
             </div>
-            <div className='w-[10vw] min-w-[180px] flex items-center text-md text-gray-700'>
-                <Link href={"#"} className='text-blue-600 underline'>
-                    <img src="/pdf_icon.png" width={16} height={16} alt="" className='inline mr-2' />
-                </Link>
-                {ele.arbeidsovereenkomst}
+            <div className='w-[10vw]  flex items-center text-md text-gray-700'>
+                <button
+                    type='button'
+                    onClick={() => kvkModal.current?.open()}
+                    className='flex items-center  cursor-pointer gap-2 transition-colors hover:text-blue-800'
+                >
+                    <img src='/pdf_icon.png' width={16} height={16} alt='' />
+                    <span className='truncate'>{ele.kvk_uittreksel}</span>
+                </button>
+                <DocumentModal
+                    ref={kvkModal}
+                    title='KVK Uittreksel'
+                    documentName={ele.kvk_uittreksel}
+                    description='Kamer van Koophandel uittreksel.'
+                />
             </div>
-            <div className='w-[9vw] min-w-[160px] flex items-center text-md text-gray-700'>{ele.contractvervaldatum}</div>
-            <div className='w-[12vw] min-w-[200px] flex items-center text-md text-gray-700'>{ele.urenregistratie}</div>
+            <div className='w-[10vw] min-w-[180px]  flex items-center text-md text-gray-700'>
+                <button
+                    type='button'
+                    onClick={() => contractModal.current?.open()}
+                    className='flex  cursor-pointer items-center gap-2 transition-colors hover:text-blue-800'
+                >
+                    <img src='/pdf_icon.png' width={16} height={16} alt='' />
+                    <span className='truncate'>{ele.arbeidsovereenkomst}</span>
+                </button>
+                <DocumentModal
+                    ref={contractModal}
+                    title='Arbeidsovereenkomst'
+                    documentName={ele.arbeidsovereenkomst}
+                    description='Arbeidsovereenkomst voor deze instructeur.'
+                />
+            </div>
+            <div className='w-[11vw]  flex items-center text-md text-gray-700'>{ele.contractvervaldatum}</div>
+            <div className='w-[7vw]  flex items-center text-md text-gray-700'>{ele.urenregistratie}</div>
         </div>
     )
 }

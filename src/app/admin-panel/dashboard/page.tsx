@@ -29,21 +29,21 @@ export default function page() {
         title='Rijlessen'
           className="mt-4"
           data={[
-            { month: 'Jan', "In Behandeling": 30, "Bevestigd": 20, "Geannuleerd": 10, "Afgewezen": 5, "Voltooid": 15, "Verlopen": 2 },
-            { month: 'Feb', "In Behandeling": 25, "Bevestigd": 30, "Geannuleerd": 15, "Afgewezen": 10, "Voltooid": 20, "Verlopen": 3 },
-            { month: 'Mar', "In Behandeling": 20, "Bevestigd": 25, "Geannuleerd": 20, "Afgewezen": 15, "Voltooid": 25, "Verlopen": 4 },
-            { month: 'Apr', "In Behandeling": 35, "Bevestigd": 40, "Geannuleerd": 10, "Afgewezen": 5, "Voltooid": 30, "Verlopen": 1 },
-            { month: 'May', "In Behandeling": 40, "Bevestigd": 35, "Geannuleerd": 15, "Afgewezen": 10, "Voltooid": 20, "Verlopen": 2 },
-            { month: 'Jun', "In Behandeling": 30, "Bevestigd": 30, "Geannuleerd": 20, "Afgewezen": 15, "Voltooid": 25, "Verlopen": 3 },
-            { month: 'Jul', "In Behandeling": 25, "Bevestigd": 20, "Geannuleerd": 25, "Afgewezen": 20, "Voltooid": 30, "Verlopen": 4 },
-            { month: 'Aug', "In Behandeling": 20, "Bevestigd": 25, "Geannuleerd": 30, "Afgewezen": 25, "Voltooid": 35, "Verlopen": 5 },
-            { month: 'Sep', "In Behandeling": 15, "Bevestigd": 30, "Geannuleerd": 35, "Afgewezen": 30, "Voltooid": 40, "Verlopen": 6 },
-            { month: 'Oct', "In Behandeling": 10, "Bevestigd": 35, "Geannuleerd": 40, "Afgewezen": 35, "Voltooid": 45, "Verlopen": 7 },
-            { month: 'Nov', "In Behandeling": 5, "Bevestigd": 40, "Geannuleerd": 45, "Afgewezen": 40, "Voltooid": 50, "Verlopen": 8 },
-            { month: 'Dec', "In Behandeling": 0, "Bevestigd": 45, "Geannuleerd": 50, "Afgewezen": 45, "Voltooid": 55, "Verlopen": 9 },
+            { month: 'Jan', "In behandeling": 30, "Bevestigd": 20, "Geannuleerd": 10, "Afgewezen": 5, "Voltooid": 15, "Verlopen": 2 },
+            { month: 'Feb', "In behandeling": 25, "Bevestigd": 30, "Geannuleerd": 15, "Afgewezen": 10, "Voltooid": 20, "Verlopen": 3 },
+            { month: 'Mar', "In behandeling": 20, "Bevestigd": 25, "Geannuleerd": 20, "Afgewezen": 15, "Voltooid": 25, "Verlopen": 4 },
+            { month: 'Apr', "In behandeling": 35, "Bevestigd": 40, "Geannuleerd": 10, "Afgewezen": 5, "Voltooid": 30, "Verlopen": 1 },
+            { month: 'May', "In behandeling": 40, "Bevestigd": 35, "Geannuleerd": 15, "Afgewezen": 10, "Voltooid": 20, "Verlopen": 2 },
+            { month: 'Jun', "In behandeling": 30, "Bevestigd": 30, "Geannuleerd": 20, "Afgewezen": 15, "Voltooid": 25, "Verlopen": 3 },
+            { month: 'Jul', "In  behandeling": 25, "Bevestigd": 20, "Geannuleerd": 25, "Afgewezen": 20, "Voltooid": 30, "Verlopen": 4 },
+            { month: 'Aug', "In behandeling": 20, "Bevestigd": 25, "Geannuleerd": 30, "Afgewezen": 25, "Voltooid": 35, "Verlopen": 5 },
+            { month: 'Sep', "In behandeling": 15, "Bevestigd": 30, "Geannuleerd": 35, "Afgewezen": 30, "Voltooid": 40, "Verlopen": 6 },
+            { month: 'Oct', "In behandeling": 10, "Bevestigd": 35, "Geannuleerd": 40, "Afgewezen": 35, "Voltooid": 45, "Verlopen": 7 },
+            { month: 'Nov', "In behandeling": 5, "Bevestigd": 40, "Geannuleerd": 45, "Afgewezen": 40, "Voltooid": 50, "Verlopen": 8 },
+            { month: 'Dec', "In behandeling": 0, "Bevestigd": 45, "Geannuleerd": 50, "Afgewezen": 45, "Voltooid": 55, "Verlopen": 9 },
           ]}
           statics={[
-            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
+            { label: "In behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
             { label: "Bevestigd", total: 300, percentage: 10.2, Icon: FaRegCheckCircle },
             { label: "Geannuleerd", total: 150, percentage: -3.4, Icon: FaRegTimesCircle},
             { label: "Voltooid", total: 80, percentage: -1.2, Icon:IoFlagOutline } ,     
@@ -55,21 +55,21 @@ export default function page() {
          title='Studenten'
           className="mt-4"
           data={[
-            { month: 'Jan', "In Behandeling": 30, "Bevestigd": 20 },
-            { month: 'Feb', "In Behandeling": 25, "Bevestigd": 30},
-            { month: 'Mar', "In Behandeling": 20, "Bevestigd": 25 },
-            { month: 'Apr', "In Behandeling": 35, "Bevestigd": 40 },
-            { month: 'May', "In Behandeling": 40, "Bevestigd": 35 },
-            { month: 'Jun', "In Behandeling": 30, "Bevestigd": 30 },
-            { month: 'Jul', "In Behandeling": 25, "Bevestigd": 20 },
-            { month: 'Aug', "In Behandeling": 20, "Bevestigd": 25 },
-            { month: 'Sep', "In Behandeling": 15, "Bevestigd": 30 },
-            { month: 'Oct', "In Behandeling": 10, "Bevestigd": 35, },
-            { month: 'Nov', "In Behandeling": 5, "Bevestigd": 40, },
-            { month: 'Dec', "In Behandeling": 0, "Bevestigd": 45, },
+            { month: 'Jan', "In behandeling": 30, "Bevestigd": 20 },
+            { month: 'Feb', "In behandeling": 25, "Bevestigd": 30},
+            { month: 'Mar', "In behandeling": 20, "Bevestigd": 25 },
+            { month: 'Apr', "In behandeling": 35, "Bevestigd": 40 },
+            { month: 'May', "In behandeling": 40, "Bevestigd": 35 },
+            { month: 'Jun', "In behandeling": 30, "Bevestigd": 30 },
+            { month: 'Jul', "In behandeling": 25, "Bevestigd": 20 },
+            { month: 'Aug', "In behandeling": 20, "Bevestigd": 25 },
+            { month: 'Sep', "In behandeling": 15, "Bevestigd": 30 },
+            { month: 'Oct', "In behandeling": 10, "Bevestigd": 35, },
+            { month: 'Nov', "In behandeling": 5, "Bevestigd": 40, },
+            { month: 'Dec', "In behandeling": 0, "Bevestigd": 45, },
           ]}
           statics={[
-            { label: "In Behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
+            { label: "In behandeling", total: 120, percentage: 5.5, Icon: FaRegFileAlt },
             { label: "Bevestigd", total: 300, percentage: 10.2, Icon:FaRegCheckCircle },
 
           ]}

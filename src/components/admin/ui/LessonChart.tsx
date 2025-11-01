@@ -14,7 +14,7 @@ export default function CostumChart({className , data=[] ,title, statics }: { ti
   const getColor = (status: string) => {
 
     switch (status) {
-      case 'In Behandeling':
+      case 'In behandeling':
         return '#2563EB'; // Blue
       case 'Bevestigd':
         return '#22C55E'; // Green
@@ -107,7 +107,7 @@ export default function CostumChart({className , data=[] ,title, statics }: { ti
                     key={index}
                     total={stat.total}
                     percentage={stat.percentage}
-                    className='h-auto w-full sm:w-[48%] lg:w-[19%] py-2 px-2'
+                    className='h-auto w-full sm:w-[48%] lg:w-[20%] py-2 px-2'
                     Icon={stat.Icon}
                   />
                 ))

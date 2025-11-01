@@ -2,46 +2,40 @@
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import StudentTable, { Data_Student } from '@/components/admin/ui/tables/StudentTable';
-import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
-import studentsData from "@/data/students.json"
-import CustmButton from '@/components/admin/ui/CustmButton';
 
-type CustomDateRef = {
-    firstDateMs?: number;
-    lastDateMs?: number;
-    singleDate?: number;
-    open: () => void;
-    close: () => void;
-    getSelectedRange: () => { firstDateMs: number; lastDateMs: number } | null;
-    clearSelection: () => void;
-    setDateRange: (startDate: string, endDate: string) => void;
-}
+import CustmButton from '@/components/admin/ui/CustmButton';
+import { useRouter } from 'next/navigation';
+
 
 export default function page() {
+       const router = useRouter()
+
+       const back = useCallback(()=>{
+            router.back()
+       },[])
     const [instructor, setInstructor] = useState<any>({
         // Personal Information
-        naam_instructeur: "Jan van der Berg", // Name
-        bsn_nummer: "123456789", // BSN number
-        email: "jan.vandenberg@rijschool.nl", // Email address
-        geboortedatum: "15/03/1985", // Birth date
-        adres: "Hoofdstraat 45, 1234 AB Amsterdam", // Address
-        telefoonnummer: "+31612345678", // Phone number
+        naam_instructeur: "", // Name
+        bsn_nummer: "", // BSN number
+        email: "", // Email address
+        geboortedatum: "", // Birth date
+        adres: "", // Address
+        telefoonnummer: "", // Phone number
         
         // License Information
-        rijbewijsnummer: "AB123CD456", // License number
-        uitgiftedatum_rijbewijs: "15/03/2010", // Issue date license
-        vervaldatum_rijbewijs: "15/03/2030", // Expiry date license
+        rijbewijsnummer: "", // License number
+        uitgiftedatum_rijbewijs: "", // Issue date license
+        vervaldatum_rijbewijs: "", // Expiry date license
         upload_bestanden: "", // File upload
         
         // Instructor Information
-        instructeurskaartnummer: "INS789456123", // Instructor card number
-        vervaldatum_instructeurskaart: "15/03/2027", // Expiry date instructor card
+        instructeurskaartnummer: "", // Instructor card number
+        vervaldatum_instructeurskaart: "", // Expiry date instructor card
         
         // Contract Information
-        contractbegindatum: "01/01/2023", // Contract start date
-        contractvervaldatum: "31/12/2025", // Contract expiry date
-        salaris: "€3200", // Monthly salary
+        contractbegindatum: "", // Contract start date
+        contractvervaldatum: "", // Contract expiry date
+        salaris: "", // Monthly salary
         
         // Document Uploads
         upload_contract: "", // Contract file
@@ -132,7 +126,7 @@ export default function page() {
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                        <CustmButton  onClick={()=>{}} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
+                        <CustmButton  onClick={back} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
                               <span className='text-sm md:text-base'>terug</span>
                         </CustmButton>
                         <div className='form-container mx-0 md:mx-4 border-2 border-gray-200 rounded-lg mt-4 p-4 bg-white '>
@@ -144,7 +138,7 @@ export default function page() {
                                 <Input type='email' title='E-mailadres' value={instructor.email} onChange={(e) => { setInstructor({ ...instructor, email: e.target.value }) }} placeholder='example@example.com' />
                                 <Input type='text' title='Geboortedatum' value={instructor.geboortedatum} onChange={(e) => { setInstructor({ ...instructor, geboortedatum: e.target.value }) }} placeholder='10/10/2000' />
                                 <Input type='text' title='Adres' value={instructor.adres} onChange={(e) => { setInstructor({ ...instructor, adres: e.target.value }) }} placeholder='bijv:Bloemgracht 19' />
-                                <Input type='tel' title='telefoonnummer' value={instructor.telefoonnummer} onChange={(e) => { setInstructor({ ...instructor, telefoonnummer: e.target.value }) }} placeholder='+31656171811' />
+                                <Input type='tel' title='Telefoonnummer' value={instructor.telefoonnummer} onChange={(e) => { setInstructor({ ...instructor, telefoonnummer: e.target.value }) }} placeholder='+31656171811' />
 
                             </form>
                         </div>
@@ -182,8 +176,8 @@ export default function page() {
                             </form>
                     </div>
                      <div className='buttons mt-8 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
-                        <CustmButton  className='bg-[#fe911f] text-white w-full md:w-auto'>
-                            annuleren
+                        <CustmButton onClick={back}  className='bg-[#fe911f] text-white w-full md:w-auto'>
+                            Annuleren
                         </CustmButton>
                         <CustmButton  onClick={handleSubmit}  className='bg-[#2d46c4] text-white w-full md:w-auto'>
                             Opslaan
@@ -233,7 +227,7 @@ const Input = ({ title, type = "text", placeholder, istextArea = false, onChange
             {
                type !== "file" && (
                  !istextArea &&
-                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2 md:p-3 outline-none  placeholder:p-2 placeholder:capitalize text-sm md:text-base' placeholder={placeholder} />
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 md:p-3 outline-none  placeholder:capitalize text-sm md:text-base' placeholder={placeholder} />
                 ||
                 <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-3 md:p-4 h-[10vh] resize-none outline-none placeholder:capitalize text-sm md:text-base' placeholder={placeholder} />
 

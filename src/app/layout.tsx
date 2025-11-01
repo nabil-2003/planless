@@ -15,6 +15,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Admin Dashboard - Rijschool Management",
   description: "Comprehensive admin dashboard for driving school management",
+  icons : {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

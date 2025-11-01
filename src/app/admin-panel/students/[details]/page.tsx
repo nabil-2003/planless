@@ -1,18 +1,10 @@
 "use client"
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
-import TimeFilter from '@/components/admin/TimeFIlter';
-import FIlterByType from '@/components/admin/FIlterByType'
-import React, { use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import CusTomDate from '@/components/admin/ui/CustomDateModal'
-import { FaRegPlusSquare, FaArrowDown, FaChartLine, FaChartBar } from 'react-icons/fa'
-import CustomSearch from "@/components/admin/ui/CustomSearch"
-import CustomSelect from "@/components/admin/ui/CustomSelect"
-import { Button } from '@/components/ui';
-import Image from 'next/image';
-import PlusIcon from '@/components/svgs/Plus';
-import StudentTable, { Data_Student } from '@/components/admin/ui/tables/StudentTable';
-import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Data_Student } from '@/components/admin/ui/tables/StudentTable';
+import { CreateModalRef } from '@/components/admin/ui/CreateModal';
 import studentsData from "@/data/students.json"
 import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
@@ -32,86 +24,17 @@ type CustomDateRef = {
 export default function page() {
 
 
-    const parsedStudents = useCallback(() => {
-        const students: Data_Student[] = (studentsData as any[]).map(item => ({
-            student: item.student,
-            bsn_nummer: item.bsn_nummer,
-            email: item.email,
-            geboortedatum: item.geboortedatum,
-            adres: item.adres,
-            telefoonnummer: item.telefoonnummer,
-            status: item.status,
-            rijbewijs_categorie: item.rijbewijs_categorie,
-            theorie_examen: item.theorie_examen,
-            praktijk_examen: item.praktijk_examen,
-            aantal_lessen: item.aantal_lessen,
-            laatste_les: item.laatste_les,
-            instructeur: item.instructeur,
-            opmerkingen: item.opmerkingen,
-        }));
-        return students;
-    }, [])
+   
+ 
+   
+   
 
-    const [currentFilterType, setCurrentFilterType] = React.useState('Alle');
-    const [currentTimeFilter, setTimeFilter] = React.useState('24 uur');
-    const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    const CreateModalRef = useRef<CreateModalRef>(null);
-    const dateModalRef = useRef<CustomDateRef>(null);
+  
 
-    //show the modal that create new student...
-    const openCreateModal = () => {
-        CreateModalRef.current?.open();
-    }
-
-    // Open date selection modal
-    const openDateModal = () => {
-        dateModalRef.current?.open();
-    }
-
-    // Handle date selection from modal (automatically detects single vs range)
-    const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
-        setSelectedDateRange(dates);
-    }
-
-    // Format date for display
-    const formatDateRange = () => {
-        if (!selectedDateRange) return 'mm/dd/yyyy';
-
-        const startDate = new Date(selectedDateRange.firstDateMs);
-        const endDate = new Date(selectedDateRange.lastDateMs);
-
-        const formatDate = (date: Date) => {
-            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-        };
-
-        // If same date (single selection) show single date, otherwise show range
-        if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
-            return formatDate(startDate);
-        } else {
-            return `${formatDate(startDate)} - ${formatDate(endDate)}`;
-        }
-    };
-
-    // this function will change inside FilterByType 
-    const chFilterByType = (filter: string) => {
-        setCurrentFilterType(t => filter);
-    }
-
-    // this function will change inside TimeFilter
-    const chTimeFilter = (filter: string) => {
-        setTimeFilter(t => filter);
-    }
-
-    const activeclass = useMemo(() => " border-b-3 border-[var(--dark-blue)]  text-dark-blue ", [])
     const [active, setActive] = useState('details');
     const changePage = (status: string) => {
         setActive(status);
     }
-
-
-
     return (
         <>
             <div className='content '>

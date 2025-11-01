@@ -6,6 +6,9 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import CustomScrollBar from '../ScrollBar';
 import Link from 'next/link';
 import LocationIcon from '@/components/svgs/Location';
+import { DocumentModal, DocumentModalRef, IdentityModal, IdentityModalRef } from '@/components/ui'
+
+const buildTelHref = (value: string) => `tel:${value.replace(/[^+\d]/g, '')}`
 
 // Data types
 export type Data_Student = {
@@ -180,9 +183,9 @@ export default function StudentTable({
           </div>
 
           {/* Scrollable Content - Middle */}
-          <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll mx-4'>
+          <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
-            <div className='flex w-max bg-transparent border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '56px' }}>
+            <div className='flex w-max bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Student</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>BSN nummer</div>
               <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Email</div>
@@ -278,48 +281,48 @@ export default function StudentTable({
   );
 }
 // Individual table row component
-const TableElement = ({ ele, id }: { ele: Data_Student, id: number }) => {
-  const modalRef = useRef<ActionModalRef>(null);
-
-  return (
-        <ul className='flex w-max relative bg-white  *:text-sm *: border-b-1 gap-8 border-gray-200   pr-3'>
-      <li className='w-[4vw] px-4 border-x-1 border-gray-200  flex justify-center items-center py-4 '>{id}</li>
-      <li className='w-[7vw] py-4 flex  items-center  '>{ele.student}</li>
-      <li className='w-[7vw] py-4  flex  items-center  '>{ele.bsn_nummer}</li>
-      <li    className='w-[11vw] flex  items-center    py-4 '>{ele.email}</li>
-      <li className='w-[7vw] py-4  flex  items-center   '>{ele.geboortedatum}</li>
-      <li className='w-[7vw]  py-4 flex  items-center       justify-center ' title={ele.adres}>
-    <Link href={""}  >
-      <LocationIcon w={20}  h={20} color="blue"   />
-        </Link>
-      </li>
-      <li className='w-[7vw] py-4  flex  items-center  '>{ele.telefoonnummer}</li>
-      <li className='w-[11vw] py-4 flex  items-center   ' title={ele.opmerkingen}>{ele.opmerkingen}</li>
-      <li className='w-[4vw] px-3 flex   py-4 items-center justify-center   '>
-        <button className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' onClick={() => { modalRef.current?.Open() }}>
-          <MenuIcon s='gray' w='20px' h='20px' f='gray' />
-        </button>
-      </li>
-
-      <ActionModal tableName='student' className=' right-1 ' CurrentStatus={''} ref={modalRef} />
-    </ul>
-  )
-}
 
 // Scrollable table row component (middle section)
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
+  const addressModal = useRef<IdentityModalRef>(null)
+  const emailModal = useRef<DocumentModalRef>(null)
   return (
-    <div className='flex hover:bg-blue-100/10 w-max relative bg-white border-b-1 gap-2 border-gray-200 pr-4' style={{ height: '52px' }}>
+  <div className='flex hover:bg-blue-100/10 w-max relative bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
   <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
   <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
-  <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>{ele.email}</div>
+  <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>
+        <button
+          type='button'
+          onClick={() => emailModal.current?.open()}
+          className='flex items-center gap-2 cursor-pointer transition-colors hover:text-blue-800'
+        >
+          <img src='/pdf_icon.png' width={16} height={16} alt='' />
+          <span className='truncate'>{ele.email}</span>
+        </button>
+        <DocumentModal
+          ref={emailModal}
+          title='E-mail'
+          documentName={ele.email}
+          description='Voorbeeld van het e-maildocument voor deze student.'
+        />
+      </div>
   <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
   <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
-        <Link href={""} className='flex items-center justify-center'>
+        <span
+          onClick={() => addressModal.current?.open()}
+          className='cursor-pointer transition-all duration-300 hover:scale-110'
+        >
           <LocationIcon w={20} h={20} color="blue" />
-        </Link>
+        </span>
+        <IdentityModal ref={addressModal} description={ele.adres} title='Adres bekijken' />
       </div>
-  <div className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.telefoonnummer}>{ele.telefoonnummer}</div>
+  <Link
+    href={buildTelHref(ele.telefoonnummer)}
+    className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden transition-colors hover:text-blue-800 cursor-pointer'
+    title={ele.telefoonnummer}
+  >
+    {ele.telefoonnummer}
+  </Link>
   <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
     </div>
   )

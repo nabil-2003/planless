@@ -15,6 +15,7 @@ import StudentTable, { Data_Student } from '@/components/admin/ui/tables/Student
 import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
 import studentsData from "@/data/students.json"
 import CustmButton from '@/components/admin/ui/CustmButton';
+import { useRouter } from 'next/navigation';
 
 type CustomDateRef = {
     firstDateMs?: number;
@@ -28,97 +29,27 @@ type CustomDateRef = {
 }
 
 export default function page() {
-     const [studentDetails, setStudentDetails] = useState<Data_Student>({
-        student: '', 
-        bsn_nummer: '',
-        email: '', 
-        geboortedatum: '', 
-        adres: '',
-        telefoonnummer: '', 
-        status: '',
-        rijbewijs_categorie: '',
-        theorie_examen: '',
-        praktijk_examen: '',
-        aantal_lessen: 0,
-        laatste_les: '',
-        instructeur: '',
-        opmerkingen: ''
-    });
+     const router = useRouter()
 
-    const parsedStudents = useCallback(() => {
-        const students: Data_Student[] = (studentsData as any[]).map(item => ({
-            student: item.student,
-            bsn_nummer: item.bsn_nummer,
-            email: item.email,
-            geboortedatum: item.geboortedatum,
-            adres: item.adres,
-            telefoonnummer: item.telefoonnummer,
-            status: item.status,
-            rijbewijs_categorie: item.rijbewijs_categorie,
-            theorie_examen: item.theorie_examen,
-            praktijk_examen: item.praktijk_examen,
-            aantal_lessen: item.aantal_lessen,
-            laatste_les: item.laatste_les,
-            instructeur: item.instructeur,
-            opmerkingen: item.opmerkingen,
-        }));
-        return students;
-    }, [])
+    const back = useCallback(()=>{
+        router.back()
+    },[])
 
-    const [currentFilterType, setCurrentFilterType] = React.useState('Alle');
-    const [currentTimeFilter, setTimeFilter] = React.useState('24 uur');
-    const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    const CreateModalRef = useRef<CreateModalRef>(null);
-    const dateModalRef = useRef<CustomDateRef>(null);
+    const [primaryInfo, setPrimaryInfo] = useState({
+        studentName: '',
+        bsnNumber: '',
+        email: '',
+        birthDate: '',
+        address: '',
+        phoneNumber: '',
+    })
 
-    //show the modal that create new student...
-    const openCreateModal = () => {
-        CreateModalRef.current?.open();
-    }
+    const [extraInfo, setExtraInfo] = useState({
+        studentName: '',
+        bsnNumber: '',
+        notes: '',
+    })
 
-    // Open date selection modal
-    const openDateModal = () => {
-        dateModalRef.current?.open();
-    }
-
-    // Handle date selection from modal (automatically detects single vs range)
-    const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
-        setSelectedDateRange(dates);
-    }
-
-    // Format date for display
-    const formatDateRange = () => {
-        if (!selectedDateRange) return 'mm/dd/yyyy';
-
-        const startDate = new Date(selectedDateRange.firstDateMs);
-        const endDate = new Date(selectedDateRange.lastDateMs);
-
-        const formatDate = (date: Date) => {
-            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-        };
-
-        // If same date (single selection) show single date, otherwise show range
-        if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
-            return formatDate(startDate);
-        } else {
-            return `${formatDate(startDate)} - ${formatDate(endDate)}`;
-        }
-    };
-
-    // this function will change inside FilterByType 
-    const chFilterByType = (filter: string) => {
-        setCurrentFilterType(t => filter);
-    }
-
-    // this function will change inside TimeFilter
-    const chTimeFilter = (filter: string) => {
-        setTimeFilter(t => filter);
-    }
-
-    const activeclass = useMemo(() => " border-b-3 border-[var(--dark-blue)]  text-dark-blue ", [])
-   
     return (
         <>
             <div className='content '>
@@ -130,12 +61,60 @@ export default function page() {
                             <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
-                                <Input type='text' title='Naam student ' value={studentDetails.student} onChange={(e) => {  setStudentDetails({...studentDetails, student: e.target.value }) }} placeholder='nabil' />
-                                <Input type='number' title='BSN-nummer' value={studentDetails.bsn_nummer} onChange={(e) => { setStudentDetails({...studentDetails, bsn_nummer: e.target.value }) }} placeholder='28018273' />
-                                <Input type='email' title='E-mailadres' value={studentDetails.email} onChange={(e) => { setStudentDetails({...studentDetails, email: e.target.value }) }} placeholder='example@example.com' />
-                                <Input type='text' title='Geboortedatum' value={studentDetails.geboortedatum} onChange={(e) => { setStudentDetails({...studentDetails, geboortedatum: e.target.value }) }} placeholder='10/10/2000' />
-                                <Input type='text' title='Adres' value={studentDetails.adres} onChange={(e) => { setStudentDetails({...studentDetails, adres: e.target.value }) }} placeholder='bijv:Bloemgracht 19' />
-                                <Input type='tel' title='telefoonnummer' value={studentDetails.telefoonnummer} onChange={(e) => { setStudentDetails({...studentDetails, telefoonnummer: e.target.value }) }} placeholder='+31656171811' />
+                                <Input
+                                    type='text'
+                                    title='Naam student '
+                                    value={primaryInfo.studentName}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, studentName: e.target.value })
+                                    }}
+                                    placeholder='john doe'
+                                />
+                                <Input
+                                    type='number'
+                                    title='BSN-nummer'
+                                    value={primaryInfo.bsnNumber}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, bsnNumber: e.target.value })
+                                    }}
+                                    placeholder='28018273'
+                                />
+                                <Input
+                                    type='email'
+                                    title='E-mailadres'
+                                    value={primaryInfo.email}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, email: e.target.value })
+                                    }}
+                                    placeholder='example@example.com'
+                                />
+                                <Input
+                                    type='text'
+                                    title='Geboortedatum'
+                                    value={primaryInfo.birthDate}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, birthDate: e.target.value })
+                                    }}
+                                    placeholder='10/10/2000'
+                                />
+                                <Input
+                                    type='text'
+                                    title='Adres'
+                                    value={primaryInfo.address}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, address: e.target.value })
+                                    }}
+                                    placeholder='bijv:Bloemgracht 19'
+                                />
+                                <Input
+                                    type='tel'
+                                    title='Telefoonnummer'
+                                    value={primaryInfo.phoneNumber}
+                                    onChange={(e) => {
+                                        setPrimaryInfo({ ...primaryInfo, phoneNumber: e.target.value })
+                                    }}
+                                    placeholder='+31656171811'
+                                />
 
                             </form>
                         </div>
@@ -143,17 +122,39 @@ export default function page() {
                             <h1 className='font-bold text-xl '>Aanvullende informatie</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
 
-                                <Input title='Naam student' value={studentDetails.student} onChange={(e) => { setStudentDetails({...studentDetails, student: e.target.value }) }} placeholder='nabil' />
-                                <Input title='BSN-nummer' value={studentDetails.bsn_nummer} onChange={(e) => { setStudentDetails({...studentDetails, bsn_nummer: e.target.value }) }} placeholder='28018273' />
-                                <Input title='opmerkingen' istextArea={true} value={studentDetails.opmerkingen} onChange={(e) => { setStudentDetails({...studentDetails, opmerkingen: e.target.value }) }} placeholder='heeft meite met inparkeren, verder een vlotte leerling. ' />
+                                <Input
+                                    title='Naam student'
+                                    value={extraInfo.studentName}
+                                    onChange={(e) => {
+                                        setExtraInfo({ ...extraInfo, studentName: e.target.value })
+                                    }}
+                                    placeholder='naam'
+                                />
+                                <Input
+                                    title='BSN-nummer'
+                                    value={extraInfo.bsnNumber}
+                                    onChange={(e) => {
+                                        setExtraInfo({ ...extraInfo, bsnNumber: e.target.value })
+                                    }}
+                                    placeholder='28018273'
+                                />
+                                <Input
+                                    title='Opmerkingen'
+                                    istextArea={true}
+                                    value={extraInfo.notes}
+                                    onChange={(e) => {
+                                        setExtraInfo({ ...extraInfo, notes: e.target.value })
+                                    }}
+                                    placeholder='heeft moeite met inparkeren, verder een vlotte leerling.'
+                                />
 
                             </form>
                         </div>
                         <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex flex-wrap gap-3 justify-between '>
-                        <CustmButton  className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
-                            annlueren
+                        <CustmButton  onClick={back} className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
+                            Annuleren
                         </CustmButton>
-                            <CustmButton  onClick={() => {console.log(studentDetails)}}  className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
+                            <CustmButton  onClick={() => {console.log({ primaryInfo, extraInfo })}}  className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
                             Opslaan
                         </CustmButton>
                     </div>
@@ -175,7 +176,7 @@ const Input = ({ title , type="text", placeholder, istextArea = false, onChange,
             <span className=''>{title}</span>
             {
                 !istextArea &&
-                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-2  outline-none  placeholder:p-2 placeholder:capitalize w-full' placeholder={placeholder} />
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg py-3 pl-4    outline-none placeholder:capitalize w-full' placeholder={placeholder} />
                 ||
                 <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 h-[10vh]  resize-none  outline-none   placeholder:capitalize w-full' placeholder={placeholder} />
             }

@@ -216,10 +216,7 @@ export default function FinanTable({ selectedTab = "student", timeFilter, itemsP
           </button>
         </div>
         {/* Custom Scroll Bar */}
-        <CustomScrollBar 
-          targetId={selectedTab === 'student' ? 'finance-student-table-container' : 'finance-instructor-table-container'} 
-          orientation='horizontal' 
-        />
+       
         <div className='w-full text-center mt-4'>
           <span className='btn-text text-gray-600'>
             Weergaven {activeData.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, activeData.length)} van {activeData.length}
