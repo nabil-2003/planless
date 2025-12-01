@@ -78,35 +78,62 @@ const DetailItem = ({ title, value = "empty" }: { title: string, value: string }
 
 const DetailsPage = () => {
         const {instructor}=  useInstructor()
-        const parsedInstructor= parseInsructor([instructor])[0]
         const router = useRouter()
-        console.log(parsedInstructor)
+        
     const [instructorDetails, setInstructorDetails] = useState<Data_Instructor>({
         // Personal Information
         id : 2 ,
-        instructor:  parsedInstructor.instructor,
-        bsn_nummer:  parsedInstructor.bsn_nummer,
-        email:parsedInstructor.email,
-        Date_birth: parsedInstructor.Date_birth,
-        address: parsedInstructor.address,
-        phone_number: parsedInstructor.phone_number,
+        instructor:  "",
+        bsn_nummer:  "",
+        email:"",
+        Date_birth: "",
+        address: "",
+        phone_number: "",
 
         // License Information
-        driving_license: parsedInstructor.driving_license,
-        driving_license_issue_date: parsedInstructor.driving_license_issue_date,
-        license_expiration_date: parsedInstructor.license_expiration_date,
+        driving_license: "",
+        driving_license_issue_date: "",
+        license_expiration_date: "",
         
         // Instructor Information
-        instructor_card: parsedInstructor.instructor_card,
-        instructor_card_expiration_date: parsedInstructor.instructor_card_expiration_date,
+        instructor_card: "",
+        instructor_card_expiration_date: "",
         // Contract Information
-        contract_start_date: parsedInstructor.contract_start_date,
-        contract_expiration_date: parsedInstructor.contract_expiration_date,
-        salary: parsedInstructor.salary,
-        kvk_extract: parsedInstructor.kvk_extract,
-        employment_contract: parsedInstructor.employment_contract,
-        hours_registration: parsedInstructor.hours_registration
+        contract_start_date: "",
+        contract_expiration_date: "",
+        salary: "",
+        kvk_extract: "",
+        employment_contract: "",
+        hours_registration: ""
     });
+
+    // Update instructorDetails when instructor data is fetched
+    useEffect(() => {
+        if (instructor) {
+            const parsedInstructor = parseInsructor([instructor])[0];
+            console.log("Parsed instructor:", parsedInstructor);
+            setInstructorDetails({
+                id: parsedInstructor.id || 2,
+                instructor: parsedInstructor.instructor || "",
+                bsn_nummer: parsedInstructor.bsn_nummer || "",
+                email: parsedInstructor.email || "",
+                Date_birth: parsedInstructor.Date_birth || "",
+                address: parsedInstructor.address || "",
+                phone_number: parsedInstructor.phone_number || "",
+                driving_license: parsedInstructor.driving_license || "",
+                driving_license_issue_date: parsedInstructor.driving_license_issue_date || "",
+                license_expiration_date: parsedInstructor.license_expiration_date || "",
+                instructor_card: parsedInstructor.instructor_card || "",
+                instructor_card_expiration_date: parsedInstructor.instructor_card_expiration_date || "",
+                contract_start_date: parsedInstructor.contract_start_date || "",
+                contract_expiration_date: parsedInstructor.contract_expiration_date || "",
+                salary: parsedInstructor.salary || "",
+                kvk_extract: parsedInstructor.kvk_extract || "",
+                employment_contract: parsedInstructor.employment_contract || "",
+                hours_registration: parsedInstructor.hours_registration || ""
+            });
+        }
+    }, [instructor]);
  
     return (
         <>
