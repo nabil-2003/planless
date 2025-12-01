@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import CustomScrollBar from '../ScrollBar';
 import Link from 'next/link';
 import { DocumentModal, DocumentModalRef } from '@/components/ui'
+import { ParsedLesson } from '@/store/LessonsSlices';
 
 // Data types
 export type Data_Lessons = {
@@ -22,6 +23,7 @@ export type Data_Lessons = {
 }
 
 type ColorAndStatus = {
+  engStatus : string
     colortext: string
     status: string
     colorbg: string
@@ -36,7 +38,7 @@ export default function LessonsTable({
   timeFilter = '24 uur',
   itemsPerPage = 10, className= ''
 } :{
-  data: Array<Data_Lessons>,
+  data: Array<ParsedLesson>,
   className: string,
   filterTable: string,
   searchQuery?: string,
@@ -46,14 +48,16 @@ export default function LessonsTable({
 }) {
   const [currentPage, setCurrentPage] = React.useState(1)
   
+
   // Filter data based on all criteria
   const filteredData = useMemo(() => {
     let filtered = data
-    
+     console.log( filterTable , console.log(netherlandsToEngStatus(filterTable)?.engStatus))
     // Filter by status
     if (filterTable && filterTable !== 'Alle') {
       filtered = filtered.filter(item => 
-        item.rijles_status && item.rijles_status.toLowerCase().includes(filterTable.toLowerCase())
+        
+        item.lesson_status && item.lesson_status.toLowerCase().includes(netherlandsToEngStatus(filterTable)?.engStatus.toLowerCase()!)
       )
     }
     
@@ -61,19 +65,19 @@ export default function LessonsTable({
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(item => 
-        item.instructeur.toLowerCase().includes(query) ||
-        item.student.toLowerCase().includes(query) ||
-        item.factuur_bedrag.toLowerCase().includes(query) ||
-        item.betalingsstatus.toLowerCase().includes(query) ||
-        item.rijles_status.toLowerCase().includes(query) ||
-        item.annuleringsreden.toLowerCase().includes(query)
+        item.instructor && item.instructor.toLowerCase().includes(query) ||
+        item.student && item.student.toLowerCase().includes(query) ||
+        item.invoice_amount && item.invoice_amount.toLowerCase().includes(query) ||
+        item.payment_status && item.payment_status.toLowerCase().includes(query) ||
+        item.lesson_status && item.lesson_status.toLowerCase().includes(query) ||
+        item.cancellation_reason && item.cancellation_reason.toLowerCase().includes(query)
       )
     }
     
     // Filter by date range
     if (selectedDateRange) {
       filtered = filtered.filter(item => {
-        const itemDate = new Date(item.begintijd).getTime()
+        const itemDate = new Date(item.start_time).getTime()
         return itemDate >= selectedDateRange.firstDateMs && itemDate <= selectedDateRange.lastDateMs
       })
     }
@@ -96,7 +100,7 @@ export default function LessonsTable({
       }
       
       filtered = filtered.filter(item => {
-        const itemDate = new Date(item.begintijd).getTime()
+        const itemDate = new Date(item.start_time).getTime()
         return now - itemDate <= timeFilterMs
       })
     }
@@ -256,65 +260,25 @@ export default function LessonsTable({
 // Individual table row component
 
 // Scrollable table row component (without NR and Actions)
-const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
+const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
   const cap = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '')
   // Status color mapping
-  const ColorToStatus = useMemo(() => {
-    const clt: ColorAndStatus[] = [
-      {
-        status: "In behandeling",
-        colortext: "#bc5419",
-        colorbg: "#f7d0b9"
-      },
-     
-      {
-        status: "Geannuleerd",
-        colortext: "#333333",
-        colorbg: "#ededed"
-      },
-      {
-        status: "Bevestigd",
-        colortext: "#006400",
-        colorbg: "#dcffd6"
-      },
-      {
-        status: "Onbetaald",
-        colortext: "#8b0000",
-        colorbg: "#ffd6d6"
-      },
-      {
-        status: "Voltooid",
-        colortext: "#024089",
-        colorbg: "#daefff"
-      },
-      {
-        status: "Betaald",
-        colortext: "#006400",
-        colorbg: "#dcffd6"
-      },
-    ]
-    return clt
-  }, [])
+
+  
 
   // Find color for status
-  const mapColorToStatus = useCallback(
-    (status: string) => {
-      const color = ColorToStatus.find(item => item.status.toLowerCase() === status.toLowerCase());
-      return color;
-    },
-    [ColorToStatus]
-  )
+ 
 
   const invoiceModalRef = useRef<DocumentModalRef>(null)
   const lessonCardModalRef = useRef<DocumentModalRef>(null)
 
   return (
     <div className='flex relative w-max border-b-1 hover:bg-blue-100/10 border-gray-200' style={{ height: '52px' }}>
-  <div className='w-[7vw] min-w-[120px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructeur}>{ele?.instructeur}</div>
-  <div className='w-[7vw] min-w-[120px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.student}>{ele?.student}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.begintijd}>{ele?.begintijd}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.eindtijd}>{ele?.eindtijd}</div>
-  <div className='w-[6vw] min-w-[90px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesduur}>{ele?.lesduur}</div>
+  <div className='w-[7vw] min-w-[120px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructor!}>{ele?.instructor}</div>
+  <div className='w-[7vw] min-w-[120px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.student!}>{ele?.student}</div>
+  <div className='w-[9vw] min-w-[140px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.start_time}>{ele?.start_time}</div>
+  <div className='w-[9vw] min-w-[140px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.end_time}>{ele?.end_time}</div>
+  <div className='w-[6vw] min-w-[90px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesson_duration}>{ele?.lesson_duration}</div>
   <div className='w-[12vw] min-w-[160px] flex items-center  text-md text-gray-700 px-2'>
         <button
           type='button'
@@ -322,12 +286,12 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
           className='flex items-center gap-2 cursor-pointer transition-colors hover:text-blue-800'
         >
           <img src='/pdf_icon.png' width={16} height={16} alt='' />
-          <span className='truncate ' title={ele?.factuur_bedrag}>{ele?.factuur_bedrag}</span>
+          <span className='truncate ' title={ele?.invoice_amount!}>{ele?.invoice_amount}</span>
         </button>
         <DocumentModal
           ref={invoiceModalRef}
           title='Factuur bedrag'
-          documentName={ele.factuur_bedrag}
+          documentName={ele.invoice_amount ? `Factuur - ${ele.invoice_amount}` : 'Factuur'}
           description='Bekijk factuurdetails voor deze les.'
         />
       </div>
@@ -336,28 +300,28 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
   <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
         <span
           style={{
-            backgroundColor: mapColorToStatus(ele.rijles_status)?.colorbg,
-            color: mapColorToStatus(ele.rijles_status)?.colortext
+            backgroundColor: mapColorToStatus(ele.lesson_status!)?.colorbg,
+            color: mapColorToStatus(ele.lesson_status!)?.colortext
           }}
           className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
         >
-          {cap(ele.rijles_status)}
+          {cap(mapColorToStatus(ele.lesson_status!)?.status!) || ele.lesson_status!}
         </span>
       </div>
       
   <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
         <span
           style={{
-            backgroundColor: mapColorToStatus(ele.betalingsstatus)?.colorbg,
-            color: mapColorToStatus(ele.betalingsstatus)?.colortext
+            backgroundColor: mapColorToStatus(ele.payment_status!)?.colorbg,
+            color: mapColorToStatus(ele.payment_status!)?.colortext
           }}
           className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
         >
-          {cap(ele.betalingsstatus)}
+          {cap(mapColorToStatus(ele.payment_status!)?.status!) || ele.payment_status!}
         </span>
       </div>
       
-  <div className='w-[11vw] min-w-[160px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.annuleringstijd}>{ele.annuleringstijd}</div>
+  <div className='w-[11vw] min-w-[160px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.cancellation_time!}>{ele.cancellation_time}</div>
   <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
         <button
           type='button'
@@ -374,13 +338,13 @@ const TableElementScrollable = ({ ele }: { ele: Data_Lessons }) => {
           description='Voorbeeld van de leskaart voor deze student.'
         />
       </div>
-  <div className='w-[16vw] min-w-[220px] flex items-center  text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.annuleringsreden}>{ele.annuleringsreden}</div>
+  <div className='w-[16vw] min-w-[220px] flex items-center  text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.cancellation_reason!}>{ele.cancellation_reason}</div>
     </div>
   )
 }
 
 // Actions column component for sticky right position
-const TableElementActions = ({ ele }: { ele: Data_Lessons }) => {
+const TableElementActions = ({ ele }: { ele: ParsedLesson }) => {
   const modalRef = useRef<ActionModalRef>(null);
 
   return (
@@ -395,8 +359,67 @@ const TableElementActions = ({ ele }: { ele: Data_Lessons }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal id={ele.student} tableName='lessons' CurrentStatus={ele.rijles_status} ref={modalRef} />
+        <ActionModal id={ele.id!} tableName='lessons' CurrentStatus={ele.lesson_status!} ref={modalRef} />
       </div>
     </div>
   )
 }
+export const Status = 
+  [
+      {
+        engStatus : "pending",
+        status: "In behandeling",
+        colortext: "#bc5419",
+        colorbg: "#f7d0b9"
+      },
+     
+      {
+        engStatus : "cancelled",
+        status: "Geannuleerd",
+        colortext: "#333333",
+        colorbg: "#ededed"
+      },
+    
+      {
+        engStatus : "unpaid",
+        status: "Onbetaald",
+        colortext: "#8b0000",
+        colorbg: "#ffd6d6"
+      },
+       {
+        engStatus : "failed",
+        status: "Mislukt",
+        colortext: "#8b0000",
+        colorbg: "#ffd6d6"
+      },
+      {
+        engStatus : "expired",
+        status: "Verlopen",
+        colortext: "#8b0000",
+        colorbg: "#ffd6d6"
+      },
+      {
+        engStatus : "paid",
+        status: "Betaald",
+        colortext: "#006400",
+        colorbg: "#dcffd6"
+      },
+      {
+        engStatus : "open", 
+        status : "open" , 
+        colorbg : "#fff9d9", 
+        colortext : "#776600"
+      }
+    ]
+ 
+
+   export const mapColorToStatus = (status: string) => {
+      const color = Status.find(item => item.engStatus.toLowerCase() === status?.toLowerCase());
+      return color;
+    }
+    export const netherlandsToEngStatus = (status: string) => {
+      const color = Status.find(item => item.status.toLowerCase() === status?.toLowerCase());
+      return color;
+    }
+
+  

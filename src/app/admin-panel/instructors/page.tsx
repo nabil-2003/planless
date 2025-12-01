@@ -7,7 +7,7 @@
 // Features: View, search, filter, export instructors data
 
 // React and Next.js imports
-import React, { useCallback, useRef, useState } from 'react'
+import React, { use, useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -26,6 +26,8 @@ import PlusIcon from '@/components/svgs/Plus'
 
 // Data imports
 import instructorsData from "@/data/instructors.json"
+
+import useInstructor from '@/app/hooks/useInstructor'
 
 // ================================
 // TYPE DEFINITIONS
@@ -56,129 +58,17 @@ export default function InstructorsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    
+    const { fetchAllInstructors, instructors, loading, error } = useInstructor()  
     // UI states
     const [isExporting, setIsExporting] = useState(false)
-    
+    useEffect(()=>{
+        fetchAllInstructors()
+    },[])
     // Modal reference
     const CreateModalRef = useRef<CreateModalRef>(null)
 
-    // ================================
-    // DATA PROCESSING
-    // ================================
-    
-    /**
-     * Parse and transform instructors data from JSON
-     * Ensures type safety and data consistency
-     */
-    const parsedInstructors = useCallback(() => {
-        const instructors: Data_Instructor[] = (instructorsData as any[]).map(item => ({
-            instructor: item.instructor,
-            bsn_nummer: item.bsn_nummer,
-            email: item.email,
-            geboortedatum: item.geboortedatum,
-            adres: item.adres,
-            telefoonnummer: item.telefoonnummer,
-            rijbewijs: item.rijbewijs,
-            vervaldatum_rijbewijs: item.vervaldatum_rijbewijs,
-            instructeurskaart: item.instructeurskaart,
-            kvk_uittreksel: item.kvk_uittreksel,
-            arbeidsovereenkomst: item.arbeidsovereenkomst,
-            contractvervaldatum: item.contractvervaldatum,
-            urenregistratie: item.urenregistratie,
-        }))
-        return instructors
-    }, [])
 
-    // ================================
-    // EVENT HANDLERS
-    // ================================
-    
-    /**
-     * Opens the create new instructor modal
-     */
-  
 
-    /**
-     * Handles CSV export functionality
-     * Creates and downloads a CSV file with all instructor data
-     */
-    const handleExportCSV = async () => {
-        setIsExporting(true)
-        
-        try {
-            const instructors = parsedInstructors()
-            
-            // Define CSV headers
-            const headers = [
-                'Instructeur',
-                'BSN Nummer',
-                'Email',
-                'Geboortedatum',
-                'Adres',
-                'Telefoonnummer',
-                'Rijbewijs',
-                'Vervaldatum Rijbewijs',
-                'Instructeurskaart',
-                'KVK Uittreksel',
-                'Arbeidsovereenkomst',
-                'Contractvervaldatum',
-                'Urenregistratie'
-            ]
-
-            // Create CSV content with proper escaping
-            const csvContent = [
-                headers.join(','),
-                ...instructors.map(instructor => [
-                    `"${instructor.instructor}"`,
-                    `"${instructor.bsn_nummer}"`,
-                    `"${instructor.email}"`,
-                    `"${instructor.geboortedatum}"`,
-                    `"${instructor.adres}"`,
-                    `"${instructor.telefoonnummer}"`,
-                    `"${instructor.rijbewijs}"`,
-                    `"${instructor.vervaldatum_rijbewijs}"`,
-                    `"${instructor.instructeurskaart}"`,
-                    `"${instructor.kvk_uittreksel}"`,
-                    `"${instructor.arbeidsovereenkomst}"`,
-                    `"${instructor.contractvervaldatum}"`,
-                    `"${instructor.urenregistratie}"`
-                ].join(','))
-            ].join('\n')
-
-            // Create and trigger download
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-            const link = document.createElement('a')
-            const url = URL.createObjectURL(blob)
-            
-            link.setAttribute('href', url)
-            link.setAttribute('download', `instructeurs_${new Date().toISOString().split('T')[0]}.csv`)
-            link.style.visibility = 'hidden'
-            
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            
-            console.log('CSV export completed successfully')
-        } catch (error) {
-            console.error('Export failed:', error)
-        } finally {
-            setIsExporting(false)
-        }
-    }
-
-    /**
-     * Handles filter type changes
-     * @param filter - The selected filter type
-     */
-    const handleFilterTypeChange = (filter: string) => {
-        setCurrentFilterType(filter)
-    }
-
-    /**
-     * Handles time filter changes
-     * @param filter - The selected time filter
-     */
     const handleTimeFilterChange = (filter: string) => {
         setTimeFilter(filter)
     }
@@ -186,7 +76,7 @@ export default function InstructorsPage() {
     // ================================
     // RENDER
     // ================================
-    
+    console.log(instructors)
     return (
         <div className='content'>
             {/* Page Header */}
@@ -249,7 +139,6 @@ export default function InstructorsPage() {
                             </div>
                         </Link>
                           <button
-                            onClick={handleExportCSV}
                             disabled={isExporting}
                             className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
                         >
@@ -268,15 +157,16 @@ export default function InstructorsPage() {
                     </div>
                     
                     {/* Instructors Table */}
+                  { loading && <div className='text-center mx-auto  w-[2vw] animate-spin duration-400  h-[2vw] mt-20 text-gray-500 border-2 border-blue-800 border-l-0 rounded-full '></div> || 
                     <InstructorTable  
-                        data={[...parsedInstructors()]}
+                        data={instructors  }
                         className=""
                         filterTable={currentFilterType}
                         searchQuery={searchQuery}
                         timeFilter={currentTimeFilter}
                         itemsPerPage={itemsPerPage}
                         
-                    />
+                    />}
                 </div>
             </div>
             

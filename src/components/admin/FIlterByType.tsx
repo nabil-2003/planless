@@ -44,10 +44,10 @@ export default function FIlterByType({
       </li>
       <li
         onClick={chFilter}
-        data-filter="Bevestigd"
-        className={`whitespace-nowrap pb-2 px-3 ${isActive('Bevestigd') ? activeclass : ''}`}
+        data-filter="Betaald"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Betaald') ? activeclass : ''}`}
       >
-        Bevestigd
+        Betaald
       </li>
       <li
         onClick={chFilter}
@@ -58,10 +58,10 @@ export default function FIlterByType({
       </li>
       <li
         onClick={chFilter}
-        data-filter="Voltooid"
-        className={`whitespace-nowrap pb-2 px-3 ${isActive('Voltooid') ? activeclass : ''}`}
+        data-filter="Verlopen"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Verlopen') ? activeclass : ''}`}
       >
-        Voltooid
+        Verlopen
       </li>
     </ul>
   )

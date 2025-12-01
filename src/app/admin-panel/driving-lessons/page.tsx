@@ -7,8 +7,8 @@
 // Features: View, search, filter, date filtering for lessons data
 
 // React and Next.js imports
-import React, { useCallback, useRef, useState } from 'react'
-
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { getparsedLesson, ParsedLesson } from '@/store/LessonsSlices'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
@@ -27,6 +27,7 @@ import PlusIcon from '@/components/svgs/Plus'
 // Data imports
 import jsonData from "@/data/lessons.json"
 import CustmButton from '@/components/admin/ui/CustmButton'
+import useLessons from '@/app/hooks/useLessons'
 
 // ================================
 // TYPE DEFINITIONS
@@ -67,7 +68,7 @@ export default function DrivingLessonsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    
+    const {fetchAllLessons , lessons ,loading }= useLessons()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -80,20 +81,23 @@ export default function DrivingLessonsPage() {
      * Parse and transform lessons data from JSON
      * Ensures type safety and data consistency
      */
-    const parsedLessons = useCallback(() => {
-        const lessons: Data_Lessons[] = (jsonData as any[]).map(item => ({
-            instructeur: item.instructeur,
-            student: item.student,
-            begintijd: item.begintijd,
-            eindtijd: item.eindtijd,
-            lesduur: item.lesduur,
-            factuur_bedrag: item.factuur_bedrag,
-            betalingsstatus: item.betalingsstatus,
-            rijles_status: item.rijles_status,
-            annuleringstijd: item.annuleringstijd,
-            annuleringsreden: item.annuleringsreden,
-        }))
-        return lessons
+     useEffect(()=>{
+        fetchAllLessons()
+        
+     },[])
+    const parsedLessons = useCallback((lessonss :any[] ) :any => {
+            const  parsedLessons : ParsedLesson[]= []  
+           
+           lessonss?.forEach(lesson => {
+            console.log(lesson)
+            const parsed = getparsedLesson(lesson)
+            if (parsed !== null) {
+                parsedLessons.push(parsed)
+            }
+           })
+
+     return parsedLessons;
+       
     }, [])
 
     // ================================
@@ -276,15 +280,18 @@ export default function DrivingLessonsPage() {
                     </div>
                     
                     {/* Lessons Table */}
-                    <LessonsTable  
+                    {
+                      loading && <div className='text-center mx-auto  w-[2vw] animate-spin duration-400  h-[2vw] mt-20 text-gray-500 border-2 border-blue-800 border-l-0 rounded-full '></div> || 
+                      <LessonsTable  
+                        data={ parsedLessons(lessons as any[]) }
                         className=''
-                        filterTable={currentFilterType} 
-                        data={[...parsedLessons()]}
+                        filterTable={currentFilterType}
                         searchQuery={searchQuery}
                         selectedDateRange={selectedDateRange}
                         timeFilter={currentTimeFilter}
                         itemsPerPage={itemsPerPage}
-                    />
+                      />
+                    }
                 </div>
             </div>
             

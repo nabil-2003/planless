@@ -7,7 +7,7 @@
 // Features: View, search, filter, date filtering for students data
 
 // React and Next.js imports
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 // Component imports
@@ -25,6 +25,7 @@ import PlusIcon from '@/components/svgs/Plus'
 
 // Data imports
 import studentsData from "@/data/students.json"
+import useStudent from '@/app/hooks/useStudent'
 
 // ================================
 // TYPE DEFINITIONS
@@ -54,6 +55,7 @@ type CustomDateRef = {
  * Manages the students section of the admin dashboard
  */
 export default function StudentsPage() {
+
     
     // ================================
     // STATE MANAGEMENT
@@ -65,7 +67,7 @@ export default function StudentsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    
+    const {fetchAllStudents , students , loading}= useStudent()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -78,25 +80,13 @@ export default function StudentsPage() {
      * Parse and transform students data from JSON
      * Ensures type safety and data consistency
      */
-    const parsedStudents = useCallback(() => {
-        const students: Data_Student[] = (studentsData as any[]).map(item => ({
-            student: item.student,
-            bsn_nummer: item.bsn_nummer,
-            email: item.email,
-            geboortedatum: item.geboortedatum,
-            adres: item.adres,
-            telefoonnummer: item.telefoonnummer,
-            status: item.status,
-            rijbewijs_categorie: item.rijbewijs_categorie,
-            theorie_examen: item.theorie_examen,
-            praktijk_examen: item.praktijk_examen,
-            aantal_lessen: item.aantal_lessen,
-            laatste_les: item.laatste_les,
-            instructeur: item.instructeur,
-            opmerkingen: item.opmerkingen,
-        }))
-        return students
-    }, [])
+    useEffect(()=>{
+        fetchAllStudents()
+        console.log("students from hook ", students)
+    },[])
+
+
+
 
     // ================================
     // EVENT HANDLERS
@@ -104,10 +94,6 @@ export default function StudentsPage() {
     
     /**
      * Opens the create new student modal
-     */
-    const openCreateModal = () => {
-        CreateModalRef.current?.open()
-    }
 
     /**
      * Opens the date selection modal
@@ -151,9 +137,6 @@ export default function StudentsPage() {
      * Handles filter type changes
      * @param filter - The selected filter type
      */
-    const handleFilterTypeChange = (filter: string) => {
-        setCurrentFilterType(filter)
-    }
 
     /**
      * Handles time filter changes
@@ -275,15 +258,20 @@ export default function StudentsPage() {
                     </div>
                     
                     {/* Students Table */}
-                    <StudentTable  
+                   {
+                    loading   && <div className='w-[2vw] mt-10 h-[2vw]
+                     rounded-full animate-spin border-2
+                      border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
+                      <StudentTable  
                         className=' '
                         filterTable={currentFilterType} 
-                        data={[...parsedStudents()]}
+                        data={[...parseStudents(students)]}
                         searchQuery={searchQuery}
                         timeFilter={currentTimeFilter}
                         itemsPerPage={itemsPerPage}
                         selectedDateRange={selectedDateRange}
-                    />
+                    /> 
+                   }
                 </div>
             </div>
             
@@ -300,3 +288,24 @@ export default function StudentsPage() {
         </div>
     )
 }
+ export const parseStudents = (student : any[] ) => {
+        const s: Data_Student[] = student?.map(item => ({
+            
+            id: item?.id,
+            student: item?.name,
+            bsn_nummer: "_",
+            email: item?.email,
+            date_birth: item?.birthdate,
+            adress: item?.city +", "+ item?.street +", "+ item?.zipCode +  "," +item?.houseNumber,
+            phone_number: item?.phone,
+            status: item?.active ? 'Actief' : 'Inactief',
+            driving_license_category: "_",
+            theory_exam: "_",
+            practical_exam: "_",
+            number_of_lessons: 0,
+            last_lesson: "_",
+            instructor: "_",
+            remarks: "_",
+        }))
+        return s == null ? [] : s
+    }

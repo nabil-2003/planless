@@ -31,24 +31,29 @@ const buildTelHref = (value: string) => `tel:${value.replace(/[^+\d]/g, '')}`
  * Interface defining the structure of instructor data
  */
 export type Data_Instructor = {
+    id : number 
     instructor: string              // Instructor name
     bsn_nummer: string             // BSN (Social Security) number
-    email: string                  // Email address
-    geboortedatum: string          // Date of birth
-    adres: string                  // Address
-    telefoonnummer: string         // Phone number
-    rijbewijs: string              // Driving license type
-    vervaldatum_rijbewijs: string  // License expiration date
-    instructeurskaart: string      // Instructor card
-    kvk_uittreksel: string         // KVK extract
-    arbeidsovereenkomst: string    // Employment contract
-    contractvervaldatum: string    // Contract expiration date
-    urenregistratie: string        // Hours registration
+    email: string    
+    driving_license_issue_date ?: string  
+    instructor_card_expiration_date ?: string            // Driving license issue date
+    Date_birth: string          // Date of birth
+    address: string                  // Address
+    phone_number : string         // Phone number
+    driving_license: string              // Driving license type
+    contract_start_date?: string 
+    salary?: string
+    license_expiration_date: string  // License expiration date
+    instructor_card: string      // Instructor card
+    kvk_extract: string         // KVK extract
+    employment_contract: string    // Employment contract
+    contract_expiration_date: string    // Contract expiration date
+    hours_registration: string        // Hours registration
     // Optional / additional fields used elsewhere
-    medisch_certificaat?: string
-    vervaldatum_medisch?: string
-    registratie_nummer?: string
-    examen_contract?: string
+    medical_certificate?: string
+    medical_expiration_date?: string
+    registration_number?: string
+    exam_contract?: string
    
 }
 
@@ -56,7 +61,7 @@ export type Data_Instructor = {
  * Props interface for InstructorTable component
  */
 interface InstructorTableProps {
-    data: Array<Data_Instructor>
+    data: any
     className: string
     filterTable: string
     searchQuery?: string
@@ -98,8 +103,9 @@ export default function InstructorTable({
      * Filter data based on search query, time filter, and other criteria
      * Uses memoization for performance optimization
      */
+  
     const filteredData = useMemo(() => {
-        let filtered = data
+        let filtered = parseInsructor(data)
         
         // Apply search filter - searches across name, email, and BSN number
         if (searchQuery) {
@@ -245,7 +251,7 @@ export default function InstructorTable({
                                     />
                                 ))
                             ) : (
-                                <div className='w-full py-8 text-center text-gray-500'>
+                                <div className='w-[70vw] py-8  flex justify-center items-center   text-center text-gray-500'>
                                     Geen instructeurs gevonden
                                 </div>
                             )}
@@ -351,20 +357,20 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
                 {ele.email}
                 </Link>
             </div>
-            <div className='w-[8vw]  flex items-center text-md text-gray-700'>{ele.geboortedatum}</div>
+            <div className='w-[8vw]  flex items-center text-md text-gray-700'>{ele.Date_birth}</div>
             <div className='w-[8vw]   flex items-center justify-center'>
                     <span onClick={()=>{identityModal.current?.open()}} 
                     className=' hover:scale-110  cursor-pointer transition-all duration-300'>
               <LocationIcon  w={20} h={20} color="blue" /></span>
-              <IdentityModal ref={identityModal} description={ele.adres} title='Adres bekijken'/>
+              <IdentityModal ref={identityModal} description={ele.address} title='Adres bekijken'/>
             </div>
               
             <Link
-                href={buildTelHref(ele.telefoonnummer)}
+                href={buildTelHref(ele.phone_number)}
                 className='w-[9vw] flex items-center text-md text-gray-700 truncate transition-colors hover:text-blue-800 cursor-pointer'
-                title={ele.telefoonnummer}
+                title={ele.phone_number}
             >
-                {ele.telefoonnummer}
+                {ele.phone_number}
             </Link>
             <div className='w-[8vw] flex items-center text-md text-gray-700'>
                 <button
@@ -373,16 +379,16 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
                     className='flex  cursor-pointer items-center gap-2  transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.rijbewijs}</span>
+                    <span className='truncate'>{ele.driving_license}</span>
                 </button>
                 <DocumentModal
                     ref={licenseModal}
                     title='Rijbewijs'
-                    documentName={ele.rijbewijs}
+                    documentName={ele.driving_license}
                     description='Download of bekijk de scan van het rijbewijs.'
                 />
             </div>
-            <div className='w-[10vw]  flex items-center text-md text-gray-700'>{ele.vervaldatum_rijbewijs}</div>
+            <div className='w-[10vw]  flex items-center text-md text-gray-700'>{ele.license_expiration_date}</div>
             <div className='w-[10vw]  flex items-center text-md text-gray-700'>
                 <button
                     type='button'
@@ -390,12 +396,12 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
                     className='flex items-center cursor-pointer   gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.instructeurskaart}</span>
+                    <span className='truncate'>{ele.instructor_card}</span>
                 </button>
                 <DocumentModal
                     ref={instructorCardModal}
                     title='Instructeurskaart'
-                    documentName={ele.instructeurskaart}
+                    documentName={ele.instructor_card}
                     description='Instructeurskaart van de instructeur.'
                 />
             </div>
@@ -406,12 +412,12 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
                     className='flex items-center  cursor-pointer gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.kvk_uittreksel}</span>
+                    <span className='truncate'>{ele.kvk_extract}</span>
                 </button>
                 <DocumentModal
                     ref={kvkModal}
                     title='KVK Uittreksel'
-                    documentName={ele.kvk_uittreksel}
+                    documentName={ele.kvk_extract}
                     description='Kamer van Koophandel uittreksel.'
                 />
             </div>
@@ -422,17 +428,17 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
                     className='flex  cursor-pointer items-center gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.arbeidsovereenkomst}</span>
+                    <span className='truncate'>{ele.employment_contract}</span>
                 </button>
                 <DocumentModal
                     ref={contractModal}
                     title='Arbeidsovereenkomst'
-                    documentName={ele.arbeidsovereenkomst}
+                    documentName={ele.employment_contract}
                     description='Arbeidsovereenkomst voor deze instructeur.'
                 />
             </div>
-            <div className='w-[11vw]  flex items-center text-md text-gray-700'>{ele.contractvervaldatum}</div>
-            <div className='w-[7vw]  flex items-center text-md text-gray-700'>{ele.urenregistratie}</div>
+            <div className='w-[11vw]  flex items-center text-md text-gray-700'>{ele.contract_expiration_date}</div>
+            <div className='w-[7vw]  flex items-center text-md text-gray-700'>{ele.hours_registration}</div>
         </div>
     )
 }
@@ -453,8 +459,39 @@ const InstructorElementActions = ({ ele }: { ele: Data_Instructor }) => {
                 >
                     <MenuIcon s='gray' w='20px' h='20px' f='gray' />
                 </button>
-                <ActionModal id={ele.bsn_nummer} className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
+                <ActionModal id={ele.id.toString() } className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
             </div>
         </div>
     )
 }
+  export const parseInsructor = (data : any )=>{
+               let  instructors : Data_Instructor[] = []
+           data?.forEach((instructor:any)=>{
+              let  instructor_item : Data_Instructor = {} as Data_Instructor
+                  instructor_item.email =   instructor?.email
+                  instructor_item.Date_birth =   instructor?.birthdate
+                  instructor_item.address = instructor?.city +" ," + instructor?.street +" ," +
+                   instructor?.zipCode +" ,"+ instructor?.houseNumber
+                  instructor_item.instructor = instructor?.name
+                  instructor_item.phone_number = instructor?.phone
+                  instructor_item.id = instructor?.id
+                  instructor_item.bsn_nummer = "-"
+                  instructor_item.contract_expiration_date ="_"
+                   instructor_item.driving_license ="_"
+                   instructor_item.medical_certificate ="_"
+                   instructor_item.medical_expiration_date = "_"
+                   instructor_item.employment_contract = "_"
+                   instructor_item.kvk_extract = "_"
+                   instructor_item.instructor_card ="_"
+                   instructor_item.hours_registration = "0"
+                   instructor_item.license_expiration_date = "none"
+                   instructor_item.driving_license_issue_date = "_"
+                     instructor_item.contract_start_date = "_"
+                     instructor_item.salary = "_"
+                     
+                 instructors.push(instructor_item)
+            
+
+           })
+        return instructors
+    }

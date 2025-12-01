@@ -8,24 +8,25 @@ import Link from 'next/link';
 import LocationIcon from '@/components/svgs/Location';
 import { DocumentModal, DocumentModalRef, IdentityModal, IdentityModalRef } from '@/components/ui'
 
-const buildTelHref = (value: string) => `tel:${value.replace(/[^+\d]/g, '')}`
+const buildTelHref = (value: string) => value &&   `tel:${value.replace(/[^+\d]/g, '')}`
 
 // Data types
 export type Data_Student = {
+    id: string;
     student: string;
     bsn_nummer: string;
     email: string;
-    geboortedatum: string;
-    adres: string;
-    telefoonnummer: string;
+    date_birth: string;
+    adress: string;
+    phone_number: string;
     status: string;
-    rijbewijs_categorie: string;
-    theorie_examen: string;
-    praktijk_examen: string;
-    aantal_lessen: number;
-    laatste_les: string;
-    instructeur: string;
-    opmerkingen: string;
+    driving_license_category: string;
+    theory_exam: string;
+    practical_exam: string;
+    number_of_lessons: number;
+    last_lesson: string;
+    instructor: string;
+    remarks: string;
 }
 
 
@@ -64,16 +65,16 @@ export default function StudentTable({
         item.student.toLowerCase().includes(query) ||
         item.bsn_nummer.toLowerCase().includes(query) ||
         item.email.toLowerCase().includes(query) ||
-        item.adres.toLowerCase().includes(query) ||
-        item.telefoonnummer.toLowerCase().includes(query) ||
-        item.opmerkingen.toLowerCase().includes(query)
+        item.adress.toLowerCase().includes(query) ||
+        item.phone_number.toLowerCase().includes(query) ||
+        item.remarks.toLowerCase().includes(query)
       )
     }
     
     // Filter by date range
     if (selectedDateRange) {
       filtered = filtered.filter(item => {
-        const itemDate = new Date(item.geboortedatum).getTime()
+        const itemDate = new Date(item.date_birth).getTime()
         return itemDate >= selectedDateRange.firstDateMs && itemDate <= selectedDateRange.lastDateMs
       })
     }
@@ -96,7 +97,7 @@ export default function StudentTable({
       }
       
       filtered = filtered.filter(item => {
-        const itemDate = new Date(item.geboortedatum).getTime()
+        const itemDate = new Date(item.date_birth).getTime()
         return now - itemDate <= timeFilterMs
       })
     }
@@ -306,24 +307,24 @@ const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
           description='Voorbeeld van het e-maildocument voor deze student.'
         />
       </div>
-  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.geboortedatum}>{ele.geboortedatum}</div>
-  <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele.adres}>
+  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.date_birth}>{ele.date_birth}</div>
+  <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md text-gray-700 px-2' title={ele. adress}>
         <span
           onClick={() => addressModal.current?.open()}
           className='cursor-pointer transition-all duration-300 hover:scale-110'
         >
           <LocationIcon w={20} h={20} color="blue" />
         </span>
-        <IdentityModal ref={addressModal} description={ele.adres} title='Adres bekijken' />
+        <IdentityModal ref={addressModal} description={ele.adress} title='Adres bekijken' />
       </div>
   <Link
-    href={buildTelHref(ele.telefoonnummer)}
+    href={buildTelHref(ele.phone_number) || '#'}
     className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden transition-colors hover:text-blue-800 cursor-pointer'
-    title={ele.telefoonnummer}
+    title={ele.phone_number}
   >
-    {ele.telefoonnummer}
+    {ele.phone_number}
   </Link>
-  <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.opmerkingen}>{ele.opmerkingen}</div>
+  <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.remarks}>{ele.remarks}</div>
     </div>
   )
 }
@@ -344,7 +345,7 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal id={ele.bsn_nummer} tableName='students' CurrentStatus={''} ref={modalRef} />
+        <ActionModal id={ele.id} tableName='students' CurrentStatus={''} ref={modalRef} />
       </div>
     </div>
   )
