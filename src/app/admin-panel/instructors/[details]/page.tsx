@@ -257,7 +257,8 @@ type EventSchedule ={
 }
 const CustomSchedule = ({}) => {
         const {planning , instructor} = useInstructor()
-        const [currentDate , setCurrentDate] = useState<number>(new Date().getTime())
+        // Start from November 30, 2025
+        const [currentDate , setCurrentDate] = useState<number>(new Date("2025-11-30").getTime())
           console.log("planing ", planning)
            const times = useMemo(() => {
         return ["09:00", "10:00", "11:00", "12:00", , "14:00", "15:00", "16:00", "17:00"]
@@ -273,13 +274,12 @@ const CustomSchedule = ({}) => {
                 return eventDate >= currentDate && eventDate <= currentDate + 7 * 24 * 60 * 60 * 1000
             } ).forEach((p : any) => {   
              
-                console.log("instructor " , instructor  )
-                console.log("student " , p.student   )
-                const tt =new Date( p?.startDate?.split(" ")[0].split("-")[0],p?.startDate?.split(" ")[0].split("-")[1]-1,p?.startDate?.split(" ")[0].split("-")[2]).toString().split(" ")[0]
+
+                const tt =new Date( p?.startDate?.split(" ")[0].split("-")[0],p?.startDate?.split(" ")[0].split("-")[1]-1,p?.startDate?.split(" ")[0].split("-")[2].split("T")[0]).toString().split(" ")[0]
                 const rand = Math.floor(Math.random() * (times.length-1));
                 dd.push( { endDate :  p.endDate , startDate : p.startDate?.split(" ")[0] ,student : p.student.name, instructor : instructor?.name || "none"  , day : tt , time: times[rand]! } )
             })
-            return  dd 
+            return  dd
         }
       console.log("exractInfo()", exractInfo())
     return (
@@ -292,21 +292,26 @@ const CustomSchedule = ({}) => {
 }
 
 const ScheduleDateBar = ({setDate}:{setDate: Function}) => {
-    const  [currentDate , setCurrentDate] = useState<number>(new Date().getTime())
-       useEffect(()=>{
-           const i=    setInterval(()=>{
-             setCurrentDate(new Date().getTime())
-           },604800000)
-       },[])
+    // Start from November 30, 2025
+    const  [currentDate , setCurrentDate] = useState<number>(new Date("2025-11-30").getTime())
+    
+    // Remove automatic weekly update, only update manually with prev/next buttons
+    useEffect(() => {
+        // Initialize the parent component's date to November 30, 2025
+        setDate(new Date("2025-11-30").getTime());
+    }, []);
+    
     const nextWeek =()=>{
-      setCurrentDate(  currentDate + 604800000)
-      setDate(currentDate  + 604800000)
-        console.log(new Date(currentDate + 604800000).toString().split(" ").slice(0,4).join(" "))
+      const newDate = currentDate + 604800000; // Add 7 days (1 week)
+      setCurrentDate(newDate)
+      setDate(newDate)
+        console.log(new Date(newDate).toString().split(" ").slice(0,4).join(" "))
     }
     const lastWeek =()=>{
-      setCurrentDate(currentDate - 604800000)
-      setDate(currentDate  - 604800000)
-        console.log(new Date(currentDate - 604800000).toString().split(" ").slice(0,4).join(" "))
+      const newDate = currentDate - 604800000; // Subtract 7 days (1 week)
+      setCurrentDate(newDate)
+      setDate(newDate)
+        console.log(new Date(newDate).toString().split(" ").slice(0,4).join(" "))
     }
     
     return (<div className='text-sm text-gray-900 rounded-lg mx-auto border-2 border-gray-300 flex items-center bg-white  w-max h-max p-2'>

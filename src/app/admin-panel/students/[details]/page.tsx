@@ -171,7 +171,7 @@ const CustomSchedule = () => {
                 const eventDate = new Date(p?.startDate?.split(" ")[0]).getTime();
                 return eventDate >= currentDate && eventDate < currentDate + 7 * 24 * 60 * 60 * 1000
             } ).forEach((p : any) => {   
-                const tt =new Date( p?.startDate?.split(" ")[0].split("-")[0],p?.startDate?.split(" ")[0].split("-")[1]-1,p?.startDate?.split(" ")[0].split("-")[2]).toString().split(" ")[0]
+                const tt =new Date( p?.startDate?.split(" ")[0].split("-")[0],p?.startDate?.split(" ")[0].split("-")[1]-1,p?.startDate?.split(" ")[0].split("-")[2].split("T")[0]).toString().split(" ")[0]
                 const rand = Math.floor(Math.random() * (times.length-1));
                 dd.push( { endDate :  p.endDate , startDate : p.startDate?.split(" ")[0] ,instructor : p.instructor.name, student : parsedStudent.student  , day : tt , time: times[rand]! } )
             })
