@@ -58,7 +58,7 @@ export default function InstructorsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const { fetchAllInstructors, instructors, loading  , size, index, setPageSize } = useInstructor()  
+    const { fetchAllInstructors, instructors, loading  , size,  setPageIndex, index, setPageSize } = useInstructor()  
     // UI states
     const [isExporting, setIsExporting] = useState(false)
     useEffect(()=>{
@@ -117,7 +117,7 @@ export default function InstructorsPage() {
                             ]}
                             value={size}
                             className='mr-auto w-32'
-                            onChange={(value) => setPageSize(Number(value))}
+                            onChange={(value) => {setPageSize(Number(value)); setPageIndex(0)}}
                         />
                         
                         {/* Search Input */}

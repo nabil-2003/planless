@@ -67,7 +67,7 @@ export default function StudentsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const {fetchAllStudents , students ,setSize, indexPage , pageSize , loading}= useStudent()
+    const {fetchAllStudents , students ,setSize, indexPage , setIndex , pageSize , loading}= useStudent()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -190,7 +190,7 @@ export default function StudentsPage() {
                             ]}
                             value={pageSize}
                             className='w-full md:w-32  md:mr-auto'
-                            onChange={(value) => setSize(Number(value))}
+                            onChange={(value) => {setSize(Number(value)); setIndex(0)}}
                         />
                         
                         {/* Search Input */}

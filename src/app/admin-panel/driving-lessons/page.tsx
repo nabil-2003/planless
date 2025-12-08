@@ -215,7 +215,7 @@ export default function DrivingLessonsPage() {
                             ]}
                          value={size}
                             className='w-full md:w-32 md:mr-auto bg-white h-full'
-                            onChange={(value) => setSize(Number(value))}
+                            onChange={(value) => {setSize(Number(value)); setIndex(0)}}
                         />
                         
                         {/* Search Input */}
