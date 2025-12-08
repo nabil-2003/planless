@@ -11,25 +11,30 @@ const initialState = {
     lesson : null as any,
     loading : false,
     error : null as string | null,
+    indexPage : 0 as number ,
+    pageSize : 10 as number ,
+    total : 0 as number
 }
 const  getAllLessons= createAsyncThunk(
     "lessons/getAllLessons",
-    async (_, {rejectWithValue, dispatch})=>{
+    async ( {pageN , pageSize}  :{pageN: number , pageSize: number }, {rejectWithValue , dispatch})=>{
       
-        
+
         try{
             // API call to fetch instructors
             if (getToken() == null ) 
               
                 return rejectWithValue("logged first");
                  
-            const response = await  axios.get(API_BASE+"/admin/planning" , {
+            const response = await  axios.get(API_BASE+`/admin/planning?pageIndex=${pageN}&pageSize=${pageSize}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
             }
             );
+            dispatch(setTotal(response.data.total))
             return response.data.result;
+            
         }catch(error:any){
             return rejectWithValue(error.message);
         }
@@ -73,6 +78,15 @@ const lessons = createSlice({
             state.error = action.payload ?? null;
             state.loading = false;
         },
+        setSizePage(state, action){
+            state.pageSize = action.payload;
+        } , 
+        setIndexPage(state, action){
+            state.indexPage = action.payload;
+        },
+        setTotal(state , action){
+            state.total = action.payload;
+        }
        
     }
     , extraReducers(builder) {
@@ -82,7 +96,7 @@ const lessons = createSlice({
          })
         .addCase(getAllLessons.fulfilled, (state, action) => {
             state.loading = false;
-            console.log("lessons fetched:", action.payload);
+           
             state.lessons = action.payload;
         })
         .addCase(getAllLessons.rejected, (state, action) => {
@@ -103,8 +117,8 @@ const lessons = createSlice({
 }
   
 })
-export const {  setLoading, setError } = lessons.actions;
-export { getAllLessons , getLessonById };
+export const {  setLoading, setError , setTotal , setIndexPage , setSizePage } = lessons.actions;
+export { getAllLessons , getLessonById  };
 export default lessons.reducer;
 
 

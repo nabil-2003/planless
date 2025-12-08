@@ -73,7 +73,6 @@ export default function CostumChart({className , data=[] ,title, statics }: { ti
                 //extract all keys except 'month' to create lines dynamically
                keys.map((e,i) => 
                   {
-                    console.log( e , getColor(e))
                     return(
                   <Area type="monotone" key={i} dataKey={e} stroke={getColor(e)} fill='blue' fillOpacity={0.015} strokeWidth={2} dot={false} name={e} />
 

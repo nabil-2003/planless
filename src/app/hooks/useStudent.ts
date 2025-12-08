@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
-import { getAllStudents, getPlanningStudent, getStudentById } from "@/store/studentSlice";
+import { getAllStudents, getPlanningStudent, getStudentById, setIndexPage, setSizePage } from "@/store/studentSlice";
   
 const useStudent = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ const fetchStudentById = async (id : string) => {
     
 
       // Dispatch the thunk and unwrap the result so errors are thrown here
-      const result = await dispatch(getAllStudents()).unwrap();
+      const result = await dispatch(getAllStudents({index: selector.indexPage, size: selector.pageSize})).unwrap();
       console.debug('useStudent:  result:', result);
       return result;
     } catch (error: any) {
@@ -55,6 +55,12 @@ const fetchStudentById = async (id : string) => {
       console.error('An error occurred while fetching planning for student by ID:', error);
     }
   } 
+  const setSize = (size : number )=>{
+    dispatch(setSizePage(size));
+  }
+  const setIndex = (index : number )=>{
+    dispatch(setIndexPage(index));
+  }
 
   
   return {
@@ -66,6 +72,13 @@ const fetchStudentById = async (id : string) => {
     planning : selector.planning as any,
     fetchStudentById , 
     fetchPlanningStudentById 
+    , 
+    setSize
+    , 
+    setIndex ,
+    pageSize: selector.pageSize,
+    indexPage: selector.indexPage,
+    total: selector.total
   };
 };
 

@@ -25,7 +25,6 @@ import { Button } from '@/components/ui'
 import PlusIcon from '@/components/svgs/Plus'
 
 // Data imports
-import jsonData from "@/data/lessons.json"
 import CustmButton from '@/components/admin/ui/CustmButton'
 import useLessons from '@/app/hooks/useLessons'
 
@@ -68,11 +67,12 @@ export default function DrivingLessonsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const {fetchAllLessons , lessons ,loading }= useLessons()
+
+    const {fetchAllLessons , lessons ,loading  , size, index , setIndex , setSize }= useLessons()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
-
+      
     // ================================
     // DATA PROCESSING
     // ================================
@@ -81,15 +81,13 @@ export default function DrivingLessonsPage() {
      * Parse and transform lessons data from JSON
      * Ensures type safety and data consistency
      */
+   
      useEffect(()=>{
-        fetchAllLessons()
-        
-     },[])
+        fetchAllLessons(index,size )
+     },[index,size])
     const parsedLessons = useCallback((lessonss :any[] ) :any => {
-            const  parsedLessons : ParsedLesson[]= []  
-           
+            const  parsedLessons : ParsedLesson[]= []          
            lessonss?.forEach(lesson => {
-            console.log(lesson)
             const parsed = getparsedLesson(lesson)
             if (parsed !== null) {
                 parsedLessons.push(parsed)
@@ -203,6 +201,7 @@ export default function DrivingLessonsPage() {
                         {/* Items Per Page Selector */}
                         <CustomSelect
                             options={[
+
                                 { value: 10, label: "10" },
                                 { value: 20, label: "20" },
                                 { value: 30, label: "30" },
@@ -214,9 +213,9 @@ export default function DrivingLessonsPage() {
                                 { value: 90, label: "90" },
                                 { value: 100, label: "100" },
                             ]}
-                            value={itemsPerPage}
+                         value={size}
                             className='w-full md:w-32 md:mr-auto bg-white h-full'
-                            onChange={(value) => setItemsPerPage(Number(value))}
+                            onChange={(value) => setSize(Number(value))}
                         />
                         
                         {/* Search Input */}
@@ -285,11 +284,8 @@ export default function DrivingLessonsPage() {
                       <LessonsTable  
                         data={ parsedLessons(lessons as any[]) }
                         className=''
-                        filterTable={currentFilterType}
-                        searchQuery={searchQuery}
-                        selectedDateRange={selectedDateRange}
-                        timeFilter={currentTimeFilter}
-                        itemsPerPage={itemsPerPage}
+                        
+                      
                       />
                     }
                 </div>

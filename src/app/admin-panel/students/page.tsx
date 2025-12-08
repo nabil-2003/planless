@@ -67,7 +67,7 @@ export default function StudentsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const {fetchAllStudents , students , loading}= useStudent()
+    const {fetchAllStudents , students ,setSize, indexPage , pageSize , loading}= useStudent()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -83,7 +83,7 @@ export default function StudentsPage() {
     useEffect(()=>{
         fetchAllStudents()
         console.log("students from hook ", students)
-    },[])
+    },[indexPage , pageSize ])
 
 
 
@@ -188,9 +188,9 @@ export default function StudentsPage() {
                                 { value: 90, label: "90" },
                                 { value: 100, label: "100" },
                             ]}
-                            value={itemsPerPage}
+                            value={pageSize}
                             className='w-full md:w-32  md:mr-auto'
-                            onChange={(value) => setItemsPerPage(Number(value))}
+                            onChange={(value) => setSize(Number(value))}
                         />
                         
                         {/* Search Input */}
@@ -264,12 +264,9 @@ export default function StudentsPage() {
                       border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
                       <StudentTable  
                         className=' '
-                        filterTable={currentFilterType} 
+                       
                         data={[...parseStudents(students)]}
-                        searchQuery={searchQuery}
-                        timeFilter={currentTimeFilter}
-                        itemsPerPage={itemsPerPage}
-                        selectedDateRange={selectedDateRange}
+                      
                     /> 
                    }
                 </div>

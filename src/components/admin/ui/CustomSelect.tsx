@@ -31,7 +31,6 @@ export default function CustomSelect({
 
   // Handle controlled vs uncontrolled behavior
   const currentValue = value !== undefined ? value : selectedValue
-
   // Set selected label based on current value
   useEffect(() => {
     const option = options.find(opt => opt.value === currentValue)

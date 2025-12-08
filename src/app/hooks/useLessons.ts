@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
-import { getAllLessons, getLessonById, getparsedLesson } from "@/store/LessonsSlices";
+import { getAllLessons, getLessonById, getparsedLesson, setIndexPage, setSizePage } from "@/store/LessonsSlices";
   
 const useLessons = () => {
   const dispatch = useAppDispatch();
@@ -20,15 +20,14 @@ const fetchLessonById = async (id : string) => {
     }
   }
   // Hook logic for instructor role
-  const fetchAllLessons = async () => {
+  const fetchAllLessons = async (pageN  : number = 0, pageSize: number = 10) => {
     try {
       // Helpful debug: check session storage for user/token
     
 
       // Dispatch the thunk and unwrap the result so errors are thrown here
-      const result = await dispatch(getAllLessons()).unwrap();
-      console.debug('useLessons: getAllLessons result:', result);
-      return result;
+      const result = await dispatch(getAllLessons({ pageN, pageSize })).unwrap();
+ 
     } catch (error: any) {
       console.error('An error occurred while fetching lessons:', error);
       // If unauthorized, clear session and redirect to login
@@ -45,16 +44,27 @@ const fetchLessonById = async (id : string) => {
       throw error;
     }
   };
+  const setIndex = (index : number )=>{
+        dispatch(setIndexPage(index))
+  }
+  const setSize = (size : number )=>{
+        dispatch(setSizePage(size))
+  }
 
   
 
   return {
     fetchAllLessons,
+    index : selector.indexPage,
+    size : selector.pageSize,
     lessons: selector.lessons ,
     loading: selector.loading as boolean,
     error: selector.error as string | null, 
     lesson : getparsedLesson(selector.lesson as any),
+    total: selector.total ,
     fetchLessonById , 
+    setIndex ,
+    setSize
   };
 };
 

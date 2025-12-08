@@ -14,24 +14,27 @@ const initialState = {
     loading : false,
     planning : null as any,
     error : null as string | null,
+    pageSize: 10,
+    indexPage: 0,
+    total: 0,
 }
 const  getAllStudents = createAsyncThunk(
     "student/getAllStudents",
-    async (_, {rejectWithValue, dispatch})=>{
+    async ({index , size}:{index: number, size: number}, {rejectWithValue, dispatch})=>{
       
         
         try{
             // API call to fetch instructors
             if (getToken() == null ) 
-              
                 return rejectWithValue("logged first");
-                 
-            const response = await  axios.get(API_BASE+"/admin/student" , {
+                 console.log(`Fetching students with pageIndex=${index} and pageSize=${size}`)
+            const response = await  axios.get(API_BASE+`/admin/student?pageIndex=${index}&pageSize=${size}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
             }
             );
+            dispatch(setTotal(response.data.total))
             return response.data.result;
         }catch(error:any){
             return rejectWithValue(error.message);
@@ -53,7 +56,7 @@ const getStudentById = createAsyncThunk(
             }
         }
         );
-        console.log(response.data)
+        
         return response.data;
     }
     catch(error:any){
@@ -95,6 +98,15 @@ const student = createSlice({
             state.error = action.payload ?? null;
             state.loading = false;
         },
+       setSizePage(state, action){
+            state.pageSize = action.payload;
+        } , 
+        setIndexPage(state, action){
+            state.indexPage = action.payload;
+        },
+        setTotal(state , action){
+            state.total = action.payload;
+        }
        
     }
     , extraReducers(builder) {
@@ -139,7 +151,7 @@ const student = createSlice({
 }
   
 })
-export const {  setLoading, setError } = student.actions;
+export const {  setLoading, setError ,setIndexPage, setSizePage, setTotal } = student.actions;
 export { getAllStudents , getStudentById , getPlanningStudent };
 export default student.reducer;
 

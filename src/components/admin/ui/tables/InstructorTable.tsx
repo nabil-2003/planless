@@ -20,8 +20,9 @@ import { DocumentModal, DocumentModalRef } from '@/components/ui'
 import CustmButton from '../CustmButton'
 import { IdentityModal, IdentityModalRef } from '@/components/ui'
 import axios from 'axios'
+import useInstructor from '@/app/hooks/useInstructor'
 
-const buildTelHref = (value: string) => `tel:${value.replace(/[^+\d]/g, '')}`
+const buildTelHref = (value: string) => `tel:${value?.replace(/[^+\d]/g, '')}`
 
 // ================================
 // TYPE DEFINITIONS
@@ -63,11 +64,7 @@ export type Data_Instructor = {
 interface InstructorTableProps {
     data: any
     className: string
-    filterTable: string
-    searchQuery?: string
-    selectedDateRange?: { firstDateMs: number; lastDateMs: number } | null
-    timeFilter?: string
-    itemsPerPage?: number
+ 
 }
 
 // ================================
@@ -80,11 +77,6 @@ interface InstructorTableProps {
  */
 export default function InstructorTable({
     data, 
-    filterTable, 
-    searchQuery = '', 
-    selectedDateRange, 
-    timeFilter = '24 uur',
-    itemsPerPage = 10, 
     className = ''
 }: InstructorTableProps) {
     
@@ -95,6 +87,7 @@ export default function InstructorTable({
     const [currentPage, setCurrentPage] = React.useState(1)
     const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
     const containerRef = useRef<HTMLDivElement>(null)
+    const {total , setPageIndex , index, size}= useInstructor()
     // ================================
     // DATA FILTERING AND PROCESSING
     // ================================
@@ -104,29 +97,11 @@ export default function InstructorTable({
      * Uses memoization for performance optimization
      */
   
-    const filteredData = useMemo(() => {
-        let filtered = parseInsructor(data)
-        
-        // Apply search filter - searches across name, email, and BSN number
-        if (searchQuery) {
-            filtered = filtered.filter(instructor => 
-                instructor.instructor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                instructor.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                instructor.bsn_nummer.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-        }
-        
-        return filtered
-    }, [data, searchQuery])
-
+    
     // ================================
     // PAGINATION CALCULATIONS
     // ================================
-    
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage)
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    const currentData = filteredData.slice(startIndex, endIndex)
+   
 
     // ================================
     // EVENT HANDLERS
@@ -136,19 +111,15 @@ export default function InstructorTable({
      * Navigate to next page
      */
     const goToNextPage = useCallback(() => {
-        if (currentPage < totalPages) {
-            setCurrentPage(prev => prev + 1)
-        }
-    }, [currentPage, totalPages])
+       setPageIndex(index + 1)
+    }, [])
 
     /**
      * Navigate to previous page
      */
     const goToPrevPage = useCallback(() => {
-        if (currentPage > 1) {
-            setCurrentPage(prev => prev - 1)
-        }
-    }, [currentPage])
+       setPageIndex(index - 1)
+    }, [])
 
     // ================================
     // EFFECTS
@@ -157,13 +128,8 @@ export default function InstructorTable({
     /**
      * Reset to first page when filters change
      */
-    useEffect(() => {
-        setCurrentPage(1)
-    }, [filterTable, searchQuery, selectedDateRange, timeFilter, itemsPerPage])
-     
-    /**
-     * Calculate and update scrollbar width based on container size
-     */
+   
+  
     useEffect(() => {
         const updateScrollBarWidth = () => {
             if (containerRef.current) {
@@ -181,7 +147,7 @@ export default function InstructorTable({
     // ================================
     // RENDER
     // ================================
-
+console.log(parseInsructor(data))
     return (
         <>
             {/* Hide native scrollbar styles */}
@@ -206,15 +172,15 @@ export default function InstructorTable({
                         </div>
                         {/* NR Body */}
                         <div>
-                            {currentData.length > 0 ? (
-                                currentData.map((instructor, index) => (
+                            {data.length > 0 ? (
+                                parseInsructor(data).map((_,i) => (
                                     <div 
-                                        key={`nr-${startIndex + index}`} 
+                                        key={`nr-${index*size +i+1}`} 
                                         className='bg-white border-b-1 border-gray-200'
                                         style={{ height: '52px' }}
                                     >
                                         <div className='w-[4vw] bg-gray-50 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
-                                            {startIndex + index + 1}
+                                            {  + 1}
                                         </div>
                                     </div>
                                 ))
@@ -242,10 +208,10 @@ export default function InstructorTable({
                         </div>
                         {/* Scrollable Body */}
                         <div className='w-max'>
-                            {currentData.length > 0 ? (
-                                currentData.map((instructor, index) => (
+                            {parseInsructor(data).length > 0 ? (
+                                parseInsructor(data).map((instructor,i) => (
                                     <InstructorElementScrollable 
-                                        key={startIndex + index} 
+                                        key={(size * index) + i } 
                                         ele={instructor} 
                                        
                                     />
@@ -266,10 +232,10 @@ export default function InstructorTable({
                         </div>
                         {/* Actions Body */}
                         <div>
-                            {currentData.length > 0 ? (
-                                currentData.map((instructor, index) => (
+                            {parseInsructor(data).length > 0 ? (
+                                parseInsructor(data).map((instructor ) => (
                                     <InstructorElementActions 
-                                        key={`actions-${startIndex + index}`} 
+                                        key={`actions-${instructor.id}`} 
                                         ele={instructor} 
                                     />
                                 ))
@@ -284,9 +250,9 @@ export default function InstructorTable({
              <div className='flex  justify-between items-center mb-4 px-4'>
                 <button 
                     onClick={goToPrevPage}
-                    disabled={currentPage === 1}
+                    disabled={index === 0}
                     className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-                        currentPage === 1 
+                        index === 0
                             ? 'text-gray-400 cursor-not-allowed' 
                             : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
                     }`}
@@ -295,14 +261,14 @@ export default function InstructorTable({
                 </button>
                 
                 <span className='btn-text text-gray-600'>
-                    Pagina {currentPage} van {totalPages}
+                    Pagina {index + 1} van {Math.ceil(total / size)}
                 </span>
                 
                 <button 
                     onClick={goToNextPage}
-                    disabled={currentPage === totalPages || totalPages === 0}
+                    disabled={ Math.ceil(total / size) -1 >= index}
                     className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-                        currentPage === totalPages || totalPages === 0
+                     (  Math.ceil(total / size) -1 >= index)
                             ? 'text-gray-400 cursor-not-allowed' 
                             : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
                     }`}
@@ -322,7 +288,7 @@ export default function InstructorTable({
             {/* Results Counter */}
             <div className='w-[95%] mx-auto mb-4 text-center'>
                 <span className='btn-text text-gray-600'>
-                    Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
+                    Weergaven {index *size + 1}-{Math.min((index + 1) *size , total)} van {total}
                 </span>
             </div>
            </div>
@@ -459,7 +425,7 @@ const InstructorElementActions = ({ ele }: { ele: Data_Instructor }) => {
                 >
                     <MenuIcon s='gray' w='20px' h='20px' f='gray' />
                 </button>
-                <ActionModal id={ele.id.toString() } className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
+                <ActionModal id={ele.id?.toString() } className='right-[-.3vw]'  tableName='instructors' CurrentStatus={''} ref={modalRef} />
             </div>
         </div>
     )

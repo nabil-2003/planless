@@ -10,12 +10,35 @@ import { FaArrowUp, FaArrowDown, FaChartLine, FaChartBar, FaRegCheckCircle, FaRe
 import LeftSide from '@/components/admin/LeftSide'
 import { IoFlagOutline } from 'react-icons/io5'
 import { RxTimer } from 'react-icons/rx'
+import useDashBoard from '@/app/hooks/useDashBoard'
 export default function page() {
   const [currentFilter, setCurrentFilter] = React.useState('20 dagen');
+
+  const mapFilterToDays = (filter: string) => {
+    switch (filter) {
+      case '7 dagen':
+        return 7;
+      case '24 uur':
+        return 1;
+      case '20 dagen':
+        return 20;
+      case '12 maanden':
+        return 365;
+      default:
+        return 20;
+    }
+  }
+  const { fetchStats } = useDashBoard();
   const handleChangeFilter = (filter: string) => {
     setCurrentFilter( t => filter);
     // You can add additional logic here to fetch or filter data based on the selected time filter
   }
+   React.useEffect( ()=>{
+       const fetchData = async ()=>{
+         await fetchStats( mapFilterToDays(currentFilter));
+       }
+        fetchData();
+  },[currentFilter])
   return (
     <>
     <Header title="dashboard overview"   />

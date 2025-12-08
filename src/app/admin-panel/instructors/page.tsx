@@ -58,12 +58,12 @@ export default function InstructorsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const { fetchAllInstructors, instructors, loading, error } = useInstructor()  
+    const { fetchAllInstructors, instructors, loading  , size, index, setPageSize } = useInstructor()  
     // UI states
     const [isExporting, setIsExporting] = useState(false)
     useEffect(()=>{
         fetchAllInstructors()
-    },[])
+    },[size, index])
     // Modal reference
     const CreateModalRef = useRef<CreateModalRef>(null)
 
@@ -115,9 +115,9 @@ export default function InstructorsPage() {
                                 { value: 90, label: "90" },
                                 { value: 100, label: "100" },
                             ]}
-                            value={itemsPerPage}
+                            value={size}
                             className='mr-auto w-32'
-                            onChange={(value) => setItemsPerPage(Number(value))}
+                            onChange={(value) => setPageSize(Number(value))}
                         />
                         
                         {/* Search Input */}
@@ -159,12 +159,9 @@ export default function InstructorsPage() {
                     {/* Instructors Table */}
                   { loading && <div className='text-center mx-auto  w-[2vw] animate-spin duration-400  h-[2vw] mt-20 text-gray-500 border-2 border-blue-800 border-l-0 rounded-full '></div> || 
                     <InstructorTable  
-                        data={instructors  }
+                        data={instructors}
                         className=""
-                        filterTable={currentFilterType}
-                        searchQuery={searchQuery}
-                        timeFilter={currentTimeFilter}
-                        itemsPerPage={itemsPerPage}
+                        
                         
                     />}
                 </div>

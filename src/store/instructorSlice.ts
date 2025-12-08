@@ -13,10 +13,13 @@ const initialState = {
     planning : [] as any,
     loading : false,
     error : null as string | null,
+    indexPage : 0 as number ,
+    pageSize : 10 as number ,
+    total : 0 as number
 }
 const  getAllInstructors = createAsyncThunk(
     "instructor/getAllInstructors",
-    async (_, {rejectWithValue, dispatch})=>{
+    async ({index , size}: {index: number, size: number}, {rejectWithValue, dispatch})=>{
       
         
         try{
@@ -25,12 +28,13 @@ const  getAllInstructors = createAsyncThunk(
               
                 return rejectWithValue("logged first");
                  
-            const response = await  axios.get(API_BASE+"/admin/instructor" , {
+            const response = await  axios.get(API_BASE+`/admin/instructor?pageIndex=${index}&pageSize=${size}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
             }
             );
+            dispatch(setTotal(response.data.total))
             return response.data.result;
         }catch(error:any){
             return rejectWithValue(error.message);
@@ -75,7 +79,7 @@ const getInstructorById = createAsyncThunk(
             }
         }
         );
-        console.log("data  pla,n" , response.data)
+       
         return response.data;
     }
     catch(error:any){
@@ -98,6 +102,15 @@ const instructor = createSlice({
             state.error = action.payload ?? null;
             state.loading = false;
         },
+        setSizePage(state, action){
+            state.pageSize = action.payload;
+        } , 
+        setIndexPage(state, action){
+            state.indexPage = action.payload;
+        },
+        setTotal(state , action){
+            state.total = action.payload;
+        }
        
     }
     , extraReducers(builder) {
@@ -140,7 +153,7 @@ const instructor = createSlice({
 }
   
 })
-export const {  setLoading, setError } = instructor.actions;
+export const {  setLoading, setError  , setIndexPage, setSizePage, setTotal} = instructor.actions;
 export { getAllInstructors , getInstructorById , getPlanning };
 export default instructor.reducer;
 const getToken = () => {

@@ -7,6 +7,7 @@ import CustomScrollBar from '../ScrollBar';
 import Link from 'next/link';
 import LocationIcon from '@/components/svgs/Location';
 import { DocumentModal, DocumentModalRef, IdentityModal, IdentityModalRef } from '@/components/ui'
+import useStudent from '@/app/hooks/useStudent';
 
 const buildTelHref = (value: string) => value &&   `tel:${value.replace(/[^+\d]/g, '')}`
 
@@ -34,100 +35,26 @@ export type Data_Student = {
 // Main table component
 export default function StudentTable({
   data, 
-  filterTable, 
-  searchQuery = '', 
-  selectedDateRange, 
-  timeFilter = '24 uur',
-  itemsPerPage = 10, className= ''
+ className
 } :{
   data: Array<Data_Student>,
   className: string,
-  filterTable: string,
-  searchQuery?: string,
-  selectedDateRange?: { firstDateMs: number; lastDateMs: number } | null,
-  timeFilter?: string,
-  itemsPerPage?: number
+ 
 }) {
-  const [currentPage, setCurrentPage] = React.useState(1)
+   const {total , pageSize , indexPage , setIndex, setSize}=useStudent()
   const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
   const containerRef = useRef<HTMLDivElement>(null)
   
-  // Filter data based on all criteria
-  const filteredData = useMemo(() => {
-    let filtered = data
-    
-    // Filter by status
-  
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(item => 
-        item.student.toLowerCase().includes(query) ||
-        item.bsn_nummer.toLowerCase().includes(query) ||
-        item.email.toLowerCase().includes(query) ||
-        item.adress.toLowerCase().includes(query) ||
-        item.phone_number.toLowerCase().includes(query) ||
-        item.remarks.toLowerCase().includes(query)
-      )
-    }
-    
-    // Filter by date range
-    if (selectedDateRange) {
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.date_birth).getTime()
-        return itemDate >= selectedDateRange.firstDateMs && itemDate <= selectedDateRange.lastDateMs
-      })
-    }
-    
-    // Filter by time period
-    if (timeFilter !== '24 uur') {
-      const now = new Date().getTime()
-      let timeFilterMs = 24 * 60 * 60 * 1000 // Default 24 hours
-      
-      switch (timeFilter) {
-        case '7 dagen':
-          timeFilterMs = 7 * 24 * 60 * 60 * 1000
-          break
-        case '30 dagen':
-          timeFilterMs = 30 * 24 * 60 * 60 * 1000
-          break
-        case '12 maanden':
-          timeFilterMs = 365 * 24 * 60 * 60 * 1000
-          break
-      }
-      
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.date_birth).getTime()
-        return now - itemDate <= timeFilterMs
-      })
-    }
-    
-    return filtered
-  }, [data, filterTable, searchQuery, selectedDateRange, timeFilter])
-  
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const currentData = filteredData.slice(startIndex, endIndex)
 
-  // Navigation functions
   const goToNextPage = useCallback(() => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prev => prev + 1)
-    }
-  }, [currentPage, totalPages])
+        setIndex(indexPage + 1)
+  }, [indexPage, setIndex])
 
   const goToPrevPage = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(prev => prev - 1)
-    }
-  }, [currentPage])
+   setIndex(indexPage -1)
+  }, [])
 
-  // Reset to first page when filters change
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [filterTable, searchQuery, selectedDateRange, timeFilter, itemsPerPage])
+ 
 
   // Calculate scrollbar width based on container
   useEffect(() => {
@@ -167,15 +94,15 @@ export default function StudentTable({
             </div>
             {/* NR Body */}
             <div>
-              {currentData.length > 0 ? (
-                currentData.map((student, index) => (
+              {data.length > 0 ? (
+                data.map((student,i ) => (
                   <div 
-                    key={`nr-${startIndex + index}`} 
+                    key={`nr- (${indexPage*pageSize + i+1})`} 
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
                     <div className='w-[4vw] bg-gray-50 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
-                      {startIndex + index + 1}
+                      {indexPage*pageSize + i+1}
                     </div>
                   </div>
                 ))
@@ -197,10 +124,10 @@ export default function StudentTable({
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
-              {currentData.length > 0 ? (
-                currentData.map((student, index) => (
+              {data.length > 0 ? (
+                data.map((student, index) => (
                   <StudentElementScrollable 
-                    key={startIndex + index} 
+                    key={index} 
                     ele={student} 
                   />
                 ))
@@ -220,10 +147,10 @@ export default function StudentTable({
             </div>
             {/* Actions Body */}
             <div>
-              {currentData.length > 0 ? (
-                currentData.map((student, index) => (
+              {data.length > 0 ? (
+                data.map((student, index) => (
                   <StudentElementActions 
-                    key={`actions-${startIndex + index}`} 
+                    key={`actions-${index}`} 
                     ele={student} 
                   />
                 ))
@@ -238,9 +165,9 @@ export default function StudentTable({
        <div className='  mb-4 flex justify-between items-center'>
         <button 
           onClick={goToPrevPage}
-          disabled={currentPage === 1}
+          disabled={indexPage === 0}
           className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            currentPage === 1 
+            indexPage === 0
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
           }`}
@@ -249,14 +176,14 @@ export default function StudentTable({
         </button>
       
         <span className='text-sm'>
-          Pagina {currentPage} van {totalPages || 1}
+          Pagina {indexPage+1} van {Math.ceil(total / pageSize) }
         </span>
       
         <button 
           onClick={goToNextPage}
-          disabled={currentPage === totalPages || totalPages === 0}
+          disabled={indexPage === Math.ceil(total / pageSize) - 1 }
           className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            currentPage === totalPages || totalPages === 0
+            indexPage === Math.ceil(total / pageSize) - 1 || Math.ceil(total / pageSize) === 0
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
           }`}
@@ -274,7 +201,7 @@ export default function StudentTable({
       {/* Results Counter */}
       <div className='w-[95%] mx-auto mb-4 text-center'>
         <span className='text-sm text-gray-600'>
-          Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
+          Weergaven {indexPage * pageSize + 1}-{Math.min((indexPage + 1) * pageSize, total)} van {total}
         </span>
       </div>
      </div>
@@ -283,7 +210,7 @@ export default function StudentTable({
 }
 // Individual table row component
 
-// Scrollable table row component (middle section)
+
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
   const addressModal = useRef<IdentityModalRef>(null)
   const emailModal = useRef<DocumentModalRef>(null)

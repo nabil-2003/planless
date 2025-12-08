@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
-import { getAllInstructors, getInstructorById, getPlanning } from "@/store/instructorSlice";
+import { getAllInstructors, getInstructorById, getPlanning, setIndexPage, setSizePage } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
   
 const useInstructor = () => {
@@ -25,11 +25,10 @@ const fetchInstructorById = async (id : string) => {
     
 
       // Dispatch the thunk and unwrap the result so errors are thrown here
-      const result = await dispatch(getAllInstructors()).unwrap();
-      console.debug('useInstructor: getAllInstructors result:', result);
+      const result = await dispatch(getAllInstructors({index: selector.indexPage, size: selector.pageSize})).unwrap();
+  
       return result;
     } catch (error: any) {
-      console.error('An error occurred while fetching instructors:', error);
       // If unauthorized, clear session and redirect to login
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         try {
@@ -48,10 +47,8 @@ const fetchInstructorById = async (id : string) => {
     try {
       // Dispatch the thunk and unwrap the result so errors are thrown here
       const result = await dispatch(getPlanning(id)).unwrap();
-      console.debug('useInstructor: getPlanningForInstructor result:', result);
       
     } catch (error: any) {
-      console.error('An error occurred while fetching planning for instructor:', error);
       // If unauthorized, clear session and redirect to login
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         try {
@@ -66,6 +63,12 @@ const fetchInstructorById = async (id : string) => {
       throw error;
     }
   };
+  const setPageIndex = (index: number) => {
+    dispatch(setIndexPage(index));
+  };
+  const setPageSize = (size: number) => {
+    dispatch(setSizePage(size));
+  };
 
   return {
     fetchAllInstructors,
@@ -73,9 +76,15 @@ const fetchInstructorById = async (id : string) => {
     loading: selector.loading as boolean,
     error: selector.error as string | null, 
     instructor : selector.instructor as any,
+    total: selector.total ,
+    index : selector.indexPage,
+    size : selector.pageSize,
     fetchInstructorById , 
      planning : selector.planning as any , 
-     fetchAllPlanningForInstructor
+     fetchAllPlanningForInstructor,
+     setPageIndex,
+     setPageSize
+
   };
 };
 

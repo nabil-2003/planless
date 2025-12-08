@@ -2,11 +2,12 @@
 import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CustomScrollBar from '../ScrollBar';
 import Link from 'next/link';
 import { DocumentModal, DocumentModalRef } from '@/components/ui'
 import { ParsedLesson } from '@/store/LessonsSlices';
+import useLessons from '@/app/hooks/useLessons';
 
 // Data types
 export type Data_Lessons = {
@@ -32,105 +33,26 @@ type ColorAndStatus = {
 // Main table component
 export default function LessonsTable({
   data, 
-  filterTable, 
-  searchQuery = '', 
-  selectedDateRange, 
-  timeFilter = '24 uur',
-  itemsPerPage = 10, className= ''
+
+
+  className= ''
 } :{
   data: Array<ParsedLesson>,
   className: string,
-  filterTable: string,
-  searchQuery?: string,
-  selectedDateRange?: { firstDateMs: number; lastDateMs: number } | null,
-  timeFilter?: string,
-  itemsPerPage?: number
+
 }) {
-  const [currentPage, setCurrentPage] = React.useState(1)
+  const {index , size  , total, setIndex}= useLessons()
   
+  const prevPage = ()=>{
+    if(index >0){
+      setIndex(index -1)
+    }
+  }
+  const nextPage = ()=>{
+      if ((index +1)*size < total)
+      setIndex(index +1)
+  }
 
-  // Filter data based on all criteria
-  const filteredData = useMemo(() => {
-    let filtered = data
-     console.log( filterTable , console.log(netherlandsToEngStatus(filterTable)?.engStatus))
-    // Filter by status
-    if (filterTable && filterTable !== 'Alle') {
-      filtered = filtered.filter(item => 
-        
-        item.lesson_status && item.lesson_status.toLowerCase().includes(netherlandsToEngStatus(filterTable)?.engStatus.toLowerCase()!)
-      )
-    }
-    
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(item => 
-        item.instructor && item.instructor.toLowerCase().includes(query) ||
-        item.student && item.student.toLowerCase().includes(query) ||
-        item.invoice_amount && item.invoice_amount.toLowerCase().includes(query) ||
-        item.payment_status && item.payment_status.toLowerCase().includes(query) ||
-        item.lesson_status && item.lesson_status.toLowerCase().includes(query) ||
-        item.cancellation_reason && item.cancellation_reason.toLowerCase().includes(query)
-      )
-    }
-    
-    // Filter by date range
-    if (selectedDateRange) {
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.start_time).getTime()
-        return itemDate >= selectedDateRange.firstDateMs && itemDate <= selectedDateRange.lastDateMs
-      })
-    }
-    
-    // Filter by time period
-    if (timeFilter !== '24 uur') {
-      const now = new Date().getTime()
-      let timeFilterMs = 24 * 60 * 60 * 1000 // Default 24 hours
-      
-      switch (timeFilter) {
-        case '7 dagen':
-          timeFilterMs = 7 * 24 * 60 * 60 * 1000
-          break
-        case '30 dagen':
-          timeFilterMs = 30 * 24 * 60 * 60 * 1000
-          break
-        case '12 maanden':
-          timeFilterMs = 365 * 24 * 60 * 60 * 1000
-          break
-      }
-      
-      filtered = filtered.filter(item => {
-        const itemDate = new Date(item.start_time).getTime()
-        return now - itemDate <= timeFilterMs
-      })
-    }
-    
-    return filtered
-  }, [data, filterTable, searchQuery, selectedDateRange, timeFilter])
-  
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const currentData = filteredData.slice(startIndex, endIndex)
-
-  // Navigation functions
-  const goToNextPage = useCallback(() => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prev => prev + 1)
-    }
-  }, [currentPage, totalPages])
-
-  const goToPrevPage = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(prev => prev - 1)
-    }
-  }, [currentPage])
-
-  // Reset to first page when filters change
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [filterTable, searchQuery, selectedDateRange, timeFilter, itemsPerPage])
   return (
     <>
       {/* Table Container with Sticky NR and Actions Columns */}
@@ -144,15 +66,15 @@ export default function LessonsTable({
             </div>
             {/* NR Body */}
             <div>
-              {currentData.length > 0 ? (
-                currentData.map((lesson, index) => (
+              {data.length > 0 ? (
+                data.map((_, i) => (
                   <div 
-                    key={`nr-${startIndex + index}`} 
+                    key={(size*index)+i+1}
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
                     <div className='w-[4vw] bg-gray-50 px-4 flex justify-center items-center h-full  text-md text-gray-700 border-r-1 border-gray-200'>
-                      {startIndex + index + 1}
+                   {(size*index)+i+1}
                     </div>
                   </div>
                 ))
@@ -178,10 +100,10 @@ export default function LessonsTable({
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
-              {currentData.length > 0 ? (
-                currentData.map((lesson, index) => (
+              {data.length > 0 ? (
+                data .map((lesson, index) => (
                   <TableElementScrollable 
-                    key={startIndex + index} 
+                    key={index} 
                     ele={lesson} 
                   />
                 ))
@@ -201,10 +123,10 @@ export default function LessonsTable({
             </div>
             {/* Actions Body */}
             <div>
-              {currentData.length > 0 ? (
-                currentData.map((lesson, index) => (
+              {data.length > 0 ? (
+                data.map((lesson, index) => (
                   <TableElementActions 
-                    key={`actions-${startIndex + index}`} 
+                    key={`actions-${ index}`} 
                     ele={lesson} 
                   />
                 ))
@@ -218,10 +140,10 @@ export default function LessonsTable({
      <div id='scroll' className='mt-10   w-[90%] mx-auto p-3  border-2 border-gray-200 bg-white rounded-lg'>
        <div className='  mb-4 flex justify-between items-center'>
         <button 
-          onClick={goToPrevPage}
-          disabled={currentPage === 1}
+          onClick={prevPage}
+       
           className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            currentPage === 1 
+           index === 0
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
           }`}
@@ -230,14 +152,14 @@ export default function LessonsTable({
         </button>
       
         <span className=' text-md'>
-          Pagina {currentPage} van {totalPages || 1}
+          Pagina {index + 1} van {Math.ceil(total/size)}
         </span>
       
         <button 
-          onClick={goToNextPage}
-          disabled={currentPage === totalPages || totalPages === 0}
+          onClick={nextPage}
+         
           className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            currentPage === totalPages || totalPages === 0
+            (index +1)*size >= total 
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
           }`}
@@ -250,7 +172,7 @@ export default function LessonsTable({
       {/* Results Counter */}
       <div className='w-[95%] mx-auto mb-4 text-center'>
         <span className=' text-md text-gray-600'>
-          Weergaven {startIndex + 1}-{Math.min(endIndex, filteredData.length)} van {filteredData.length}
+          Weergaven {(index) * size + 1}-{Math.min((index + 1) * size, total)} van {total} 
         </span>
       </div>
      </div>
