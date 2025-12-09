@@ -14,7 +14,7 @@ export type CustomDateRef = {
   singleDate?: number;
   open: () => void;
   close: () => void;
-  getSelectedRange: () => { firstDateMs: string; lastDateMs: string } | null;
+  getSelectedRange: () => { firstDateMs: number; lastDateMs: number } | null;
   clearSelection: () => void;
   setDateRange: (startDate: string, endDate: string) => void;
 }
@@ -64,8 +64,8 @@ const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  c
       if (range.length === 2) {
         const sortedRange = [...range].sort();
         return {
-          firstDateMs: new Date(sortedRange[0]).toISOString().split('T')[0],
-          lastDateMs: new Date(sortedRange[1]).toISOString().split('T')[0]
+          firstDateMs: new Date(sortedRange[0]).getTime(),
+          lastDateMs: new Date(sortedRange[1]).getTime()
         };
       }
       return null;
