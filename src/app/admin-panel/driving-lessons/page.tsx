@@ -16,9 +16,9 @@ import TimeFilter from '@/components/admin/TimeFIlter'
 import FIlterByType from '@/components/admin/FIlterByType'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
-import LessonsTable, { Data_Lessons } from '@/components/admin/ui/tables/TableLessons'
+import LessonsTable, { Data_Lessons, netherlandsToEngStatus } from '@/components/admin/ui/tables/TableLessons'
 import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal'
-import CusTomDate from '@/components/admin/ui/CustomDateModal'
+import CusTomDate, { CustomDateRef } from '@/components/admin/ui/CustomDateModal'
 import { Button } from '@/components/ui'
 
 // Icon imports
@@ -32,20 +32,7 @@ import useLessons from '@/app/hooks/useLessons'
 // TYPE DEFINITIONS
 // ================================
 
-/**
- * Interface for Custom Date Modal reference
- * Used for date picker functionality
- */
-type CustomDateRef = {
-    firstDateMs?: number;
-    lastDateMs?: number;
-    singleDate?: number;
-    open: () => void;
-    close: () => void;
-    getSelectedRange: () => { firstDateMs: number; lastDateMs: number } | null;
-    clearSelection: () => void;
-    setDateRange: (startDate: string, endDate: string) => void;
-}
+// (CustomDateRef is imported from the modal component, no need to redefine)
 
 // ================================
 // MAIN COMPONENT
@@ -68,7 +55,7 @@ export default function DrivingLessonsPage() {
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
-    const {fetchAllLessons , lessons ,loading  , size, index , setIndex , setSize }= useLessons()
+    const {fetchAllLessons , lessons ,loading  , endDateLessons, startDateLessons, size, index , setIndex , setSize }= useLessons()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -81,10 +68,16 @@ export default function DrivingLessonsPage() {
      * Parse and transform lessons data from JSON
      * Ensures type safety and data consistency
      */
-   
+     
+
      useEffect(()=>{
-        fetchAllLessons(index,size )
-     },[index,size])
+           if (selectedDateRange?.firstDateMs === selectedDateRange?.lastDateMs && selectedDateRange !== null) 
+                    setSelectedDateRange({
+                        firstDateMs: selectedDateRange!.firstDateMs- 86400000,
+                        lastDateMs: selectedDateRange!.firstDateMs , // add 23:59:59 in ms
+                    })
+        fetchAllLessons(index,size ,searchQuery , selectedDateRange?.firstDateMs ?? 0, selectedDateRange?.lastDateMs ?? new Date("01-01-2100").getTime() , netherlandsToEngStatus(currentFilterType)?.engStatus)
+     },[index,size ,selectedDateRange , searchQuery ,  currentFilterType])
     const parsedLessons = useCallback((lessonss :any[] ) :any => {
             const  parsedLessons : ParsedLesson[]= []          
            lessonss?.forEach(lesson => {
@@ -93,7 +86,7 @@ export default function DrivingLessonsPage() {
                 parsedLessons.push(parsed)
             }
            })
-
+       
      return parsedLessons;
        
     }, [])
@@ -113,6 +106,7 @@ export default function DrivingLessonsPage() {
      * Opens the date selection modal
      */
     const openDateModal = () => {
+        
         dateModalRef.current?.open()
     }
 
@@ -134,7 +128,7 @@ export default function DrivingLessonsPage() {
 
         const startDate = new Date(selectedDateRange.firstDateMs)
         const endDate = new Date(selectedDateRange.lastDateMs)
-
+         
         const formatDate = (date: Date) => {
             return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`
         }
@@ -143,7 +137,7 @@ export default function DrivingLessonsPage() {
         if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
             return formatDate(startDate)
         } else {
-            return `${formatDate(startDate)} - ${formatDate(endDate)}`
+            return ` ${formatDate(endDate)}`
         }
     }
 
@@ -265,6 +259,7 @@ export default function DrivingLessonsPage() {
                                             e.stopPropagation()
                                             dateModalRef.current?.clearSelection()
                                             setSelectedDateRange(null)
+                                            console.log('cleared')
                                         }}
                                         className='ml-2 text-gray-400 hover:text-gray-600'>
                                         <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

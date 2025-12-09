@@ -13,20 +13,24 @@ const initialState = {
     error : null as string | null,
     indexPage : 0 as number ,
     pageSize : 10 as number ,
-    total : 0 as number
+    total : 0 as number , 
+    search : "" as string ,
+    status : "pending" as string ,
+    startDate : "2025-11-01" as string ,
+    endDate : "2026-11-01" as string ,
 }
 const  getAllLessons= createAsyncThunk(
     "lessons/getAllLessons",
-    async ( {pageN , pageSize}  :{pageN: number , pageSize: number }, {rejectWithValue , dispatch})=>{
+    async ( {pageN , pageSize , startDate = "2025-11-01", endDate = "2026-11-01", status = "pending", search = ""}  :{pageN: number , pageSize: number , startDate: string , endDate: string , status: string , search: string }, {rejectWithValue , dispatch})=>{
       
-
+         console.log(status)
         try{
             // API call to fetch instructors
             if (getToken() == null ) 
-              
+             
                 return rejectWithValue("logged first");
                  
-            const response = await  axios.get(API_BASE+`/admin/planning?pageIndex=${pageN}&pageSize=${pageSize}` , {
+            const response = await  axios.get(API_BASE+`/admin/planning?pageIndex=${pageN}&pageSize=${pageSize}&startDate=${startDate}&endDate=${endDate}&status=${status}&search=${search}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
@@ -87,7 +91,19 @@ const lessons = createSlice({
         setTotal(state , action){
             state.total = action.payload;
         }
-       
+        , 
+        setSearch(state , action){
+            state.search = action.payload;
+        }
+        , setStartDate(state , action){ 
+            state.startDate = action.payload;
+        }
+        , setEndDate(state , action){ 
+            state.endDate = action.payload;
+        }
+        , setStatus(state , action){ 
+            state.status = action.payload;
+        }
     }
     , extraReducers(builder) {
         builder.addCase(getAllLessons.pending, (state) => { 
@@ -117,7 +133,8 @@ const lessons = createSlice({
 }
   
 })
-export const {  setLoading, setError , setTotal , setIndexPage , setSizePage } = lessons.actions;
+export const {  setLoading, setError , setTotal , setIndexPage , setSizePage ,
+     setEndDate , setSearch , setStartDate , setStatus } = lessons.actions;
 export { getAllLessons , getLessonById  };
 export default lessons.reducer;
 

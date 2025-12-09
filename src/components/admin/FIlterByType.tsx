@@ -44,24 +44,24 @@ export default function FIlterByType({
       </li>
       <li
         onClick={chFilter}
-        data-filter="Betaald"
-        className={`whitespace-nowrap pb-2 px-3 ${isActive('Betaald') ? activeclass : ''}`}
+        data-filter="Bevestigd"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Bevestigd') ? activeclass : ''}`}
       >
-        Betaald
+        Bevestigd
       </li>
       <li
         onClick={chFilter}
-        data-filter="Geannuleerd"
-        className={`whitespace-nowrap pb-2 px-3 ${isActive('Geannuleerd') ? activeclass : ''}`}
+        data-filter="Geanuleerd"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Geanuleerd') ? activeclass : ''}`}
       >
-        Geannuleerd
+        Geanuleerd
       </li>
       <li
         onClick={chFilter}
-        data-filter="Verlopen"
-        className={`whitespace-nowrap pb-2 px-3 ${isActive('Verlopen') ? activeclass : ''}`}
+        data-filter="Voltooid"
+        className={`whitespace-nowrap pb-2 px-3 ${isActive('Voltooid') ? activeclass : ''}`}
       >
-        Verlopen
+        Voltooid
       </li>
     </ul>
   )

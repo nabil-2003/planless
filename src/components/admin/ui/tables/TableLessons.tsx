@@ -108,7 +108,7 @@ export default function LessonsTable({
                   />
                 ))
               ) : (
-                <div className='w-full py-8 text-center text-gray-500'>
+                <div className='w-[100%] py-8 grid ml-[30vw]  place-self-center  text-center text-gray-500'>
                   Geen lessen gevonden
                 </div>
               )}
@@ -297,7 +297,7 @@ export const Status =
      
       {
         engStatus : "cancelled",
-        status: "Geannuleerd",
+        status: "Geanuleerd",
         colortext: "#333333",
         colorbg: "#ededed"
       },
@@ -331,7 +331,22 @@ export const Status =
         status : "open" , 
         colorbg : "#fff9d9", 
         colortext : "#776600"
-      }
+      } , 
+      {
+        engStatus : "completed", 
+        status : "Voltooid" , 
+        colorbg : "#fff9d9", 
+        colortext : "#776600"
+      }, 
+       {
+        engStatus : "confirmed", 
+        status : "Bevestigd" , 
+        colorbg : "#fff9d9", 
+        colortext : "#776600"
+      }, 
+      
+
+
     ]
  
 
