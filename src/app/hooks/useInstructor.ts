@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
-import { getAllInstructors, getInstructorById, getPlanning, setIndexPage, setSizePage } from "@/store/instructorSlice";
+import { getAllInstructors, getInstructorById, getPlanning, setIndexPage, setSearch, setSizePage } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
   
 const useInstructor = () => {
@@ -25,7 +25,7 @@ const fetchInstructorById = async (id : string) => {
     
 
       // Dispatch the thunk and unwrap the result so errors are thrown here
-      const result = await dispatch(getAllInstructors({index: selector.indexPage, size: selector.pageSize})).unwrap();
+      const result = await dispatch(getAllInstructors({index: selector.indexPage, size: selector.pageSize , search: selector.search})).unwrap();
   
       return result;
     } catch (error: any) {
@@ -69,6 +69,9 @@ const fetchInstructorById = async (id : string) => {
   const setPageSize = (size: number) => {
     dispatch(setSizePage(size));
   };
+  const searchInstuctor  = (search : string )=>{
+    dispatch(setSearch(search));
+  }
 
   return {
     fetchAllInstructors,
@@ -84,6 +87,9 @@ const fetchInstructorById = async (id : string) => {
      fetchAllPlanningForInstructor,
      setPageIndex,
      setPageSize
+     , 
+     searchInstuctor , 
+     search : selector.search
 
   };
 };

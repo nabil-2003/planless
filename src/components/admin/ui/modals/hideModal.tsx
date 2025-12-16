@@ -9,10 +9,11 @@ export type Modalref ={
     close? :()=>void 
 }
 type props = {
-
+   id : string , 
+   table : string
 
 }
-const hide= forwardRef<Modalref , props>((_, ref)=>{
+const hide= forwardRef<Modalref , props>(({id, table}, ref)=>{
        const refDiv = useRef<HTMLDivElement>(null)
          const open = useCallback(()=>{
                if(!refDiv.current) return 

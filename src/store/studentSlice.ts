@@ -3,6 +3,7 @@ import axios from "axios";
 import { stat } from "fs";
 import { get } from "http";
 import { getAllInstructors, getInstructorById } from "./instructorSlice";
+import { start } from "repl";
 const API_BASE = (
   (process.env.NEXT_PUBLIC_API_URL as string) 
 ).replace(/\/$/, '');
@@ -17,10 +18,11 @@ const initialState = {
     pageSize: 10,
     indexPage: 0,
     total: 0,
+    search : "" as string ,
 }
 const  getAllStudents = createAsyncThunk(
     "student/getAllStudents",
-    async ({index , size}:{index: number, size: number}, {rejectWithValue, dispatch})=>{
+    async ({index , size , search}:{index: number, size: number , search: string}, {rejectWithValue, dispatch})=>{
       
         
         try{
@@ -28,7 +30,7 @@ const  getAllStudents = createAsyncThunk(
             if (getToken() == null ) 
                 return rejectWithValue("logged first");
                  console.log(`Fetching students with pageIndex=${index} and pageSize=${size}`)
-            const response = await  axios.get(API_BASE+`/admin/student?pageIndex=${index}&pageSize=${size}` , {
+            const response = await  axios.get(API_BASE+`/admin/student?pageSize=${size}&pageIndex=${index}&search=${search}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
@@ -107,7 +109,10 @@ const student = createSlice({
         setTotal(state , action){
             state.total = action.payload;
         }
-       
+        , 
+        setSearch(state, action){
+            state.search = action.payload;
+        }
     }
     , extraReducers(builder) {
         builder.addCase(getAllStudents.pending, (state) => { 
@@ -116,7 +121,6 @@ const student = createSlice({
          })
         .addCase(getAllStudents.fulfilled, (state, action) => {
             state.loading = false;
-            console.log("here bro ", action.payload)
             state.students = action.payload;
         })
         .addCase(getAllStudents.rejected, (state, action) => {
@@ -151,7 +155,7 @@ const student = createSlice({
 }
   
 })
-export const {  setLoading, setError ,setIndexPage, setSizePage, setTotal } = student.actions;
+export const {  setLoading, setError ,setIndexPage, setSizePage, setTotal , setSearch } = student.actions;
 export { getAllStudents , getStudentById , getPlanningStudent };
 export default student.reducer;
 

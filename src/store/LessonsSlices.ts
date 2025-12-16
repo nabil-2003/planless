@@ -68,7 +68,25 @@ const getLessonById = createAsyncThunk(
 
      })
   
+ const UpdateLessonStatus = createAsyncThunk(
+    "lessons/UpdateLessonStatus",
+    async ( {id , status} : {id : string , status : string} , {rejectWithValue , dispatch})=>{
+    try{
+        // API call to fetch lessons by ID
+        if (getToken() == null )
+          
+            return rejectWithValue("logged first");
+            
+        const promise = new Promise((resolve, reject) => {setTimeout(() => resolve({status, id}), 1000)});
+        
+        
+       return await promise;
+    }
+    catch(error:any){
+        return rejectWithValue(error.message);
+    }
 
+     })
 
 
 const lessons = createSlice({
@@ -129,13 +147,24 @@ const lessons = createSlice({
         .addCase(getLessonById.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
+    }).addCase(UpdateLessonStatus.pending, (state) => { 
+            state.loading = true;
+            state.error = null;
+         })
+        .addCase(UpdateLessonStatus.fulfilled, (state, action) => {
+            state.loading = false;
+            console.log("Lesson status updated:", action.payload);
+        })
+        .addCase(UpdateLessonStatus.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
     });
 }
   
 })
 export const {  setLoading, setError , setTotal , setIndexPage , setSizePage ,
      setEndDate , setSearch , setStartDate , setStatus } = lessons.actions;
-export { getAllLessons , getLessonById  };
+export { getAllLessons , getLessonById  , UpdateLessonStatus };
 export default lessons.reducer;
 
 
@@ -178,10 +207,6 @@ const getToken = () => {
     cancellation_reason: "next",
     lesson_cards: lesson.order.data,
    } 
-
-
-
-   console.log("tmp",tmp)
     return tmp
    }
    const parsDuration = (ms : number ): string => {

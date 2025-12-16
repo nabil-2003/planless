@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
-import { getAllLessons, getLessonById, getparsedLesson, setEndDate, setIndexPage, setSearch, setSizePage, setStartDate, setStatus } from "@/store/LessonsSlices";
+import { getAllLessons, getLessonById, getparsedLesson, setEndDate, setIndexPage, setSearch, setSizePage, setStartDate, setStatus, UpdateLessonStatus } from "@/store/LessonsSlices";
   
 const useLessons = () => {
   const dispatch = useAppDispatch();
@@ -72,6 +72,9 @@ const fetchLessonById = async (id : string) => {
     console.log("startDate" , startDate)
      dispatch((setStartDate(startDate)))
   }
+  const confirmStatus = async (id : string)=>{
+   await dispatch(UpdateLessonStatus({id : id , status : "confirmed"}))
+  }
 
   
 
@@ -92,7 +95,8 @@ const fetchLessonById = async (id : string) => {
     setSearchLessons ,
     setStatusLessons ,
     endDateLessons : selector.endDate,
-    startDateLessons : selector.startDate
+    startDateLessons : selector.startDate , 
+    confirmStatus
   };
 };
 

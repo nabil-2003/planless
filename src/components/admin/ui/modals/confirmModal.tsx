@@ -1,6 +1,7 @@
 'use client'
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import CustmButton from '../CustmButton'
+import useLessons from '@/app/hooks/useLessons'
 
 
 
@@ -9,10 +10,11 @@ export type ModalRef ={
     close? :()=>void 
 }
 type props = {
-
+   id : string , 
+   table : string
 
 }
-const Confirm= forwardRef<ModalRef , props>((_, ref)=>{
+const Confirm= forwardRef<ModalRef , props>(({id, table}, ref)=>{
        const refDiv = useRef<HTMLDivElement>(null)
          const open = useCallback(()=>{
                if(!refDiv.current) return 
@@ -46,6 +48,11 @@ const Confirm= forwardRef<ModalRef , props>((_, ref)=>{
             }
 
         }))
+        // console.log(table , id , 'from where we did come .??')
+     
+     const  {action}=  useActions({key : "lessons", id : id})
+    
+    
     return (
         <div  id={'action_confirm'} className='fixed  hidden  place-items-center  select-none   inset-0  '  ref={refDiv}>
          
@@ -59,8 +66,9 @@ const Confirm= forwardRef<ModalRef , props>((_, ref)=>{
                     <CustmButton onClick={()=>{close()}} className='border-2 w-full md:w-[49%] border-[var(--dark-blue)] text-[var(--dark-blue)]' >
                         annuleren
                     </CustmButton>
-                     <CustmButton className='border-2 w-full md:w-[49%] bg-[var(--dark-blue)] text-white' >
+                     <CustmButton onClick={action ? () => { action(); close () } : undefined} className='border-2 w-full md:w-[49%] bg-[var(--dark-blue)] text-white' >
                         bevestigen
+
                     </CustmButton>
                  </div>
                   </div>
@@ -69,6 +77,16 @@ const Confirm= forwardRef<ModalRef , props>((_, ref)=>{
     )
 })
 Confirm.displayName ="ConfirmModal"
-export  default Confirm
+  export default Confirm
 
- 
+  export   const  useActions  = ({key , id }:{key: string , id : string }) : {action : (() => void)|null} =>{ 
+           const {confirmStatus } = useLessons()
+              
+             switch(key){
+                case "lessons" : return { action : ()=>{confirmStatus(id)} }
+                case "students" : return  {action : null}
+                case "instructors" : return {action : null}
+                case "finance" : return {action : null}
+                default : return  {action : null}
+             }
+        }

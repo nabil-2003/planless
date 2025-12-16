@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/store/userSlice'
-import { getAllStudents, getPlanningStudent, getStudentById, setIndexPage, setSizePage } from "@/store/studentSlice";
+import { getAllStudents, getPlanningStudent, getStudentById, setIndexPage, setSearch, setSizePage,  } from "@/store/studentSlice";
   
 const useStudent = () => {
   const dispatch = useAppDispatch();
@@ -23,14 +23,12 @@ const fetchStudentById = async (id : string) => {
   const fetchAllStudents = async () => {
     try {
       // Helpful debug: check session storage for user/token
-    
+     console.log("fetchAllStudents called with:", { index: selector.indexPage, pageSize: selector.pageSize , search: selector.search});
 
       // Dispatch the thunk and unwrap the result so errors are thrown here
-      const result = await dispatch(getAllStudents({index: selector.indexPage, size: selector.pageSize})).unwrap();
-      console.debug('useStudent:  result:', result);
+      const result = await dispatch(getAllStudents({index: selector.indexPage, size: selector.pageSize , search: selector.search})).unwrap();
       return result;
     } catch (error: any) {
-      console.error('An error occurred while fetching students :', error);
       // If unauthorized, clear session and redirect to login
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         try {
@@ -50,9 +48,7 @@ const fetchStudentById = async (id : string) => {
     try {
       // Dispatch the thunk and unwrap the result so errors are thrown here
       const result = await dispatch(getPlanningStudent(id)).unwrap();
-      console.debug('useStudent: getPlanningStudentById result:', result);
     } catch (error: any) {
-      console.error('An error occurred while fetching planning for student by ID:', error);
     }
   } 
   const setSize = (size : number )=>{
@@ -61,7 +57,10 @@ const fetchStudentById = async (id : string) => {
   const setIndex = (index : number )=>{
     dispatch(setIndexPage(index));
   }
-
+  const SearchStudent = (search : string )=>{
+    dispatch(setSearch(search));
+  }
+  
   
   return {
     fetchAllStudents,
@@ -73,12 +72,14 @@ const fetchStudentById = async (id : string) => {
     fetchStudentById , 
     fetchPlanningStudentById 
     , 
+    SearchStudent,
     setSize
     , 
     setIndex ,
     pageSize: selector.pageSize,
     indexPage: selector.indexPage,
-    total: selector.total
+    total: selector.total,
+    search : selector.search
   };
 };
 

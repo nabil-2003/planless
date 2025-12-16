@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { stat } from "fs";
-import { get } from "http";
 const API_BASE = (
   (process.env.NEXT_PUBLIC_API_URL as string) 
 ).replace(/\/$/, '');
@@ -15,11 +13,12 @@ const initialState = {
     error : null as string | null,
     indexPage : 0 as number ,
     pageSize : 10 as number ,
-    total : 0 as number
+    total : 0 as number, 
+    search : "" as string ,
 }
 const  getAllInstructors = createAsyncThunk(
     "instructor/getAllInstructors",
-    async ({index , size}: {index: number, size: number}, {rejectWithValue, dispatch})=>{
+    async ({index , size , search}: {index: number, size: number, search: string}, {rejectWithValue, dispatch})=>{
       
         
         try{
@@ -28,7 +27,7 @@ const  getAllInstructors = createAsyncThunk(
               
                 return rejectWithValue("logged first");
                  
-            const response = await  axios.get(API_BASE+`/admin/instructor?pageIndex=${index}&pageSize=${size}` , {
+            const response = await  axios.get(API_BASE+`/admin/instructor?pageIndex=${encodeURIComponent(index)}&pageSize=${encodeURIComponent(size)}&search=${encodeURIComponent(search)}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
@@ -110,7 +109,11 @@ const instructor = createSlice({
         },
         setTotal(state , action){
             state.total = action.payload;
+        },
+        setSearch(state, action){
+            state.search = action.payload;
         }
+        
        
     }
     , extraReducers(builder) {
@@ -153,7 +156,7 @@ const instructor = createSlice({
 }
   
 })
-export const {  setLoading, setError  , setIndexPage, setSizePage, setTotal} = instructor.actions;
+export const {  setLoading, setError  , setIndexPage, setSizePage, setSearch, setTotal} = instructor.actions;
 export { getAllInstructors , getInstructorById , getPlanning };
 export default instructor.reducer;
 const getToken = () => {

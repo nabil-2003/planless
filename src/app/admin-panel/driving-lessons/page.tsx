@@ -279,8 +279,6 @@ export default function DrivingLessonsPage() {
                       <LessonsTable  
                         data={ parsedLessons(lessons as any[]) }
                         className=''
-                        
-                      
                       />
                     }
                 </div>

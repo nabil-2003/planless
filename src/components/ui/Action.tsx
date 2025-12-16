@@ -63,12 +63,6 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className = ''  ,
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    const openDetailsPage = useCallback((tableName: string , id : string | null) => {
-        if (id == null) return;
-        router.push(`/admin-panel/${tableName}/${id}`);
-    }, [id]);
-
     useImperativeHandle(ref, () => ({
         Open: () => {
             modalRef.current?.classList.remove('hidden');
@@ -90,7 +84,7 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className = ''  ,
     case 'instructors':
         return instructorsActions(CurrentStatus, className, modalRef, openModalAction, refs , id )
     case 'finance':
-        return financeActions(CurrentStatus, className, modalRef, openModalAction, refs )
+        return financeActions(CurrentStatus, className, modalRef, openModalAction, refs , id  )
     default:
          return lessonsActions(CurrentStatus, className, modalRef, openModalAction, refs ,id )
     }
@@ -115,9 +109,9 @@ const lessonsActions = (status: string,  className : string  , modalRef: React.R
                         <RejectIcon w='20px' h='20px' />
                     </span>
                     </div >
-                    <ConfirmModal ref={modalRefs.confimModal} />
-                    <StopModal ref={modalRefs.stopModal} />
-                    <HideModal ref={modalRefs.hideModal} />
+                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="lessons" />
+                    <StopModal ref={modalRefs.stopModal} id={id!} table="lessons" />
+                    <HideModal ref={modalRefs.hideModal} id={id!} table="lessons"  />
                 </>
             )
 
@@ -133,9 +127,9 @@ const lessonsActions = (status: string,  className : string  , modalRef: React.R
                         <img width={20} height={20} src="/pause_icon.png" alt="" />
                     </span>
                       </div >
-                    <ConfirmModal ref={modalRefs.confimModal} />
-                    <StopModal ref={modalRefs.stopModal} />
-                    <HideModal ref={modalRefs.hideModal} />
+                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="lessons" />
+                    <StopModal ref={modalRefs.stopModal}  id={id!} table="lessons" />
+                    <HideModal ref={modalRefs.hideModal}  id={id!} table="lessons" />
                 </>
             )
     }
@@ -153,7 +147,7 @@ const studentsActions = (status: string,  className : string  , modalRef: React.
                         <img width={22} height={22} src="/eye_icon.png" alt="" />
                     </span>
                       </div >
-                    <HideModal ref={modalRefs.hideModal} />
+                    <HideModal ref={modalRefs.hideModal} id={id!} table="students" />
                 </>
             )
 }
@@ -174,14 +168,14 @@ const instructorsActions = (status: string,  className : string  , modalRef: Rea
                         <img width={20} height={20} src="/delete_action_icon.png" alt="" />
                     </span>
                       </div >
-                    <ConfirmModal ref={modalRefs.confimModal} />
-                    <StopModal ref={modalRefs.stopModal} />
-                    <HideModal ref={modalRefs.hideModal} />
+                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="instructors" />
+                    <StopModal ref={modalRefs.stopModal} id={id!} table="instructors" />
+                    <HideModal ref={modalRefs.hideModal} id={id!} table="instructors" />
                 </>
             )
 }
 
-const financeActions = (status: string,  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any) => {
+const financeActions = (status: string,  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null) => {
         
             return (
                   <>
@@ -194,9 +188,9 @@ const financeActions = (status: string,  className : string  , modalRef: React.R
                         <img width={22} height={22} src="/download_icon.png" alt="" />
                     </span>
                       </div >
-                    <ConfirmModal ref={modalRefs.confimModal} />
-                    <StopModal ref={modalRefs.stopModal} />
-                    <HideModal ref={modalRefs.hideModal} />
+                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="finance" />
+                    <StopModal ref={modalRefs.stopModal} id={id!} table="finance" />
+                    <HideModal ref={modalRefs.hideModal} id={id!} table="finance" />
                 </>
             )
 }
@@ -206,8 +200,9 @@ const financeActions = (status: string,  className : string  , modalRef: React.R
    const useOpenDetailsPage = (tableName: string , id : string | null) => {  
                 const router = useRouter()
                 const navigate = useCallback(() => {
-                    if (id == null && tableName == null ) return 
-                    router.push(`/admin-panel/${tableName}/${id}`)
+                      console.log('Navigating to details page for', tableName, 'with ID:', id);
+                      if (id == null && tableName == null ) return 
+                    router.push(`/admin-panel/${tableName}/${id}`) 
                    },[id])
      return {navigate}
              }

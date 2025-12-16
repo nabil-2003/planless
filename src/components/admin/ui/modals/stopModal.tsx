@@ -9,10 +9,11 @@ export type Modalref ={
     close? :()=>void 
 }
 type props = {
-
+   id : string , 
+   table : string
 
 }
-const stop= forwardRef<Modalref , props>((_, ref)=>{
+const stop= forwardRef<Modalref , props>(({id, table}, ref)=>{
        const refDiv = useRef<HTMLDivElement>(null)
          const open = useCallback(()=>{
                if(!refDiv.current) return 
@@ -50,7 +51,7 @@ const stop= forwardRef<Modalref , props>((_, ref)=>{
         <div  id={'action_confirm'} className='fixed  hidden  place-items-center    inset-0  '  ref={refDiv}>
          
                  <div  className='rounded-lg border-gray-100 shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
-                 <img src="/pause.svg" alt="" className='w-[80vw] md:w-[15vw] h-[10vh]  bg-amber-200  mx-auto mt-4' />
+                 <img src="/pause.svg" alt="" className='w-[80vw] md:w-[15vw] h-[10vh]   mx-auto mt-4' />
                  <div className='text-center mt-4'>
                      <h3 className='text-lg font-semibold'>Wil je deze rijles stoppen ?</h3>
                      <p className='text-sm text-gray-500'>wanneer je deze rijles stopt wordt de status aangepast naar <br /><span className='font-semibold text-gray-700 text-md'>"Geanuleerd".</span></p>    

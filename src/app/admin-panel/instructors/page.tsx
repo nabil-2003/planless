@@ -58,12 +58,12 @@ export default function InstructorsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const { fetchAllInstructors, instructors, loading  , size,  setPageIndex, index, setPageSize } = useInstructor()  
+    const { fetchAllInstructors, instructors, loading , searchInstuctor , search  , size,  setPageIndex, index, setPageSize } = useInstructor()  
     // UI states
     const [isExporting, setIsExporting] = useState(false)
     useEffect(()=>{
         fetchAllInstructors()
-    },[size, index])
+    },[size, index , search])
     // Modal reference
     const CreateModalRef = useRef<CreateModalRef>(null)
 
@@ -123,8 +123,8 @@ export default function InstructorsPage() {
                         {/* Search Input */}
                         <CustomSearch 
                             className='w-full sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
-                            value={searchQuery}
-                            onChange={(value) => setSearchQuery(value)}
+                            value={search}
+                            onChange={(value) => searchInstuctor(value)}
                             placeholder='Zoeken...'
                         />
 

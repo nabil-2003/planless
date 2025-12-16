@@ -67,7 +67,7 @@ export default function StudentsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const {fetchAllStudents , students ,setSize, indexPage , setIndex , pageSize , loading}= useStudent()
+    const {fetchAllStudents , students ,SearchStudent ,search,setSize, indexPage , setIndex , pageSize , loading}= useStudent()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
@@ -82,8 +82,8 @@ export default function StudentsPage() {
      */
     useEffect(()=>{
         fetchAllStudents()
-        console.log("students from hook ", students)
-    },[indexPage , pageSize ])
+        console.log("students from hook ", search)
+    },[indexPage , pageSize  , search])
 
 
 
@@ -196,8 +196,8 @@ export default function StudentsPage() {
                         {/* Search Input */}
                         <CustomSearch 
                             className='w-full md:w-[15vw]  rounded-lg outline-none p-2.5 bg-white border border-gray-300'
-                            value={searchQuery}
-                            onChange={(value) => setSearchQuery(value)}
+                            value={search}
+                            onChange={(value) => SearchStudent(value)}
                             placeholder='Zoeken...'
                         />
 
@@ -209,50 +209,7 @@ export default function StudentsPage() {
                                 Student toevoegen
                             </div>
                         </Link>
-                        <div className='relative w-full md:w-auto'>
-                            <div
-                                onClick={openDateModal}
-                                className='flex items-center bg-white border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-gray-400 transition-colors'
-                            >
-                                {/* Calendar Icon */}
-                                <svg
-                                    className='w-5 h-5 text-gray-400 mr-2 flex-shrink-0'
-                                    fill='none'
-                                    stroke='currentColor'
-                                    viewBox='0 0 24 24'
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        strokeWidth={2}
-                                        d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
-                                    />
-                                </svg>
-                                
-                                {/* Date Display */}
-                                <span className={`text-sm  p-1 md:text-md flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
-                                    {formatDateRange()}
-                                </span>
-                                
-                                {/* Clear Button Container */}
-                                <div className='w-6 flex justify-center flex-shrink-0'>
-                                    {selectedDateRange && (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                dateModalRef.current?.clearSelection()
-                                                setSelectedDateRange(null)
-                                            }}
-                                            className='text-gray-400 hover:text-gray-600'
-                                        >
-                                            <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
-                                            </svg>
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         
                     </div>

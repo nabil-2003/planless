@@ -281,7 +281,7 @@ const TableElementActions = ({ ele }: { ele: ParsedLesson }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal id={ele.id!} tableName='lessons' CurrentStatus={ele.lesson_status!} ref={modalRef} />
+        <ActionModal id={ele.id!} tableName='lessons' CurrentStatus={mapColorToStatus(ele.lesson_status!)?.status} ref={modalRef} />
       </div>
     </div>
   )
