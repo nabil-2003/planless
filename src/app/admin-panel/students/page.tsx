@@ -1,0 +1,265 @@
+"use client"
+
+// ================================
+// STUDENTS PAGE COMPONENT
+// ================================
+// Main page for managing driving school students
+// Features: View, search, filter, date filtering for students data
+
+// React and Next.js imports
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+
+// Component imports
+import Header from '@/components/admin/Header'
+import LeftSide from '@/components/admin/LeftSide'
+import TimeFilter from '@/components/admin/TimeFIlter'
+import CustomSearch from "@/components/admin/ui/CustomSearch"
+import CustomSelect from "@/components/admin/ui/CustomSelect"
+import StudentTable, { Data_Student } from '@/components/admin/ui/tables/StudentTable'
+import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal'
+import CusTomDate from '@/components/admin/ui/CustomDateModal'
+
+// Icon imports
+import PlusIcon from '@/components/svgs/Plus'
+
+// Data imports
+import studentsData from "@/data/students.json"
+import useStudent from '@/app/hooks/useStudent'
+
+// ================================
+// TYPE DEFINITIONS
+// ================================
+
+/**
+ * Interface for Custom Date Modal reference
+ * Used for date picker functionality
+ */
+type CustomDateRef = {
+    firstDateMs?: number;
+    lastDateMs?: number;
+    singleDate?: number;
+    open: () => void;
+    close: () => void;
+    getSelectedRange: () => { firstDateMs: number; lastDateMs: number } | null;
+    clearSelection: () => void;
+    setDateRange: (startDate: string, endDate: string) => void;
+}
+
+// ================================
+// MAIN COMPONENT
+// ================================
+
+/**
+ * Students Page Component
+ * Manages the students section of the admin dashboard
+ */
+export default function StudentsPage() {
+
+    
+    // ================================
+    // STATE MANAGEMENT
+    // ================================
+    
+    // Filter and search states
+    const [currentFilterType, setCurrentFilterType] = useState('In behandeling')
+    const [currentTimeFilter, setTimeFilter] = useState('24 uur')
+    const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
+    const [searchQuery, setSearchQuery] = useState('')
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const {fetchAllStudents , students ,SearchStudent ,search,setSize, indexPage , setIndex , pageSize , loading}= useStudent()
+    // Modal references
+    const CreateModalRef = useRef<CreateModalRef>(null)
+    const dateModalRef = useRef<CustomDateRef>(null)
+
+    // ================================
+    // DATA PROCESSING
+    // ================================
+    
+    /**
+     * Parse and transform students data from JSON
+     * Ensures type safety and data consistency
+     */
+    useEffect(()=>{
+        fetchAllStudents()
+        console.log("students from hook ", search)
+    },[indexPage , pageSize  , search])
+
+
+
+
+    // ================================
+    // EVENT HANDLERS
+    // ================================
+    
+    /**
+     * Opens the create new student modal
+
+    /**
+     * Opens the date selection modal
+     */
+    const openDateModal = () => {
+        dateModalRef.current?.open()
+    }
+
+    /**
+     * Handles date selection from modal
+     * Automatically detects single vs range selection
+     * @param dates - Selected date range or null
+     */
+    const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
+        setSelectedDateRange(dates)
+    }
+
+    /**
+     * Formats date range for display in the date picker
+     * @returns Formatted date string or placeholder
+     */
+    const formatDateRange = () => {
+        if (!selectedDateRange) return 'mm/dd/yyyy'
+
+        const startDate = new Date(selectedDateRange.firstDateMs)
+        const endDate = new Date(selectedDateRange.lastDateMs)
+
+        const formatDate = (date: Date) => {
+            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`
+        }
+
+        // If same date (single selection) show single date, otherwise show range
+        if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
+            return formatDate(startDate)
+        } else {
+            return `${formatDate(startDate)} - ${formatDate(endDate)}`
+        }
+    }
+
+    /**
+     * Handles filter type changes
+     * @param filter - The selected filter type
+     */
+
+    /**
+     * Handles time filter changes
+     * @param filter - The selected time filter
+     */
+    const handleTimeFilterChange = (filter: string) => {
+        setTimeFilter(filter)
+    }
+
+    // ================================
+    // RENDER
+    // ================================
+    
+    return (
+        <div className='content'>
+            {/* Page Header */}
+            <Header title="Studenten" />
+            
+            <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                {/* Left Sidebar */}
+                <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
+                
+                {/* Main Content Area */}
+                <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                    {/* Spacing */}
+                    <div className='mt-4' />
+                    
+                    {/* Time Filter Component */}
+                    <TimeFilter 
+                        currentFilter={currentTimeFilter} 
+                        changeFilter={handleTimeFilterChange}
+                        content={true}
+                    />
+
+                    {/* Controls Section */}
+                    <div className='flex flex-wrap gap-3   items-center searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
+                        
+                        {/* Items Per Page Selector */}
+                        <CustomSelect
+                            options={[
+                                { value: 10, label: "10" },
+                                { value: 20, label: "20" },
+                                { value: 30, label: "30" },
+                                { value: 40, label: "40" },
+                                { value: 50, label: "50" },
+                                { value: 60, label: "60" },
+                                { value: 70, label: "70" },
+                                { value: 80, label: "80" },
+                                { value: 90, label: "90" },
+                                { value: 100, label: "100" },
+                            ]}
+                            value={pageSize}
+                            className='w-full md:w-32  md:mr-auto'
+                            onChange={(value) => {setSize(Number(value)); setIndex(0)}}
+                        />
+                        
+                        {/* Search Input */}
+                        <CustomSearch 
+                            className='w-full md:w-[15vw]  rounded-lg outline-none p-2.5 bg-white border border-gray-300'
+                            value={search}
+                            onChange={(value) => SearchStudent(value)}
+                            placeholder='Zoeken...'
+                        />
+
+                        {/* Custom Date Input that opens modal */}
+                        {/* Add New Student Button */}
+                        <Link href="./students/new-student" className='text-white rounded-lg  bg-dark-blue w-full md:w-auto text-center'>
+                            <div className='flex gap-2 p-2.5  items-center'>
+                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
+                                Student toevoegen
+                            </div>
+                        </Link>
+                       
+
+                        
+                    </div>
+                    
+                    {/* Students Table */}
+                   {
+                    loading   && <div className='w-[2vw] mt-10 h-[2vw]
+                     rounded-full animate-spin border-2
+                      border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
+                      <StudentTable  
+                        className=' '
+                       
+                        data={[...parseStudents(students)]}
+                      
+                    /> 
+                   }
+                </div>
+            </div>
+            
+            {/* Create Modal */}
+            <CreateModal ref={CreateModalRef} name='modal' />
+
+            {/* Custom Date Modal */}
+            <CusTomDate
+                className=''
+                ref={dateModalRef}
+                singleUse={false}
+                onDateSelect={handleDateSelect}
+            />
+        </div>
+    )
+}
+ export const parseStudents = (student : any[] ) => {
+        const s: Data_Student[] = student?.map(item => ({
+            
+            id: item?.id,
+            student: item?.name,
+            bsn_nummer: "_",
+            email: item?.email,
+            date_birth: item?.birthdate,
+            adress: item?.city +", "+ item?.street +", "+ item?.zipCode +  "," +item?.houseNumber,
+            phone_number: item?.phone,
+            status: item?.active ? 'Actief' : 'Inactief',
+            driving_license_category: "_",
+            theory_exam: "_",
+            practical_exam: "_",
+            number_of_lessons: 0,
+            last_lesson: "_",
+            instructor: "_",
+            remarks: "_",
+        }))
+        return s == null ? [] : s
+    }

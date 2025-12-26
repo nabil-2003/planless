@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+/* ================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ================================ */
+:root {
+    /* Color Variables - Keep existing colors unchanged */
+    --dashboard-primary: #fcfcfd;
+    --logo-blue: #4CB4E7;
+    --dark-blue: #2d46c4;
+    --login-input-color: #f4f4f4;
+    --hover-side-nav-clr: #f2f4ff; 
+    --table-bg-clr: #dcffd6;
+    --table-text-clr: #188006;
+    
+    /* Font Variables */
+    --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ================================
+   GLOBAL FONT STYLES - FONT ONLY
+   ================================ */
+
+/* Base font settings */
+* {
+    font-family: var(--font-inter);
+}
+
+/* Typography Scale - Font sizes and weights only */
+.text-xs { font-size: 0.75rem; line-height: 1rem; }      /* 12px */
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }  /* 14px */
+.text-base { font-size: 1rem; line-height: 1.5rem; }     /* 16px */
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }  /* 18px */
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }   /* 20px */
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }      /* 24px */
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; } /* 30px */
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }   /* 36px */
+
+/* Font Weight Standards */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+/* Consistent Title Styles - Font properties only, keeping existing colors */
+.title-page { 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    line-height: 2rem; 
+}
+
+.title-section { 
+    font-size: 1.125rem; 
+    font-weight: 600; 
+    line-height: 1.75rem; 
+}
+
+.title-card { 
+    font-size: 1rem; 
+    font-weight: 600; 
+    line-height: 1.5rem; 
+}
+
+/* Button Text Styles */
+.btn-text { 
+    font-size: 0.875rem; 
+    font-weight: 500; 
+    line-height: 1.25rem; 
+}
+
+/* Table Header Styles - Font only */
+.table-header { 
+    font-size: 0.875rem; 
+    font-weight: 600; 
+    line-height: 1.25rem; 
+}
+
+/* Table Cell Styles - Font only */
+.table-cell-text { 
+    font-size: 0.875rem; 
+    font-weight: 400; 
+    line-height: 1.25rem; 
+}
+
+/* ================================
+   EXISTING COLOR UTILITY CLASSES - UNCHANGED
+   ================================ */
+.bg-blue{
+    background: var(--logo-blue);background-color: var(--logo-blue);
+}
+.text-dark-blue{
+    color: var(--dark-blue);color: var(--dark-blue);
+    
+}
+.bg-dark-blue{
+    background: var(--dark-blue);background-color: var(--dark-blue);
+}
+
+.text-light-blue{
+    background: var(--logo-blue);background-color: var(--logo-blue);
+}
+.input-bg{
+    background: var(--login-input-color);background-color: var(--login-input-color);
+}
+.bg-dashboard-primary{
+    background: var(--dashboard-primary);background-color: var(--dashboard-primary);
+}
+.hover-side-nav:hover{
+    background: var(--hover-side-nav-clr);
+       
+}
+.options option:hover,
+.options option:focus,
+.options option:checked {
+    background: var(--logo-blue) !important;
+    color: white !important;
+}
+
+.options:hover,
+.options:focus {
+    border-color: var(--logo-blue);
+    box-shadow: 0 0 0 2px rgba(76, 180, 231, 0.2);
+}
+.tria::after {
+    content: "";
+    
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    position: absolute;
+    top: -0.35vh;
+    z-index: 1;
+    right: 43%;
+    transform: translateY(-50%) scale(1.3);
+    rotate: 180deg;
+    pointer-events: none;
+}
+
+/* Custom Date Input Styles */
+input[type="date"] {
+    position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+/* Firefox date input */
+input[type="date"]::-moz-calendar-picker-indicator {
+    opacity: 0;
+}
+
+/* Custom focus styles for date input */
+input[type="date"]:focus {
+    outline: none;
+    border-color: var(--logo-blue);
+    box-shadow: 0 0 0 2px rgba(76, 180, 231, 0.2);
+}
+
+/* React DatePicker Custom Styles */
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker__input-container input {
+    width: 100% !important;
+}
+
+.custom-datepicker-popper {
+    z-index: 9999;
+}
+
+.custom-datepicker-calendar {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.react-datepicker__header {
+    background-color: var(--logo-blue) !important;
+    border-bottom: 1px solid var(--logo-blue) !important;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header {
+    color: white !important;
+    font-weight: 600;
+}
+
+.react-datepicker__day-name {
+    color: white !important;
+    font-weight: 500;
+}
+
+.react-datepicker__day:hover {
+    background-color: var(--logo-blue) !important;
+    color: white !important;
+}
+
+.react-datepicker__day--selected {
+    background-color: var(--dark-blue) !important;
+    color: white !important;
+}
+
+.react-datepicker__day--today {
+    background-color: #f3f4f6 !important;
+    color: var(--dark-blue) !important;
+    font-weight: 600;
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+    border: none;
+    background: none;
+}
+
+.react-datepicker__navigation--previous:hover,
+.react-datepicker__navigation--next:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50%;
+}
+
+/* Custom DatePicker with Footer */
+.custom-datepicker-calendar .react-datepicker__children-container {
+    width: 100%;
+}
+
+.custom-datepicker-calendar {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.react-datepicker__month-container {
+    border-radius: 0;
+}
+
+.bordersDate{
+    background:  var(--dark-blue);
+    color: white;
+    border-radius: 5px;
+
+}
+.betweenDate{
+    background: #e8ebff;
+    color: var(--dark-blue);
+}

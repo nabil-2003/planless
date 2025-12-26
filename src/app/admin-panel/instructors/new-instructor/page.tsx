@@ -1,0 +1,279 @@
+"use client"
+import Header from '@/components/admin/Header'
+import LeftSide from '@/components/admin/LeftSide';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import CustmButton from '@/components/admin/ui/CustmButton';
+import { useRouter } from 'next/navigation';
+
+
+export default function page() {
+       const router = useRouter()
+
+       const back = useCallback(()=>{
+            router.back()
+       },[])
+    const [instructor, setInstructor] = useState<any>({
+        // Personal Information
+        naam_instructeur: "", // Name
+        bsn_nummer: "", // BSN number
+        email: "", // Email address
+        geboortedatum: "", // Birth date
+        adres: "", // Address
+        telefoonnummer: "", // Phone number
+        
+        // License Information
+        rijbewijsnummer: "", // License number
+        uitgiftedatum_rijbewijs: "", // Issue date license
+        vervaldatum_rijbewijs: "", // Expiry date license
+        upload_bestanden: "", // File upload
+        
+        // Instructor Information
+        instructeurskaartnummer: "", // Instructor card number
+        vervaldatum_instructeurskaart: "", // Expiry date instructor card
+        
+        // Contract Information
+        contractbegindatum: "", // Contract start date
+        contractvervaldatum: "", // Contract expiry date
+        salaris: "", // Monthly salary
+        
+        // Document Uploads
+        upload_contract: "", // Contract file
+        upload_instructeurskaart: "" // Instructor card file
+    });
+
+    const handleSubmit = () => {
+        // Prepare form data for backend submission
+        const formData = {
+            personalInfo: {
+                naam_instructeur: instructor.naam_instructeur,
+                bsn_nummer: instructor.bsn_nummer,
+                email: instructor.email,
+                geboortedatum: instructor.geboortedatum,
+                adres: instructor.adres,
+                telefoonnummer: instructor.telefoonnummer
+            },
+            licenseInfo: {
+                rijbewijsnummer: instructor.rijbewijsnummer,
+                uitgiftedatum_rijbewijs: instructor.uitgiftedatum_rijbewijs,
+                vervaldatum_rijbewijs: instructor.vervaldatum_rijbewijs,
+                upload_bestanden: instructor.upload_bestanden
+            },
+            instructorInfo: {
+                instructeurskaartnummer: instructor.instructeurskaartnummer,
+                vervaldatum_instructeurskaart: instructor.vervaldatum_instructeurskaart
+            },
+            contractInfo: {
+                contractbegindatum: instructor.contractbegindatum,
+                contractvervaldatum: instructor.contractvervaldatum,
+                salaris: instructor.salaris
+            },
+            documents: {
+                upload_contract: instructor.upload_contract,
+                upload_instructeurskaart: instructor.upload_instructeurskaart,
+                upload_bestanden: instructor.upload_bestanden
+            }
+        };
+
+        // Log to console for validation
+        console.log("Form Data to be sent to backend:", formData);
+        
+        // Show alert with formatted data
+        alert(`Instructor Data Ready for Backend:\n\n` +
+              `Personal Info:\n` +
+              `- Name: ${formData.personalInfo.naam_instructeur}\n` +
+              `- BSN: ${formData.personalInfo.bsn_nummer}\n` +
+              `- Email: ${formData.personalInfo.email}\n` +
+              `- Birth Date: ${formData.personalInfo.geboortedatum}\n` +
+              `- Address: ${formData.personalInfo.adres}\n` +
+              `- Phone: ${formData.personalInfo.telefoonnummer}\n\n` +
+              `License Info:\n` +
+              `- License Number: ${formData.licenseInfo.rijbewijsnummer}\n` +
+              `- Issue Date: ${formData.licenseInfo.uitgiftedatum_rijbewijs}\n` +
+              `- Expiry Date: ${formData.licenseInfo.vervaldatum_rijbewijs}\n` +
+              `- License Documents: ${formData.licenseInfo.upload_bestanden || 'No file uploaded'}\n\n` +
+              `Instructor Info:\n` +
+              `- Card Number: ${formData.instructorInfo.instructeurskaartnummer}\n` +
+              `- Card Expiry: ${formData.instructorInfo.vervaldatum_instructeurskaart}\n\n` +
+              `Contract Info:\n` +
+              `- Start Date: ${formData.contractInfo.contractbegindatum}\n` +
+              `- End Date: ${formData.contractInfo.contractvervaldatum}\n` +
+              `- Salary: ${formData.contractInfo.salaris}\n\n` +
+              `Documents:\n` +
+              `- Contract: ${formData.documents.upload_contract || 'No file uploaded'}\n` +
+              `- Instructor Card: ${formData.documents.upload_instructeurskaart || 'No file uploaded'}\n` +
+              `- License Files: ${formData.documents.upload_bestanden || 'No file uploaded'}`
+        );
+
+        // TODO: Send formData to backend API
+        // Example: await fetch('/api/instructors', { method: 'POST', body: JSON.stringify(formData) })
+    };
+
+   
+
+
+
+  
+  
+
+ 
+
+
+    return (
+        <>
+            <div className='content '>
+                <Header title="instructeurs" />
+                <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                    <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
+                    <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                        <CustmButton  onClick={back} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
+                              <span className='text-sm md:text-base'>terug</span>
+                        </CustmButton>
+                        <div className='form-container mx-0 md:mx-4 border-2 border-gray-200 rounded-lg mt-4 p-4 bg-white '>
+                            <h1 className='font-bold text-lg md:text-xl'>Persoonlijke gegevens</h1>
+                            <form className='w-full gap-2 flex flex-wrap justify-between' action="">
+
+                                <Input type='text' title='Naam instructeur' value={instructor.naam_instructeur} onChange={(e) => { setInstructor({ ...instructor, naam_instructeur: e.target.value }) }} placeholder='john doe' />
+                                <Input type='number' title='BSN-nummer' value={instructor.bsn_nummer} onChange={(e) => { setInstructor({ ...instructor, bsn_nummer: e.target.value }) }} placeholder='28018273' />
+                                <Input type='email' title='E-mailadres' value={instructor.email} onChange={(e) => { setInstructor({ ...instructor, email: e.target.value }) }} placeholder='example@example.com' />
+                                <Input type='text' title='Geboortedatum' value={instructor.geboortedatum} onChange={(e) => { setInstructor({ ...instructor, geboortedatum: e.target.value }) }} placeholder='10/10/2000' />
+                                <Input type='text' title='Adres' value={instructor.adres} onChange={(e) => { setInstructor({ ...instructor, adres: e.target.value }) }} placeholder='bijv:Bloemgracht 19' />
+                                <Input type='tel' title='Telefoonnummer' value={instructor.telefoonnummer} onChange={(e) => { setInstructor({ ...instructor, telefoonnummer: e.target.value }) }} placeholder='+31656171811' />
+
+                            </form>
+                        </div>
+                                        <div className=' mx-0 md:mx-4 rounded-lg mt-4 p-4  border-2 border-gray-200  bg-white '> 
+                                                    <h1 className='font-bold text-lg md:text-xl'>Rijbewijsgegevens</h1>
+                                                        <form className='w-full gap-2 flex flex-wrap justify-between' action="">
+
+                                <Input type='text' title='Rijbewijsnummer' value={instructor.rijbewijsnummer} onChange={(e) => { setInstructor({ ...instructor, rijbewijsnummer: e.target.value }) }} placeholder='AB123CD456' />
+                                <Input type='text' title='Uitgiftedatum rijbewijs' value={instructor.uitgiftedatum_rijbewijs} onChange={(e) => { setInstructor({ ...instructor, uitgiftedatum_rijbewijs: e.target.value }) }} placeholder='29/08/2022' />
+                                <Input type='text' title='Vervaldatum rijbewijs' value={instructor.vervaldatum_rijbewijs} onChange={(e) => { setInstructor({ ...instructor, vervaldatum_rijbewijs: e.target.value }) }} placeholder='29/08/2032' />
+{
+                              <Input type='file' title='Upload bestanden' value={instructor.upload_bestanden} onChange={(e) => { setInstructor({ ...instructor, upload_bestanden: e.target.value }) }} placeholder='' /> 
+
+}
+                            </form>
+                    </div>
+                                         <div className=' mx-0 md:mx-4 rounded-lg mt-4 p-4  border-2 border-gray-200 bg-white '> 
+                                                    <h1 className='font-bold text-lg md:text-xl'>Instructeursgegevens</h1>
+                                                        <form className='w-full gap-2 flex flex-wrap justify-between' action="">
+                                <Input type='text' title='Instructeurskaartnummer' value={instructor.instructeurskaartnummer} onChange={(e) => { setInstructor({ ...instructor, instructeurskaartnummer: e.target.value }) }} placeholder='KL987MN654' />
+                                <Input type='text' title='Vervaldatum instructeurskaart' value={instructor.vervaldatum_instructeurskaart} onChange={(e) => { setInstructor({ ...instructor, vervaldatum_instructeurskaart: e.target.value }) }} placeholder='29/08/2026' />
+                            </form>
+                    </div>
+                                            <div className=' mx-0 md:mx-4 rounded-lg mt-4 p-4  bg-white border-2 border-gray-200'> 
+                                                    <h1 className='font-bold text-lg md:text-xl'>Contractgegevens</h1>
+                                                        <form className='w-full gap-2 flex flex-wrap justify-between' action="">
+                                <Input type='text' title='Contractbegindatum' value={instructor.contractbegindatum} onChange={(e) => { setInstructor({ ...instructor, contractbegindatum: e.target.value }) }} placeholder='29/08/2022' />
+                                <Input type='text' title='Contractvervaldatum' value={instructor.contractvervaldatum} onChange={(e) => { setInstructor({ ...instructor, contractvervaldatum: e.target.value }) }} placeholder='29/08/2025' />
+                                <Input type='text' title='Salaris per maand' value={instructor.salaris} onChange={(e) => { setInstructor({ ...instructor, salaris: e.target.value }) }} placeholder='€3500' />
+                            </form>
+                    </div>
+                                            <div className=' mx-0 md:mx-4 rounded-lg mt-4 p-4  bg-white border-2 border-gray-200'> 
+                                                    <h1 className='font-bold text-lg md:text-xl'>Documenten uploaden</h1>
+                                                        <form className='w-full gap-2 flex flex-wrap justify-between' action="">
+                                <Input type='file' title='Upload contract' value={instructor.upload_contract} onChange={(e) => { setInstructor({ ...instructor, upload_contract: e.target.value }) }} placeholder='' />
+                                <Input type='file' title='Upload instructeurskaart' value={instructor.upload_instructeurskaart} onChange={(e) => { setInstructor({ ...instructor, upload_instructeurskaart: e.target.value }) }} placeholder='' />
+                            </form>
+                    </div>
+                     <div className='buttons mt-8 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
+                        <CustmButton onClick={back}  className='bg-[#fe911f] text-white w-full md:w-auto'>
+                            Annuleren
+                        </CustmButton>
+                        <CustmButton  onClick={handleSubmit}  className='bg-[#2d46c4] text-white w-full md:w-auto'>
+                            Opslaan
+                        </CustmButton>
+                     </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </>
+
+    )
+}
+
+
+const Input = ({ title, type = "text", placeholder, istextArea = false, onChange, value }: { type?: string, istextArea?: boolean, title: string, placeholder: string, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, value: string }) => {
+    const file = useRef<HTMLInputElement>(null)
+    const [uploadMessage, setUploadMessage] = useState<string>("")
+    const [previewUrl, setPreviewUrl] = useState<string>("")
+    
+    const openFile = () => {
+        file.current && file.current.click()
+    }
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0]
+        if (selectedFile) {
+            setUploadMessage(`${selectedFile.name} uploaded successfully!`)
+            
+            // Create preview URL for the image
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result as string)
+            }
+            reader.readAsDataURL(selectedFile)
+            
+            // Create a mock change event with the filename as value
+            const mockEvent = {
+                target: {
+                    value: selectedFile.name
+                }
+            } as React.ChangeEvent<HTMLInputElement>
+            onChange(mockEvent)
+        }
+    }
+   
+    return (
+        <div className='form-field flex flex-col w-full md:w-[49%] mt-4'>
+
+                  <span className='text-sm md:text-base'>{title}</span>
+
+            {
+               type !== "file" && (
+                 !istextArea &&
+                <input type={type} onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-4 md:p-3 outline-none  placeholder:capitalize text-sm md:text-base' placeholder={placeholder} />
+                ||
+                <textarea onChange={onChange} value={value} className='border-2 mt-3 border-gray-300 rounded-lg p-3 md:p-4 h-[10vh] resize-none outline-none placeholder:capitalize text-sm md:text-base' placeholder={placeholder} />
+
+               ) ||
+               <div className='border-2 mt-4 border-gray-300 p-4 md:p-6 rounded-lg '>
+                {previewUrl && (
+                    <div className='mb-4'>
+                        <img 
+                            src={previewUrl} 
+                            alt="Preview" 
+                            className='w-full h-auto max-h-[40vh] object-contain rounded-lg border-2 border-gray-200'
+                        />
+                    </div>
+                )}
+                <div className='file border-2 border-gray-300 p-2 rounded-lg '>
+                    <span className='w-12 h-12 md:w-[5vw] md:h-[5vw] rounded-lg border-2 border-[var(--dark-blue)] border-dashed grid place-items-center text-lg text-[var(--dark-blue)] cursor-pointer' onClick={openFile} >+</span>
+                     <input 
+                        type="file" 
+                        accept="image/*" 
+                        hidden 
+                        ref={file}  
+                        name='fileInput' 
+                        onChange={handleFileChange} 
+                     />
+                     {uploadMessage && (
+                        <div className='mt-2 text-sm text-green-600 font-medium'>
+                            {uploadMessage}
+                        </div>
+                     )}
+                </div>
+               </div>
+
+            }
+
+        </div>
+    )
+}
+
