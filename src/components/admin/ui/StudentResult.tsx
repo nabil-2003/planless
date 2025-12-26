@@ -136,6 +136,15 @@ export const InputNote = ({ name, note, className, comment = "" }: { comment: st
 
 
 
+export function ExamenField({ name }: { name: string }) {
+    return (
+        <div className='flex items-center gap-3 p-3 border-b border-gray-200'>
+            <input type="checkbox" className='w-5 h-5' />
+            <span className='text-base'>{name}</span>
+        </div>
+    )
+}
+
 export function PopUP({ children, title, bodyStyle }: { children: ReactNode, title?: ReactNode, bodyStyle?: string }) {
     const notesRef = React.useRef<HTMLDivElement>(null);
     const buttonRef = React.useRef<HTMLDivElement>(null);

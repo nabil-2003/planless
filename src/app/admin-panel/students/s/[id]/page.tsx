@@ -65,7 +65,7 @@ export default function page() {
                             Basisverichtingen</h1>
                         <StudentResult
                          id={1}
-                         title='Bediening van voertuig'
+                         Title='Bediening van voertuig'
                          Icon={FaCarSide}
                          notes={ [
                              { name: "Voorbereidings & controlehandelingen", note: 6 },
@@ -83,7 +83,7 @@ export default function page() {
                        
                         <StudentResult
                         id={2}
-                         title='Bijzondere verrichtingen'
+                         Title='Bijzondere verrichtingen'
                          Icon={FaCarSide}
                          notes={[
                            { name: "Stopopdracht / in rechte lijn achteruit", note: 0 },
@@ -100,7 +100,7 @@ export default function page() {
                         />
                         <StudentResult
                         id={3} 
-                         title='Bedrevenheid kijktechniek'
+                         Title='Bedrevenheid kijktechniek'
                          Icon={FaCarSide}
                          notes={[
                             { name: "Plaats op de weg", note: 0 },
