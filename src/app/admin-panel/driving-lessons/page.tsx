@@ -12,7 +12,6 @@ import { getparsedLesson, ParsedLesson } from '@/store/LessonsSlices'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import FIlterByType from '@/components/admin/FIlterByType'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
@@ -27,6 +26,7 @@ import PlusIcon from '@/components/svgs/Plus'
 // Data imports
 import CustmButton from '@/components/admin/ui/CustmButton'
 import useLessons from '@/app/hooks/useLessons'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 
 // ================================
 // TYPE DEFINITIONS
@@ -44,31 +44,17 @@ import useLessons from '@/app/hooks/useLessons'
  */
 export default function DrivingLessonsPage() {
     
-    // ================================
-    // STATE MANAGEMENT
-    // ================================
-    
-    // Filter and search states
+  
     const [currentFilterType, setCurrentFilterType] = useState('In behandeling')
-    const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(10)
 
     const {fetchAllLessons , lessons ,loading  , endDateLessons, startDateLessons, size, index , setIndex , setSize }= useLessons()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
     const dateModalRef = useRef<CustomDateRef>(null)
       
-    // ================================
-    // DATA PROCESSING
-    // ================================
-    
-    /**
-     * Parse and transform lessons data from JSON
-     * Ensures type safety and data consistency
-     */
-     
+ 
 
      useEffect(()=>{
            if (selectedDateRange?.firstDateMs === selectedDateRange?.lastDateMs && selectedDateRange !== null) 
@@ -153,9 +139,7 @@ export default function DrivingLessonsPage() {
      * Handles time filter changes
      * @param filter - The selected time filter
      */
-    const handleTimeFilterChange = (filter: string) => {
-        setTimeFilter(filter)
-    }
+   
 
     // ================================
     // RENDER
@@ -172,6 +156,7 @@ export default function DrivingLessonsPage() {
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                    <Breadcrumb />
                     
                     {/* Filter By Type Component */}
                     <FIlterByType 
@@ -183,12 +168,7 @@ export default function DrivingLessonsPage() {
                     <div className='mt-4' />
                     
                     {/* Time Filter Component */}
-                    <TimeFilter 
-                        currentFilter={currentTimeFilter} 
-                        changeFilter={handleTimeFilterChange}
-                        content={true}
-                    />
-
+                   
                     {/* Controls Section */}
                     <div className='flex flex-wrap gap-3  items-center  searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
                         
@@ -259,7 +239,7 @@ export default function DrivingLessonsPage() {
                                             e.stopPropagation()
                                             dateModalRef.current?.clearSelection()
                                             setSelectedDateRange(null)
-                                            console.log('cleared')
+                                      
                                         }}
                                         className='ml-2 text-gray-400 hover:text-gray-600'>
                                         <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -279,6 +259,7 @@ export default function DrivingLessonsPage() {
                       <LessonsTable  
                         data={ parsedLessons(lessons as any[]) }
                         className=''
+                        currentTap={currentFilterType}
                       />
                     }
                 </div>

@@ -12,6 +12,8 @@ import { createPortal } from 'react-dom';
 import CustmButton from '../admin/ui/CustmButton';
 import Image from 'next/image';
 import { FaDownload } from 'react-icons/fa';
+import useInvoice from '@/app/hooks/useInvoice';
+import { spawn } from 'child_process';
 
 export type DocumentModalRef = {
   open: () => void;
@@ -24,6 +26,7 @@ type DocumentModalProps = {
   documentUrl?: string;
   description?: string;
   className?: string;
+  orderId?: string
 };
 
 const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
@@ -34,10 +37,11 @@ const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
       documentUrl,
       description,
       className = '',
+      orderId
     },
     ref,
   ) => {
-    const imgRef = useRef<HTMLImageElement>(null);
+    const imgRef = useRef<HTMLIFrameElement>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const previousOverflow = useRef<string | null>(null);
@@ -45,7 +49,7 @@ const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
     useEffect(() => {
       setIsMounted(true);
     }, []);
-
+      const {getInvoiceById , loading , error , invoice} = useInvoice()
     const close = useCallback(() => {
       setIsOpen(false);
     }, []);
@@ -62,6 +66,12 @@ const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
       }),
       [close, open],
     );
+    useEffect(()=>{
+      if(isOpen && orderId){
+        console.log("treating ...")
+        getInvoiceById(orderId) ; 
+      }
+    },[orderId , isOpen ])
 
     useEffect(() => {
       if (!isOpen) {
@@ -130,12 +140,14 @@ const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
           className='absolute inset-0 bg-transparent'
           onClick={() => executeAndClose()}
         />
-         <div className='relative w-[40vw] h-[40vh] border-1 p-4 border-gray-300 rounded-2xl bg-white'>
-            <img ref={imgRef} src="/Id.png" alt=""  className='w-full h-full object-cover rounded-2xl '/>
-          <button onClick={downloadImg} className='bg-white hover:bg-gray-200 cursor-pointer absolute right-5 top-1  p-4 text-black rounded-full mt-4'>
-                 <FaDownload></FaDownload>
-            </button>
-          
+         <div className='relative w-[90vw] grid h-[90vh] place-items-center border-1 p-4 border-gray-300 bg-white rounded-2xl '>
+{
+  loading  && <div className=' w-[3vw] h-[3vw] rounded-full my-auto border-l-0 animate-spin  border-1 '></div> 
+  || 
+  <iframe  className='w-full bg-amber-300 rounded  h-full' src={invoice}  />
+
+}
+           <span className='px-3 py-2 rounded grid place-content-center bg-blue-800  border-0.5 text-white hover:opacity-80  border-black absolute left-0 bottom-0 ml-5 mb-5 cursor-pointer ' onClick={close}>close</span>
          </div>
       </div>,
       document.body,

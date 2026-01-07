@@ -13,7 +13,7 @@ const fetchLessonById = async (id : string) => {
       // Dispatch the thunk and unwrap the result so errors are thrown here
       const result = await dispatch(getLessonById(id)).unwrap();
       console.debug('useLessons: getLessonById result:', result);
-      return result;
+      return getparsedLesson(result);
     }
     catch(error: any) {
       console.error('An error occurred while fetching lesson by ID:', error);
@@ -76,7 +76,7 @@ const fetchLessonById = async (id : string) => {
    await dispatch(UpdateLessonStatus({id : id , status : "confirmed"}))
   }
 
-  
+   
 
   return {
     fetchAllLessons,
@@ -85,7 +85,7 @@ const fetchLessonById = async (id : string) => {
     lessons: selector.lessons ,
     loading: selector.loading as boolean,
     error: selector.error as string | null, 
-    lesson : getparsedLesson(selector.lesson as any),
+    lesson :   getparsedLesson(selector.lesson as any)  , 
     total: selector.total ,
     fetchLessonById , 
     setIndex ,

@@ -133,19 +133,7 @@ const navigate = useRouter()
               <Note name='Sociaal rijgedrag' note={0} comment='tt'></Note>
               <Note name='Milieubewust rijden' note={0} comment='tt'></Note>
             </div>
-            <div className='flex justify-between items-center'>
-              <CustmButton onClick={()=>{
-                navigate.back()
-              }}  className='mt-5 select-none  ml-3 mb-5 h-[6vh] w-[8vw] bg-amber-500 text-white   '>
-                <FaArrowLeft className='inline mr-2 ' />
-                Terug
-              </CustmButton>
-              <span  className='mt-5 mr-3 p-3 rounded-xl overflow-hidden mb-5  w-max bg-[#FFDDBA] text-white  select-none  '>
-                <span className='text-[#A95600] flex items-center gap-2 '><img src="/edit_brown.svg" alt="" />
-                bewerkingsmodus</span>
-                
-              </span>
-            </div>
+            
           </div>
 
 

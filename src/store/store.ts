@@ -4,13 +4,15 @@ import instructorReducer from './instructorSlice'
 import lessonsReducer from './LessonsSlices'
 import studentReducer from './studentSlice'
 import dashboardReducer from './DashBoardSlice'
+import invoiceReducer from './InvoiceSlice'
 export const store = configureStore({
   reducer: {
     user: userReducer,
     instructor : instructorReducer,
     student :  studentReducer,
     lessons : lessonsReducer,
-    dashboard : dashboardReducer
+    dashboard : dashboardReducer ,
+    invoice : invoiceReducer,
   },
 })
 

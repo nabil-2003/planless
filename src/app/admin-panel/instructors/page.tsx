@@ -14,7 +14,6 @@ import Image from 'next/image'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import InstructorTable, { Data_Instructor } from '@/components/admin/ui/tables/InstructorTable'
@@ -28,6 +27,7 @@ import PlusIcon from '@/components/svgs/Plus'
 import instructorsData from "@/data/instructors.json"
 
 import useInstructor from '@/app/hooks/useInstructor'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 
 // ================================
 // TYPE DEFINITIONS
@@ -88,15 +88,10 @@ export default function InstructorsPage() {
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                    {/* Spacing */}
-                    <div className='mt-4' />
+          <Breadcrumb />
                     
                     {/* Time Filter Component */}
-                    <TimeFilter 
-                        currentFilter={currentTimeFilter} 
-                        changeFilter={handleTimeFilterChange}
-                        content={true}
-                    />
+                 
 
                     {/* Controls Section */}
                     <div className='flex flex-wrap gap-3 searchItem mt-4 mb-4 justify-end w-[95%] h-max mx-auto'>
@@ -122,7 +117,7 @@ export default function InstructorsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-full sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
+                            className='w-full mr-40 sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
                             value={search}
                             onChange={(value) => searchInstuctor(value)}
                             placeholder='Zoeken...'
@@ -135,7 +130,7 @@ export default function InstructorsPage() {
                         <Link href="./instructors/new-instructor" className='text-white rounded-lg  bg-dark-blue ml-4'>
                             <div className='flex gap-2 items-center p-2.5'>
                                 <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Instructeur toevoegen
+                               Voeg een instructeur toe
                             </div>
                         </Link>
                           <button

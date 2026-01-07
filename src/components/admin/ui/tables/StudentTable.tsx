@@ -2,11 +2,11 @@
 import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CustomScrollBar from '../ScrollBar';
 import Link from 'next/link';
 import LocationIcon from '@/components/svgs/Location';
-import { DocumentModal, DocumentModalRef, IdentityModal, IdentityModalRef } from '@/components/ui'
+import { DocumentModal, DocumentModalRef, IdentityModal } from '@/components/ui'
 import useStudent from '@/app/hooks/useStudent';
 
 const buildTelHref = (value: string) => value &&   `tel:${value.replace(/[^+\d]/g, '')}`
@@ -15,10 +15,12 @@ const buildTelHref = (value: string) => value &&   `tel:${value.replace(/[^+\d]/
 export type Data_Student = {
     id: string;
     student: string;
-    bsn_nummer: string;
     email: string;
     date_birth: string;
-    adress: string;
+    city: string ;
+    post_code? :  String ; 
+    street? : string ;
+    house_number?: string ;
     phone_number: string;
     status: string;
     driving_license_category: string;
@@ -41,7 +43,7 @@ export default function StudentTable({
   className: string,
  
 }) {
-   const {total , pageSize , indexPage , setIndex, setSize}=useStudent()
+   const {total , pageSize , indexPage , setIndex,setSize}=useStudent()
   const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
   const containerRef = useRef<HTMLDivElement>(null)
   
@@ -83,26 +85,26 @@ export default function StudentTable({
         }
       `}</style>
 
-      {/* Table Container - Three Section Layout */}
-      <div className={`${className} mb-4 w-full scale-95 `} style={{ position: 'relative' }}>
+      {/* Table Container with Sticky NR and Actions Columns */}
+      <div className={`${className} mb-4 w-[100%] scale-95`} style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sticky NR Column - Left */}
-          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
+          <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
             {/* NR Header */}
-            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[4vw] px-4 flex justify-center items-center bg-gray-50   h-full border-r-1  text-md border-gray-200'>Nr</div>
+            <div className='border-b-1 border-gray-200' style={{ height: '56px' }}>
+              <div className='w-[60px] bg-gray-50 px-4 flex justify-center items-center h-full text-md font-semibold border-r-1 border-gray-200'>Nr</div>
             </div>
             {/* NR Body */}
             <div>
               {data.length > 0 ? (
-                data.map((student,i ) => (
+                data.map((student, index) => (
                   <div 
-                    key={`nr- (${indexPage*pageSize + i+1})`} 
+                    key={`nr-${indexPage * pageSize + index + 1}`} 
                     className='bg-white border-b-1 border-gray-200'
                     style={{ height: '52px' }}
                   >
-                    <div className='w-[4vw] bg-gray-50 text-md  px-4 flex justify-center items-center h-full  text-gray-700 border-r-1 border-gray-200'>
-                      {indexPage*pageSize + i+1}
+                    <div className='w-[60px] bg-gray-50 px-4 flex justify-center items-center h-full text-sm text-gray-700 border-r-1 border-gray-200'>
+                      {indexPage * pageSize + index + 1}
                     </div>
                   </div>
                 ))
@@ -113,22 +115,20 @@ export default function StudentTable({
           {/* Scrollable Content - Middle */}
           <div id='students-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
-            <div className='flex w-max bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Student</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>BSN nummer</div>
-              <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Email</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Geboortedatum</div>
-              <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-md  px-2 whitespace-nowrap truncate'>Adres</div>
-              <div className='w-[10vw] min-w-[160px] py-4 flex items-center text-md  px-2 whitespace-nowrap truncate'>Telefoonnummer</div>
-              <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md  px-2 pr-6 whitespace-nowrap truncate'>Opmerkingen</div>
+            <div className='flex w-full justify-around pl-2 bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
+              <div className='w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Student</div>
+              <div className='w-[240px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Email</div>
+              <div className='w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Geboortedatum</div>
+              <div className='w-[170px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Stad</div>
+              <div className='w-[160px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Telefoonnummer</div>
             </div>
             {/* Scrollable Body */}
-            <div className='w-max'>
+            <div className='w-full'>
               {data.length > 0 ? (
                 data.map((student, index) => (
                   <StudentElementScrollable 
                     key={index} 
-                    ele={student} 
+                    ele={student}
                   />
                 ))
               ) : (
@@ -142,15 +142,15 @@ export default function StudentTable({
           {/* Sticky Actions Column - Right */}
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
-            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md  border-l-1 bg-gray-50 border-gray-200'>Acties</div>
+            <div className='bg-transparent border-b-1 border-gray-200 flex items-center' style={{ height: '56px' }}>
+              <div className='w-[80px] px-3 flex justify-center items-center h-full text-md font-semibold border-l-1 bg-gray-50 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
             <div>
               {data.length > 0 ? (
                 data.map((student, index) => (
                   <StudentElementActions 
-                    key={`actions-${index}`} 
+                    key={`actions-${student.id}`} 
                     ele={student} 
                   />
                 ))
@@ -212,46 +212,31 @@ export default function StudentTable({
 
 
 const StudentElementScrollable = ({ ele }: { ele: Data_Student }) => {
-  const addressModal = useRef<IdentityModalRef>(null)
+  const addressModal = useRef<React.ElementRef<typeof IdentityModal>>(null)
   const emailModal = useRef<DocumentModalRef>(null)
+  const [isOpen , open]= useState<Boolean>(false)
   return (
-  <div className='flex hover:bg-blue-100/10 w-max relative bg-white border-b-1 border-gray-200' style={{ height: '52px' }}>
-  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
-  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.bsn_nummer}>{ele.bsn_nummer}</div>
-  <div className='w-[15vw] min-w-[220px] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>
-        <button
-          type='button'
-          onClick={() => emailModal.current?.open()}
-          className='flex items-center gap-2 cursor-pointer transition-colors hover:text-blue-800'
-        >
-          <img src='/pdf_icon.png' width={16} height={16} alt='' />
+    <div className='flex pl-2 w-full justify-around  border-b-1 bg-white hover:bg-blue-50 border-gray-200 items-center' style={{ height: '52px' }}>
+      <div className='w-[140px] py-4 flex items-center justify-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.student}>{ele.student}</div>
+      <div className='w-[240px] py-4 flex items-center justify-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.email}>
           <span className='truncate'>{ele.email}</span>
-        </button>
-        <DocumentModal
-          ref={emailModal}
-          title='E-mail'
-          documentName={ele.email}
-          description='Voorbeeld van het e-maildocument voor deze student.'
-        />
       </div>
-  <div className='w-[9vw] min-w-[140px] py-4 flex items-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.date_birth}>{ele.date_birth}</div>
-  <div className='w-[8vw] min-w-[120px] py-4 flex items-center justify-center text-sm text-gray-700 px-2' title={ele. adress}>
+      <div className='w-[140px] py-4 flex items-center justify-center text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele.date_birth}>{ele.date_birth}</div>
+      <div className='w-[170px] py-4 flex items-center justify-center text-sm text-gray-700 px-2' title={ele?.city|| "_"}>
         <span
-          onClick={() => addressModal.current?.open()}
-          className='cursor-pointer transition-all duration-300 hover:scale-110'
+          onClick={() => open(true)}
+          className='cursor-pointer transition-all ml-7 duration-300 hover:scale-110'
         >
-          <LocationIcon w={20} h={20} color="blue" />
+          <LocationIcon w={20} h={20} color="blue" /> 
         </span>
-        <IdentityModal ref={addressModal} description={ele.adress} title='Adres bekijken' />
+        <span className='w-[100px]'>{ele.city}</span>
       </div>
-  <Link
-    href={buildTelHref(ele.phone_number) || '#'}
-    className='w-[10vw] min-w-[160px] py-4 flex items-center text-md text-gray-700 px-2 truncate overflow-hidden transition-colors hover:text-blue-800 cursor-pointer'
-    title={ele.phone_number}
-  >
-    {ele.phone_number}
-  </Link>
-  <div className='w-[16vw] min-w-[240px] py-4 flex items-center text-md text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.remarks}>{ele.remarks}</div>
+      <div
+        className='w-[160px] py-4 flex items-center justify-center text-sm text-gray-700 px-2 truncate overflow-hidden transition-colors hover:text-blue-800 cursor-pointer'
+        title={ele.phone_number}
+      >
+        {ele.phone_number}
+      </div>
     </div>
   )
 }
@@ -262,17 +247,17 @@ const StudentElementActions = ({ ele }: { ele: Data_Student }) => {
 
   return (
     <div 
-      className='border-b-1 bg-gray-50  border-gray-200'
+      className='border-b-1 bg-gray-50 border-gray-200 flex items-center'
       style={{ height: '52px' }}
     >
-      <div className='w-[80px]  px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
+      <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
         <button 
           className='outline-none cursor-pointer p-2 rounded-full hover:bg-gray-100 transition-colors' 
           onClick={() => { modalRef.current?.Open() }}
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal id={ele.id} tableName='students'  ref={modalRef} />
+        <ActionModal id={ele.id} className='right-[.55vw]' tableName='students' ref={modalRef} />
       </div>
     </div>
   )

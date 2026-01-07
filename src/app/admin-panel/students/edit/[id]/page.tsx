@@ -1,7 +1,6 @@
 "use client"
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
-import TimeFilter from '@/components/admin/TimeFIlter';
 import FIlterByType from '@/components/admin/FIlterByType'
 import React, { use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CusTomDate from '@/components/admin/ui/CustomDateModal'
@@ -19,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import useStudent from '@/app/hooks/useStudent';
 import { parseStudents } from '../../page';
 import { DiVim } from 'react-icons/di';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 
 type CustomDateRef = {
   firstDateMs?: number;
@@ -40,37 +40,33 @@ export default function page() {
 
   const [primaryInfo, setPrimaryInfo] = useState({
     studentName: '',
-    bsnNumber: '',
+    city: '',
     email: '',
     birthDate: '',
-    address: '',
-    phoneNumber: '',
+    street : '',
+    code_postal : '',
+    houseNumber : '',
+    phone : ""
   })
 
-  const [extraInfo, setExtraInfo] = useState({
-    studentName: '',
-    bsnNumber: '',
-    notes: '',
-  })
+
     const { student } = useStudent()
-    console.log("details ", student)
+   
     const parsedStudent = parseStudents([student])[0]
     
     useEffect(() => {
       if (student) {
         setPrimaryInfo({
           studentName: parsedStudent.student || "",
-          bsnNumber: parsedStudent.bsn_nummer || "",
+          city: parsedStudent.city || "",
           email: parsedStudent.email || "",
           birthDate: parsedStudent.date_birth || "",
-          address: parsedStudent.adress || "",
-          phoneNumber: parsedStudent.phone_number || "",
+          street: parsedStudent.street || "",
+          code_postal: parsedStudent.post_code?.toString() || "",
+          houseNumber: parsedStudent.house_number || "",
+          phone: parsedStudent.phone_number || "",
         })
-        setExtraInfo({
-          studentName: parsedStudent.student || "",
-          bsnNumber: parsedStudent.bsn_nummer || "",
-          notes: parsedStudent.remarks || '',
-        })
+       
       }
     }, [student])
   return (
@@ -80,6 +76,7 @@ export default function page() {
         <div className='w-full flex flex-col md:flex-row overflow-x-hidden'>
           <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
           <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
+            <Breadcrumb />
             <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
              <div className='flex items-center gap-3 '>
                <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
@@ -100,15 +97,6 @@ export default function page() {
                   placeholder='john doe'
                 />
                 <Input
-                  type='number'
-                  title='BSN-nummer'
-                  value={primaryInfo.bsnNumber}
-                  onChange={(e) => {
-                    setPrimaryInfo({ ...primaryInfo, bsnNumber: e.target.value })
-                  }}
-                  placeholder='28018273'
-                />
-                <Input
                   type='email'
                   title='E-mailadres'
                   value={primaryInfo.email}
@@ -126,81 +114,72 @@ export default function page() {
                   }}
                   placeholder='10/10/2000'
                 />
-                <Input
-                  type='text'
-                  title='Adres'
-                  value={primaryInfo.address}
-                  onChange={(e) => {
-                    setPrimaryInfo({ ...primaryInfo, address: e.target.value })
-                  }}
-                  placeholder='bijv:Bloemgracht 19'
-                />
-                <Input
+                  <Input
                   type='tel'
                   title='Telefoonnummer'
-                  value={primaryInfo.phoneNumber}
+                  value={primaryInfo.phone}
                   onChange={(e) => {
-                    setPrimaryInfo({ ...primaryInfo, phoneNumber: e.target.value })
+                    setPrimaryInfo({ ...primaryInfo, phone: e.target.value })
                   }}
                   placeholder='+31656171811'
                 />
+                <Input
+                  type='text'
+                  title='Stad'
+                  value={primaryInfo.city}
+                  onChange={(e) => {
+                    setPrimaryInfo({ ...primaryInfo, city: e.target.value })
+                  }}
+                  placeholder='bijv:Bloemgracht 19'
+                />
+                 <Input
+                  type='text'
+                  title='Postcode'
+                  value={primaryInfo.code_postal}
+                  onChange={(e) => {
+                    setPrimaryInfo({ ...primaryInfo, code_postal: e.target.value })
+                  }}
+                  placeholder='bijv:Bloemgracht 19'
+                />
+                 <Input
+                  type='text'
+                  title='Straat'
+                  value={primaryInfo.street}
+                  onChange={(e) => {
+                    setPrimaryInfo({ ...primaryInfo, street: e.target.value })
+                  }}
+                  placeholder='bijv:Bloemgracht 19'
+                />
+                 <Input
+                  type='text'
+                  title='Huisnummer'
+                  value={primaryInfo.houseNumber}
+                  onChange={(e) => {
+                    setPrimaryInfo({ ...primaryInfo, houseNumber: e.target.value })
+                  }}
+                  placeholder='bijv:Bloemgracht 19'
+                />
+              
               
               </form>
             </div>
-            <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-              <h1 className='font-bold text-xl '>Aanvullende informatie</h1>
-              <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
-
-                <Input
-                  title='Naam student'
-                  value={extraInfo.studentName}
-                  onChange={(e) => {
-                    setExtraInfo({ ...extraInfo, studentName: e.target.value })
-                  }}
-                  placeholder='naam'
-                />
-                <Input
-                  title='BSN-nummer'
-                  value={extraInfo.bsnNumber}
-                  onChange={(e) => {
-                    setExtraInfo({ ...extraInfo, bsnNumber: e.target.value })
-                  }}
-                  placeholder='28018273'
-                />
-                <Input
-                  title='Opmerkingen'
-                  istextArea={true}
-                  value={extraInfo.notes}
-                  onChange={(e) => {
-                    setExtraInfo({ ...extraInfo, notes: e.target.value })
-                  }}
-                  placeholder='heeft moeite met inparkeren, verder een vlotte leerling.'
-                />
-
-              </form>
-             
-              </div>
-              <div className='mt-4 form-container mx-4 rounded-lg  p-4  bg-white shadow-md'>
-              <h1 className='font-bold text-xl '>Studentgegevens</h1>
-              
-                <Input className='md:w-full' title='Status' type='option'  onChange={()=>{}} value='2' placeholder='' />
-            
-              
-              <form action=""></form>
-            </div>
-            <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex flex-wrap gap-3 justify-between '>
+               <div className='buttons mt-8 mb-4 mx-auto  w-[90%] flex flex-wrap gap-3 justify-between '>
               <CustmButton onClick={back} className='bg-[#fe911f] py-4 pl-4 pr-4  text-white text-sm '>
                 Annuleren
               </CustmButton>
-              <CustmButton onClick={() => { console.log({ primaryInfo, extraInfo }) }} className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
+              <CustmButton onClick={() => { console.log({ primaryInfo }) }} className='bg-[#2d46c4] py-4 pl-4 pr-4  text-white text-sm '>
                 Opslaan
               </CustmButton>
             </div>
+          
+            </div>
+            
+             
           </div>
 
         </div>
 
-      </div>
+      
 
     </>
 

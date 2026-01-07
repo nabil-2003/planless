@@ -5,6 +5,7 @@ import React, { use, useCallback, useEffect, useRef, useState } from 'react'
 import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
 import useInstructor from '@/app/hooks/useInstructor';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 import { parseInsructor } from '@/components/admin/ui/tables/InstructorTable';
 import { Button } from '@/components/ui';
 
@@ -66,10 +67,10 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
             const parsedInstructor = parseInsructor([instructor])[0]
             setInstructorData({
                 naam_instructeur: parsedInstructor.instructor || "",
-                bsn_nummer: parsedInstructor.bsn_nummer || "",
+              
                 email: parsedInstructor.email || "",
                 geboortedatum: parsedInstructor.Date_birth || "",
-                adres: parsedInstructor.address || "",
+                adres: parsedInstructor.city || "",
                 telefoonnummer: parsedInstructor.phone_number || "",
                 rijbewijsnummer: parsedInstructor.driving_license || "",
                 uitgiftedatum_rijbewijs: parsedInstructor.driving_license_issue_date || "",
@@ -135,6 +136,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                 <div className='w-full flex flex-col md:flex-row overflow-x-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                        <Breadcrumb />
                         <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                             <div className='flex items-center gap-3 '>
                                 <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>

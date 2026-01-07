@@ -7,9 +7,16 @@ import { Button } from '@/components/ui';
 import useInstructor from '@/app/hooks/useInstructor';
 import { Data_Instructor, parseInsructor } from '@/components/admin/ui/tables/InstructorTable';
 import { useRouter } from 'next/navigation';
+import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
+import CusTomDate, { CustomDateRef } from '@/components/admin/ui/CustomDateModal';
+import LessonsTable, { netherlandsToEngStatus } from '@/components/admin/ui/tables/TableLessons';
+import PlusIcon from '@/components/svgs/Plus';
+import CustomSearch from '@/components/admin/ui/CustomSearch';
+import CustomSelect from '@/components/admin/ui/CustomSelect';
+import { getparsedLesson, ParsedLesson } from '@/store/LessonsSlices';
 import useLessons from '@/app/hooks/useLessons';
-
-
+import HoursRegistrationTable from '@/components/admin/ui/tables/HoursRegistrationTable';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 
 export default function page({params }: { params: Promise<{ details: string }> }) {
      const details= use(params)?.details
@@ -30,6 +37,7 @@ fetchAllPlanningForInstructor(details)
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                        <Breadcrumb />
                         <CustmButton onClick={() => { router.back()}} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
                             <span className='text-sm md:text-base'>terug</span>
                         </CustmButton>
@@ -38,8 +46,16 @@ fetchAllPlanningForInstructor(details)
 
                             {
                                 active == "details" &&
-                                <DetailsPage /> ||
-                                <CustomSchedule />
+                                <DetailsPage />  
+                                
+                            }
+                            {
+                                active == "schedule" &&
+                                <CustomSchedule /> 
+                            }
+                            {
+                                active == "hours" &&
+                                  <HoursRegistration />
                             }
                         </>
                     </div>
@@ -63,6 +79,11 @@ const DetailsBar = ({ active = 'details', setActive }: { active: string, setActi
             <li onClick={() => setActive('schedule')} className={`w-32 md:w-[7vw] text-center p-3 hover:text-[var(--dark-blue)] cursor-pointer hover:bg-blue-700/10 ${active === 'schedule' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
                 Werkrooster
             </li>
+             <li onClick={() => setActive('hours')} className={`w-32 md:w-[8vw]  text-center p-3 hover:text-[var(--dark-blue)] cursor-pointer hover:bg-blue-700/10 ${active === 'hours' ? 'bg-blue-700/10 text-[var(--dark-blue)]' : ''}`}>
+            
+                    Urenregistratie
+              
+            </li>
         </ul>
     )
 }
@@ -84,10 +105,12 @@ const DetailsPage = () => {
         // Personal Information
         id : 2 ,
         instructor:  "",
-        bsn_nummer:  "",
         email:"",
         Date_birth: "",
-        address: "",
+        city: "",
+        street: "",
+        zipCode: "",
+        houseNumber: "",
         phone_number: "",
 
         // License Information
@@ -115,10 +138,12 @@ const DetailsPage = () => {
             setInstructorDetails({
                 id: parsedInstructor.id || 2,
                 instructor: parsedInstructor.instructor || "",
-                bsn_nummer: parsedInstructor.bsn_nummer || "",
                 email: parsedInstructor.email || "",
                 Date_birth: parsedInstructor.Date_birth || "",
-                address: parsedInstructor.address || "",
+                city: parsedInstructor.city || "",
+                street: parsedInstructor.street || "",
+                zipCode: parsedInstructor.zipCode || "",
+                houseNumber: parsedInstructor.houseNumber || "",
                 phone_number: parsedInstructor.phone_number || "",
                 driving_license: parsedInstructor.driving_license || "",
                 driving_license_issue_date: parsedInstructor.driving_license_issue_date || "",
@@ -151,10 +176,12 @@ const DetailsPage = () => {
                 </div>
                 <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">
                     <DetailItem title='Naam instructeur' value={instructorDetails.instructor} />
-                    <DetailItem title='BSN-nummer' value={instructorDetails.bsn_nummer} />
                     <DetailItem title='E-mailadres' value={instructorDetails.email} />
                     <DetailItem title='Geboortedatum' value={instructorDetails.Date_birth} />
-                    <DetailItem title='Adres' value={instructorDetails.address} />
+                    <DetailItem title='Stad' value={instructorDetails.city } />
+                     <DetailItem title='Straat' value={instructorDetails.street } />
+                      <DetailItem title='Postcode' value={instructorDetails.zipCode } />
+                       <DetailItem title='Huisnummer' value={instructorDetails.houseNumber } />
                     <DetailItem title='Telefoonnummer' value={instructorDetails.phone_number} />
                 </form>
             </div>
@@ -581,4 +608,202 @@ const ScheduleTable = ({events , currentDate} : {events: EventSchedule[], curren
 
         </div>
     )
+}
+
+
+const HoursRegistration= () => {
+   
+    const [currentFilterType, setCurrentFilterType] = useState('In behandeling')
+    const [searchQuery, setSearchQuery] = useState('')
+    const [exportMode, setExportMode] = useState(false)
+
+    const {fetchAllLessons , lessons ,loading  , endDateLessons, startDateLessons, size, index , setIndex , setSize }= useLessons()
+    // Modal references
+    const CreateModalRef = useRef<CreateModalRef>(null)
+    const exportDateModalRef = useRef<CustomDateRef>(null)
+      
+ 
+
+     useEffect(()=>{
+        fetchAllLessons(index,size ,searchQuery , 0, new Date("01-01-2100").getTime() , netherlandsToEngStatus("Voltooid")?.engStatus)
+     },[index,size , searchQuery ,  currentFilterType])
+    const parsedLessons = useCallback((lessonss :any[] ) :any => {
+            const  parsedLessons : ParsedLesson[]= []          
+           lessonss?.forEach(lesson => {
+            const parsed = getparsedLesson(lesson)
+            if (parsed !== null) {
+                parsedLessons.push(parsed)
+            }
+           })
+       
+     return parsedLessons;
+       
+    }, [])
+
+    // ================================
+    // EVENT HANDLERS
+    // ================================
+    
+    /**
+     * Opens the create new lesson modal
+     */
+    const openCreateModal = () => {
+        CreateModalRef.current?.open()
+    }
+
+    /**
+     * Exports lessons data to CSV
+     */
+    const exportToCSV = () => {
+        exportDateModalRef.current?.open()
+    }
+
+    const handleExportDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
+        if (!dates) return
+        
+        // Filter lessons by date range
+        const filtered = parsedLessons(lessons as any[]).filter((lesson: ParsedLesson) => {
+            const lessonDate = new Date(lesson.date).getTime()
+            return lessonDate >= dates.firstDateMs && lessonDate <= dates.lastDateMs
+        })
+
+        // Convert to CSV
+        const headers = ['Instructeur', 'Student', 'Begintijd', 'Eindtijd', 'Lesduur', 'Betalingsstatus', 'Rijles status', 'Totale urenregistratie']
+        const csvData = filtered.map((lesson: ParsedLesson) => {
+            const totalHours = timeToHoursRounded(lesson.lesson_duration)
+            return [
+                lesson.instructor || '',
+                lesson.student || '',
+                `${lesson.date}.${lesson.start_time}` || '',
+                `${lesson.date}.${lesson.end_time}` || '',
+                lesson.lesson_duration || '',
+                lesson.payment_status || '',
+                lesson.lesson_status || '',
+                totalHours.toString()
+            ]
+        })
+
+        // Create CSV content
+        const csvContent = [
+            headers.join(','),
+            ...csvData.map((row: string[]) => row.map(cell => `"${cell}"`).join(','))
+        ].join('\n')
+
+        // Download CSV
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(blob)
+        link.setAttribute('href', url)
+        link.setAttribute('download', `urenregistratie_${new Date(dates.firstDateMs).toLocaleDateString('nl-NL')}_${new Date(dates.lastDateMs).toLocaleDateString('nl-NL')}.csv`)
+        link.style.visibility = 'hidden'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    /**
+     * Handles filter type changes
+     * @param filter - The selected filter type
+     */
+ 
+
+    /**
+     * Handles time filter changes
+     * @param filter - The selected time filter
+     */
+   
+
+    // ================================
+    // RENDER
+    // ================================
+    
+    return (
+        <div className='content ' id='root'>
+            {/* Page Header */}
+           
+            
+            <div className='w-full flex flex-col md:flex-row overflow-hidden'>
+                {/* Left Sidebar */}
+                
+                {/* Main Content Area */}
+                <div className='dashboard-container w-full md:w-full px-4 md:px-0'>
+                    
+                    {/* Filter By Type Component */}
+                  
+                    
+                    {/* Spacing */}
+                    <div className='mt-4' />
+                    
+                    {/* Time Filter Component */}
+                   
+                    {/* Controls Section */}
+                    <div className='flex flex-wrap gap-3  items-center  searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
+                        
+                        {/* Items Per Page Selector */}
+                        <CustomSelect
+                            options={[
+
+                                { value: 10, label: "10" },
+                                { value: 20, label: "20" },
+                                { value: 30, label: "30" },
+                                { value: 40, label: "40" },
+                                { value: 50, label: "50" },
+                                { value: 60, label: "60" },
+                                { value: 70, label: "70" },
+                                { value: 80, label: "80" },
+                                { value: 90, label: "90" },
+                                { value: 100, label: "100" },
+                            ]}
+                         value={size}
+                            className='w-full md:w-32 md:mr-auto bg-white h-full'
+                            onChange={(value) => {setSize(Number(value)); setIndex(0)}}
+                        />
+                        
+                        {/* Search Input */}
+                      
+                        {/* Export CSV Button */}
+                        <CustmButton 
+                            onClick={exportToCSV} 
+                            className='rounded-lg bg-[var(--dark-blue)] hover:bg-blue-800 p-2.5 text-white outline-none w-full md:w-auto flex items-center gap-2'
+                        >
+                            <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />
+                            </svg>
+                            <span className='text-sm md:text-base'>Exporteren</span>
+                        </CustmButton>
+                    </div>
+                    
+                    {/* Lessons Table */}
+                    {
+                      loading && <div className='text-center mx-auto  w-[2vw] animate-spin duration-400  h-[2vw] mt-20 text-gray-500 border-2 border-blue-800 border-l-0 rounded-full '></div> || 
+                      <HoursRegistrationTable 
+                        data={ parsedLessons(lessons as any[]) }
+                        className=''
+                        currentTap={currentFilterType}
+                      />
+                    }
+                </div>
+            </div>
+            
+            {/* Create Modal */}
+            <CreateModal ref={CreateModalRef} name='modal' />
+
+            {/* Export Date Range Modal */}
+            <CusTomDate
+                className=''
+                ref={exportDateModalRef}
+                singleUse={false}
+                onDateSelect={handleExportDateSelect}
+            />
+        </div>
+    )
+        }
+
+        export function timeToHoursRounded(time: string, decimals = 2) {
+  const total = timeToHours(time);
+  return Number(total.toFixed(decimals));
+}
+function timeToHours(time: string) {
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+  return hours + minutes / 60 + seconds / 3600;
 }

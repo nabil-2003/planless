@@ -5,7 +5,7 @@ import { FaArrowDown , FaArrowUp } from 'react-icons/fa'
 export interface Statistcs {
     className?: string, 
     percentage?: number,
-    total?: number,
+    total?: String | number,
     label?: string,
     Icon: typeof FaArrowDown | any
 }

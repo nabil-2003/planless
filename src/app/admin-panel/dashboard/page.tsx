@@ -2,7 +2,6 @@
 import Statistcs from '@/components/admin/Statistcs'
 import React from 'react'
 import Header from '@/components/admin/Header'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import LessonChart from '@/components/admin/ui/LessonChart'
 import CostumChart from '@/components/admin/ui/LessonChart'
 import ChartExample from '@/components/admin/ui/ChartExample'
@@ -11,6 +10,7 @@ import LeftSide from '@/components/admin/LeftSide'
 import { IoFlagOutline } from 'react-icons/io5'
 import { RxTimer } from 'react-icons/rx'
 import useDashBoard from '@/app/hooks/useDashBoard'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 import {
   BarChart,
   Bar,
@@ -19,7 +19,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  LabelList, 
+  LabelList,
   Cell,
   PieChart,
   Pie,
@@ -60,48 +60,50 @@ export default function page() {
 
         <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
         <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-          <TimeFilter changeFilter={handleChangeFilter} className="mt-4" currentFilter={currentFilter} />
-          <Statistcs />
+          <Statistcs className="mt-4" />
           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
-              <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Rijlessen</h1>
-              <div className='absolute -left-9 -rotate-90 top-[50%] text-xl text-gray-200  transform -translate-y-1/2'>Rijles statussen</div>
-             <BarsChart  data={[
-    { name: "In behandeling", value: 200, color: "#fde7d3" },
-    { name: "Bevestigd", value: 10000, color: "#e6ffe6" },
-    { name: "Voltooid", value: 12, color: "#e6f6ff" },
-    { name: "Geannuleerd", value: 300, color: "#f0f0f0" },
-  ]}/>
+            <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Rijlessen</h1>
+            <div className='absolute -left-9 -rotate-90 top-[50%] text-xl text-gray-200  transform -translate-y-1/2'>Rijles statussen</div>
+            <BarsChart data={[
+              { name: "In behandeling", value: 200, color: "#fde7d3" },
+              { name: "Bevestigd", value: 10000, color: "#e6ffe6" },
+              { name: "Voltooid", value: 12, color: "#e6f6ff" },
+              { name: "Geannuleerd", value: 300, color: "#f0f0f0" },
+            ]} />
           </div>
-           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
-              <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Aantal leerlingen, instructeurs en beheerders</h1>
-              <div className='absolute -left-3 -rotate-90 top-[50%] text-xl text-gray-200  transform -translate-y-1/2'>Statusess</div>
-             <BarsChart data={[
-    { name: "studenten", value: 200, color: "#fde7d3" },
-    { name: "Beheerder", value: 10, color: "#e6ffe6" },
-    { name: "Administrators", value: 12, color: "#e6f6ff" },
-  ]} />
-      <div className='absolute bottom-11 left-1/2 transform -translate-x-1/2 p-4 text-gray-500 text-sm'>Total number of studenten, instructors and administrators</div>
+          <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
+            <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Aantal leerlingen, instructeurs en beheerders</h1>
+            <div className='absolute -left-3 -rotate-90 top-[50%] text-xl text-gray-200  transform -translate-y-1/2'>Statussen</div>
+            <BarsChart data={[
+              { name: "Studenten", value: 200, color: "#fde7d3" },
+              { name: "Instructeurs", value: 10, color: "#e6ffe6" },
+              { name: "Beheerders", value: 12, color: "#e6f6ff" },
+            ]} />
+            <div className='absolute bottom-11 left-1/2 transform -translate-x-1/2 p-4 text-gray-500 text-sm'>Total number of studenten, instructors and administrators</div>
           </div>
-           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
-              <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Leskaarten</h1>
-              <div className='absolute -left-9 -rotate-90 top-[50%] text-lg text-gray-200  transform -translate-y-1/2'>Leskaart statussen</div>
-             <BarsChart style={{}} data={[
-    { name: "Total driving lessons per year", value: 200, color: "#fde7d3" },
-    { name: "Total studenten passed", value: 170, color: "#e6ffe6" },
-    { name: "Total studenten failed", value: 30, color: "#e6f6ff" },
-  ]} />
-  <div className='absolute bottom-11 left-1/2 transform -translate-x-1/2 p-4 text-gray-500 text-sm'>Total number of studenten</div>
+          <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
+            <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Leskaarten</h1>
+            <div className='absolute -left-9 -rotate-90 top-[50%] text-lg text-gray-200  transform -translate-y-1/2'>Leskaart statussen</div>
+            <BarsChart style={{}} data={[
+              { name: "Aankomend", value: 200, color: "#fde7d3" },
+              { name: "Geschiedenis", value: 170, color: "#e6ffe6" },
+              { name: "Totaal gezakte studenten", value: 30, color: "#e6f6ff" },
+            ]} />
+            <div className='absolute bottom-11 left-1/2 transform -translate-x-1/2 p-4 text-gray-500 text-sm'>Total number of studenten</div>
           </div>
 
           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
-              <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Performance Overview</h1>
-             <RadialChart data={[
-    { name: "Completed", value: 40, fill: "#1B9ED9" },
-    { name: "In Progress", value: 45, fill: "#E8672B" },
-    { name: "Pending", value: 10, fill: "#EBEBEB" },
-    { name: "Failed", value: 5, fill: "#8B0000" },
-    { name: "Cancelled", value: 0, fill: "#FFD6D6" },
-  ]} />
+            <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Financiën</h1>
+            <RadialChart data={[
+              { name: "Betaald", value: 30, fill: "#E8FFE8" },
+              { name: "Geannuleerd", value: 39, fill: "#EBEBEB" },
+              { name: "Mislukt", value: 10, fill: "#FFD6D6" },
+              { name: "Onbetaald", value: 5, fill: "#FFB3B3" },
+              { name: "Verlopen", value: 4, fill: "#EFB8C8" },
+              { name: "In behandeling", value: 12, fill: "#FFE9D6" },
+           
+
+            ]} />
           </div>
 
 
@@ -120,8 +122,8 @@ export default function page() {
 }
 
 
-export function BarsChart({data = [], style = {}}:{data : Array<any>, style?: React.CSSProperties} ) {
- 
+export function BarsChart({ data = [], style = {} }: { data: Array<any>, style?: React.CSSProperties }) {
+
 
   return (
     <div style={{ width: "100%", background: "#fff", padding: "20px" }}>
@@ -145,7 +147,7 @@ export function BarsChart({data = [], style = {}}:{data : Array<any>, style?: Re
               tickLine={false}
             />
 
-            <Tooltip  />
+            <Tooltip />
 
             <Bar dataKey="value" radius={[0, 10, 10, 0]}>
               <LabelList
@@ -156,7 +158,7 @@ export function BarsChart({data = [], style = {}}:{data : Array<any>, style?: Re
                 fontWeight={500}
               />
               {data.map((entry, index) => (
-                <Cell key={index}  fill={entry.color} />
+                <Cell key={index} fill={entry.color} />
               ))}
             </Bar>
           </BarChart>
@@ -167,10 +169,10 @@ export function BarsChart({data = [], style = {}}:{data : Array<any>, style?: Re
       <div style={{ display: "flex", gap: "40px", marginTop: "20px", flexWrap: "nowrap", justifyContent: "center" }}>
         {data.map((item, index) => (
           <div key={index} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <div style={{ 
-              width: "12px", 
-              height: "12px", 
-              borderRadius: "50%", 
+            <div style={{
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
               backgroundColor: item.color,
               border: "1px solid #ddd"
             }} />
@@ -189,11 +191,29 @@ export function RadialChart({ data = [] }: { data: Array<any> }) {
   // Prepare data with percentages
   const dataWithPercentage = data.map(item => ({
     ...item,
-    percentage: ((item.value / total) * 100).toFixed(0)
+    percentage: ((item.value / total) * 100).toFixed(0) 
   }));
 
-  const renderCustomLabel = (entry: any) => {
-    return `${entry.percentage}%`;
+  const renderCustomLabel = (props: any) => {
+    const { cx, cy, midAngle, innerRadius, outerRadius, percentage } = props;
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="black" 
+        textAnchor="middle" 
+        dominantBaseline="central"
+        fontSize={14}
+        fontWeight={500}
+      >
+        {`${percentage}%`}
+      </text>
+    );
   };
 
   return (
@@ -202,6 +222,7 @@ export function RadialChart({ data = [] }: { data: Array<any> }) {
         <ResponsiveContainer>
           <PieChart>
             <Pie
+          
               data={dataWithPercentage}
               cx="50%"
               cy="50%"
@@ -213,31 +234,32 @@ export function RadialChart({ data = [] }: { data: Array<any> }) {
               dataKey="value"
               label={renderCustomLabel}
               labelLine={false}
+             
             >
               {dataWithPercentage.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
+                <Cell  key={`cell-${index}`} fill={entry.fill} />
               ))}
             </Pie>
-            <Tooltip 
+            <Tooltip
               formatter={(value: any, name: any, props: any) => [`${props.payload.percentage}%`, name]}
             />
           </PieChart>
         </ResponsiveContainer>
       </div>
-      
+
       {/* Custom Legend */}
       <div style={{ display: "flex", gap: "30px", marginTop: "20px", flexWrap: "wrap", justifyContent: "center" }}>
         {dataWithPercentage.map((item, index) => (
           <div key={index} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <div style={{ 
-              width: "12px", 
-              height: "12px", 
-              borderRadius: "50%", 
+            <div style={{
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
               backgroundColor: item.fill,
               border: "1px solid #ddd"
             }} />
             <span style={{ fontSize: "14px", color: "#666", whiteSpace: "nowrap" }}>
-              {item.name} 
+              {item.name}
             </span>
           </div>
         ))}

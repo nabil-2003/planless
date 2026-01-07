@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef } from 'react'
+import React, { use, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import { forwardRef } from 'react'
 import { ConfirmIcon, RejectIcon } from '@/components/svgs/ActionIcons'
 import { ModalRef } from '../admin/ui/modals/confirmModal'
@@ -7,6 +7,7 @@ import StopModal from '../admin/ui/modals/stopModal'
 import HideModal from '../admin/ui/modals/hideModal'
 import { useRouter } from 'next/navigation'
 import DownloadModal from '../admin/ui/modals/downLoadModal'
+import useInvoice from '@/app/hooks/useInvoice'
 
 
 export type ActionModalRef = {
@@ -24,14 +25,12 @@ type ModalProps = {
     type?: string,
     id?: string
     tableName : string 
+    orderId? : string
 }
-
-
-
 
 const Action = forwardRef<ActionModalRef, ModalProps>(({ className = ''  , 
     CurrentStatus={ lessons : 'in behandeling' , payment : 'betaald' }, 
-
+   orderId = "" , 
     id='',
     tableName='lessons' }, ref) =>
         {
@@ -84,16 +83,36 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className = ''  ,
     case 'instructors':
         return instructorsActions(CurrentStatus, className, modalRef, openModalAction, refs , id )
     case 'finance':
-        return financeActions(CurrentStatus, className, modalRef, openModalAction, refs , id  )
+        return financeActions(CurrentStatus, orderId, className, modalRef, openModalAction, refs , id  )
+    case 'cards':
+        return cardsActions(CurrentStatus, className, modalRef, openModalAction, refs , id  )
     default:
-         return lessonsActions(CurrentStatus, className, modalRef, openModalAction, refs ,id )
+         return <div></div>
     }
 
 })
 
 Action.displayName = 'ActionModal'
 export default Action
-
+const cardsActions = (status: {lessons : string , payment: string},  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null ) => {
+          const {navigate} = useOpenDetailsPage("cards/notes/note" , id)
+    return (
+                <>
+             <div ref={modalRef} className={'flex flex-row justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/hide_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/download.svg"}/>
+               </span>
+               
+            </div >
+                </>
+            )
+}
 const lessonsActions = (status: {lessons : string , payment: string},  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null ) => {
     const {navigate} = useOpenDetailsPage("driving-lessons" , id)
       const getoneStatus=(status : Array<string>):string=>{
@@ -101,95 +120,408 @@ const lessonsActions = (status: {lessons : string , payment: string},  className
         return  status.join(",").toLowerCase()
       }
     switch (getoneStatus([status.lessons, status.payment])) {
-        case 'in behandeling,betaald':
+        case 'in behandeling,onbetaald':
             return (
                 <>
              <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
-
-                    <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
-                        <ConfirmIcon w='20px' h='20px' />
-                    </span>
-                    <span onClick={() => openModalAction(modalRefs.stopModal.current)} className='cursor-pointer'>
-                        <RejectIcon w='20px' h='20px' />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20"} height={"20"} src="/download_icon.svg" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/schedule_icon.svg" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/eye_icon.png" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/pay_icon.svg" alt="" />
-                    </span>
-                    </div >
-                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="lessons" />
-                    <StopModal ref={modalRefs.stopModal} id={id!} table="lessons" />
-                    <HideModal ref={modalRefs.hideModal} id={id!} table="lessons"  />
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/hide_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cash_payement.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
                 </>
             )
-        case 'in behandeling,betaald':
-            
-             return(      <>
-                   <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
-                    <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
-                        <ConfirmIcon w='20px' h='20px' />
-                    </span>
-                    <span onClick={() => openModalAction(modalRefs.stopModal.current)} className='cursor-pointer'>
-                        <RejectIcon w='20px' h='20px' />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20"} height={"20"} src="/download_icon.svg" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/schedule_icon.svg" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/eye_icon.png" alt="" />
-                    </span>
-                     <span onClick={() => openModalAction(modalRefs.downloadModal.current)} className='cursor-pointer'>
-                        <img width={"20px"} height={"20px"} src="/pay_icon.svg" alt="" />
-                    </span>
-                    </div >
-                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="lessons" />
-                    <StopModal ref={modalRefs.stopModal} id={id!} table="lessons" />
-                    <HideModal ref={modalRefs.hideModal} id={id!} table="lessons"  />
-                </>)
-
-
-
-        default:
-            return (
+   case 'in behandeling,verlopen':
+      return (
                 <>
-                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[80vw] md:max-w-[7vw] flex-wrap transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
-                    <span onClick={() => {navigate()}} className='cursor-pointer'>
-                    <img width={20} height={20} src="/eye_icon.png" alt="" />
-                </span>
-                    <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={20} height={20} src="/pause_icon.png" alt="" />
-                    </span>
-                      </div >
-                    <ConfirmModal ref={modalRefs.confimModal} id={id!} table="lessons" />
-                    <StopModal ref={modalRefs.stopModal}  id={id!} table="lessons" />
-                    <HideModal ref={modalRefs.hideModal}  id={id!} table="lessons" />
-                    <DownloadModal ref={modalRefs.downloadModal} id={id!} table="lessons" />
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+
+                 
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                   
                 </>
             )
+    case 'in behandeling,mislukt':
+       return (
+                <>
+             
+            <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2  px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+    
+                    </div >
+
+                </>
+            )
+  
+     case 'in behandeling,betaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/download.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+ case 'in behandeling,geannuleerd':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+
+            case 'bevestigd,onbetaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                   <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cash_payement.svg"}/>
+               </span>
+                
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/flag_icon.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+             case 'bevestigd,verlopen':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => {navigate()}} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/flag_icon.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+         case 'bevestigd,mislukt':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/flag_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+            
+         case 'bevestigd,geannuleerd':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() =>{navigate()}} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/flag_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+             case 'bevestigd,betaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                   <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/aprove_booking.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cancel_icon.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/flag_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/download.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+            case 'voltooid,onbetaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+               <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cash_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+              case 'voltooid,verlopen':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+               <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+           
+              case 'voltooid,mislukt':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+           
+              case 'voltooid,geannuleerd':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+              <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/card_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+           
+    case 'voltooid,betaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/hide_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/download.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+    case 'geanuleerd,onbetaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/cash_payement.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+            case 'geanuleerd,verlopen':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                
+            </div >
+                </>
+            )
+            case 'geanuleerd,mislukt':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+            case 'geanuleerd,geannuleerd':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+              
+            </div >
+                </>
+            )
+            case 'geanuleerd,betaald':
+       return (
+                <>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <span onClick={() => navigate()} className='cursor-pointer'>
+                      <img  src={"/actions/show_icon.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/calendar.svg"}/>
+               </span>
+                <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
+                      <img  src={"/actions/download.svg"}/>
+               </span>
+            </div >
+                </>
+            )
+           
+      
+      return <>
+
+
+      </>
     }
 }
+        
+    
+
 const studentsActions = (status: {lessons : string , payment: string},  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null ) => {
          
                    const {navigate} = useOpenDetailsPage("students" , id)
             return (
                   <>
-                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[80vw] md:max-w-[7vw] flex-wrap transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[80vw] md:max-w-[7vw] flex-wrap transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all '+ className}>
                     <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={20} height={20} src="/eye_hide_icon.svg" alt="" />
+                        <img width={20} height={20} src="/actions/hide_icon.svg" alt="" />
                     </span>
                     <span onClick={() => { navigate() }} className='cursor-pointer'>
-                        <img width={22} height={22} src="/eye_icon.png" alt="" />
+                        <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
                     </span>
                       </div >
                     <HideModal ref={modalRefs.hideModal} id={id!} table="students" />
@@ -199,18 +531,22 @@ const studentsActions = (status: {lessons : string , payment: string},  classNam
 
 const instructorsActions = (status: {lessons : string , payment: string},  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null) => {
          const {navigate} = useOpenDetailsPage("instructors" , id)
+         
             return (
                   <>
-                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[80vw] md:max-w-[7vw] flex-wrap transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[80vw] md:max-w-[7vw]  transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
                    
                     <span onClick={() =>{navigate()}} className='cursor-pointer'>
-                        <img width={22} height={22} src="/eye_icon.png" alt="" />
+                        <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
                     </span>
                     <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={22} height={22} src="/block_icon.png" alt="" />
+                        <img width={22} height={22} src="/actions/block_icon.svg" alt="" />
                     </span>
                      <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={20} height={20} src="/delete_action_icon.png" alt="" />
+                        <img width={20} height={20} src="/actions/delete.svg" alt="" />
+                    </span>
+                     <span onClick={() => {navigate(true)}} className='cursor-pointer'>
+                        <img width={20} height={20} src="/actions/edit.svg" alt="" />
                     </span>
                       </div >
                     <ConfirmModal ref={modalRefs.confimModal} id={id!} table="instructors" />
@@ -220,34 +556,86 @@ const instructorsActions = (status: {lessons : string , payment: string},  class
             )
 }
 
-const financeActions = (status: {lessons : string , payment: string},  className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null) => {
-        
+const financeActions = (status: { payment: string},  orderId : string , className : string  , modalRef: React.RefObject<HTMLDivElement|null>, openModalAction: (ref: ModalRef | null) => void, modalRefs: any , id : string | null) => {
+               const {getInvoiceById, invoice} = useInvoice()
+               const [downloadLoading, setDownloadLoading] = React.useState(false)
+               const [currentOrderId, setCurrentOrderId] = React.useState<string | null>(null)
+               console.log(id)
+                  const {navigate}= useOpenDetailsPage("finances/item" , id)
+               const handleDownload = async () => {
+                   if (downloadLoading) return
+                   
+                   setDownloadLoading(true)
+                   setCurrentOrderId(orderId)
+                   try {
+                       await getInvoiceById(orderId)
+                   } catch (error) {
+                       console.error('Failed to download invoice:', error)
+                   } finally {
+                       setDownloadLoading(false)
+                   }
+               }
+
+               // Trigger download when invoice is loaded for current order
+               useEffect(() => {
+                   if (invoice && currentOrderId === orderId && !downloadLoading) {
+                       const a = document.createElement("a")
+                       a.href = invoice
+                       a.download = `invoice_${orderId}.pdf`
+                       a.click()
+                       setCurrentOrderId(null)
+                   }
+               }, [invoice, currentOrderId, orderId, downloadLoading])
+
+    if (status.payment.toLowerCase() == "betaald" )
             return (
                   <>
-                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
+                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap transform translate-y-8  -left-1.5  rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
                    
                     <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={22} height={22} src="/hide_eye_icon.png" alt="" />
+                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
                     </span>
+                    <span onClick={() => {navigate()}} className='cursor-pointer'>
+                        <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
+                    </span>
+                    {
+                        downloadLoading ? (
+                            <div className='w-[22px] h-[22px] border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin'></div>
+                        ) : (
+                            <span onClick={handleDownload} className='cursor-pointer hover:opacity-70 transition-opacity'>
+                                <img width={22} height={22} src="/actions/download.svg" alt="" />
+                            </span>
+                        )
+                    }
+                      </div >
+                    
+                </>
+            )
+    else
+           return (
+                  <>
+                <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap transform translate-y-8  -left-1.5  rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
+                   
                     <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={22} height={22} src="/download_icon.png" alt="" />
+                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
+                    </span>
+                    <span onClick={() => {}} className='cursor-pointer'>
+                        <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
                     </span>
                       </div >
                     <ConfirmModal ref={modalRefs.confimModal} id={id!} table="finance" />
                     <StopModal ref={modalRefs.stopModal} id={id!} table="finance" />
                     <HideModal ref={modalRefs.hideModal} id={id!} table="finance" />
-                </>
-            )
+                </>)
 }
 
 
 
    const useOpenDetailsPage = (tableName: string , id : string | null) => {  
                 const router = useRouter()
-                const navigate = useCallback(() => {
-                      console.log('Navigating to details page for', tableName, 'with ID:', id);
+                const navigate = useCallback((edit?: boolean  ) => {
                       if (id == null && tableName == null ) return 
-                    router.push(`/admin-panel/${tableName}/${id}`) 
+                    router.push(`/admin-panel/${edit? tableName+"/edit" : tableName}/${id}`) 
                    },[id])
      return {navigate}
              }

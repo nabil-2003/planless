@@ -14,7 +14,6 @@ import Image from 'next/image'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import InstructorTable, { Data_Instructor } from '@/components/admin/ui/tables/InstructorTable'
@@ -29,6 +28,7 @@ import instructorsData from "@/data/instructors.json"
 
 import useInstructor from '@/app/hooks/useInstructor'
 import CustmButton from '@/components/admin/ui/CustmButton'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 
 // ================================
 // TYPE DEFINITIONS
@@ -62,6 +62,7 @@ export default function InstructorsPage() {
 
         {/* Main Content Area */}
         <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+          <Breadcrumb />
           <div className='form-container mx-0 md:mx-4 border-2 border-gray-200 rounded-lg mt-4 p-4 bg-white '>
             <h1 className='font-bold text-lg md:text-xl'>Accountinstellingen</h1>
             <form className='w-full gap-2 flex flex-wrap justify-between' action="">

@@ -15,7 +15,6 @@ import Image from 'next/image'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import InstructorTable, { Data_Instructor } from '@/components/admin/ui/tables/InstructorTable'
@@ -31,9 +30,10 @@ import instructorsData from "@/data/instructors.json"
 import useInstructor from '@/app/hooks/useInstructor'
 import CustmButton from '@/components/admin/ui/CustmButton'
 import { mapColorToStatus } from '@/components/admin/ui/tables/TableLessons'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
-
+    
 
     return (
         <div className='content'>
@@ -56,7 +56,7 @@ export default function Page() {
                                 <div className=' p-3 w-[25%]'>Prjis</div>
                                 <div className=' p-3 w-[15%] border-gray-300  border-l-1 border-b-1'>Acties</div>
                             </header>
-                            {[1, 2, 3, 4, 5].map((_, index) => <Element key={index} />)}
+                            {[1, 2, 3, 4, 5].map((_, index) => <Element id={String(index)} key={index} />)}
                         </div>
                     </div>
                 </div>
@@ -68,9 +68,10 @@ export default function Page() {
 const getType = (ele : any )=>{
     return typeof ele; 
 }
-const Element = () => {
+const Element = ({ id }: { id: string }) => {
     const ref = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLSpanElement>(null);
+    const actionsRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => {
@@ -79,7 +80,8 @@ const Element = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
+            if (ref.current && !ref.current.contains(event.target as Node) &&
+                actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -112,13 +114,13 @@ const Element = () => {
                     <path d="M7.99451 12H8.00349" stroke="#575757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </span>
-           {isOpen && <Actions buttonRef={buttonRef} />}
+           {isOpen && <Actions id={id} buttonRef={buttonRef} actionsRef={actionsRef} />}
         </div>
     </div>)
 }
-const Actions = ({ buttonRef }: { buttonRef: React.RefObject<HTMLSpanElement | null> }) => {
+const Actions = ({ id, buttonRef, actionsRef }: { id: string, buttonRef: React.RefObject<HTMLSpanElement | null>, actionsRef: React.RefObject<HTMLDivElement | null> }) => {
     const [position, setPosition] = useState({ top: 0, left: 0 });
-
+    const navigate = useRouter()
     useEffect(() => {
         if (buttonRef.current) {
             const rect = buttonRef.current.getBoundingClientRect();
@@ -130,14 +132,14 @@ const Actions = ({ buttonRef }: { buttonRef: React.RefObject<HTMLSpanElement | n
     }, [buttonRef]);
 
     return createPortal(
-        <div style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, zIndex: 1000 }}>
+        <div ref={actionsRef} style={{ position: 'absolute', top: `${position.top}px`, left: `${position.left}px`, zIndex: 1000 }}>
             <div className='absolute bg-white w-[12px] shadow-sm z-0 -top-[6px] h-[12px] rotate-45  -translate-x-1/2' />
             <div className='relative bg-white flex gap-2 shadow-md rounded-xl py-3 px-2 -translate-x-1/2'>
-                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100'>
-                    <img src="/delete_action_icon.png" alt="Delete" />
+                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100' >
+                    <img src="/actions/delete.svg" alt="Delete" />
                 </span>
-                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100'>
-                    <img src="/write_icon.png" alt="Edit" />
+                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100' onClick={()=>{navigate.push("/admin-panel/settings/packages/edit/"+id) ; console.log("hello")}} > 
+                    <img src="/actions/edit.svg" alt="Edit" />
                 </span>
             </div>
         </div>,

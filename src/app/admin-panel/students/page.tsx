@@ -13,7 +13,6 @@ import Link from 'next/link'
 // Component imports
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide'
-import TimeFilter from '@/components/admin/TimeFIlter'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import StudentTable, { Data_Student } from '@/components/admin/ui/tables/StudentTable'
@@ -26,6 +25,7 @@ import PlusIcon from '@/components/svgs/Plus'
 // Data imports
 import studentsData from "@/data/students.json"
 import useStudent from '@/app/hooks/useStudent'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 
 // ================================
 // TYPE DEFINITIONS
@@ -62,11 +62,7 @@ export default function StudentsPage() {
     // ================================
     
     // Filter and search states
-    const [currentFilterType, setCurrentFilterType] = useState('In behandeling')
-    const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
-    const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(10)
     const {fetchAllStudents , students ,SearchStudent ,search,setSize, indexPage , setIndex , pageSize , loading}= useStudent()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
@@ -98,9 +94,6 @@ export default function StudentsPage() {
     /**
      * Opens the date selection modal
      */
-    const openDateModal = () => {
-        dateModalRef.current?.open()
-    }
 
     /**
      * Handles date selection from modal
@@ -115,41 +108,9 @@ export default function StudentsPage() {
      * Formats date range for display in the date picker
      * @returns Formatted date string or placeholder
      */
-    const formatDateRange = () => {
-        if (!selectedDateRange) return 'mm/dd/yyyy'
+  
 
-        const startDate = new Date(selectedDateRange.firstDateMs)
-        const endDate = new Date(selectedDateRange.lastDateMs)
 
-        const formatDate = (date: Date) => {
-            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`
-        }
-
-        // If same date (single selection) show single date, otherwise show range
-        if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
-            return formatDate(startDate)
-        } else {
-            return `${formatDate(startDate)} - ${formatDate(endDate)}`
-        }
-    }
-
-    /**
-     * Handles filter type changes
-     * @param filter - The selected filter type
-     */
-
-    /**
-     * Handles time filter changes
-     * @param filter - The selected time filter
-     */
-    const handleTimeFilterChange = (filter: string) => {
-        setTimeFilter(filter)
-    }
-
-    // ================================
-    // RENDER
-    // ================================
-    
     return (
         <div className='content'>
             {/* Page Header */}
@@ -161,15 +122,9 @@ export default function StudentsPage() {
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
+                    <Breadcrumb />
                     {/* Spacing */}
                     <div className='mt-4' />
-                    
-                    {/* Time Filter Component */}
-                    <TimeFilter 
-                        currentFilter={currentTimeFilter} 
-                        changeFilter={handleTimeFilterChange}
-                        content={true}
-                    />
 
                     {/* Controls Section */}
                     <div className='flex flex-wrap gap-3   items-center searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
@@ -220,10 +175,8 @@ export default function StudentsPage() {
                      rounded-full animate-spin border-2
                       border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
                       <StudentTable  
-                        className=' '
-                       
                         data={[...parseStudents(students)]}
-                      
+                       className=''
                     /> 
                    }
                 </div>
@@ -243,6 +196,7 @@ export default function StudentsPage() {
     )
 }
  export const parseStudents = (student : any[] ) => {
+ 
         const s: Data_Student[] = student?.map(item => ({
             
             id: item?.id,
@@ -250,7 +204,10 @@ export default function StudentsPage() {
             bsn_nummer: "_",
             email: item?.email,
             date_birth: item?.birthdate,
-            adress: item?.city +", "+ item?.street +", "+ item?.zipCode +  "," +item?.houseNumber,
+            city: item?.city,
+            post_code: item?.zipCode,
+            street: item?.street,
+            house_number: item?.houseNumber,
             phone_number: item?.phone,
             status: item?.active ? 'Actief' : 'Inactief',
             driving_license_category: "_",

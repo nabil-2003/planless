@@ -4,10 +4,10 @@ import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CustomScrollBar from '../ScrollBar';
-import Link from 'next/link';
 import { DocumentModal, DocumentModalRef } from '@/components/ui'
 import { ParsedLesson } from '@/store/LessonsSlices';
 import useLessons from '@/app/hooks/useLessons';
+import useInvoice from '@/app/hooks/useInvoice';
 
 // Data types
 export type Data_Lessons = {
@@ -23,26 +23,25 @@ export type Data_Lessons = {
     annuleringsreden: string,
 }
 
-type ColorAndStatus = {
-  engStatus : string
-    colortext: string
-    status: string
-    colorbg: string
+export type Order  = {
+    id : string  ; 
+    instructorId : string ;
+    studentId : string ;
+
 }
 
 // Main table component
 export default function LessonsTable({
   data, 
-
-
+currentTap = "pending",
   className= ''
 } :{
   data: Array<ParsedLesson>,
   className: string,
-
+currentTap? : string
 }) {
   const {index , size  , total, setIndex}= useLessons()
-  
+    const {loading , invoice } = useInvoice()
   const prevPage = ()=>{
     if(index >0){
       setIndex(index -1)
@@ -53,10 +52,12 @@ export default function LessonsTable({
       setIndex(index +1)
   }
 
+
+
   return (
     <>
       {/* Table Container with Sticky NR and Actions Columns */}
-      <div className={`${className} mb-4 overflow-hidden p-1 scale-95 `} style={{ position: 'relative' }}>
+      <div className={`${className} mb-4 p-1 scale-95 `} style={{ position: 'relative' }}>
         <div style={{ display: 'flex', width: '100%', maxWidth: '100vw' }}>
           {/* Sticky NR Column - Left */}
           <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
@@ -85,18 +86,19 @@ export default function LessonsTable({
           {/* Scrollable Content - Middle */}
           <div id='rijlessen-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
-            <div className='flex w-max bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
-              <div className='w-[7vw] min-w-[120px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Instructeur</div>
-              <div className='w-[7vw] min-w-[120px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Student</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Begintijd</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Eindtijd</div>
-              <div className='w-[6vw] min-w-[90px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Lesduur</div>
-              <div className='w-[12vw] min-w-[160px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Rijles status</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+            <div className='flex w-max bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
+              <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Student</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Begintijd</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Eindtijd</div>
+              <div className='w-[6vw] min-w-[90px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Lesduur</div>
+              <div className='w-[12vw] min-w-[160px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
+                 <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
+              <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Rijles status</div>
+ {
+                ( currentTap == "all" || currentTap == "cancelled")  &&
               <div className='w-[11vw] min-w-[160px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Annuleringstijd</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Leskaarten</div>
-              <div className='w-[16vw] min-w-[220px] py-4 flex items-center  text-md  px-2 pr-6 whitespace-nowrap truncate'>Annuleringsreden</div>
+              }
             </div>
             {/* Scrollable Body */}
             <div className='w-max'>
@@ -105,6 +107,7 @@ export default function LessonsTable({
                   <TableElementScrollable 
                     key={index} 
                     ele={lesson} 
+                    currentTap={currentTap}
                   />
                 ))
               ) : (
@@ -118,7 +121,7 @@ export default function LessonsTable({
           {/* Sticky Actions Column - Right */}
           <div style={{ position: 'sticky', right: 0, zIndex: 2, background: 'white', flexShrink: 0 }}>
             {/* Actions Header */}
-            <div className='bg-transparent border-b-1 border-gray-200' style={{ height: '56px' }}>
+            <div className='bg-transparent border-b-1 border-gray-200 flex items-center' style={{ height: '56px' }}>
               <div className='w-[80px] px-3 flex justify-center items-center h-full  text-md bg-gray-50  border-l-1 border-gray-200'>Acties</div>
             </div>
             {/* Actions Body */}
@@ -180,9 +183,10 @@ export default function LessonsTable({
   );
 }
 // Individual table row component
-
+ 
 // Scrollable table row component (without NR and Actions)
-const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
+const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLesson , currentTap?: string }) => {
+  const {loading , invoice , getInvoiceById} = useInvoice()
   const cap = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '')
   // Status color mapping
 
@@ -192,7 +196,6 @@ const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
  
 
   const invoiceModalRef = useRef<DocumentModalRef>(null)
-  const lessonCardModalRef = useRef<DocumentModalRef>(null)
 
   // Format time display - extract time from datetime string
   const formatTime = (dateTimeStr: string) => {
@@ -203,24 +206,30 @@ const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
     const timePart = dateTimeStr.split(' ').pop();
     return timePart || dateTimeStr;
   }
-
+   const order = ele.order as Order
   return (
-    <div className='flex relative w-max border-b-1 hover:bg-blue-100/10 border-gray-200' style={{ height: '52px' }}>
-  <div className='w-[7vw] min-w-[120px] flex items-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructor!}>{ele?.instructor}</div>
-  <div className='w-[7vw] min-w-[120px] flex items-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.student!}>{ele?.student}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center whitespace-nowrap scale-95  text-sm text-gray-700 px-2' title={ele?.start_time}>{formatTime(ele?.start_time!.split("T")[0]+";"+ele?.start_time!.split("T")[1].split(".")[0])}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center whitespace-nowrap scale-95 text-sm text-gray-700 px-2' title={ele?.end_time}>{formatTime(ele?.start_time!.split("T")[0]+";"+ele?.end_time!.split("T")[1].split(".")[0])}</div>
-  <div className='w-[6vw] min-w-[90px] flex items-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesson_duration}>{ele?.lesson_duration}</div>
-  <div className='w-[12vw] min-w-[160px] flex items-center  text-sm text-gray-700 px-2'>
+    <div className='flex relative w-max border-b-1 hover:bg-blue-100/10 border-gray-200 items-center' style={{ height: '52px' }}>
+  <div className='w-[7vw] min-w-[120px] flex items-center    justify-center   text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructor!}>{ele?.instructor}</div>
+  <div className='w-[7vw] min-w-[120px] flex items-center justify-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.student!}>{ele?.student}</div>
+  <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95  text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.start_time}>{ele?.date+"."+ele?.start_time.substring(0,5)}</div>
+  <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95 text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.end_time}>{ele?.date+"."+ele?.end_time.substring(0,5)}</div>
+  <div className='w-[6vw] min-w-[90px] flex items-center justify-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesson_duration}>{ele?.lesson_duration}</div>
+  <div className='w-[12vw] min-w-[160px] flex items-center  justify-center text-sm text-gray-700 px-2'>
         <button
           type='button'
-          onClick={() => invoiceModalRef.current?.open()}
-          className='flex items-center gap-2 cursor-pointer transition-colors hover:text-blue-800'
+          onClick={() =>{
+             invoiceModalRef.current?.open()
+          }}
+          className='flex items-center   gap-2 cursor-pointer transition-colors hover:text-blue-800'
         >
           <img src='/pdf_icon.png' width={16} height={16} alt='' />
-          <span className='truncate ' title={ele?.invoice_amount!}>{ele?.invoice_amount}</span>
+          <span onClick={()=>{
+            
+        
+          }} className='truncate ' title={ele?.invoice_amount!}>{ele?.invoice_amount}</span>
         </button>
         <DocumentModal
+           orderId = {order.id}
           ref={invoiceModalRef}
           title='Factuur bedrag'
           documentName={ele.invoice_amount ? `Factuur - ${ele.invoice_amount}` : 'Factuur'}
@@ -229,19 +238,9 @@ const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
       </div>
 
       {/* Status columns with colored badges */}
-  <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
-        <span
-          style={{
-            backgroundColor: mapColorToStatus(ele.lesson_status!)?.colorbg,
-            color: mapColorToStatus(ele.lesson_status!)?.colortext
-          }}
-          className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
-        >
-          {cap(mapColorToStatus(ele.lesson_status!)?.status!) || ele.lesson_status!}
-        </span>
-      </div>
+
       
-  <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
+  <div className='w-[9vw] min-w-[140px] flex items-center justify-center text-md px-2'>
         <span
           style={{
             backgroundColor: mapColorToStatus(ele.payment_status!)?.colorbg,
@@ -252,25 +251,22 @@ const TableElementScrollable = ({ ele }: { ele: ParsedLesson }) => {
           {cap(mapColorToStatus(ele.payment_status!)?.status!) || ele.payment_status!}
         </span>
       </div>
-      
-  <div className='w-[11vw] min-w-[160px] flex items-center  text-md text-gray-700 px-2 truncate overflow-hidden' title={ele.cancellation_time!}>{ele.cancellation_time}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center  text-md px-2'>
-        <button
-          type='button'
-          onClick={() => lessonCardModalRef.current?.open()}
-          className='flex items-center gap-2 cursor-pointer  transition-colors hover:text-blue-800'
+        <div className='w-[9vw] min-w-[140px] flex items-center justify-center text-md px-2'>
+        <span
+          style={{
+            backgroundColor: mapColorToStatus(ele.lesson_status!)?.colorbg,
+            color: mapColorToStatus(ele.lesson_status!)?.colortext
+          }}
+          className='whitespace-nowrap  text-sm px-2 py-1 rounded-lg'
         >
-          <img src='/pdf_icon.png' width={16} height={16} alt='' />
-          <span className='truncate'>Bekijk leskaart</span>
-        </button>
-        <DocumentModal
-          ref={lessonCardModalRef}
-          title='Leskaart'
-          documentName={`Leskaart - ${ele.student}`}
-          description='Voorbeeld van de leskaart voor deze student.'
-        />
+          {cap(mapColorToStatus(ele.lesson_status!)?.status!) || ele.lesson_status!}
+        </span>
       </div>
-  <div className='w-[16vw] min-w-[220px] flex items-center  text-sm text-gray-700 px-2 pr-6 truncate overflow-hidden' title={ele.cancellation_reason!}>{ele.cancellation_reason}</div>
+{
+      (     currentTap == "all" || currentTap == "cancelled")  &&
+      <div className='w-[11vw] min-w-[160px] flex items-center  text-md text-gray-800 opacity-55 px-2 truncate overflow-hidden  ' title={ele.cancellation_time!}>{ele.cancellation_time}</div>
+
+}    
     </div>
   )
 }
@@ -281,7 +277,7 @@ const TableElementActions = ({ ele }: { ele: ParsedLesson }) => {
 
   return (
     <div 
-      className='bg-gray-50 border-b-1 border-gray-200'
+      className='bg-gray-50 border-b-1 border-gray-200 flex items-center'
       style={{ height: '52px' }}
     >
       <div className='w-[80px] px-3 flex justify-center items-center h-full border-l-1 border-gray-200'>
@@ -291,7 +287,7 @@ const TableElementActions = ({ ele }: { ele: ParsedLesson }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal id={ele.id!} tableName='lessons' CurrentStatus={{lessons: mapColorToStatus(ele.lesson_status!)?.status!, payment: mapColorToStatus(ele.payment_status!)?.status!}} ref={modalRef} />
+        <ActionModal className='right-[-2.1vw]' id={ele.id!} tableName='lessons' CurrentStatus={{lessons: mapColorToStatus(ele.lesson_status!)?.status!, payment: mapColorToStatus(ele.payment_status!)?.status!}} ref={modalRef} />
       </div>
     </div>
   )
@@ -338,15 +334,15 @@ export const Status =
       },
       {
         engStatus : "open", 
-        status : "open" , 
-        colorbg : "#fff9d9", 
-        colortext : "#776600"
+        status : "Onbetaald" , 
+         colortext: "#8b0000",
+        colorbg: "#ffd6d6"
       } , 
       {
         engStatus : "completed", 
         status : "Voltooid" , 
-        colorbg : "#fff9d9", 
-        colortext : "#776600"
+        colorbg : "#E3F3FF", 
+        colortext : "#27496B"
       }, 
        {
         engStatus : "confirmed", 
@@ -354,6 +350,12 @@ export const Status =
         colorbg : "#fff9d9", 
         colortext : "#776600"
       }, 
+      {
+        engStatus : "all",
+        status: "Alle",
+        colortext: "#000000",
+        colorbg: "#FFFFFF"
+      }
       
 
 

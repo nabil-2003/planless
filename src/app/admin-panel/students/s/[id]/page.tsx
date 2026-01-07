@@ -1,7 +1,6 @@
 "use client"
 import Header from '@/components/admin/Header'
 import LeftSide from '@/components/admin/LeftSide';
-import TimeFilter from '@/components/admin/TimeFIlter';
 import FIlterByType from '@/components/admin/FIlterByType'
 import React, { use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CusTomDate from '@/components/admin/ui/CustomDateModal'
@@ -18,6 +17,7 @@ import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
 import { FaCar, FaCarOn } from 'react-icons/fa6';
 import StudentResult, {  ExamenField, PopUP } from '@/components/admin/ui/StudentResult';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 
 
 type CustomDateRef = {
@@ -43,6 +43,7 @@ export default function page() {
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container mx-5  w-full md:w-[80%] px-4 md:px-0 '>
+                        <Breadcrumb />
                         <div className='flex flex-col md:flex-row justify-between items-start md:items-center  mt-5 mb-3 '> 
                           <CustmButton className='mt-5 h-[6vh] w-[8vw] bg-amber-500 text-white   '>
                             <FaArrowLeft className='inline mr-2 ' />

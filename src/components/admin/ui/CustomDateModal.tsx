@@ -333,63 +333,63 @@ const MapDays = useCallback((month : number , year : number) : DateWithDay[] => 
   return (
     <div 
       ref={refModal} 
-      className='fixed z-50 p-4 bg-white rounded-lg shadow-lg left-4 right-4 md:left-auto md:right-[30%] top-10 w-[90vw] md:w-[25vw] max-h-[70vh] overflow-y-auto hidden'
+      className='fixed z-50 p-6 bg-white rounded-lg shadow-xl left-4 right-4 md:left-auto md:right-[25%] top-10 w-[90vw] md:w-[35vw] lg:w-[28vw] max-h-[80vh] overflow-y-auto hidden'
       style={{ display: 'none' }}
     >
-      <div className='flex scale-90 justify-around items-center mt-2'>
+      <div className='flex justify-between items-center gap-2 mt-2'>
         <CustmButton 
           onClick={selectLast7Days}
-          className=' text-sm bg-[#f4f4f5] hover:bg-[var(--logo-blue)] hover:text-white transition-all' 
+          className='flex-1 text-xs md:text-sm py-2 bg-[#f4f4f5] hover:bg-[var(--logo-blue)] hover:text-white transition-all' 
           type='button' 
         >
           last 7 days
         </CustmButton>
         <CustmButton 
           onClick={selectLastMonth}
-          className=' text-sm bg-[#f4f4f5]  hover:bg-[var(--logo-blue)] hover:text-white transition-all' 
+          className='flex-1 text-xs md:text-sm py-2 bg-[#f4f4f5]  hover:bg-[var(--logo-blue)] hover:text-white transition-all' 
           type='button' 
         >
           last Month
         </CustmButton>
         <CustmButton 
           onClick={selectLast6Months}
-          className=' text-sm bg-[#f4f4f5] hover:bg-[var(--logo-blue)] hover:text-white transition-all' 
+          className='flex-1 text-xs md:text-sm py-2 bg-[#f4f4f5] hover:bg-[var(--logo-blue)] hover:text-white transition-all whitespace-nowrap' 
           type='button' 
         >
-          last 6 months
+          last 6 mo
         </CustmButton>
       </div>
-      <div className='flex mt-4 justify-around items-center '>
-        <div >
-          <CustmButton onClick={() => changeYear(-1)} className='text-lg bg-white border-1  border-gray-200 ml-1' type='button' >
+      <div className='flex mt-6 mb-4 justify-between items-center px-2'>
+        <div className='flex gap-1'>
+          <CustmButton onClick={() => changeYear(-1)} className='text-lg px-3 py-1 bg-white border-1 border-gray-200' type='button' >
             &#8249;&#8249;
           </CustmButton>
-          <CustmButton onClick={() => changeMonth(-1)} className=' text-lg bg-white border-1  border-gray-200 ml-1' type='button' >
+          <CustmButton onClick={() => changeMonth(-1)} className='text-lg px-3 py-1 bg-white border-1 border-gray-200' type='button' >
             &#8249;
           </CustmButton>
         </div>
-        <span>
+        <span className='text-base md:text-lg font-semibold'>
           {new Date(currentYear!, currentMonth!).toLocaleString('default', { month: 'long' })} {currentYear}
         </span>
-        <div >
-          <CustmButton onClick={() => changeMonth(1)} className='text-lg bg-white border-1  border-gray-200 ml-1' type='button' >
+        <div className='flex gap-1'>
+          <CustmButton onClick={() => changeMonth(1)} className='text-lg px-3 py-1 bg-white border-1 border-gray-200' type='button' >
             &#8250;
           </CustmButton>
-          <CustmButton onClick={() => changeYear(1)} className='text-lg bg-white border-1  border-gray-200 ml-1' type='button' >
+          <CustmButton onClick={() => changeYear(1)} className='text-lg px-3 py-1 bg-white border-1 border-gray-200' type='button' >
             &#8250;&#8250;
           </CustmButton>
         </div>
       </div>
-      <div className='days flex mt-4 justify-around items-center capitalize text-gray-400'>
-        <span className=''>mo</span>
-        <span>tu</span>
-        <span>we</span>
-        <span>th</span>
-        <span>fr</span>
-        <span>sa</span>
-        <span>su</span>
+      <div className='days flex mt-3 mb-2 justify-around items-center capitalize text-gray-500 font-semibold text-sm'>
+        <span className='w-10 text-center'>mo</span>
+        <span className='w-10 text-center'>tu</span>
+        <span className='w-10 text-center'>we</span>
+        <span className='w-10 text-center'>th</span>
+        <span className='w-10 text-center'>fr</span>
+        <span className='w-10 text-center'>sa</span>
+        <span className='w-10 text-center'>su</span>
       </div>
-      <div className='days grid grid-cols-7 grid-rows-5 mt-4 justify-around items-center capitalize text-gray-300'>
+      <div className='days grid grid-cols-7 gap-1 grid-rows-5 mt-2 mb-4 justify-items-center items-center capitalize text-gray-700'>
             {MapDays(currentMonth! , currentYear!).map((dayObj , index) => {
               // Check if this date is a selected endpoint (firstDate)
              
@@ -405,17 +405,17 @@ const MapDays = useCallback((month : number , year : number) : DateWithDay[] => 
       </div>
       
       {/* Action buttons */}
-      <div className='flex justify-between gap-3 mt-4 pt-3 border-t border-gray-200'>
+      <div className='flex justify-between gap-3 mt-5 pt-4 border-t border-gray-200'>
         <CustmButton 
           onClick={handleCancel}
-          className='flex-1 px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all'
+          className='flex-1 px-4 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all'
           type='button'
         >
           Annuleren
         </CustmButton>
         <CustmButton 
           onClick={handleConfirm}
-          className='flex-1 px-4 py-2 text-white bg-[var(--dark-blue)] rounded-lg hover:bg-[var(--logo-blue)] transition-all'
+          className='flex-1 px-4 py-2.5 text-sm font-medium text-white bg-[var(--dark-blue)] rounded-lg hover:bg-[var(--logo-blue)] transition-all'
           type='button'
         >
           Bevestigen
@@ -450,7 +450,7 @@ const Day = ({
  
   return (
     <span
-      className='day flex p-2 justify-around items-center capitalize text-gray-700 hover:bg-gray-100 cursor-pointer rounded'
+      className='day flex w-10 h-10 justify-center items-center capitalize text-gray-700 hover:bg-gray-100 cursor-pointer rounded text-sm font-medium'
       onClick={selectDate}
       data-date={dateString}
     >

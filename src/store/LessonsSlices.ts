@@ -20,14 +20,14 @@ const  getAllLessons= createAsyncThunk(
     "lessons/getAllLessons",
     async ( {pageN , pageSize , startDate = "2025-11-01", endDate = "2026-11-01", status = "pending", search = ""}  :{pageN: number , pageSize: number , startDate: string , endDate: string , status: string , search: string }, {rejectWithValue , dispatch})=>{
       
-         console.log(status)
+         console.log("status", status)
         try{
             // API call to fetch instructors
             if (getToken() == null ) 
              
                 return rejectWithValue("logged first");
                  
-            const response = await  axios.get(API_BASE+`/admin/planning?pageIndex=${pageN}&pageSize=${pageSize}&startDate=${startDate}&endDate=${endDate}&status=${status}&search=${search}` , {
+            const response = await  axios.get(API_BASE+`/admin/planning?pageIndex=${pageN}&pageSize=${pageSize}&startDate=${startDate}&endDate=${endDate}${status != "all" ? "&status="+status : ""}&search=${search}` , {
                 headers : {
                     Authorization : `Bearer ${getToken()}`
                 }
@@ -171,32 +171,35 @@ export interface ParsedLesson {
   start_time: string;
   end_time: string;
   lesson_duration: string;
+  date : string ;
   invoice_amount: string | null;
   lesson_status: string | null;
   payment_status: string | null;
   cancellation_time: string | null;
-  cancellation_reason: string | null;
   order : object | null;
   lesson_cards: any[];
 }
   export function getparsedLesson(lesson: any): ParsedLesson|null { 
+   
   if (lesson === null) return  null ;
+  console.log("lesson to parse" , lesson)
    console.log(lesson.instructor.name)
    const tmp: ParsedLesson|null = {
     id : lesson.id,
     order : lesson.order ?? null,
     instructor: lesson.instructor.name,
     student: lesson.student.name,
-    start_time: lesson.startDate,
-    end_time: lesson.endDate   ,
+    start_time: lesson.startDate.split("T")[1].split(".")[0],
+    end_time: lesson.endDate.split("T")[1].split(".")[0],
+    date : lesson.startDate.split("T")[0] ,
     lesson_duration: parsDuration(Date.parse(lesson.endDate) - Date.parse(lesson.startDate)),
     invoice_amount: lesson.payment.amount,
     lesson_status: lesson.status,
     payment_status: lesson.payment.status,           
-    cancellation_time: "next",
-    cancellation_reason: "next",
-    lesson_cards: lesson.order.data,
+    cancellation_time: "---",
+    lesson_cards: lesson.order.data.items ?? [],
    } 
+   console.log("parsed lesson" , tmp)
     return tmp
    }
    const parsDuration = (ms : number ): string => {
@@ -208,6 +211,6 @@ export interface ParsedLesson {
     const seconds = totalSeconds % 60;
     let secondsStr :string = seconds.toString();
       secondsStr = parseInt(secondsStr) < 10 ? "0"+ secondsStr : secondsStr;
-    
+     
     return `${hours}:${minutes}:${secondsStr}`;
    }

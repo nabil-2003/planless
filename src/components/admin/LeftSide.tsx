@@ -6,9 +6,13 @@ import {
   FaDollarSign, 
   FaCog,
   FaTh,
-  FaFileAlt
+  FaFileAlt,
+  FaHashtag,
+  FaPaperPlane,
+  FaCapsules,
+  FaGraduationCap
 } from 'react-icons/fa';
-import Logo2 from '../svgs/logo2'
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSidebar } from './ui/SidebarContext';
@@ -53,6 +57,10 @@ export default function LeftSide({ className }: { className?: string }) {
       <Link href='/admin-panel/instructors' className={getMenuItemClasses('/admin-panel/instructors')} onClick={close}>
           <FaUserTie className='scale-150'/>
           instructeurs
+      </Link>
+      <Link href='/admin-panel/cards' className={getMenuItemClasses('/admin-panel/cards')} onClick={close}>
+          <FaGraduationCap className='scale-150'/>
+          Leskaarten
       </Link>
       <Link href='/admin-panel/finances' className={getMenuItemClasses('/admin-panel/finances')} onClick={close}>
             <FaDollarSign className='scale-150' /> 

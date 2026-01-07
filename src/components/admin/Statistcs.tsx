@@ -38,29 +38,43 @@ export default function Statistcs({className}: {className?: string}) {
           loading && <div className='w-[2vw] mt-10 h-[2vw]
                      rounded-full animate-spin border-2
                       border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
-        <>
+        <div className='w-full flex flex-wrap justify-between  '>
           <StatisticsCard 
             percentage={percentageCalc("lessons")}
             total={extractor("lessons").total}
             label="rijlessen"
             Icon={FaRegFileAlt}
-            className='h-auto w-full sm:w-[48%] p-2  lg:w-[20%] '
+            className='h-auto w-full sm:w-[48%] p-2  lg:w-[19%] '
           />
           <StatisticsCard 
             percentage={percentageCalc("instructors")}
             total={extractor("instructors").total}
             label="instructeurs"
             Icon={FaUserTie}
-            className='h-auto w-full sm:w-[48%] p-2 lg:w-[20%] '
+            className='h-auto w-full sm:w-[48%] p-2  lg:w-[19%]  '
           />
            <StatisticsCard 
             percentage={percentageCalc("students")}
             total={extractor("students").total}
             label="studenten"
             Icon={FaUsers}
-             className='h-auto w-full sm:w-[48%]  p-2  lg:w-[20%] '
+             className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
           />
-        </>
+           <StatisticsCard 
+            percentage={0}
+            total={0}
+            label="Leskaarten"
+            Icon={FaUsers}
+             className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
+          />
+           <StatisticsCard 
+            percentage={0}
+            total={"0€"}
+            label="Financiën"
+            Icon={FaUsers}
+             className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
+          />
+        </div>
         }
 
       </ul>

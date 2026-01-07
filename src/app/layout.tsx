@@ -4,6 +4,7 @@ import "./globals.css";
 import ReduxProvider from '@/components/ReduxProvider'
 import AuthRedirect from '@/components/AuthRedirect'
 import { SidebarProvider } from '@/components/admin/ui/SidebarContext'
+
 // Configure Inter font with proper subsets and weights
 const inter = Inter({ 
   subsets: ["latin"],
