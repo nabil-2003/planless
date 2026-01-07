@@ -54,7 +54,7 @@ export default function InstructorsPage() {
   return (
     <div className='content'>
       {/* Page Header */}
-      <Header title="Instructeurs" />
+      <Header title="Instellingen" />
 
       <div className='w-full flex flex-col md:flex-row overflow-hidden'>
         {/* Left Sidebar */}
