@@ -68,7 +68,7 @@ export default function page() {
               { name: "In behandeling", value: 200, color: "#FFE6D6" },
               { name: "Bevestigd", value: 10000, color: "#DCFFD6" },
               { name: "Voltooid", value: 12, color: "#DAEFFF" },
-              { name: "Geanuleerd", value: 300, color: "##EDEDED" },
+              { name: "Geannuleerd", value: 300, color: "#EDEDED" },
             ]} />
           </div>
           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
