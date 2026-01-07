@@ -65,10 +65,10 @@ export default function page() {
             <h1 className='pl-20 py-5 bg-white text-2xl justify-around w-full  '>Studenten</h1>
             <div className='absolute -left-9 -rotate-90 top-[50%] text-xl text-gray-200  transform -translate-y-1/2'>Rijles statussen</div>
             <BarsChart data={[
-              { name: "In behandeling", value: 200, color: "#fde7d3" },
-              { name: "Bevestigd", value: 10000, color: "#e6ffe6" },
-              { name: "Voltooid", value: 12, color: "#e6f6ff" },
-              { name: "Geannuleerd", value: 300, color: "#f0f0f0" },
+              { name: "In behandeling", value: 200, color: "#FFE6D6" },
+              { name: "Bevestigd", value: 10000, color: "#DCFFD6" },
+              { name: "Voltooid", value: 12, color: "#DAEFFF" },
+              { name: "Geanuleerd", value: 300, color: "##EDEDED" },
             ]} />
           </div>
           <div className=' relative w-[95%] border-2 border-gray-200  rounded-xl overflow-hidden  ml-8 mt-3'>
