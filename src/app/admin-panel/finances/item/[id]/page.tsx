@@ -5,7 +5,6 @@ import LeftSide from '@/components/admin/LeftSide';
 
 import useLessons from '@/app/hooks/useLessons';
 import { mapColorToStatus } from '@/components/admin/ui/tables/TableLessons';
-import { useRouter } from 'next/navigation';
 import CustmButton from '@/components/admin/ui/CustmButton';
 import useInvoice from '@/app/hooks/useInvoice';
 import Breadcrumb from '@/components/admin/Breadcrumb';
@@ -42,12 +41,23 @@ export default function page({params} : {params: Promise<{id: string}>}) {
   return (
     <div className='content'>
       <Header title="Rijles gegevens" />
+        <Breadcrumb items={
+                [
+                    {
+                        href : "/admin-panel/finances" , label : "finances"
+                    }, 
+                     {
+                        href : `/admin-panel/finances/item/${lessonId}` , label : lessonId
+                    }, 
+                 
+                 
+                ]
+            } />
       <div className='w-full flex flex-col md:flex-row overflow-hidden'>
         <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
         {
           loading && <div className=' mx-auto animate-spin border-l-0 grid place-self-center scale-125 border-2 w-[3vw] h-[3vw] rounded-full border-blue-600'></div> ||
            <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-          <Breadcrumb />
           <div className='form-container mx-0 md:mx-4 rounded-lg mt-4 p-4 bg-white shadow-md'>
             <div className='flex justify-between items-center'>
                 <h2 className='text-left font-semibold text-2xl'>Bekijk en beheer je facturen</h2>

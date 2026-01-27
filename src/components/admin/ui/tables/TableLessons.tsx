@@ -287,7 +287,7 @@ const TableElementActions = ({ ele }: { ele: ParsedLesson }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal className='right-[-2.1vw]' id={ele.id!} tableName='lessons' CurrentStatus={{lessons: mapColorToStatus(ele.lesson_status!)?.status!, payment: mapColorToStatus(ele.payment_status!)?.status!}} ref={modalRef} />
+        <ActionModal  className="left-1/2  -translate-x-1/2 " id={ele.id!} tableName='lessons' CurrentStatus={{lessons: mapColorToStatus(ele.lesson_status!)?.status!, payment: mapColorToStatus(ele.payment_status!)?.status!}} ref={modalRef} />
       </div>
     </div>
   )

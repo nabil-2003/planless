@@ -55,14 +55,21 @@ export default function InstructorsPage() {
     <div className='content'>
       {/* Page Header */}
       <Header title="Instellingen" />
+<Breadcrumb  
+ items={[
+  {
+    href : "http://localhost:3000/admin-panel/settings" , label : "settings"
+  }
+ ]}
 
+/>
       <div className='w-full flex flex-col md:flex-row overflow-hidden'>
         {/* Left Sidebar */}
         <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
 
         {/* Main Content Area */}
         <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-          <Breadcrumb />
+          
           <div className='form-container mx-0 md:mx-4 border-2 border-gray-200 rounded-lg mt-4 p-4 bg-white '>
             <h1 className='font-bold text-lg md:text-xl'>Accountinstellingen</h1>
             <form className='w-full gap-2 flex flex-wrap justify-between' action="">
@@ -77,8 +84,8 @@ export default function InstructorsPage() {
             <h1 className='font-bold text-lg md:text-xl'>Lespakketten</h1>
             <form className='w-full gap-2 flex flex-wrap justify-between' action="">
 
-              <Input type='card' SvgImg={"/scotter.svg"} title='' value={"Brommer (AM)"} onChange={() => { }} placeholder='example@example.com' />
-              <Input type='card' SvgImg={"/moto.svg"} title='' value={"Motor (A1–A2–A)"} onChange={() => { }} placeholder='example@example.com' />
+               
+              <Input type='card'   SvgImg={"/moto.svg"} title='' value={"Motor (A1–A2–A)"} onChange={() => { }} placeholder='example@example.com' />
               <Input type='card' SvgImg={"/Auto2.svg"} title='' value={"Auto (Schakel B)"} onChange={() => { }} placeholder='example@example.com' />
               <Input type='card' SvgImg={"/Auto1.svg"} title='' value={"Auto (Automaat B)"} onChange={() => { }} placeholder='example@example.com' />
               <Input type='card' SvgImg={"/Trailer.svg"} title='' value={"Aanhanger (BE)"} onChange={() => { }} placeholder='example@example.com' />
@@ -145,6 +152,7 @@ const Input = ({ SvgImg, title, type = "text", placeholder, istextArea = false, 
 
           <span className='text-sm md:text-base'>{title}</span>
 
+          <Link href={"http://localhost:3000/admin-panel/settings/packages/pack/1"}>
           <div className='border-1 hover:bg-blue-200/25  border-gray-300 rounded-2xl p-3  flex items-center justify-between mt-3  '>
             <div className='flex items-center gap-2'>
               <img src={SvgImg} alt={title} />
@@ -157,6 +165,7 @@ const Input = ({ SvgImg, title, type = "text", placeholder, istextArea = false, 
             </CustmButton>
 
           </div>
+          </Link>
 
         </div>
       )

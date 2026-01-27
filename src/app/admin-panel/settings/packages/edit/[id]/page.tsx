@@ -15,6 +15,7 @@ import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal';
 import studentsData from "@/data/students.json"
 import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 
 type CustomDateRef = {
     firstDateMs?: number;
@@ -53,6 +54,19 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="Studenten" />
+                   <Breadcrumb
+                items={[
+                    {
+                        href: "http://localhost:3000/admin-panel/settings", label: "settings"
+                        
+                    },
+                    {
+                        href: "http://localhost:3000/admin-panel/settings/edit/1", label: "edit"
+                        
+                    }
+                ]}
+
+            />
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>

@@ -259,7 +259,7 @@ const TableElementActions = ({ ele  }: { ele: ParsedLesson }) => {
         >
           <MenuIcon s='gray' w='20px' h='20px' f='gray' />
         </button>
-        <ActionModal orderId={(ele.order as Order).id} className='right-[-2.1vw]' id={ele.id!} tableName='finance' CurrentStatus={{lessons: "" ,  payment :  mapColorToStatus(ele.payment_status!)?.status || "" } } ref={modalRef} />
+        <ActionModal orderId={(ele.order as Order).id} className='-translate-x-1/2 left-1/2' id={ele.id!} tableName='finance' CurrentStatus={{lessons: "" ,  payment :  mapColorToStatus(ele.payment_status!)?.status || "" } } ref={modalRef} />
       </div>
     </div>
   )

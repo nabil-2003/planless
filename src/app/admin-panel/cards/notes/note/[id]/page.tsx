@@ -9,6 +9,7 @@ import CustmButton from '@/components/admin/ui/CustmButton';
 
 import StudentResult, { Note, PopUP } from '@/components/admin/ui/StudentResult';
 import { useRouter } from 'next/navigation';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 
 export default function page({ params }: { params: Promise<{ id: string }>   }) {
  const id = use(params).id;
@@ -19,6 +20,13 @@ const navigate = useRouter()
     <>
       <div className='content bg-gray-50 '>
         <Header title="Studenten" />
+          <Breadcrumb items={[
+                    
+                    { href: '/admin-panel/cards', label: 'Rijlessen ' },
+                       { href: '/admin-panel/cards/', label: "note"  } , 
+                    { href: '/admin-panel/cards/notes/note/'+id, label: id  },
+                   ]
+             } />
         <div className='w-full flex flex-col md:flex-row overflow-hidden'>
           <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
           <div className='dashboard-container mx-5  w-full md:w-[80%] px-4 md:px-0 '>

@@ -67,7 +67,6 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
             const parsedInstructor = parseInsructor([instructor])[0]
             setInstructorData({
                 naam_instructeur: parsedInstructor.instructor || "",
-              
                 email: parsedInstructor.email || "",
                 geboortedatum: parsedInstructor.Date_birth || "",
                 adres: parsedInstructor.city || "",
@@ -133,10 +132,15 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
         <>
             <div className='content '>
                 <Header title="Instructeurs" />
+                 <Breadcrumb items={[
+                        {href : '/admin-panel/instructors' , label : "Instructors" },
+                        {href : '/admin-panel/instructors/edit/'+id , label : "edit " },
+                         {href : '/admin-panel/instructors/edit/'+id , label :id },
+                    ]} />
                 <div className='w-full flex flex-col md:flex-row overflow-x-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                        <Breadcrumb />
+                       
                         <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                             <div className='flex items-center gap-3 '>
                                 <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
@@ -151,42 +155,36 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                                 <Input 
                                     type='text' 
                                     title='Naam instructeur' 
-                                    value={instructorData.naam_instructeur} 
+                                    value={instructorData?.naam_instructeur} 
                                     onChange={(e) => setInstructorData({ ...instructorData, naam_instructeur: e.target.value })} 
                                     placeholder='john doe' 
                                 />
-                                <Input 
-                                    type='number' 
-                                    title='BSN-nummer' 
-                                    value={instructorData.bsn_nummer} 
-                                    onChange={(e) => setInstructorData({ ...instructorData, bsn_nummer: e.target.value })} 
-                                    placeholder='28018273' 
-                                />
+                              
                                 <Input 
                                     type='email' 
                                     title='E-mailadres' 
-                                    value={instructorData.email} 
+                                    value={instructorData?.email} 
                                     onChange={(e) => setInstructorData({ ...instructorData, email: e.target.value })} 
                                     placeholder='example@example.com' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Geboortedatum' 
-                                    value={instructorData.geboortedatum} 
+                                    value={instructorData?.geboortedatum} 
                                     onChange={(e) => setInstructorData({ ...instructorData, geboortedatum: e.target.value })} 
                                     placeholder='10/10/2000' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Adres' 
-                                    value={instructorData.adres} 
+                                    value={instructorData?.adres} 
                                     onChange={(e) => setInstructorData({ ...instructorData, adres: e.target.value })} 
                                     placeholder='bijv:Bloemgracht 19' 
                                 />
                                 <Input 
                                     type='tel' 
                                     title='Telefoonnummer' 
-                                    value={instructorData.telefoonnummer} 
+                                    value={instructorData?.telefoonnummer} 
                                     onChange={(e) => setInstructorData({ ...instructorData, telefoonnummer: e.target.value })} 
                                     placeholder='+31656171811' 
                                 />
@@ -199,21 +197,21 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                                 <Input 
                                     type='text' 
                                     title='Rijbewijsnummer' 
-                                    value={instructorData.rijbewijsnummer} 
+                                    value={instructorData?.rijbewijsnummer} 
                                     onChange={(e) => setInstructorData({ ...instructorData, rijbewijsnummer: e.target.value })} 
                                     placeholder='AB123CD456' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Uitgiftedatum rijbewijs' 
-                                    value={instructorData.uitgiftedatum_rijbewijs} 
+                                    value={instructorData?.uitgiftedatum_rijbewijs} 
                                     onChange={(e) => setInstructorData({ ...instructorData, uitgiftedatum_rijbewijs: e.target.value })} 
                                     placeholder='29/08/2022' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Vervaldatum rijbewijs' 
-                                    value={instructorData.vervaldatum_rijbewijs} 
+                                    value={instructorData?.vervaldatum_rijbewijs} 
                                     onChange={(e) => setInstructorData({ ...instructorData, vervaldatum_rijbewijs: e.target.value })} 
                                     placeholder='29/08/2032' 
                                 />
@@ -257,14 +255,14 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                                 <Input 
                                     type='text' 
                                     title='Instructeurskaartnummer' 
-                                    value={instructorData.instructeurskaartnummer} 
+                                    value={instructorData?.instructeurskaartnummer} 
                                     onChange={(e) => setInstructorData({ ...instructorData, instructeurskaartnummer: e.target.value })} 
                                     placeholder='KL987MN654' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Vervaldatum instructeurskaart' 
-                                    value={instructorData.vervaldatum_instructeurskaart} 
+                                    value={instructorData?.vervaldatum_instructeurskaart} 
                                     onChange={(e) => setInstructorData({ ...instructorData, vervaldatum_instructeurskaart: e.target.value })} 
                                     placeholder='29/08/2026' 
                                 />
@@ -277,21 +275,21 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                                 <Input 
                                     type='text' 
                                     title='Contractbegindatum' 
-                                    value={instructorData.contractbegindatum} 
+                                    value={instructorData?.contractbegindatum} 
                                     onChange={(e) => setInstructorData({ ...instructorData, contractbegindatum: e.target.value })} 
                                     placeholder='29/08/2022' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Contractvervaldatum' 
-                                    value={instructorData.contractvervaldatum} 
+                                    value={instructorData?.contractvervaldatum} 
                                     onChange={(e) => setInstructorData({ ...instructorData, contractvervaldatum: e.target.value })} 
                                     placeholder='29/08/2025' 
                                 />
                                 <Input 
                                     type='text' 
                                     title='Salaris per maand' 
-                                    value={instructorData.salaris} 
+                                    value={instructorData?.salaris} 
                                     onChange={(e) => setInstructorData({ ...instructorData, salaris: e.target.value })} 
                                     placeholder='€3500' 
                                 />
@@ -312,7 +310,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
                                         <div className='w-full'>
                                             <h1 className='text-sm text-gray-500 font-semibold mt-3 ml-4'>Contract document</h1>
                                             <h1 className='text-sm text-gray-500 font-semibold mt-1 ml-4'>
-                                                {instructorData.contractvervaldatum || '10/10/2028'}
+                                                {instructorData?.contractvervaldatum || '10/10/2028'}
                                             </h1>
                                             <input 
                                                 type="file" 

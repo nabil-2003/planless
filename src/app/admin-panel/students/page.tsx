@@ -115,14 +115,23 @@ export default function StudentsPage() {
         <div className='content'>
             {/* Page Header */}
             <Header title="Studenten" />
-            
+            <Breadcrumb 
+                         items={
+                            [
+                                {
+                                    href : "/admin-panel/students" , label : "Studenten"
+                                }
+                            ]
+                         }
+                        
+                        />
             <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                 {/* Left Sidebar */}
                 <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                    <Breadcrumb />
+                  
                     {/* Spacing */}
                     <div className='mt-4' />
 
@@ -164,6 +173,10 @@ export default function StudentsPage() {
                                 Student toevoegen
                             </div>
                         </Link>
+                        <div className='cursor-pointer flex items-center gap-1 text-[#667085] p-2 rounded-lg border-gray-300 border-1'>
+                          <span><img src="/actions/hide_icon.svg" alt="" /></span>
+                            Alles weergeven
+                         </div>
                        
 
                         

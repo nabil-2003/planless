@@ -1,6 +1,6 @@
 'use client'
 import CreateIcon from '@/components/svgs/CreateIcon'
-import React, { useImperativeHandle, useRef, useState, useEffect, MouseEventHandler } from 'react'
+import React, { useImperativeHandle, useRef, useState, useEffect, MouseEventHandler, use } from 'react'
 import { forwardRef } from 'react'
 import CustomSelect from './CustomSelect'
 import CustomSearch from './CustomSearch'
@@ -86,14 +86,16 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({ name }, ref) => {
         document.body
     );
 });
-const TableElement = () => {
+const TableElement = ( ) => {
+        const [count, setCount] = useState(0);
+
     return (<div className='flex  py-3 items-center justify-around w-full border-b-2 border-gray-300 '>
         <div className='text-sm'>Proefles</div>
         <div className='text-sm'>60 min</div>
         <div className='text-sm flex items-center gap-2'>
-            <span className=' grid place-content-center w-[1vw] h-[1vw] cursor-pointer  rounded-full border-1'>-</span>
-            <span>0</span>
-            <span className=' grid place-content-center w-[1vw] h-[1vw] cursor-pointer  rounded-full border-1'>+</span>
+            <span onClick={() => setCount(count > 0 ? count - 1 : 0)} className=' grid place-content-center w-[1vw] h-[1vw] cursor-pointer  rounded-full border-1'>-</span>
+            <span>{count}</span>
+            <span onClick={() => setCount(count + 1)} className=' grid place-content-center w-[1vw] h-[1vw] cursor-pointer  rounded-full border-1'>+</span>
 
         </div>
         <div className='text-sm'>€50</div>
@@ -102,6 +104,8 @@ const TableElement = () => {
 
 
 const FirstStep = ({ changeStep , close  }: { close : () => void;  changeStep: ({ to }: { to: number  }) => void  }) => {
+    const [activeType, setActiveType] = useState<'practice' | 'Theorie'>('practice');
+     const [activeVehicle, setActiveVehicle] = useState<'scooter' | 'motor' | 'car1' | 'car2' | 'trailer'>('scooter');
     return (
         <div className='mx-10'>
             <h1 className='text-2xl justify-center flex font-bold mb-4'>
@@ -113,17 +117,16 @@ const FirstStep = ({ changeStep , close  }: { close : () => void;  changeStep: (
                     Wanneer je deze rijles toevoegt, wordt de status aangepast naar “Onbetaald”
                 </p>
                 <div className='type scale-75  flex p-1 gap-1 justify-center items-center'>
-                    <span className='py-2 px-3 text-[#024089] bg-[#F2F4FF]  text-xl font-semibold border-b-2 border-blue-500 cursor-pointer'>Praktijk</span>
-                    <span className='py-2 px-3 text-[black] text-xl font-semibold border-b-2 border-gray-200 cursor-pointer'>Theorie</span>
+                    <span onClick={() => setActiveType('practice')} className={`py-2 px-3 text-xl font-semibold border-b-2 cursor-pointer ${activeType === 'practice' ? 'text-[#024089] bg-[#F2F4FF] border-blue-500' : 'text-[black] border-gray-200'}`}>Praktijk</span>
+                    <span onClick={() => setActiveType('Theorie')} className={`py-2 px-3 text-xl font-semibold border-b-2 cursor-pointer ${activeType === 'Theorie' ? 'text-[#024089] bg-[#F2F4FF] border-blue-500' : 'text-[black] border-gray-200'}`}>Theorie</span>
 
                 </div>
                 <div className='vehicle flex p-1 gap-1 justify-between items-center scale-75 w-full'>
-                    <span className=' bg-[#F2F4FF]   font-semibold border-b-2 border-blue-500  cursor-pointer'><img src="/scotter.svg" alt="" /></span>
-                    <span className='font-semibold border-b-2 border-gray-200 cursor-pointer'><img src="/moto.svg" alt="" /></span>
-                    <span className='font-semibold border-b-2 border-gray-200  cursor-pointer'><img src="/Auto2.svg" alt="" /></span>
-                    <span className='font-semibold border-b-2 border-gray-200  cursor-pointer'><img src="/Auto1.svg" alt="" /></span>
-                    <span className='font-semibold border-b-2 border-gray-200  cursor-pointer'><img src="/Trailer.svg" alt="" /></span>
-
+                    <span onClick={() => setActiveVehicle('scooter')} className={`font-semibold border-b-2 cursor-pointer ${activeVehicle === 'scooter' ? 'bg-[#F2F4FF] border-blue-500' : 'border-gray-200'}`}><img src="/scotter.svg" alt="" /></span>
+                    <span onClick={() => setActiveVehicle('motor')} className={`font-semibold border-b-2 cursor-pointer ${activeVehicle === 'motor' ? 'bg-[#F2F4FF] border-blue-500' : 'border-gray-200'}`}><img src="/moto.svg" alt="" /></span>
+                    <span onClick={() => setActiveVehicle('car2')} className={`font-semibold border-b-2 cursor-pointer ${activeVehicle === 'car2' ? 'bg-[#F2F4FF] border-blue-500' : 'border-gray-200'}`}><img src="/Auto2.svg" alt="" /></span>
+                    <span onClick={() => setActiveVehicle('car1')} className={`font-semibold border-b-2 cursor-pointer ${activeVehicle === 'car1' ? 'bg-[#F2F4FF] border-blue-500' : 'border-gray-200'}`}><img src="/Auto1.svg" alt="" /></span>
+                    <span onClick={() => setActiveVehicle('trailer')} className={`font-semibold border-b-2 cursor-pointer ${activeVehicle === 'trailer' ? 'bg-[#F2F4FF] border-blue-500' : 'border-gray-200'}`}><img src="/Trailer.svg" alt="" /></span>
                 </div>
                 <div className='scale-95'>
                     <div className='flex   py-3 items-center justify-around w-full border-b-2 border-gray-300 '>
@@ -253,7 +256,8 @@ const SecondStep = ({ changeStep }: { changeStep: ({ to }: { to: number }) => vo
 }
 
 const ThirdStep = ({ changeStep }: { changeStep: ({ to }: { to: number }) => void }) => {
-    
+           const [activeType, setActiveType] = useState<'practice' | 'Theorie'>('practice');
+
     const Element = () => {
         const [isActionsOpen, setIsActionsOpen] = useState(false);
 
@@ -340,8 +344,8 @@ const ThirdStep = ({ changeStep }: { changeStep: ({ to }: { to: number }) => voi
     return (
         <div className='mx-6 '>
               <div className='flex  gap-4 justify-center items-center '>
-                <span className='bg-[#F2F4FF] p-3 text-[#024089] cursor-pointer border-b-2 border-[#024089]'>Praktijk</span>
-                <span className='cursor-pointer p-3 border-b-2 border-gray-300'>Theorie</span>
+                <span onClick={() => setActiveType("practice")} className={`cursor-pointer p-3 border-b-2 ${activeType === "practice" ? "border-[#024089] bg-[#F2F4FF]" : "border-gray-300"}`}>Praktijk</span>
+                <span onClick={() => setActiveType("Theorie")} className={`cursor-pointer p-3 border-b-2 ${activeType === "Theorie" ? "border-[#024089] bg-[#F2F4FF]" : "border-gray-300"}`}>Theorie</span>
               </div>
                 <div className='mt-3' />
                 <Element />
@@ -734,15 +738,15 @@ const SelectInput = ({ data = [] }: { data: string[] }) => {
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState<string>(data[0])
     return (
-        <div className='relative'>
-            <div className="'select  w-full selected flex bg-gradient-to-t from-gray-100 to-gray-200 p-2 rounded-md">
+        <div className='relative '>
+            <div className="'select   w-full selected flex bg-gray-100 p-2 rounded-md">
                 <div className="selected w-[95%] cursor-pointer">{selected}</div>
                 <button className={" transition-transform duration-500 cursor-pointer " + (open ? "rotate-180 " : "rotate-0 ")} onClick={() => {
                     setOpen(t => !t)
                 }} > <img src="/selectFlech.svg" alt="select arrow" />
                 </button>
             </div>
-            <div className={` max-h-[20vh] overflow-y-auto bg-white mt-2 body z-10 w-full absolute  transition-all duration-700  ${open ? "h-max opacity-100 " : "max-h-0  opacity-0"}`}>
+            <div className={` max-h-[20vh] overflow-y-auto shadow-xs p-1 rounded bg-white mt-2 body z-10 w-full absolute  transition-all duration-700  ${open ? "h-max opacity-100 " : "max-h-0  opacity-0"}`}>
                 {data.map((item, index) => (
                     <div data-item={item} key={index} onClick={(e) => {
                         setSelected(item);

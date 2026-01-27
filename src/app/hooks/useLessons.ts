@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useRouter } from 'next/navigation'
+import { useMemo } from 'react';
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/utils';
@@ -76,7 +77,10 @@ const fetchLessonById = async (id : string) => {
    await dispatch(UpdateLessonStatus({id : id , status : "confirmed"}))
   }
 
-   
+  // 🔧 FIX: Memoize parsed lesson to prevent new object creation on every render
+  const parsedLesson = useMemo(() => {
+    return getparsedLesson(selector.lesson as any);
+  }, [selector.lesson]);
 
   return {
     fetchAllLessons,
@@ -85,8 +89,9 @@ const fetchLessonById = async (id : string) => {
     lessons: selector.lessons ,
     loading: selector.loading as boolean,
     error: selector.error as string | null, 
-    lesson :   getparsedLesson(selector.lesson as any)  , 
+    lesson : parsedLesson,  // ✅ Now returns same object reference until selector.lesson actually changes
     total: selector.total ,
+    loadingforModal : selector.loadingForModal as boolean ,
     fetchLessonById , 
     setIndex ,
     setSize , 

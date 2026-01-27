@@ -70,6 +70,7 @@ export type LessonState = {
   lessons: Array<any>;
   lesson: any;
   loading: boolean;
+   loadingForModal: boolean;
   error: string | null;
   indexPage: number;
   pageSize: number;

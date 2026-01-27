@@ -54,10 +54,23 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="Studenten" />
+                <Breadcrumb 
+                         items={
+                            [
+                                {
+                                    href : "/admin-panel/students" , label : "Studenten"
+                                },
+                                {
+                                    href : "/admin-panel/students/new-student" , label : "Nieuwe student toevoegen"
+                                }
+                            ]
+                         }
+                        
+                        />
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
-                        <Breadcrumb />
+                        
                         <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
                             <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>
                             <form className='w-full  gap-2 flex  flex-wrap justify-between' action="">

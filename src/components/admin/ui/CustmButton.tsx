@@ -6,7 +6,7 @@ export default function CustmButton(
       children?: React.ReactNode,
       className?: string,
       type?: 'submit' | 'reset' | 'button'
-      , onClick?: () => void
+      , onClick?: (() => void) | ((e: React.MouseEvent<any>)=> void)
     }) {
 
   return (

@@ -49,6 +49,12 @@ export default function DrivingLessonsPage() {
     const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
 
+
+
+     const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
+        setSelectedDateRange(dates)
+    }
+
     const {fetchAllLessons , lessons ,loading  , endDateLessons, startDateLessons, size, index , setIndex , setSize }= useLessons()
     // Modal references
     const CreateModalRef = useRef<CreateModalRef>(null)
@@ -101,10 +107,7 @@ export default function DrivingLessonsPage() {
      * Automatically detects single vs range selection
      * @param dates - Selected date range or null
      */
-    const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
-        setSelectedDateRange(dates)
-    }
-
+   
     /**
      * Formats date range for display in the date picker
      * @returns Formatted date string or placeholder
@@ -149,14 +152,20 @@ export default function DrivingLessonsPage() {
         <div className='content' id='root'>
             {/* Page Header */}
             <Header title="Rijlessen" />
-            
+             <Breadcrumb items={
+                   [
+                    { href: '/admin-panel/driving-lessons', label: 'Rijlessen ' },
+                    { href: '/admin-panel/driving-lessons', label: currentFilterType  }
+                   ]
+             } />
             <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                 {/* Left Sidebar */}
+               
                 <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                    <Breadcrumb />
+                    
                     
                     {/* Filter By Type Component */}
                     <FIlterByType 
@@ -249,6 +258,10 @@ export default function DrivingLessonsPage() {
                                 )}
                             </div>
                         </div>
+                        <div className='cursor-pointer flex items-center gap-1 text-[#667085] p-2 rounded-lg border-gray-300 border-1'>
+                          <span><img src="/actions/hide_icon.svg" alt="" /></span>
+                            Alles weergeven
+                         </div>
 
                       
                     </div>

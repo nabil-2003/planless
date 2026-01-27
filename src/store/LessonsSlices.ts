@@ -15,6 +15,7 @@ const initialState: LessonState = {
     status : "pending" as string ,
     startDate : "2025-11-01" as string ,
     endDate : "2026-11-01" as string ,
+    loadingForModal : false
 }
 const  getAllLessons= createAsyncThunk(
     "lessons/getAllLessons",
@@ -134,22 +135,21 @@ const lessons = createSlice({
             state.loading = false;
             state.error = action.payload as string;
     }).addCase(getLessonById.pending, (state) => { 
-            state.loading = true;
+            state.loadingForModal = true;
             state.error = null;
          })
         .addCase(getLessonById.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loadingForModal = false;
             state.lesson = action.payload;
         })
         .addCase(getLessonById.rejected, (state, action) => {
-            state.loading = false;
+            state.loadingForModal = false;
             state.error = action.payload as string;
     }).addCase(UpdateLessonStatus.pending, (state) => { 
-            state.loading = true;
             state.error = null;
          })
         .addCase(UpdateLessonStatus.fulfilled, (state, action) => {
-            state.loading = false;
+             state.loading = false;
             console.log("Lesson status updated:", action.payload);
         })
         .addCase(UpdateLessonStatus.rejected, (state, action) => {
@@ -178,28 +178,32 @@ export interface ParsedLesson {
   cancellation_time: string | null;
   order : object | null;
   lesson_cards: any[];
+  adress?: string | null;
+  Studentphone?: string | null;
 }
   export function getparsedLesson(lesson: any): ParsedLesson|null { 
    
   if (lesson === null) return  null ;
-  console.log("lesson to parse" , lesson)
-   console.log(lesson.instructor.name)
+
+    console.log("lesson to parse" , lesson)
    const tmp: ParsedLesson|null = {
     id : lesson.id,
     order : lesson.order ?? null,
     instructor: lesson.instructor.name,
     student: lesson.student.name,
-    start_time: lesson.startDate.split("T")[1].split(".")[0],
-    end_time: lesson.endDate.split("T")[1].split(".")[0],
-    date : lesson.startDate.split("T")[0] ,
+    start_time: lesson.startDate?.split("T")[1].split(".")[0],
+    end_time: lesson.endDate?.split("T")[1].split(".")[0],
+    date : lesson.startDate?.split("T")[0] ,
     lesson_duration: parsDuration(Date.parse(lesson.endDate) - Date.parse(lesson.startDate)),
-    invoice_amount: lesson.payment.amount,
-    lesson_status: lesson.status,
-    payment_status: lesson.payment.status,           
+    invoice_amount: lesson?.payment?.amount,
+    lesson_status: lesson?.status,
+    payment_status: lesson?.payment?.status,           
     cancellation_time: "---",
-    lesson_cards: lesson.order.data.items ?? [],
+    lesson_cards: lesson.order?.data?.items ?? [],
+    adress: lesson?.student?.city+", "+lesson?.student?.street+", "+lesson?.student?.zipCode+", "+lesson?.student?.houseNumber || "---",
+    Studentphone : lesson?.student?.phone || "---"
    } 
-   console.log("parsed lesson" , tmp)
+   
     return tmp
    }
    const parsDuration = (ms : number ): string => {

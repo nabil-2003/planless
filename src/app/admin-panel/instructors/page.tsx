@@ -28,6 +28,7 @@ import instructorsData from "@/data/instructors.json"
 
 import useInstructor from '@/app/hooks/useInstructor'
 import Breadcrumb from '@/components/admin/Breadcrumb'
+import CusTomDate, { CustomDateRef } from '@/components/admin/ui/CustomDateModal'
 
 // ================================
 // TYPE DEFINITIONS
@@ -58,6 +59,15 @@ export default function InstructorsPage() {
     const [currentTimeFilter, setTimeFilter] = useState('24 uur')
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(10)
+
+        const [selectedDateRange, setSelectedDateRange] = useState<{ firstDateMs: number; lastDateMs: number } | null>(null)
+    
+    
+    //handle date select 
+         const handleDateSelect = (dates: { firstDateMs: number; lastDateMs: number } | null) => {
+            setSelectedDateRange(dates)
+        }
+     const dateModalRef = useRef<CustomDateRef>(null)
     const { fetchAllInstructors, instructors, loading , searchInstuctor , search  , size,  setPageIndex, index, setPageSize } = useInstructor()  
     // UI states
     const [isExporting, setIsExporting] = useState(false)
@@ -72,6 +82,27 @@ export default function InstructorsPage() {
     const handleTimeFilterChange = (filter: string) => {
         setTimeFilter(filter)
     }
+const formatDateRange = () => {
+        if (!selectedDateRange) return 'mm/dd/yyyy'
+
+        const startDate = new Date(selectedDateRange.firstDateMs)
+        const endDate = new Date(selectedDateRange.lastDateMs)
+         
+        const formatDate = (date: Date) => {
+            return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`
+        }
+
+        // If same date (single selection) show single date, otherwise show range
+        if (selectedDateRange.firstDateMs === selectedDateRange.lastDateMs) {
+            return formatDate(startDate)
+        } else {
+            return ` ${formatDate(endDate)}`
+        }
+    }
+     const openDateModal = () => {
+        
+        dateModalRef.current?.open()
+    }
 
     // ================================
     // RENDER
@@ -81,14 +112,17 @@ export default function InstructorsPage() {
         <div className='content'>
             {/* Page Header */}
             <Header title="Instructeurs" />
-            
+            <Breadcrumb items={[
+                   { href: '/admin-panel/instructors', label: 'Instructeurs' },
+             
+                 ]} />
             <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                 {/* Left Sidebar */}
                 <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
                 
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-          <Breadcrumb />
+         
                     
                     {/* Time Filter Component */}
                  
@@ -117,15 +151,14 @@ export default function InstructorsPage() {
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-full mr-40 sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
+                            className='w-full  sm:w-64 md:w-72 rounded-lg outline-none p-2.5 bg-white border border-gray-300'
                             value={search}
                             onChange={(value) => searchInstuctor(value)}
                             placeholder='Zoeken...'
                         />
 
                         
-                      
-
+    
                         {/* Add New Instructor Button */}
                         <Link href="./instructors/new-instructor" className='text-white rounded-lg  bg-dark-blue ml-4'>
                             <div className='flex gap-2 items-center p-2.5'>
@@ -133,23 +166,56 @@ export default function InstructorsPage() {
                                Voeg een instructeur toe
                             </div>
                         </Link>
-                          <button
-                            disabled={isExporting}
-                            className='group flex items-center text-[var(--dark-blue)] bg-white hover:bg-[#024089] disabled:bg-blue-300 hover:text-white px-6 py-2 rounded-lg border-1 border-[#024089] ml-4 transition-colors font-medium'
-                        >
-                            {isExporting ? (
-                                <>
-                                    <div className='animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2'></div>
-                                    Exporteren...
-                                </>
-                            ) : (
-                                <>
-                                    <ExportIcon w='20' h='20'  color='var(--dark-blue)' className='mr-2' />
-                                    <span className=' '>Export</span>
-                                </>
-                            )}
-                        </button>
+                       {/* Custom Date Input that opens modal */}
+                        <div className='relative w-full   bg-white h-full  md:w-auto'>
+                            <div
+                                onClick={openDateModal}
+                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-400 transition-colors'
+                            >
+                                {/* Calendar Icon */}
+                                <svg
+                                    className='w-5 h-5 text-gray-400 mr-2'
+                                    fill='none'
+                                    stroke='currentColor'
+                                    viewBox='0 0 24 24'
+                                >
+                                    <path
+                                        strokeLinecap='round'
+                                        strokeLinejoin='round'
+                                        strokeWidth={2}
+                                        d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
+                                    />
+                                </svg>
+                                
+                                {/* Date Display */}
+                                <span className={`text-sm md:text-md  p-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                    {formatDateRange()}
+                                </span>
+                                
+                                {/* Clear Button */}
+                                {selectedDateRange && (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            dateModalRef.current?.clearSelection()
+                                            setSelectedDateRange(null)
+                                      
+                                        }}
+                                        className='ml-2 text-gray-400 hover:text-gray-600'>
+                                        <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
+                                        </svg>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                         <div className='cursor-pointer flex items-center gap-1 text-[#667085] p-2 rounded-lg border-gray-300 border-1'>
+                          <span><img src="/actions/hide_icon.svg" alt="" /></span>
+                            Alles weergeven
+                         </div>
                     </div>
+                     {/*  hidden items */}
+
                     
                     {/* Instructors Table */}
                   { loading && <div className='text-center mx-auto  w-[2vw] animate-spin duration-400  h-[2vw] mt-20 text-gray-500 border-2 border-blue-800 border-l-0 rounded-full '></div> || 
@@ -164,6 +230,13 @@ export default function InstructorsPage() {
             
             {/* Create Modal */}
             <CreateModal ref={CreateModalRef} name='modal' />
+
+             <CusTomDate
+                className=''
+                ref={dateModalRef}
+                singleUse={false}
+                onDateSelect={handleDateSelect}
+            />
         </div>
     )
 }

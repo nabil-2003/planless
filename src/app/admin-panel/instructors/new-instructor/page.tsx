@@ -124,10 +124,14 @@ export default function page() {
         <>
             <div className='content '>
                 <Header title="instructeurs" />
+                <Breadcrumb items={[
+                   { href: '/admin-panel/instructors', label: 'Instructeurs' },
+                   { href: '/admin-panel/instructors/new-instructor', label: 'Nieuwe Instructeur' },
+                 ]} />
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
-                        <Breadcrumb />
+                     
                         <CustmButton  onClick={back} className="mt-4 bg-[#fe911f] md:ml-4 shadow-sm capitalize text-white  md:mr-4 flex items-center w-full md:w-auto" >
                               <span className='text-sm md:text-base'>terug</span>
                         </CustmButton>

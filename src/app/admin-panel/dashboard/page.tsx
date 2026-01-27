@@ -2,15 +2,10 @@
 import Statistcs from '@/components/admin/Statistcs'
 import React from 'react'
 import Header from '@/components/admin/Header'
-import LessonChart from '@/components/admin/ui/LessonChart'
-import CostumChart from '@/components/admin/ui/LessonChart'
-import ChartExample from '@/components/admin/ui/ChartExample'
-import { FaArrowUp, FaArrowDown, FaChartLine, FaChartBar, FaRegCheckCircle, FaRegFileAlt, FaRegTimesCircle } from 'react-icons/fa'
 import LeftSide from '@/components/admin/LeftSide'
-import { IoFlagOutline } from 'react-icons/io5'
-import { RxTimer } from 'react-icons/rx'
+
 import useDashBoard from '@/app/hooks/useDashBoard'
-import Breadcrumb from '@/components/admin/Breadcrumb'
+
 import {
   BarChart,
   Bar,
@@ -26,33 +21,8 @@ import {
   Legend
 } from "recharts";
 export default function page() {
-  const [currentFilter, setCurrentFilter] = React.useState('20 dagen');
+ 
 
-  const mapFilterToDays = (filter: string) => {
-    switch (filter) {
-      case '7 dagen':
-        return 7;
-      case '24 uur':
-        return 1;
-      case '20 dagen':
-        return 20;
-      case '12 maanden':
-        return 365;
-      default:
-        return 20;
-    }
-  }
-  const { fetchStats } = useDashBoard();
-  const handleChangeFilter = (filter: string) => {
-    setCurrentFilter(t => filter);
-    // You can add additional logic here to fetch or filter data based on the selected time filter
-  }
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await fetchStats(mapFilterToDays(currentFilter));
-    }
-    fetchData();
-  }, [currentFilter])
   return (
     <>
       <Header title="dashboard overview" />

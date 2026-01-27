@@ -31,9 +31,9 @@ type CustomDateRef = {
   setDateRange: (startDate: string, endDate: string) => void;
 }
 
-export default function page() {
+export default function page({params }:{params: Promise<{id : string }>}) {
   const router = useRouter()
-
+  const   id = use(params).id
   const back = useCallback(() => {
     router.back()
   }, [])
@@ -73,10 +73,26 @@ export default function page() {
     <>
       <div className='content '>
         <Header title="Studenten" />
+         <Breadcrumb 
+           items={
+                            [
+                                {
+                                    href : "/admin-panel/students" , label : "Studenten"
+                                },
+                                {
+                                    href : "/admin-panel/students/students" , label : "edit"
+                                } , 
+                                {
+                                    href : "/admin-panel/students/students/edit/"+id , label : id
+                                }
+                            ]
+                         }
+         
+         />
         <div className='w-full flex flex-col md:flex-row overflow-x-hidden'>
           <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
           <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
-            <Breadcrumb />
+          
             <div className='form-container mx-4 rounded-lg mt-4 p-4  bg-white shadow-md'>
              <div className='flex items-center gap-3 '>
                <h1 className='font-bold text-xl '>Persoonlijke gegevens</h1>

@@ -31,14 +31,28 @@ import useInstructor from '@/app/hooks/useInstructor'
 import CustmButton from '@/components/admin/ui/CustmButton'
 import { mapColorToStatus } from '@/components/admin/ui/tables/TableLessons'
 import { useRouter } from 'next/navigation'
+import Breadcrumb from '@/components/admin/Breadcrumb'
 
 export default function Page() {
-    
+
 
     return (
         <div className='content'>
             {/* Page Header */}
             <Header title="Instructeurs" />
+            <Breadcrumb
+                items={[
+                    {
+                        href: "http://localhost:3000/admin-panel/settings", label: "settings"
+                        
+                    },
+                    {
+                        href: "http://localhost:3000/admin-panel/settings/pack/1", label: "details"
+                        
+                    }
+                ]}
+
+            />
 
             <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                 {/* Left Sidebar */}
@@ -65,8 +79,8 @@ export default function Page() {
         </div>
     )
 }
-const getType = (ele : any )=>{
-    return typeof ele; 
+const getType = (ele: any) => {
+    return typeof ele;
 }
 const Element = ({ id }: { id: string }) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -114,7 +128,7 @@ const Element = ({ id }: { id: string }) => {
                     <path d="M7.99451 12H8.00349" stroke="#575757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </span>
-           {isOpen && <Actions id={id} buttonRef={buttonRef} actionsRef={actionsRef} />}
+            {isOpen && <Actions id={id} buttonRef={buttonRef} actionsRef={actionsRef} />}
         </div>
     </div>)
 }
@@ -125,7 +139,7 @@ const Actions = ({ id, buttonRef, actionsRef }: { id: string, buttonRef: React.R
         if (buttonRef.current) {
             const rect = buttonRef.current.getBoundingClientRect();
             setPosition({
-                top: rect.bottom + window.scrollY ,
+                top: rect.bottom + window.scrollY,
                 left: rect.left + window.scrollX + (rect.width / 2)
             });
         }
@@ -138,7 +152,7 @@ const Actions = ({ id, buttonRef, actionsRef }: { id: string, buttonRef: React.R
                 <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100' >
                     <img src="/actions/delete.svg" alt="Delete" />
                 </span>
-                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100' onClick={()=>{navigate.push("/admin-panel/settings/packages/edit/"+id) ; console.log("hello")}} > 
+                <span className='cursor-pointer w-[1.5vw] h-[1.5vw] rounded-lg grid place-items-center hover:bg-gray-100' onClick={() => { navigate.push("/admin-panel/settings/packages/edit/" + id); console.log("hello") }} >
                     <img src="/actions/edit.svg" alt="Edit" />
                 </span>
             </div>

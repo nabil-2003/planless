@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import useStudent from '@/app/hooks/useStudent';
 import { parseStudents } from '../page';
 import Breadcrumb from '@/components/admin/Breadcrumb';
+import CustomFullCalendar, { CalendarEvent } from '@/components/admin/ui/CustomFullCalendar';
+import Spinner from '@/components/ui/Spinner';
 
 
 
@@ -28,26 +30,35 @@ export default function page({ params }: { params: Promise<{ details: string }> 
         <>
             <div className='content '>
                 <Header title="Studenten" />
+                <Breadcrumb 
+                         items={
+                            [
+                                {
+                                    href : "/admin-panel/students" , label : "Studenten"
+                                } , 
+                                {
+                                    href : "/admin-panel/students/"+id, label : id
+                                }
+                            ]
+                         }
+                        
+                        />
                 <div className='w-full flex flex-col md:flex-row overflow-hidden'>
                     <LeftSide className='hidden md:flex md:w-[20%] border-l-0  rounded-t-none  mt-4 items-center bg-white rounded-r-lg  border-2 border-gray-200 h-auto  ' />
                     <div className='dashboard-container  w-full md:w-[80%] px-4 md:px-0 '>
-                        <Breadcrumb />
+                        
                         <>
                             <DetailsBar setActive={changePage} active={active} />
                            
-
-
-                            {
-                                loading && <div className='w-[2vw] mt-10 h-[2vw]
-                     rounded-full animate-spin border-2
-                      border-blue-800 border-l-0  duration-300  mx-auto '></div>
-                                ||
-
-                                active == "details" &&
-                                <DetailsPage id={id} /> ||
-                                <div>not yet </div>
-
-                            }
+                            {active === "details" ? (
+                                loading ? (
+                                    <div className='w-[2vw] mt-10 h-[2vw] rounded-full animate-spin border-2 border-blue-800 border-l-0 duration-300 mx-auto'></div>
+                                ) : (
+                                    <DetailsPage id={id} />
+                                )
+                            ) : active === "schedule" ? (
+                                <CustomSchedule id={id} />
+                            ) : null}
                         </>
                     </div>
 
@@ -148,3 +159,69 @@ const DetailsPage = ({ id }: { id: string }) => {
 }
 
 
+const CustomSchedule = ({id} : {id : string }) => {
+    const {fetchPlanningStudentById , planning , student , loading} = useStudent()
+    
+    useEffect(()=>{
+           fetchPlanningStudentById(id)
+    },[id])
+
+    // Memoize the parsed events to prevent infinite loops
+    const parsedEvents = useMemo(():Array<CalendarEvent> => {
+        // Add safety check for empty or invalid planning data
+        if (!planning || !Array.isArray(planning) || planning.length === 0) {
+            console.log("No planning data available");
+            return [];
+        }       
+        return planning.map((plan : any) => {
+     
+            const event : CalendarEvent = {
+                end: "", 
+                start: "", 
+                title: "", 
+                id: String(plan.id || id), 
+                extendedProps: {
+                    instructor: "", 
+                    student: ""
+                }
+            };
+            
+            // Try different possible field names for dates
+            event.end = plan.endDate || plan.end || "";
+            event.start = plan.startDate || plan.start || "";
+            
+            // Try different possible field names for instructor
+            const instructorName = plan.instructor?.name || "Unknown Instructor";
+            
+            // Safely extract time from dates
+            try {
+                if (event.start && event.end) {
+                    event.title = plan.startDate.split("T")[1].substring(0,5) + " - " + plan.endDate.split("T")[1].substring(0,5);
+                } else {
+                    event.title = "Rijles";
+                }
+            } catch (error) {
+                event.title = "Rijles";
+            }
+            
+            // Try different possible field names for student
+            const studentName = student?.name || "Unknown Student";
+            event.extendedProps.instructor = instructorName;
+            event.extendedProps.student = studentName;
+            event.textColor = "#024089";
+            console.log("Created event:", event);
+            return event;
+        });
+    }, [planning, student, id]); // Only recalculate when planning, student, or id changes
+    
+   return (
+ <>
+  {
+    loading ? <Spinner ></Spinner>
+          
+    : <CustomFullCalendar data={parsedEvents} />
+  }
+ </>
+    
+   )
+}

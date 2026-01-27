@@ -5,6 +5,7 @@ import LeftSide from '@/components/admin/LeftSide';
 import { useRouter } from 'next/navigation';
 import useLessons from '@/app/hooks/useLessons';
 import { mapColorToStatus } from '@/components/admin/ui/tables/TableLessons';
+import Breadcrumb from '@/components/admin/Breadcrumb';
 export default function page({params} : {params: Promise<{lessons: string}>}) {
     const lessonId = use(params).lessons
   const {lesson ,loading,  fetchLessonById}= useLessons()
@@ -17,6 +18,12 @@ export default function page({params} : {params: Promise<{lessons: string}>}) {
   return (
     <div className='content'>
       <Header title="Rijles gegevens" />
+         <Breadcrumb items={[
+                    
+                    { href: '/admin-panel/cards', label: 'Rijlessen ' },
+                    { href: '/admin-panel/cards/'+lessonId , label: lessonId  }
+                   ]
+             } />
       <div className='w-full flex flex-col md:flex-row overflow-hidden'>
         <LeftSide className='hidden md:flex md:w-[20%] border-l-0 rounded-t-none mt-4 items-center bg-white rounded-r-lg border-2 border-gray-200 h-auto' />
         {
