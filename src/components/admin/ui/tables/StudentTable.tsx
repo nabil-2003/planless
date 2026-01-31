@@ -121,6 +121,7 @@ export default function StudentTable({
               <div className='w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Geboortedatum</div>
               <div className='w-[170px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Stad</div>
               <div className='w-[160px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate font-semibold'>Telefoonnummer</div>
+
             </div>
             {/* Scrollable Body */}
             <div className='w-full'>
@@ -161,50 +162,43 @@ export default function StudentTable({
       </div>
     
       {/* Pagination Controls - Stable Layout */}
-     <div id='scroll' className='mt-10   w-[95%] mx-auto p-3  shadow-sm  bg-white rounded-lg'>
-       <div className='  mb-4 flex justify-between items-center'>
-        <button 
-          onClick={goToPrevPage}
-          disabled={indexPage === 0}
-          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            indexPage === 0
-              ? 'text-gray-400 cursor-not-allowed' 
-              : 'cursor-pointer hover:bg-blue-950/10'
-          }`}
-        >
-          Vorige
-        </button>
-      
-        <span className='text-sm'>
-          Pagina {indexPage+1} van {Math.ceil(total / pageSize) }
-        </span>
-      
-        <button 
-          onClick={goToNextPage}
-          disabled={indexPage === Math.ceil(total / pageSize) - 1 }
-          className={`text-sm border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
-            indexPage === Math.ceil(total / pageSize) - 1 || Math.ceil(total / pageSize) === 0
-              ? 'text-gray-400 cursor-not-allowed' 
-              : 'cursor-pointer hover:bg-blue-950/10'
-          }`}
-        >
-          Volgende
-        </button>
+      <div id='scroll' className='mt-10 w-[90%] mx-auto p-3 border-2 border-gray-200 bg-white rounded-lg'>
+        <div className='mb-4 flex justify-between items-center'>
+          <button
+            onClick={goToPrevPage}
+            className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+              indexPage === 0
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'cursor-pointer hover:bg-blue-950/10'
+            }`}
+          >
+            Vorige
+          </button>
+
+          <span className='text-md'>
+            Pagina {indexPage + 1} van {Math.ceil(total / pageSize)}
+          </span>
+
+          <button
+            onClick={goToNextPage}
+            className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+              (indexPage + 1) * pageSize >= total
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'cursor-pointer hover:bg-blue-950/10'
+            }`}
+          >
+            Volgende
+          </button>
+        </div>
+        <CustomScrollBar targetId="students-table-container" orientation='horizontal' />
+
+        {/* Results Counter */}
+        <div className='w-[95%] mx-auto mb-4 text-center'>
+          <span className='text-md text-gray-600'>
+            Weergaven {indexPage * pageSize + 1}-{Math.min((indexPage + 1) * pageSize, total)} van {total}
+          </span>
+        </div>
       </div>
-      <CustomScrollBar 
-        targetId="students-table-container" 
-        height={scrollBarWidth} 
-        thumbHeight={120}
-        orientation='horizontal' 
-      />
-    
-      {/* Results Counter */}
-      <div className='w-[95%] mx-auto mb-4 text-center'>
-        <span className='text-sm text-gray-600'>
-          Weergaven {indexPage * pageSize + 1}-{Math.min((indexPage + 1) * pageSize, total)} van {total}
-        </span>
-      </div>
-     </div>
     </>
   );
 }

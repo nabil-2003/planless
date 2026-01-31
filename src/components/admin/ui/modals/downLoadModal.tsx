@@ -80,10 +80,9 @@ Download.displayName ="DownloadModal"
   export default Download
 
   export   const  useActions  = ({key , id }:{key: string , id : string }) : {action : (() => void)|null} =>{ 
-           const {confirmStatus } = useLessons()
-              
+           
              switch(key){
-                case "lessons" : return { action : ()=>{confirmStatus(id)} }
+                case "lessons" : return { action : ()=>{} }
                 case "students" : return  {action : null}
                 case "instructors" : return {action : null}
                 case "finance" : return {action : null}

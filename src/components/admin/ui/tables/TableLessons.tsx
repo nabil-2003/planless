@@ -2,12 +2,13 @@
 import MenuIcon from '@/components/svgs/MenuIcon';
 import { ActionModalRef } from '@/components/ui/Action';
 import ActionModal from '@/components/ui/Action';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CustomScrollBar from '../ScrollBar';
 import { DocumentModal, DocumentModalRef } from '@/components/ui'
 import { ParsedLesson } from '@/store/LessonsSlices';
 import useLessons from '@/app/hooks/useLessons';
 import useInvoice from '@/app/hooks/useInvoice';
+import SelectInstructorModal, { InstructorModalRef } from '../modals/SelectInstructorModal';
 
 // Data types
 export type Data_Lessons = {
@@ -87,7 +88,7 @@ currentTap? : string
           <div id='rijlessen-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
             <div className='flex w-max bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
-              <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='w-[13vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
               <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Student</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Begintijd</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Eindtijd</div>
@@ -196,7 +197,7 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
  
 
   const invoiceModalRef = useRef<DocumentModalRef>(null)
-
+   const instructorModalRef = useRef<InstructorModalRef>(null);
   // Format time display - extract time from datetime string
   const formatTime = (dateTimeStr: string) => {
     if (!dateTimeStr) return '';
@@ -209,7 +210,16 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
    const order = ele.order as Order
   return (
     <div className='flex relative w-max border-b-1 hover:bg-blue-100/10 border-gray-200 items-center' style={{ height: '52px' }}>
-  <div className='w-[7vw] min-w-[120px] flex items-center    justify-center   text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.instructor!}>{ele?.instructor}</div>
+  <div className='w-[13vw] min-w-[120px] flex items-center   relative  justify-center   text-sm text-gray-700 px-2 truncate  gap-3 overflow-hidden' title={ele?.instructor!}>
+      <span className=''>{ele?.instructor}</span> 
+      <span 
+        className='transition-all duration-300'
+      onClick={(e : React.MouseEvent<HTMLSpanElement>) => {
+        instructorModalRef.current?.toggle(e); 
+        e.currentTarget.classList.toggle('rotate-180');
+      }}><img  className='transform rotate-180    p-2 hover:bg-blue-900/10 rounded-full cursor-pointer' src="/selectFlech.svg" /></span>  
+         <SelectInstructorModal ref={instructorModalRef} orderId={order.id} instructorId={ele.id} />
+      </div>
   <div className='w-[7vw] min-w-[120px] flex items-center justify-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.student!}>{ele?.student}</div>
   <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95  text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.start_time}>{ele?.date+"."+ele?.start_time.substring(0,5)}</div>
   <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95 text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.end_time}>{ele?.date+"."+ele?.end_time.substring(0,5)}</div>

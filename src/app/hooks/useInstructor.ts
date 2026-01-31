@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useRouter } from 'next/navigation'
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
-import { getAllInstructors, getInstructorById, getPlanning, setIndexPage, setSearch, setSizePage } from "@/store/instructorSlice";
+import { changeInsforOrd, getAllInstructors, getInstructorById, getPlanning, resetMsg, setIndexPage, setSearch, setSizePage } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/utils';
+import { reset } from "@/store/InvoiceSlice";
   
 const useInstructor = () => {
   const dispatch = useAppDispatch();
@@ -73,6 +74,12 @@ const fetchInstructorById = async (id : string) => {
     dispatch(setSearch(search));
   }
 
+  const changeInstructorInOrder = async  (instructorId: number | null, orderId: string) => {
+    await dispatch(changeInsforOrd({ instructorId, orderId }));
+  };
+   const resetMessage = () => {
+    dispatch(resetMsg());
+  }
   return {
     fetchAllInstructors,
     instructors: selector.instructors,
@@ -82,6 +89,7 @@ const fetchInstructorById = async (id : string) => {
     total: selector.total ,
     index : selector.indexPage,
     size : selector.pageSize,
+    msg : selector.msg ,
     fetchInstructorById , 
      planning : selector.planning as any , 
      fetchAllPlanningForInstructor,
@@ -89,8 +97,10 @@ const fetchInstructorById = async (id : string) => {
      setPageSize
      , 
      searchInstuctor , 
-     search : selector.search
-
+     search : selector.search , 
+     changeInstructorInOrder
+      ,
+      resetMessage  
   };
 };
 

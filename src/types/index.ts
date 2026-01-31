@@ -63,6 +63,7 @@ export type InstructorState = {
   pageSize: number;
   total: number;
   search: string;
+  msg : any ;
 };
 
 // -------------------- Lesson Types --------------------

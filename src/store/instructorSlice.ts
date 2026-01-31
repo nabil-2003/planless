@@ -13,11 +13,12 @@ const initialState: InstructorState = {
     pageSize : 10 as number ,
     total : 0 as number, 
     search : "" as string ,
+    msg : null as any ,
 }
 const  getAllInstructors = createAsyncThunk(
     "instructor/getAllInstructors",
     async ({index , size , search}: {index: number, size: number, search: string}, {rejectWithValue, dispatch})=>{
-      
+       console.log("Fetching instructors with params:", {index, size});
         
         try{
             // API call to fetch instructors
@@ -85,9 +86,27 @@ const getInstructorById = createAsyncThunk(
 
      }
   )
-
-
-
+  const  changeInsforOrd = createAsyncThunk(
+    "instructor/changeInsforOrd",
+    async ({instructorId, orderId} : {instructorId : number | null , orderId : string}, {rejectWithValue, dispatch})=>{
+        try{
+            // API call to change instructor for an order
+            if (getToken() == null )    return rejectWithValue("logged first");
+                  
+            const response = await  fetch(API_BASE+`/admin/order/change-instructor`, {
+                method : "PATCH",
+                headers : {
+                    "Content-Type": "application/json",
+                    "Authorization" : `Bearer ${getToken()}`
+                },
+                body: JSON.stringify({ instructorId, orderId })
+            });
+            return await response.json ();
+        }catch(error:any){
+            return rejectWithValue(error.message);
+        }
+    }
+  )
 const instructor = createSlice({
     name : "instructor",
     initialState : initialState ,
@@ -110,7 +129,9 @@ const instructor = createSlice({
         },
         setSearch(state, action){
             state.search = action.payload;
-        }
+        },
+        resetMsg(state){
+            state.msg = null;}
         
        
     }
@@ -150,10 +171,21 @@ const instructor = createSlice({
         .addCase(getPlanning.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
+    }).addCase(changeInsforOrd.pending, (state) => { 
+            state.loading = true;
+            state.error = null;
+         })
+        .addCase(changeInsforOrd.fulfilled, (state, action) => {
+            state.loading = false;  
+            state.msg = action.payload;
+        })
+        .addCase(changeInsforOrd.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
     });
 }
   
 })
-export const {  setLoading, setError  , setIndexPage, setSizePage, setSearch, setTotal} = instructor.actions;
-export { getAllInstructors , getInstructorById , getPlanning };
-export default instructor.reducer;
+export const {  setLoading, setError , resetMsg  , setIndexPage, setSizePage, setSearch, setTotal} = instructor.actions;
+export { getAllInstructors , getInstructorById , getPlanning , changeInsforOrd };
+export default instructor.reducer;  

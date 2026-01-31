@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useAppDispatch , useAppSelector } from "@/store/hooks";
 import { getAllInstructors, getInstructorById } from "@/store/instructorSlice";
 import { removeuserFromSession } from '@/utils';
-import { getAllLessons, getLessonById, getparsedLesson, setEndDate, setIndexPage, setSearch, setSizePage, setStartDate, setStatus, UpdateLessonStatus } from "@/store/LessonsSlices";
+import { getAllLessons, getLessonById, getparsedLesson, setEndDate, setIndexPage, setLoading, setSearch, setSizePage, setStartDate, setStatus, UpdateLessonStatus } from "@/store/LessonsSlices";
   
 const useLessons = () => {
   const dispatch = useAppDispatch();
@@ -73,9 +73,7 @@ const fetchLessonById = async (id : string) => {
     console.log("startDate" , startDate)
      dispatch((setStartDate(startDate)))
   }
-  const confirmStatus = async (id : string)=>{
-   await dispatch(UpdateLessonStatus({id : id , status : "confirmed"}))
-  }
+ 
 
   // 🔧 FIX: Memoize parsed lesson to prevent new object creation on every render
   const parsedLesson = useMemo(() => {
@@ -101,7 +99,6 @@ const fetchLessonById = async (id : string) => {
     setStatusLessons ,
     endDateLessons : selector.endDate,
     startDateLessons : selector.startDate , 
-    confirmStatus
   };
 };
 

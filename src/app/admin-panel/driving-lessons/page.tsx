@@ -68,7 +68,13 @@ export default function DrivingLessonsPage() {
                         firstDateMs: selectedDateRange!.firstDateMs- 86400000,
                         lastDateMs: selectedDateRange!.firstDateMs , // add 23:59:59 in ms
                     })
-        fetchAllLessons(index,size ,searchQuery , selectedDateRange?.firstDateMs ?? 0, selectedDateRange?.lastDateMs ?? new Date("01-01-2100").getTime() , netherlandsToEngStatus(currentFilterType)?.engStatus)
+        
+        // Debounce API calls to prevent rate limiting
+        const timeoutId = setTimeout(() => {
+            fetchAllLessons(index,size ,searchQuery , selectedDateRange?.firstDateMs ?? 0, selectedDateRange?.lastDateMs ?? new Date("01-01-2100").getTime() , netherlandsToEngStatus(currentFilterType)?.engStatus)
+        }, 300) // 300ms debounce
+
+        return () => clearTimeout(timeoutId)
      },[index,size ,selectedDateRange , searchQuery ,  currentFilterType])
     const parsedLessons = useCallback((lessonss :any[] ) :any => {
             const  parsedLessons : ParsedLesson[]= []          

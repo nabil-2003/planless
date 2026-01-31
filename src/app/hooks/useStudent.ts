@@ -60,7 +60,7 @@ const fetchStudentById = async (id : string) => {
   const SearchStudent = (search : string )=>{
     dispatch(setSearch(search));
   }
-  
+   console.log("useStudent selector state: ", selector.students);
   
   return {
     fetchAllStudents,

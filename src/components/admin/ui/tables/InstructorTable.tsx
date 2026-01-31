@@ -86,7 +86,7 @@ export default function InstructorTable({
 
     const [scrollBarWidth, setScrollBarWidth] = React.useState(800)
     const containerRef = useRef<HTMLDivElement>(null)
-    const { total, setPageIndex, index, size } = useInstructor()
+    const { total, setPageIndex, index ,  size } = useInstructor()
     // ================================
     // DATA FILTERING AND PROCESSING
     // ================================
@@ -111,14 +111,14 @@ export default function InstructorTable({
      */
     const goToNextPage = useCallback(() => {
         setPageIndex(index + 1)
-    }, [])
+    }, [index, setPageIndex])
 
     /**
      * Navigate to previous page
      */
     const goToPrevPage = useCallback(() => {
         setPageIndex(index - 1)
-    }, [])
+    }, [index, setPageIndex])
 
     // ================================
     // EFFECTS
@@ -178,7 +178,7 @@ export default function InstructorTable({
                                         style={{ height: '52px' }}
                                     >
                                         <div className='w-[4vw] bg-gray-50 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
-                                            {+ 1}
+                                            {index * size + i + 1}
                                         </div>
                                     </div>
                                 ))
@@ -242,47 +242,40 @@ export default function InstructorTable({
                 </div>
             </div>
 
-            {/* Pagination Controls */}
-            <div className='w-[90%] mx-auto bg-white rounded-lg p-4 border border-gray-200'>
-                <div className='flex  justify-between items-center mb-4 px-4'>
+            {/* Pagination Controls - Stable Layout */}
+            <div id='scroll' className='mt-10 w-[90%] mx-auto p-3 border-2 border-gray-200 bg-white rounded-lg'>
+                <div className='mb-4 flex justify-between items-center'>
                     <button
                         onClick={goToPrevPage}
-                        disabled={index === 0}
-                        className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${index === 0
+                        className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+                            index === 0
                                 ? 'text-gray-400 cursor-not-allowed'
-                                : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
-                            }`}
+                                : 'cursor-pointer hover:bg-blue-950/10'
+                        }`}
                     >
                         Vorige
                     </button>
 
-                    <span className='btn-text text-gray-600'>
-                        Pagina {index + 1} van {Math.ceil(total / size)}
+                    <span className='text-md'>
+                        Pagina {index + 1} van {total}
                     </span>
 
                     <button
                         onClick={goToNextPage}
-                        disabled={Math.ceil(total / size) - 1 >= index}
-                        className={`btn-text border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${(Math.ceil(total / size) - 1 >= index)
+                        className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+                            (index + 1) * size >= total
                                 ? 'text-gray-400 cursor-not-allowed'
-                                : 'text-gray-700 cursor-pointer hover:bg-blue-950/10'
-                            }`}
+                                : 'cursor-pointer hover:bg-blue-950/10'
+                        }`}
                     >
                         Volgende
                     </button>
                 </div>
-
-                {/* Custom Scroll Bar */}
-                <CustomScrollBar
-                    targetId="instructors-table-container"
-                    height={scrollBarWidth}
-                    thumbHeight={120}
-                    orientation='horizontal'
-                />
+                <CustomScrollBar targetId="instructors-table-container" orientation='horizontal' />
 
                 {/* Results Counter */}
                 <div className='w-[95%] mx-auto mb-4 text-center'>
-                    <span className='btn-text text-gray-600'>
+                    <span className='text-md text-gray-600'>
                         Weergaven {index * size + 1}-{Math.min((index + 1) * size, total)} van {total}
                     </span>
                 </div>

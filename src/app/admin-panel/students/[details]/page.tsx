@@ -217,7 +217,7 @@ const CustomSchedule = ({id} : {id : string }) => {
    return (
  <>
   {
-    loading ? <Spinner ></Spinner>
+    loading ? <Spinner />
           
     : <CustomFullCalendar data={parsedEvents} />
   }
