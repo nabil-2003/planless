@@ -89,12 +89,12 @@ const SelectInstructorModal = forwardRef<InstructorModalRef, SelectInstructorMod
                                 fetchAllLessons()
                             }, 200);
 
-                        }} className='absolute mr-1 mt-1 right-0   cursor-pointer'><IoMdCloseCircle className='scale-125' width={40} height={40} /></span>
+                        }} className='absolute mr-1 mt-1 right-0    cursor-pointer'><IoMdCloseCircle className='scale-125' width={40} height={40} /></span>
                                <span className='mx-auto text-center text-xl text-black '> Instructeur heeft de update succesvol voltooid.</span>
                         </div> || <>
                  {
                    tentativeInstructor ? (
-                     <div className='text-dark-blue w-[25vw] h-[28vh] p-4 flex flex-col gap-3'>
+                     <div className='text-dark-blue w-[25vw] h-[28vh]  p-4 flex flex-col gap-3'>
                         <img src="/modal/flag.svg" className='w-[40%] mx-auto h-[30%]' alt="" />
                        <p className='text-lg font-semibold mx-auto text-black'>bevestigen wijzigen</p>
                        <p className=' text-gray-400 text-xs text-center'>Weet je zeker dat je <span className='font-semibold'>"{tentativeInstructor.name}"</span> als instructeur wilt?</p>
