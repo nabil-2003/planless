@@ -97,7 +97,7 @@ const SelectInstructorModal = forwardRef<InstructorModalRef, SelectInstructorMod
                      <div className='text-dark-blue w-[25vw] h-[28vh] p-4 flex flex-col gap-3'>
                         <img src="/modal/flag.svg" className='w-[40%] mx-auto h-[30%]' alt="" />
                        <p className='text-lg font-semibold mx-auto text-black'>bevestigen wijzigen</p>
-                       <p className=' text-gray-400 text-center'>Weet je zeker dat je <span className='font-semibold'>"{tentativeInstructor.name}"</span> als instructeur wilt?</p>
+                       <p className=' text-gray-400 text-xs text-center'>Weet je zeker dat je <span className='font-semibold'>"{tentativeInstructor.name}"</span> als instructeur wilt?</p>
                        <div className='flex gap-2 justify-center mt-2'>
                          <CustmButton
                            onClick={handleCancelSelection}
