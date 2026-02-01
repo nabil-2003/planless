@@ -49,10 +49,12 @@ export default function StudentTable({
   
 
   const goToNextPage = useCallback(() => {
+    if( (indexPage + 1) * pageSize >= total ) return;
         setIndex(indexPage + 1)
   }, [indexPage, setIndex])
 
   const goToPrevPage = useCallback(() => {
+    if(indexPage === 0) return;
    setIndex(indexPage -1)
   }, [])
 

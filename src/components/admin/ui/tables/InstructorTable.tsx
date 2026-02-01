@@ -110,6 +110,7 @@ export default function InstructorTable({
      * Navigate to next page
      */
     const goToNextPage = useCallback(() => {
+         if ((index + 1) * size >= total) return;
         setPageIndex(index + 1)
     }, [index, setPageIndex])
 
@@ -117,16 +118,11 @@ export default function InstructorTable({
      * Navigate to previous page
      */
     const goToPrevPage = useCallback(() => {
+         if (index === 0) return;   
         setPageIndex(index - 1)
     }, [index, setPageIndex])
 
-    // ================================
-    // EFFECTS
-    // ================================
-
-    /**
-     * Reset to first page when filters change
-     */
+ 
 
 
     useEffect(() => {
@@ -143,9 +139,7 @@ export default function InstructorTable({
         return () => window.removeEventListener('resize', updateScrollBarWidth)
     }, [])
 
-    // ================================
-    // RENDER
-    // ================================
+
     return (
         <>
             {/* Hide native scrollbar styles */}

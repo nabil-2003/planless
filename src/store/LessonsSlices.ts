@@ -189,8 +189,8 @@ export interface ParsedLesson {
    const tmp: ParsedLesson|null = {
     id : lesson.id,
     order : lesson.order ?? null,
-    instructor: lesson.instructor.name,
-    student: lesson.student.name,
+    instructor: lesson.instructor?.name,
+    student: lesson.student?.name,
     start_time: lesson.startDate?.split("T")[1].split(".")[0],
     end_time: lesson.endDate?.split("T")[1].split(".")[0],
     date : lesson.startDate?.split("T")[0] ,
