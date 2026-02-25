@@ -179,13 +179,12 @@ export default function DrivingLessonsPage() {
                     
                     {/* Time Filter Component */}
                    
-                    {/* Controls Section */}
-                    <div className='flex flex-wrap gap-3  items-center  searchItem mt-4 mb-4 justify-between md:justify-end w-full md:w-[95%] h-max mx-auto'>
+                    {/* Controls Section - Fully Responsive Toolbar */}
+                    <div className='flex flex-col sm:flex-row sm:flex-wrap gap-3 items-stretch sm:items-center mt-4 mb-4 w-full lg:w-[95%] mx-auto'>
                         
                         {/* Items Per Page Selector */}
                         <CustomSelect
                             options={[
-
                                 { value: 10, label: "10" },
                                 { value: 20, label: "20" },
                                 { value: 30, label: "30" },
@@ -197,34 +196,37 @@ export default function DrivingLessonsPage() {
                                 { value: 90, label: "90" },
                                 { value: 100, label: "100" },
                             ]}
-                         value={size}
-                            className='w-full md:w-32 md:mr-auto bg-white h-full'
+                            value={size}
+                            className='w-full sm:w-32 sm:mr-auto bg-white h-[42px]'
                             onChange={(value) => {setSize(Number(value)); setIndex(0)}}
                         />
                         
                         {/* Search Input */}
                         <CustomSearch 
-                            className='w-full md:w-[15vw]  rounded-lg outline-none p-2.5 h-full bg-white border border-gray-300'
+                            className='w-full sm:flex-1 sm:basis-48 lg:flex-none lg:w-[200px] rounded-lg outline-none px-3 py-2.5 h-[42px] bg-white border border-gray-300'
                             value={searchQuery}
                             onChange={(value) => setSearchQuery(value)}
                             placeholder='Zoeken...'
                         />
-                           {/* Add New Lesson Button */}
-                        <CustmButton onClick={openCreateModal} className=' rounded-2xl  bg-dark-blue p-0.5 text-white outline-none w-full md:w-auto' >
-                            <div className='flex gap-2 items-center'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Rijles toevoegen
-                            </div>
+                        
+                        {/* Add New Lesson Button */}
+                        <CustmButton 
+                            onClick={openCreateModal} 
+                            className='w-full sm:flex-1 sm:basis-44 lg:flex-none lg:w-[180px] h-[42px] rounded-lg bg-dark-blue text-white outline-none flex items-center justify-center gap-2 px-4'
+                        >
+                            <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white flex-shrink-0' />
+                            <span className='whitespace-nowrap'>Rijles toevoegen</span>
                         </CustmButton>
+                        
                         {/* Custom Date Input that opens modal */}
-                        <div className='relative w-full   bg-white h-full  md:w-auto'>
+                        <div className='w-full sm:flex-1 sm:basis-48 lg:flex-none lg:w-[200px] h-[42px]'>
                             <div
                                 onClick={openDateModal}
-                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-400 transition-colors'
+                                className='flex items-center bg-white border border-gray-300 rounded-lg px-3 h-full cursor-pointer hover:border-blue-400 transition-colors'
                             >
                                 {/* Calendar Icon */}
                                 <svg
-                                    className='w-5 h-5 text-gray-400 mr-2'
+                                    className='w-5 h-5 text-gray-400 mr-2 flex-shrink-0'
                                     fill='none'
                                     stroke='currentColor'
                                     viewBox='0 0 24 24'
@@ -238,7 +240,7 @@ export default function DrivingLessonsPage() {
                                 </svg>
                                 
                                 {/* Date Display */}
-                                <span className={`text-sm md:text-md  p-1 ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
+                                <span className={`text-sm flex-1 truncate ${selectedDateRange ? 'text-gray-900' : 'text-gray-500'}`}>
                                     {formatDateRange()}
                                 </span>
                                 
@@ -250,7 +252,7 @@ export default function DrivingLessonsPage() {
                                             dateModalRef.current?.clearSelection()
                                             setSelectedDateRange(null)
                                         }}
-                                        className='ml-2 text-gray-400 hover:text-gray-600'>
+                                        className='ml-2 text-gray-400 hover:text-gray-600 flex-shrink-0'>
                                         <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
                                         </svg>
@@ -258,10 +260,12 @@ export default function DrivingLessonsPage() {
                                 )}
                             </div>
                         </div>
-                         <div className='cursor-pointer flex items-center gap-1 text-[#667085] p-2 rounded-lg border-gray-300 border-1'>
-                          <span><img src="/actions/hide_icon.svg" alt="" /></span>
-                            Alles weergeven
-                         </div>
+                        
+                        {/* Show All Button */}
+                        <div className='w-full sm:flex-1 sm:basis-44 lg:flex-none lg:w-[180px] h-[42px] cursor-pointer flex items-center justify-center gap-2 text-[#667085] rounded-lg border border-gray-300 px-3'>
+                            <img src="/actions/hide_icon.svg" alt="" className='w-5 h-5 flex-shrink-0' />
+                            <span className='whitespace-nowrap text-sm'>Alles weergeven</span>
+                        </div>
                       
                     </div>
                     

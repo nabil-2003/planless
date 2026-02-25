@@ -61,14 +61,14 @@ export default function Page() {
                 {/* Main Content Area */}
                 <div className='dashboard-container w-full md:w-[80%] px-4 md:px-0'>
                     <div className='table_elements mt-6 ml-0 md:ml-4 bg-white rounded-lg shadow-md p-4'>
-                        <h1 className='text-2xl md:text-3xl font-bold ml-2 md:ml-10 mt-5 mb-4'>Brommer (AM)</h1>
-                        <div className='overflow-x-auto w-[70%] '>
-                            <header className='flex  w-full bg-[#f0f2f6]  *:flex *:justify-center *:border-gray-300  *:border-b-1 '>
-                                <div className=' p-3 w-[25%] '>Product</div>
-                                <div className=' p-3 w-[25%]'>duur</div>
-                                <div className=' p-3 w-[25%]'>status</div>
-                                <div className=' p-3 w-[25%]'>Prjis</div>
-                                <div className=' p-3 w-[15%] border-gray-300  border-l-1 border-b-1'>Acties</div>
+                        <h1 className='text-xl md:text-2xl lg:text-3xl font-bold ml-2 md:ml-10 mt-5 mb-4'>Brommer (AM)</h1>
+                        <div className='overflow-x-auto w-full'>
+                            <header className='flex min-w-[600px] w-full bg-[#f0f2f6] *:flex *:justify-center *:border-gray-300 *:border-b-1'>
+                                <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>Product</div>
+                                <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>duur</div>
+                                <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>status</div>
+                                <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>Prijs</div>
+                                <div className='p-2 md:p-3 w-[15%] border-gray-300 border-l-1 border-b-1 text-xs md:text-sm lg:text-base'>Acties</div>
                             </header>
                             {[1, 2, 3, 4, 5].map((_, index) => <Element id={String(index)} key={index} />)}
                         </div>
@@ -109,19 +109,19 @@ const Element = ({ id }: { id: string }) => {
         };
     }, [isOpen]);
 
-    return (<div className='body flex  bg-[#ffffff] *:py-5  w-full *:flex *:justify-center *:border-gray-300  *:border-b-1'>
-        <div className=' p-3 w-[25%] '>Proefles</div>
-        <div className=' p-3 w-[25%]'>60 min</div>
-        <div className=' p-3 w-[25%]'>
+    return (<div className='body flex min-w-[600px] bg-[#ffffff] *:py-3 md:*:py-5 w-full *:flex *:justify-center *:border-gray-300 *:border-b-1'>
+        <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>Proefles</div>
+        <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>60 min</div>
+        <div className='p-2 md:p-3 w-[25%]'>
 
-            <span className=' px-5 py-1 bg-[#DCFFD6] text-[#188006] rounded-xl'>
+            <span className='px-3 md:px-5 py-1 bg-[#DCFFD6] text-[#188006] rounded-xl text-xs md:text-sm'>
                 active
             </span>
         </div>
-        <div className=' p-3 w-[25%]'>500 €</div>
-        <div ref={ref} className=' p-3 flex relative justify-center items-center w-[15%] border-gray-300 border-l-1 border-x-1  '>
+        <div className='p-2 md:p-3 w-[25%] text-xs md:text-sm lg:text-base'>500 €</div>
+        <div ref={ref} className='p-2 md:p-3 flex relative justify-center items-center w-[15%] border-gray-300 border-l-1 border-x-1'>
             <span ref={buttonRef} onClick={handleToggle} className='cursor-pointer'>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='md:w-6 md:h-6'>
                     <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#575757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M15.9945 12H16.0035" stroke="#575757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M11.9945 12H12.0035" stroke="#575757" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

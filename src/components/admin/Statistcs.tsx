@@ -31,14 +31,14 @@ export default function Statistcs({className}: {className?: string}) {
     }
 
   return (
-     <div className={` w-[95%] mt-4 min-h-[30vh] p-3 mx-auto  bg-white rounded-lg border-2 border-gray-200 items-center ${className}`}>
-      <h1 className='font-bold text-lg text-gray-700 ml-3  '> Statistieken</h1>
-      <ul className='flex flex-wrap justify-start gap-5 h-auto mt-4 w-full rounded-lg  mx-auto   text-gray-600  '>
+     <div className={`w-full md:w-[95%] mt-4 min-h-[30vh] p-2 md:p-3 mx-auto bg-white rounded-lg border-2 border-gray-200 items-center ${className}`}>
+      <h1 className='font-bold text-base md:text-lg text-gray-700 ml-2 md:ml-3'>Statistieken</h1>
+      <ul className='flex flex-wrap justify-start gap-3 md:gap-5 h-auto mt-4 w-full rounded-lg mx-auto text-gray-600'>
         {
-          loading && <div className='w-[2vw] mt-10 h-[2vw]
+          loading && <div className='w-8 h-8 md:w-[2vw] mt-10 md:h-[2vw]
                      rounded-full animate-spin border-2
                       border-blue-800 border-l-0  duration-300  mx-auto '></div> ||
-        <div className='w-full flex flex-wrap justify-between  '>
+        <div className='w-full flex flex-wrap justify-between gap-2 md:gap-0'>
           <StatisticsCard 
             percentage={percentageCalc("lessons")}
             total={extractor("lessons").total}

@@ -25,7 +25,7 @@ export default function FIlterByType({
     <ul
       className={
         className ||
-        'mt-3 p-1 flex flex-wrap gap-2 md:gap-5 *:cursor-pointer justify-start w-full ml-2 md:ml-13 text-gray-600 overflow-x-auto'
+        'mt-3 p-1 flex flex-nowrap md:flex-wrap gap-2 md:gap-5 *:cursor-pointer justify-start w-full ml-2 md:ml-13 text-gray-600 overflow-x-auto hide-native-scroll'
       }
     >
       <li

@@ -164,11 +164,11 @@ export default function StudentTable({
       </div>
     
       {/* Pagination Controls - Stable Layout */}
-      <div id='scroll' className='mt-10 w-[90%] mx-auto p-3 border-2 border-gray-200 bg-white rounded-lg'>
-        <div className='mb-4 flex justify-between items-center'>
+      <div id='scroll' className='mt-6 md:mt-10 w-full md:w-[90%] mx-auto p-2 md:p-3 border-2 border-gray-200 bg-white rounded-lg'>
+        <div className='mb-4 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center'>
           <button
             onClick={goToPrevPage}
-            className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+            className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
               indexPage === 0
                 ? 'text-gray-400 cursor-not-allowed'
                 : 'cursor-pointer hover:bg-blue-950/10'
@@ -177,13 +177,13 @@ export default function StudentTable({
             Vorige
           </button>
 
-          <span className='text-md'>
+          <span className='text-sm md:text-md text-center'>
             Pagina {indexPage + 1} van {Math.ceil(total / pageSize)}
           </span>
 
           <button
             onClick={goToNextPage}
-            className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+            className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
               (indexPage + 1) * pageSize >= total
                 ? 'text-gray-400 cursor-not-allowed'
                 : 'cursor-pointer hover:bg-blue-950/10'
@@ -195,8 +195,8 @@ export default function StudentTable({
         <CustomScrollBar targetId="students-table-container" orientation='horizontal' />
 
         {/* Results Counter */}
-        <div className='w-[95%] mx-auto mb-4 text-center'>
-          <span className='text-md text-gray-600'>
+        <div className='w-full md:w-[95%] mx-auto mb-2 md:mb-4 text-center'>
+          <span className='text-xs md:text-md text-gray-600'>
             Weergaven {indexPage * pageSize + 1}-{Math.min((indexPage + 1) * pageSize, total)} van {total}
           </span>
         </div>

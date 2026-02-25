@@ -135,19 +135,19 @@ const DocumentModal = forwardRef<DocumentModalRef, DocumentModalProps>(
     }
 
     return createPortal(
-      <div className='fixed inset-0 z-50 flex items-center justify-center px-4 py-8'>
+      <div className='fixed inset-0 z-50 flex items-center justify-center p-2 md:px-4 md:py-8'>
         <div
-          className='absolute inset-0 bg-transparent'
+          className='absolute inset-0 bg-black/50'
           onClick={() => executeAndClose()}
         />
-         <div className='relative w-[90vw] grid h-[90vh] place-items-center border-1 p-4 border-gray-300 bg-white rounded-2xl '>
+         <div className='relative w-full md:w-[90vw] h-[85vh] md:h-[90vh] grid place-items-center border p-2 md:p-4 border-gray-300 bg-white rounded-lg md:rounded-2xl overflow-hidden'>
 {
-  loading  && <div className=' w-[3vw] h-[3vw] rounded-full my-auto border-l-0 animate-spin  border-1 '></div> 
+  loading  && <div className='w-12 h-12 md:w-[3vw] md:h-[3vw] rounded-full my-auto border-l-0 animate-spin border-2 border-blue-800'></div> 
   || 
-  <iframe  className='w-full bg-amber-300 rounded  h-full' src={invoice}  />
+  <iframe  className='w-full rounded h-full' src={invoice}  />
 
 }
-           <span className='px-3 py-2 rounded grid place-content-center bg-blue-800  border-0.5 text-white hover:opacity-80  border-black absolute left-0 bottom-0 ml-5 mb-5 cursor-pointer ' onClick={close}>close</span>
+           <span className='px-2 py-1.5 md:px-3 md:py-2 text-sm md:text-base rounded grid place-content-center bg-blue-800 border text-white hover:opacity-80 border-black absolute left-2 bottom-2 md:left-5 md:bottom-5 cursor-pointer' onClick={close}>close</span>
          </div>
       </div>,
       document.body,

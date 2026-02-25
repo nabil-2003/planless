@@ -13,6 +13,9 @@ import { useAppDispatch } from '@/store/hooks'
 import useLessons from '@/app/hooks/useLessons'
 import DecicionModal from '../admin/ui/modals/DecicionModal'
 
+// Consistent icon sizing for all action modal icons
+const ACTION_ICON_CLASS = 'w-5 h-5';
+
 
 export type ActionModalRef = {
     isOpen?: boolean
@@ -80,6 +83,21 @@ const Action = forwardRef<ActionModalRef, ModalProps>(({ className = ''  ,
 
     }));
 
+    // Add global style for action modal icons
+    React.useEffect(() => {
+        const style = document.createElement('style');
+        style.textContent = `
+            [data-action-modal="true"] img {
+                width: 20px !important;
+                height: 20px !important;
+            }
+        `;
+        document.head.appendChild(style);
+        return () => {
+            document.head.removeChild(style);
+        };
+    }, []);
+
 
 
     switch (tableName) {
@@ -105,15 +123,15 @@ const cardsActions = (status: {lessons : string , payment: string},  className :
           const {navigate} = useOpenDetailsPage("cards/notes/note" , id)
     return (
                 <>
-             <div ref={modalRef} className={' flex-row justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+             <div ref={modalRef} data-action-modal="true" className={' flex-row justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
                <span onClick={() => navigate()} className='cursor-pointer'>
-                      <img  src={"/actions/show_icon.svg"}/>
+                      <img  src={"/actions/show_icon.svg"} className='w-5 h-5' />
                </span>
                  <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
-                      <img  src={"/actions/hide_icon.svg"}/>
+                      <img  src={"/actions/hide_icon.svg"} className='w-5 h-5' />
                </span>
                 <span onClick={() => openModalAction(modalRefs.confimModal.current)} className='cursor-pointer'>
-                      <img  src={"/actions/download.svg"}/>
+                      <img  src={"/actions/download.svg"} className='w-5 h-5' />
                </span>
                
             </div >
@@ -139,11 +157,12 @@ const getoneStatus=(status : Array<string>):string=>{
       }
        //<LessonsModal status={status.lessons} id={id}   />
     const LessonSwitch = ()=>{
+        const actionImgClass = "w-5 h-5";  // Consistent icon size
         switch (getoneStatus([status.lessons, status.payment])) {
         case 'in behandeling,onbetaald':
             return (
                 <>
-             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all ' + className}>
+             <div ref={modalRef} className={' justify-center items-center  hidden bg-white gap-2 tria px-1 py-2    transform translate-y-8  right-2   rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute   hover:shadow-md hover:scale-105 transition-all [&_img]:w-5 [&_img]:h-5 ' + className}>
                <span onClick={() => open()}  className='cursor-pointer'>
                       <img  src={"/actions/show_icon.svg"}/>
                </span>

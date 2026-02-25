@@ -38,14 +38,14 @@ export default function CustomCalendar() {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-bold mb-4">Custom Calendar</h2>
+    <div className="space-y-4 px-2 md:px-0">
+      <h2 className="text-base md:text-lg font-bold mb-3 md:mb-4">Custom Calendar</h2>
       
       {/* Calendar Trigger Button */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
         <button
           onClick={openCalendar}
-          className="px-4 py-2 bg-[var(--logo-blue)] text-white rounded-lg hover:bg-[var(--dark-blue)] transition-all"
+          className="w-full md:w-auto px-4 py-2.5 md:py-2 bg-[var(--logo-blue)] text-white rounded-lg hover:bg-[var(--dark-blue)] transition-all text-sm md:text-base"
         >
           Select Date Range
         </button>
@@ -53,7 +53,7 @@ export default function CustomCalendar() {
         {selectedRange && (
           <button
             onClick={clearSelection}
-            className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all"
+            className="w-full md:w-auto px-3 py-2.5 md:py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all"
           >
             Clear Selection
           </button>

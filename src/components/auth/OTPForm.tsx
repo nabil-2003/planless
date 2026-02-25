@@ -2,11 +2,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import InputForOtp, { InputForOtpRef } from "./InputForOtp";
 import Button from "../ui/Button";
+import Alert from "../ui/Alert";
 import useLogin from "@/app/hooks/useLogin";
 import { useRouter } from "next/navigation";
 
 export default function OTPForm() {
-  const { loading  , sentOtp  ,  otpCode : otpKey } = useLogin();
+  const { loading, sentOtp, otpCode: otpKey, error, resetErr } = useLogin();
   const router = useRouter()
   // State management
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
@@ -14,19 +15,32 @@ export default function OTPForm() {
   const inputRefs = useRef<(InputForOtpRef | null)[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isFormValid, setFormStatus] = useState<boolean>(false)
+  const [validationError, setValidationError] = useState<string>('')
+  
   // Component initialization
   useEffect(() => {
     inputRefs.current = Array(6).fill(null);
     setIsMounted(true);
   }, []);
 
-
+  // Auto-dismiss errors after 4 seconds
   useEffect(() => {
-
-    if(otpKey){
-       router.push('/auth/new-password')
+    if (error || validationError) {
+      const timer = setTimeout(() => {
+        resetErr();
+        setValidationError('');
+      }, 4000);
+      return () => clearTimeout(timer);
     }
-  },[otpKey])
+  }, [error, validationError, resetErr]);
+
+  // Redirect to next page when OTP is submitted
+  useEffect(() => {
+    if (otpKey) {
+      setOtp(Array(6).fill("")); // Reset OTP inputs
+      router.push('/auth/new-password');
+    }
+  }, [otpKey, router])
   
 
   // Event handlers
@@ -67,10 +81,11 @@ export default function OTPForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setValidationError('');
     const otpCode = otp.join("");
     
     if (otpCode.length !== 6) {
-      alert('Please enter all 6 digits');
+      setValidationError('Voer alle 6 cijfers in');
       return;
     }
     
@@ -80,7 +95,6 @@ export default function OTPForm() {
           sentOtp(otpCode);
     } catch (error) {
       console.error('OTP verification error:', error);
-      alert('OTP verification failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -108,6 +122,20 @@ export default function OTPForm() {
         ))}
       </div>
       
+      {/* Resend code link */}
+      <div className="mb-6">
+        <button
+          type="button"
+          className="text-dark-blue font-semibold text-sm hover:underline transition-all duration-200"
+          onClick={() => {
+            // TODO: Implement resend code functionality
+            console.log('Resend code');
+          }}
+        >
+          Code opnieuw verzenden
+        </button>
+      </div>
+
       {/* Submit button */}
       <Button
         type="submit"
@@ -115,11 +143,15 @@ export default function OTPForm() {
         size="medium"
         loading={loading}
         disabled={!isFormValid || isLoading}
-        className="w-auto outline-none grid place-content-center p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
-
+        className="w-full outline-none flex justify-center items-center py-3 bg-dark-blue hover:bg-blue-700 text-white rounded-md font-medium text-base transition-all duration-200"
       >
-        {isLoading ? 'Volgende...' : 'Volgende'}
+        {isLoading ? 'Verifiëren...' : 'Verifiëren'}
       </Button>
+      
+      {/* Error message */}
+      {(validationError || error) && (
+        <Alert message={validationError || error} type="error" />
+      )}
     </form>
   );
 }

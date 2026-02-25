@@ -11,7 +11,7 @@ type ItemsBreadType = {
 const Breadcrumb = ({ items }: { items: ItemsBreadType[] }) => {
 
   return (
-    <div className="text-sm flex breadcrumbs  bg-[#F2F4FF] ">
+    <div className="text-xs md:text-sm flex breadcrumbs bg-[#F2F4FF] overflow-x-auto hide-native-scroll">
 
       {
         items?.map((it,i) =>

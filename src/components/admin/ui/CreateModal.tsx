@@ -57,14 +57,14 @@ const CreateModal = forwardRef<CreateModalRef, CreateProps>(({ name }, ref) => {
     if (!mounted || !isOpen) return null;
 
     return createPortal(
-        <div className="fixed s inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div
                 className="fixed inset-0 bg-black/50"
 
             />
             <div
                 ref={modalRef}
-                className="relative mt-5 bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 z-10"
+                className="relative mt-5 bg-white rounded-lg p-4 md:p-6 shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto z-10"
             >
                 {(() => {
                     switch (Step) {

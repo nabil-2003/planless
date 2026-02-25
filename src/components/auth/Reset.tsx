@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useCallback, useEffect, useState } from 'react'
 import LeftArrowIcon from '../svgs/LeftArrowIcon'
 // Import our reusable UI components
-import { Input, Button, Label } from '../ui'
+import { Input, Button, Label, Alert } from '../ui'
 import useLogin from '@/app/hooks/useLogin'
 import { useRouter } from 'next/navigation'
 
@@ -14,41 +14,48 @@ import { useRouter } from 'next/navigation'
  */
 function Reset() {
     // =========================================================================
+    // STATE DECLARATIONS
+    // =========================================================================
     const { reset, loading, error, otpSended, resetOtp, resetAll , resetErr } = useLogin()
     const navigate = useRouter()
+    
+    /** User's email address for password reset */
+    const [email, setEmail] = useState<string>('')
+    
+    /** Form submission loading state */
+    
+    
+    /** Success state after email is sent */
+    const [isEmailSent, setIsEmailSent] = useState<boolean>(false)
+    const [validationError, setValidationError] = useState<string>('')
 
-
+    // =========================================================================
+    // CALLBACKS
+    // =========================================================================
     const emailSended = useCallback(() => {
-
         setTimeout(() => {
             navigate.push('/auth/otp-code')
             resetOtp()
         }, 1500)
     }, [])
+    
+    // =========================================================================
+    // EFFECTS
+    // =========================================================================
     useEffect(() => { 
           const i = setTimeout(()=>{
             resetErr()
+            setValidationError('')
           }, 4000)
           return () => clearTimeout(i)
-      }, [error])
+      }, [error, validationError])
 
     useEffect(() => {
         if (otpSended) {
+            setEmail('') // Reset email after successful submission
             emailSended()
         }
     }, [otpSended])
-    /** User's email address for password reset */
-    const [email, setEmail] = useState<string>('')
-
-    /** Form submission loading state */
-
-
-    /** Success state after email is sent */
-    const [isEmailSent, setIsEmailSent] = useState<boolean>(false)
-
-
-
-    //navigate to otp page if otp sended
 
     // =========================================================================
     // EVENT HANDLERS
@@ -76,34 +83,24 @@ function Reset() {
      */
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setValidationError('')
 
         // Basic validation
         if (!email) {
-            alert('Please enter your email address') //  to replace with modal 
+            setValidationError('Voer je e-mailadres in')
+            return
         }
 
         // Email format validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address') //  to replace with modal 
+            setValidationError('Voer een geldig e-mailadres in')
             return
         }
         try {
-            // TODO: Replace with actual API call
-            console.log('Password reset request for:', email)
-
-            // Simulate API call
             await reset(email)
-
-            // Mark as successful
-
-
-            // TODO: Handle successful request (show success message, etc.)
-
         } catch (error) {
             console.error('Password reset error:', error)
-            // TODO: Handle error (show error message, etc.)
-            alert('Failed to send reset email. Please try again.') // TODO: Replace with proper error handling
         }
     }
 
@@ -128,26 +125,22 @@ function Reset() {
             {/* ============================= */}
             {/* NAVIGATION */}
             {/* ============================= */}
-            <nav className='mb-4'>
+            <nav className='mb-6'>
                 <Link
                     href='/auth/login'
-                    className='text-dark-blue font-bold flex items-center hover:underline transition-all duration-200'
+                    className='text-black font-normal flex items-center hover:underline transition-all duration-200'
                 >
                     <LeftArrowIcon className='inline-block scale-75 mr-2' />
-                    Terug
+                    <span className='text-xl font-bold'>Wachtwoord vergeten?</span>
                 </Link>
-
             </nav>
 
             {/* ============================= */}
             {/* PAGE HEADER */}
             {/* ============================= */}
-            <header className='mb-6'>
-                <h1 className='text-2xl md:text-3xl font-bold mb-4'>
-                    Wachtwoord vergeten?
-                </h1>
-                <p className='text-lg text-gray-600'>
-                    Voer het e-mailadres in dat aan je account is gekoppeld om de resetlink te ontvangen.
+            <header className='mb-8'>
+                <p className='text-base text-gray-600'>
+                    Voer het e-mailadres in dat aan uw account is gekoppeld om de instructie te ontvangen.
                 </p>
             </header>
             <form onSubmit={handleSubmit} className='space-y-4'>
@@ -156,7 +149,7 @@ function Reset() {
                 <div className='form-group'>
                     <Label
                         htmlFor="reset-email"
-                        required
+                        className='text-sm font-normal text-black mb-2'
                     >
                         E-mailadres
                     </Label>
@@ -166,10 +159,10 @@ function Reset() {
                         type="email"
                         value={email}
                         onChange={handleEmailChange}
-                        placeholder="typ hier je e-mailadres"
+                        placeholder="Type hier"
                         required
                         autoComplete="email"
-                        className="w-full mb-6"
+                        className="w-full bg-gray-100 border-0 rounded-md px-4 py-3 text-sm"
                         disabled={loading}
                     />
                 </div>
@@ -180,20 +173,13 @@ function Reset() {
                     variant="primary"
                     size="medium"
                     disabled={!isFormValid() || loading}
-                    className="w-auto outline-none grid place-content-center p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
+                    className="w-full outline-none flex justify-center items-center py-3 bg-dark-blue hover:bg-blue-700 text-white rounded-md font-medium text-base transition-all duration-200 mt-6"
                 >
-
-                    Inloggen
-                    {
-                        loading &&
-                        <span className=' w-[15px]  h-[15px] border-2 border-current border-t-transparent rounded-full animate-spin inline-block ml-2' />
-
-                    }
-
+                    {loading ? 'Verzenden...' : 'Inloggen'}
                 </Button>
             </form>
-            {error && <p className='w-max mx-auto p-3 rounded-lg bg-red-500 text-white '>{error}</p>}
-            {otpSended && <p className='w-max mx-auto p-3 rounded-lg bg-green-500 text-white '> otp code was  sended successfully </p>}
+            {(error || validationError) && <Alert message={error || validationError} type="error" />}
+            {otpSended && <Alert message="OTP-code succesvol verzonden" type="success" />}
 
         </div>
     )

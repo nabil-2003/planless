@@ -12,6 +12,7 @@ export { default as Label } from './Label'
 export { default as PasswordInput } from './PasswordInput'
 export { default as DocumentModal } from './DocumentModal'
 export { default as IdentityModal } from './AddressModal'
+export { default as Alert } from './Alert'
 
 // Re-export types for external use
 export type { default as ButtonProps } from './Button'

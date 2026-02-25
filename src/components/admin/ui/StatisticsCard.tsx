@@ -23,17 +23,17 @@ export default function StatisticsCard({ className, percentage, total, label, Ic
      />
     }
   return (
-    <li className={' rounded-lg    shadow-md border-gray-200'+ className}>
-           <div className={`percentage  text-right mr-4 mt-3 ${percentage! < 0 ? 'text-red-500' : 'text-green-500'} `}>
+    <li className={' rounded-lg shadow-md border border-gray-200 '+ className}>
+           <div className={`percentage text-right mr-3 md:mr-4 mt-2 md:mt-3 text-sm md:text-base ${percentage! < 0 ? 'text-red-500' : 'text-green-500'} `}>
             {percentage}% {UporDown(percentage!)}
            </div>
-           <div className=' text-[#2d46c4] text-4xl text-left ml-3 font-bold'>
+           <div className='text-[#2d46c4] text-2xl md:text-4xl text-left ml-2 md:ml-3 font-bold'>
            {total} 
            </div>
-           <div id='data' className=' items-center text-gray-500 text-left ml-3 flex justify-between px-3 mt-2'>
-              <span className=' lowercase first-letter:uppercase '>{label}</span> 
-                <div className='border-2 border-gray-200  rounded-lg p-2'>
-                    <Icon />
+           <div id='data' className='items-center text-gray-500 text-left ml-2 md:ml-3 flex justify-between px-2 md:px-3 mt-2 text-sm md:text-base'>
+              <span className='lowercase first-letter:uppercase'>{label}</span> 
+                <div className='border-2 border-gray-200 rounded-lg p-1.5 md:p-2'>
+                    <Icon className='text-sm md:text-base' />
                 </div>
              
             </div>

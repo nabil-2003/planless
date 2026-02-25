@@ -35,12 +35,12 @@ export default function CustomSearch({
   }
 
   return (
-    <div className="relative h-max w-full md:w-max rounded-lg ">
+    <div className="relative h-max w-full md:w-max rounded-lg">
       <input
         type={type}
         onChange={handleChange}
         value={searchText}
-        className={className + " block placeholder:capitalize  pl-10"}
+        className={className + " block placeholder:capitalize pl-10 text-sm md:text-base"}
         placeholder={placeholder}
       />
 

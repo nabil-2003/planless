@@ -42,7 +42,6 @@ currentTap = "pending",
 currentTap? : string
 }) {
   const {index , size  , total, setIndex}= useLessons()
-    const {loading , invoice } = useInvoice()
   const prevPage = ()=>{
     if(index >0){
       setIndex(index -1)
@@ -88,7 +87,7 @@ currentTap? : string
           <div id='rijlessen-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
             {/* Scrollable Header */}
             <div className='flex w-max bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
-              <div className='w-[13vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
+              <div className='w-[13vw]  min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
               <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Student</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Begintijd</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Eindtijd</div>
@@ -141,12 +140,11 @@ currentTap? : string
       </div>
     
       {/* Pagination Controls - Stable Layout */}
-     <div id='scroll' className='mt-10   w-[90%] mx-auto p-3  border-2 border-gray-200 bg-white rounded-lg'>
-       <div className='  mb-4 flex justify-between items-center'>
+     <div id='scroll' className='mt-6 md:mt-10 w-full md:w-[90%] mx-auto p-2 md:p-3 border-2 border-gray-200 bg-white rounded-lg'>
+       <div className='mb-4 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center'>
         <button 
           onClick={prevPage}
-       
-          className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+          className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
            index === 0
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
@@ -155,14 +153,13 @@ currentTap? : string
           Vorige
         </button>
       
-        <span className=' text-md'>
+        <span className='text-sm md:text-md text-center'>
           Pagina {index + 1} van {Math.ceil(total/size)}
         </span>
       
         <button 
           onClick={nextPage}
-         
-          className={` text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+          className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
             (index +1)*size >= total 
               ? 'text-gray-400 cursor-not-allowed' 
               : 'cursor-pointer hover:bg-blue-950/10'
@@ -174,8 +171,8 @@ currentTap? : string
       <CustomScrollBar targetId="rijlessen-table-container" orientation='horizontal' />
     
       {/* Results Counter */}
-      <div className='w-[95%] mx-auto mb-4 text-center'>
-        <span className=' text-md text-gray-600'>
+      <div className='w-full md:w-[95%] mx-auto mb-2 md:mb-4 text-center'>
+        <span className='text-xs md:text-md text-gray-600'>
           Weergaven {(index) * size + 1}-{Math.min((index + 1) * size, total)} van {total} 
         </span>
       </div>
@@ -313,6 +310,12 @@ export const Status =
      
       {
         engStatus : "cancelled",
+        status: "Geanuleerd",
+        colortext: "#333333",
+        colorbg: "#ededed"
+      },
+       {
+        engStatus : "canceled",
         status: "Geanuleerd",
         colortext: "#333333",
         colorbg: "#ededed"

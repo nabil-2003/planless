@@ -154,13 +154,13 @@ export default function InstructorTable({
             `}</style>
 
             {/* Table Container with Sticky NR and Actions Columns */}
-            <div className={`${className} mb-4  p-1 ml-4 mr-3 scale-[0.98]`} style={{ position: 'relative' }}>
+            <div className={`${className} mb-4 p-1 ml-0 md:ml-4 mr-0 md:mr-3 scale-100 md:scale-[0.98] overflow-x-auto`} style={{ position: 'relative' }}>
                 <div style={{ display: 'flex', width: '100%', maxWidth: '100vw' }}>
                     {/* Sticky NR Column - Left */}
                     <div style={{ position: 'sticky', left: 0, zIndex: 2, background: 'white' }}>
                         {/* NR Header */}
-                        <div className=' border-b-1 border-gray-200' style={{ height: '56px' }}>
-                            <div className='w-[4vw] bg-gray-50  px-4 flex justify-center items-center h-full text-md  border-r-1 border-gray-200'>Nr</div>
+                        <div className='border-b-1 border-gray-200' style={{ height: '56px' }}>
+                            <div className='w-[60px] md:w-[4vw] bg-gray-50 px-2 md:px-4 flex justify-center items-center h-full text-xs md:text-md border-r-1 border-gray-200'>Nr</div>
                         </div>
                         {/* NR Body */}
                         <div>
@@ -171,7 +171,7 @@ export default function InstructorTable({
                                         className='bg-white border-b-1 border-gray-200'
                                         style={{ height: '52px' }}
                                     >
-                                        <div className='w-[4vw] bg-gray-50 px-4 flex justify-center items-center h-full text-md text-gray-700 border-r-1 border-gray-200'>
+                                        <div className='w-[60px] md:w-[4vw] bg-gray-50 px-2 md:px-4 flex justify-center items-center h-full text-xs md:text-md text-gray-700 border-r-1 border-gray-200'>
                                             {index * size + i + 1}
                                         </div>
                                     </div>
@@ -184,18 +184,18 @@ export default function InstructorTable({
                     <div id='instructors-table-container' className='flex-1 overflow-x-auto hide-native-scroll'>
                         {/* Scrollable Header */}
                         <div className='flex w-max pl-2 bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
-                            <div className='w-[8vw] py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Instructeur</div>
-                            <div className='w-[15vw]  flex items-center justify-center py-4 text-sm whitespace-nowrap truncate'>Email</div>
-                            <div className='w-[8vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Geboortedatum</div>
-                            <div className='w-[10vw]   py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Stad</div>
-                            <div className='w-[9vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Telefoonnummer</div>
-                            <div className='w-[8vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Rijbewijs</div>
-                            <div className='w-[10vw] py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Vervaldatum Rijbewijs</div>
-                            <div className='w-[10vw] py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Instructeurskaart</div>
-                            <div className='w-[10vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>KVK Uittreksel</div>
-                            <div className='w-[10vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Arbeidsovereenkomst</div>
-                            <div className='w-[11vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Contractvervaldatum</div>
-                            <div className='w-[7vw]  py-4 flex items-center justify-center text-sm whitespace-nowrap truncate'>Urenregistratie</div>
+                            <div className='w-[120px] md:w-[8vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Instructeur</div>
+                            <div className='w-[180px] md:w-[15vw] flex items-center justify-center py-4 text-xs md:text-sm whitespace-nowrap truncate'>Email</div>
+                            <div className='w-[140px] md:w-[8vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Geboortedatum</div>
+                            <div className='w-[120px] md:w-[10vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Stad</div>
+                            <div className='w-[140px] md:w-[9vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Telefoonnummer</div>
+                            <div className='w-[100px] md:w-[8vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Rijbewijs</div>
+                            <div className='w-[160px] md:w-[10vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Vervaldatum Rijbewijs</div>
+                            <div className='w-[150px] md:w-[10vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Instructeurskaart</div>
+                            <div className='w-[140px] md:w-[10vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>KVK Uittreksel</div>
+                            <div className='w-[170px] md:w-[10vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Arbeidsovereenkomst</div>
+                            <div className='w-[160px] md:w-[11vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Contractvervaldatum</div>
+                            <div className='w-[140px] md:w-[7vw] py-4 flex items-center justify-center text-xs md:text-sm whitespace-nowrap truncate'>Urenregistratie</div>
                         </div>
                         {/* Scrollable Body */}
                         <div className='w-max'>
@@ -237,11 +237,11 @@ export default function InstructorTable({
             </div>
 
             {/* Pagination Controls - Stable Layout */}
-            <div id='scroll' className='mt-10 w-[90%] mx-auto p-3 border-2 border-gray-200 bg-white rounded-lg'>
-                <div className='mb-4 flex justify-between items-center'>
+            <div id='scroll' className='mt-6 md:mt-10 w-full md:w-[90%] mx-auto p-2 md:p-3 border-2 border-gray-200 bg-white rounded-lg'>
+                <div className='mb-4 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center'>
                     <button
                         onClick={goToPrevPage}
-                        className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+                        className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
                             index === 0
                                 ? 'text-gray-400 cursor-not-allowed'
                                 : 'cursor-pointer hover:bg-blue-950/10'
@@ -250,13 +250,13 @@ export default function InstructorTable({
                         Vorige
                     </button>
 
-                    <span className='text-md'>
+                    <span className='text-sm md:text-md text-center'>
                         Pagina {index + 1} van {total}
                     </span>
 
                     <button
                         onClick={goToNextPage}
-                        className={`text-md border-2 rounded border-[#EAECF0] px-3 py-2 font-semibold ${
+                        className={`w-full md:w-auto text-sm md:text-md border-2 rounded border-[#EAECF0] px-4 py-2 font-semibold ${
                             (index + 1) * size >= total
                                 ? 'text-gray-400 cursor-not-allowed'
                                 : 'cursor-pointer hover:bg-blue-950/10'
@@ -268,8 +268,8 @@ export default function InstructorTable({
                 <CustomScrollBar targetId="instructors-table-container" orientation='horizontal' />
 
                 {/* Results Counter */}
-                <div className='w-[95%] mx-auto mb-4 text-center'>
-                    <span className='text-md text-gray-600'>
+                <div className='w-full md:w-[95%] mx-auto mb-2 md:mb-4 text-center'>
+                    <span className='text-xs md:text-md text-gray-600'>
                         Weergaven {index * size + 1}-{Math.min((index + 1) * size, total)} van {total}
                     </span>
                 </div>
@@ -294,73 +294,73 @@ const InstructorElementScrollable = ({ ele }: { ele: Data_Instructor }) => {
 
     return (
         <div className='flex relative pl-2 w-max border-b-1 bg-white hover:bg-blue-100/10 border-gray-200 items-center' style={{ height: '52px' }}>
-            <div className='w-[8vw]  flex items-center justify-center text-sm text-gray-700'>{ele.instructor}</div>
-            <div className='w-[15vw]  flex items-center justify-center text-sm text-gray-700'>
+            <div className='w-[120px] md:w-[8vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>{ele.instructor}</div>
+            <div className='w-[180px] md:w-[15vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>
                 <Link href={`mailto:${ele.email}`}>
                     {ele.email}
                 </Link>
             </div>
-            <div className='w-[8vw]  flex items-center justify-center text-sm text-gray-700'>{ele.Date_birth}</div>
-            <div className='w-[10vw]    flex items-center justify-center'>
+            <div className='w-[140px] md:w-[8vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>{ele.Date_birth}</div>
+            <div className='w-[120px] md:w-[10vw] flex items-center justify-center'>
                 <span  onClick={() => {  }}
-                    className=' hover:scale-110 ml-5  w-full justify-center  flex cursor-pointer transition-all duration-300'>
-                    <LocationIcon w={20} h={20} color="blue" /> <span className='w-[80%]'>{ele.city} </span></span>
+                    className='hover:scale-110 ml-2 md:ml-5 w-full justify-center flex cursor-pointer transition-all duration-300'>
+                    <LocationIcon w={20} h={20} color="blue" /> <span className='w-[80%] text-xs md:text-sm'>{ele.city} </span></span>
             </div>
 
             <div
               
-                className='w-[9vw] flex items-center justify-center text-sm text-gray-700 truncate transition-colors hover:text-blue-800 cursor-pointer'
+                className='w-[140px] md:w-[9vw] flex items-center justify-center text-xs md:text-sm text-gray-700 truncate transition-colors hover:text-blue-800 cursor-pointer'
                 title={ele.phone_number}
             >
                 {ele.phone_number}
             </div>
-            <div className='w-[8vw] flex items-center justify-center text-sm text-gray-700'>
+            <div className='w-[100px] md:w-[8vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>
                 <button
                     type='button'
                     onClick={() =>{}}
-                    className='flex  cursor-pointer items-center gap-2  transition-colors hover:text-blue-800'
+                    className='flex cursor-pointer items-center gap-1 md:gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.driving_license}</span>
+                    <span className='truncate text-xs md:text-sm'>{ele.driving_license}</span>
                 </button>
               
             </div>
-            <div className='w-[10vw]  flex items-center justify-center text-sm text-gray-700'>{ele.license_expiration_date}</div>
-            <div className='w-[10vw]  flex items-center justify-center text-sm text-gray-700'>
+            <div className='w-[160px] md:w-[10vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>{ele.license_expiration_date}</div>
+            <div className='w-[150px] md:w-[10vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>
                 <button
                     type='button'
                     onClick={() => {}}
-                    className='flex items-center cursor-pointer   gap-2 transition-colors hover:text-blue-800'
+                    className='flex items-center cursor-pointer gap-1 md:gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.instructor_card}</span>
+                    <span className='truncate text-xs md:text-sm'>{ele.instructor_card}</span>
                 </button>
               
             </div>
-            <div className='w-[10vw]  flex items-center justify-center text-sm text-gray-700'>
+            <div className='w-[140px] md:w-[10vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>
                 <button
                     type='button'
                     onClick={() => {}}
-                    className='flex items-center  cursor-pointer gap-2 transition-colors hover:text-blue-800'
+                    className='flex items-center cursor-pointer gap-1 md:gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.kvk_extract}</span>
+                    <span className='truncate text-xs md:text-sm'>{ele.kvk_extract}</span>
                 </button>
               
             </div>
-            <div className='w-[10vw] min-w-[180px]  flex items-center justify-center text-sm text-gray-700'>
+            <div className='w-[170px] md:w-[10vw] min-w-[140px] flex items-center justify-center text-xs md:text-sm text-gray-700'>
                 <button
                     type='button'
                     onClick={() => {}}
-                    className='flex  cursor-pointer items-center gap-2 transition-colors hover:text-blue-800'
+                    className='flex cursor-pointer items-center gap-1 md:gap-2 transition-colors hover:text-blue-800'
                 >
                     <img src='/pdf_icon.png' width={16} height={16} alt='' />
-                    <span className='truncate'>{ele.employment_contract}</span>
+                    <span className='truncate text-xs md:text-sm'>{ele.employment_contract}</span>
                 </button>
                 
             </div>
-            <div className='w-[11vw]  flex items-center justify-center text-sm text-gray-700'>{ele.contract_expiration_date}</div>
-            <div className='w-[7vw]  flex items-center justify-center text-sm text-gray-700'>{ele.hours_registration}</div>
+            <div className='w-[160px] md:w-[11vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>{ele.contract_expiration_date}</div>
+            <div className='w-[140px] md:w-[7vw] flex items-center justify-center text-xs md:text-sm text-gray-700'>{ele.hours_registration}</div>
         </div>
     )
 }

@@ -40,7 +40,7 @@ export default function CustomFullCalendar({data}: {data?: any}) {
   };
    console.log(data , "data in custom full calendar")
   return (
-    <div className="bg-white p-4 mx-4 my-4 rounded-xl shadow">
+    <div className="bg-white p-2 md:p-4 mx-2 md:mx-4 my-2 md:my-4 rounded-xl shadow overflow-x-auto">
       <FullCalendar
          // ...
             slotEventOverlap={false}   // IMPORTANT
@@ -83,12 +83,62 @@ export default function CustomFullCalendar({data}: {data?: any}) {
    FULLCALENDAR — BLUE UI
    + WEEK/DAY SPACING
    + NO ELLIPSIS (SHOW FULL CONTENT)
+   + MOBILE RESPONSIVE
    ========================= */
 
 .fc {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   --fc-border-color: #e5e7eb;
   --fc-page-bg-color: #ffffff;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .fc .fc-toolbar-chunk {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .fc .fc-toolbar-title {
+    font-size: 14px !important;
+  }
+  
+  .fc .fc-button {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+  
+  .fc .fc-col-header-cell-cushion {
+    font-size: 10px !important;
+    padding: 6px 2px !important;
+  }
+  
+  .fc .fc-daygrid-day-number {
+    font-size: 11px !important;
+    padding: 4px !important;
+  }
+  
+  .fc-event {
+    font-size: 10px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .fc .fc-toolbar-title {
+    font-size: 16px !important;
+  }
+  
+  .fc .fc-button {
+    padding: 7px 12px !important;
+    font-size: 12px !important;
+  }
 }
 
 /* Grid borders */

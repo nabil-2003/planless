@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_BASE } from '@/utils/constants';
 import { adduserToSession as addUserToSessionUtil, removeuserFromSession as removeUserFromSessionUtil, isUserInSession as isUserInSessionUtil } from '@/utils/auth';
+import { getErrorMessage } from '@/utils/errorMessages';
 import type { UserState, LoginCredentials } from '@/types';
 
 const initialState: UserState = {
@@ -27,10 +28,7 @@ const initialState: UserState = {
       const res = await axios.post(`${API_BASE}/admin/auth/login`, credentials);
       return res.data;
     } catch (error: any) {
-      let message = 'Login failed. Please try again.';
-      if (axios.isAxiosError(error)) {
-        message = (error.response?.data as any)?.message || error.message || message;
-      }
+      const message = getErrorMessage(error, 'login');
       return rejectWithValue({ message });
     }
   }
@@ -47,12 +45,7 @@ const resetPassword = createAsyncThunk(
       await axios.post(`${API_BASE}/admin/auth/forget-password`, emailData);
       return { email: emailData.email };
     } catch (error: any) {
-      let message = 'Password reset failed. Please try again later.';
-      if (axios.isAxiosError(error)) {
-        const status = error.response?.status;
-        if (status === 404) message = 'User not found';
-        else message = (error.response?.data as any)?.message || error.message || message;
-      }
+      const message = getErrorMessage(error, 'resetPassword');
       return rejectWithValue({ message });
     }
   }
@@ -70,10 +63,7 @@ const newPassword = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
-      let message = 'Failed to set new password.';
-      if (axios.isAxiosError(error)) {
-        message = (error.response?.data as any)?.message || error.message || message;
-      }
+      const message = getErrorMessage(error, 'newPassword');
       return rejectWithValue({ message });
     }
   }

@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Input, PasswordInput, Button, Label } from '../ui'
+import { Input, PasswordInput, Button, Label, Alert } from '../ui'
 import LeftArrowIcon from '../svgs/LeftArrowIcon'
 import PasswordRules from './PasswordRules'
 import useLogin from '@/app/hooks/useLogin'
@@ -15,16 +15,21 @@ function NewpassPage() {
     const [isValidPassword, setIsValidPassword] = useState<boolean>(false)
     const [passwordConfirm, setPasswordConfirm] = useState<string>('')
     const [isMounted, setIsMounted] = useState<boolean>(false)
+    const [validationError, setValidationError] = useState<string>('')
       useEffect(() => { 
                 const i = setTimeout(()=>{
                   resetErr()
+                  setValidationError('')
                 }, 4000)
                 return () => clearTimeout(i)
-            }, [error])
+            }, [error, validationError])
 
         useEffect(()=>{
             if(!isPasswordChanged)
                  return 
+                 // Reset inputs after successful password change
+                 setPassword('')
+                 setPasswordConfirm('')
                  const i = setTimeout(()=>{
                   router.push('/auth/login')
                   resetAll()
@@ -55,19 +60,20 @@ function NewpassPage() {
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setValidationError('')
 
         if (!password || !passwordConfirm) {
-            alert('Vul alle velden in')
+            setValidationError('Vul alle velden in')
             return
         }
 
         if (password !== passwordConfirm) {
-            alert('Wachtwoorden komen niet overeen')
+            setValidationError('Wachtwoorden komen niet overeen')
             return
         }
 
         if (!isValidPassword) {
-            alert('Wachtwoord voldoet niet aan de vereisten')
+            setValidationError('Wachtwoord voldoet niet aan de vereisten')
             return
         }
         if( otpCode  == null && resetEmail == null) return
@@ -86,21 +92,18 @@ function NewpassPage() {
     }
 
     return (
-        <div className='flex flex-col w-full sm:w-[80%] md:w-[70%] max-w-md'>
+        <div className='flex flex-col w-full sm:w-[80%] md:w-[70%] max-w-md px-4 md:px-0'>
             {/* Page header */}
-            <header className='mb-6'>
-                 <nav className='mb-4'>
+            <header className='mb-8'>
+                 <nav className='mb-6'>
                 <Link 
                     href='/auth/login' 
-                    className='text-dark-blue font-bold flex items-center hover:underline transition-all duration-200'
+                    className='text-black font-normal flex items-center hover:underline transition-all duration-200'
                 >
                     <LeftArrowIcon className='inline-block scale-75 mr-2' />
-                    Terug
+                    <span className='text-xl font-bold'>Wachtwoord opnieuw instellen</span>
                 </Link>
             </nav>
-                <h1 className='text-2xl md:text-3xl font-bold '>
-                    Wachtwoord opnieuw <br/>Instellen
-                </h1>
                
             </header>
 
@@ -108,7 +111,7 @@ function NewpassPage() {
             <form onSubmit={handleSubmit} className='space-y-4'>
                 {/* New password input */}
                 <div className='form-group'>
-                    <Label htmlFor="new-password" required>
+                    <Label htmlFor="new-password" className='text-sm font-normal text-black mb-2'>
                         Nieuw wachtwoord
                     </Label>
                     <PasswordInput 
@@ -120,6 +123,7 @@ function NewpassPage() {
                         autoComplete="new-password"
                         disabled={loading}
                         showToggle={isMounted}
+                        className="w-full bg-gray-100 border-0 rounded-md px-4 py-3 text-sm"
                     />
 
                     <PasswordRules password={password} checkPassStrength={checkPasswordStrength} isValidPassword={isValidPassword} />
@@ -128,7 +132,7 @@ function NewpassPage() {
 
                 {/* Confirm password input */}
                 <div className='form-group'>
-                    <Label htmlFor="confirm-password" required>
+                    <Label htmlFor="confirm-password" className='text-sm font-normal text-black mb-2'>
                         Bevestig nieuw wachtwoord
                     </Label>
                     <PasswordInput
@@ -138,7 +142,7 @@ function NewpassPage() {
                         onChange={handlePasswordChangeConfirm}
                         required
                         autoComplete="new-password"
-                        className="mb-4"
+                        className="w-full bg-gray-100 border-0 rounded-md px-4 py-3 text-sm"
                         disabled={loading}
                         showToggle={isMounted}
                     />
@@ -160,22 +164,18 @@ function NewpassPage() {
                     type="submit"
                     variant="primary"
                     size="medium"
-                    loading ={loading}
-                    className="w-auto outline-none flex justify-center p-3 bg-dark-blue hover:bg-blue-700 text-white cursor-pointer "
+                    loading={loading}
+                    disabled={!isFormValid()}
+                    className="w-full outline-none flex justify-center items-center py-3 bg-dark-blue hover:bg-blue-700 text-white rounded-md font-medium text-base transition-all duration-200"
                 >
                     {loading ? 'Bevestigen...' : 'Bevestigen'}
                 </Button>
             </form>
             {
-                isPasswordChanged && <div className='p-3  mx-auto mt-4 rounded-lg w-max text-white  bg-green-500 '>
-                         password changed successfully 
-                      
-                </div>
+                isPasswordChanged && <Alert message="Wachtwoord succesvol gewijzigd" type="success" />
             }
               {
-                error && <div className='p-3  mx-auto mt-4 rounded-lg w-max text-white  bg-red-500 '>
-                         {error}    
-                </div>
+                (error || validationError) && <Alert message={error || validationError} type="error" />
             }
         </div>
     )
