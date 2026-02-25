@@ -150,7 +150,7 @@ export default function OTPForm() {
       
       {/* Error message */}
       {(validationError || error) && (
-        <Alert message={validationError || error} type="error" />
+        <Alert message={validationError || error || ''} type="error" />
       )}
     </form>
   );

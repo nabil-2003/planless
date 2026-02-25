@@ -175,7 +175,7 @@ function NewpassPage() {
                 isPasswordChanged && <Alert message="Wachtwoord succesvol gewijzigd" type="success" />
             }
               {
-                (error || validationError) && <Alert message={error || validationError} type="error" />
+                (error || validationError) && <Alert message={error || validationError || ''} type="error" />
             }
         </div>
     )

@@ -178,7 +178,7 @@ function Login() {
                     {loading ? 'Inloggen...' : 'Inloggen'}
                 </Button>
             </form>
-           {(error || validationError) && <Alert message={error || validationError} type="error" />}
+           {(error || validationError) && <Alert message={error || validationError || ''} type="error" />}
         </div>
     )
 }

@@ -178,7 +178,7 @@ function Reset() {
                     {loading ? 'Verzenden...' : 'Inloggen'}
                 </Button>
             </form>
-            {(error || validationError) && <Alert message={error || validationError} type="error" />}
+            {(error || validationError) && <Alert message={error || validationError || ''} type="error" />}
             {otpSended && <Alert message="OTP-code succesvol verzonden" type="success" />}
 
         </div>
