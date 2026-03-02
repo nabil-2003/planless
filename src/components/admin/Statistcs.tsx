@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa'
 import StatisticsCard from './ui/StatisticsCard'
 import useDashBoard from '@/app/hooks/useDashBoard';
+import { GiGraduateCap, GiSteeringWheel } from 'react-icons/gi';
 export default function Statistcs({className}: {className?: string}) {
  
 
@@ -41,37 +42,40 @@ export default function Statistcs({className}: {className?: string}) {
         <div className='w-full flex flex-wrap justify-between gap-2 md:gap-0'>
           <StatisticsCard 
             percentage={percentageCalc("lessons")}
-            total={extractor("lessons").total}
+            total={0}
             label="rijlessen"
-            Icon={FaRegFileAlt}
+            Icon={GiSteeringWheel}
             className='h-auto w-full sm:w-[48%] p-2  lg:w-[19%] '
-          />
-          <StatisticsCard 
-            percentage={percentageCalc("instructors")}
-            total={extractor("instructors").total}
-            label="instructeurs"
-            Icon={FaUserTie}
-            className='h-auto w-full sm:w-[48%] p-2  lg:w-[19%]  '
           />
            <StatisticsCard 
             percentage={percentageCalc("students")}
-            total={extractor("students").total}
+            total={0}
             label="studenten"
-            Icon={FaUsers}
+            Icon={'/statistics/student.svg'}
+            isImg={true}
              className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
+          />
+          <StatisticsCard 
+            percentage={percentageCalc("instructors")}
+            total={0}
+            label="instructeurs"
+            Icon={'/statistics/instructor.svg'}
+            isImg={true}
+            className='h-auto w-full sm:w-[48%] p-2  lg:w-[19%]  '
           />
            <StatisticsCard 
             percentage={0}
             total={0}
             label="Leskaarten"
-            Icon={FaUsers}
+            Icon={GiGraduateCap }
              className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
           />
            <StatisticsCard 
             percentage={0}
             total={"0€"}
             label="Financiën"
-            Icon={FaUsers}
+            isImg={true}
+            Icon={"/statistics/finance.svg"}
              className='h-auto w-full sm:w-[48%]  p-2  lg:w-[19%] '
           />
         </div>

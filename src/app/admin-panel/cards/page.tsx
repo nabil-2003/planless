@@ -210,13 +210,7 @@ export default function DrivingLessonsPage() {
                         />
                         
                         {/* Add New Lesson Button */}
-                        <CustmButton 
-                            onClick={openCreateModal} 
-                            className='w-full sm:flex-1 sm:basis-44 lg:flex-none lg:w-[180px] h-[42px] rounded-lg bg-dark-blue text-white outline-none flex items-center justify-center gap-2 px-4'
-                        >
-                            <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white flex-shrink-0' />
-                            <span className='whitespace-nowrap'>Rijles toevoegen</span>
-                        </CustmButton>
+                     
                         
                         {/* Custom Date Input that opens modal */}
                         <div className='w-full sm:flex-1 sm:basis-48 lg:flex-none lg:w-[200px] h-[42px]'>

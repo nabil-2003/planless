@@ -54,7 +54,7 @@ const Confirm= forwardRef<ModalRef , props>(({id, table}, ref)=>{
     
     
     return (
-        <div  id={'action_confirm'} className='fixed  hidden  place-items-center  select-none   inset-0  '  ref={refDiv}>
+        <div  id={'action_confirm'} className='fixed  hidden  place-items-center  select-none   inset-0 bg-black/50 z-50 '  ref={refDiv}>
          
                  <div  className='rounded-lg border-gray-100 shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
                  <img src="/confirm.svg" alt="" className='w-[80vw] md:w-[15vw] h-[10vh] mx-auto mt-4' />

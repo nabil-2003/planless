@@ -276,11 +276,6 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className='buttons mt-8 mb-4 mx-auto w-full px-0 md:px-4 flex flex-col md:flex-row gap-3 md:justify-between'>
-                <CustmButton onClick={() => { router.back() }} className='bg-[#fe911f] text-white w-full md:w-auto'>
-                    annuleren
-                </CustmButton>
-            </div>
         </>
     )
 }
@@ -529,7 +524,7 @@ const HoursRegistration= () => {
     )
         }
 
-        export function timeToHoursRounded(time: string, decimals = 2) {
+        function timeToHoursRounded(time: string, decimals = 2) {
   const total = timeToHours(time);
   return Number(total.toFixed(decimals));
 }

@@ -160,17 +160,17 @@ const formatDateRange = () => {
                         
     
                         {/* Add New Instructor Button */}
-                        <Link href="./instructors/new-instructor" className='text-white rounded-lg  bg-dark-blue ml-4'>
+                        <Link href="./instructors/new-instructor" className='text-white flex items-center rounded-lg hover:bg-blue-800/80 bg-blue-800 ml-4'>
                             <div className='flex gap-2 items-center p-2.5'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                               Voeg een instructeur toe
+                                <PlusIcon color='white' w='15' h='15' className='border-2  text-white rounded border-white' />
+                              <span className='text-sm'> Voeg een instructeur toe</span>
                             </div>
                         </Link>
                        {/* Custom Date Input that opens modal */}
                         <div className='relative w-full   bg-white h-full  md:w-auto'>
                             <div
                                 onClick={openDateModal}
-                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-400 transition-colors'
+                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-800 transition-colors'
                             >
                                 {/* Calendar Icon */}
                                 <svg

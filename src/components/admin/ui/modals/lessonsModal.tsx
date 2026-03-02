@@ -75,42 +75,44 @@ const LessonsModal = forwardRef<LessonsModalRef, LessonsModalProps>(({ id, statu
 
     if (!mounted) return null
 
-    return createPortal(<div ref={container} className={`modal-backdrop w-full ${isOpen ? 'block' : 'hidden'} z-10 top-0 fixed h-full bg-black/20`} onClick={handleBackdropClick}>
+    return createPortal(<div ref={container} className={`modal-backdrop w-full ${isOpen ? 'block' : 'hidden'} z-10 top-0 fixed h-full bg-black/50`} onClick={handleBackdropClick}>
 
-        <div className='w-[95%] md:w-[85%] lg:w-[60%] xl:w-[40%] px-4 md:px-8 lg:px-14 h-max max-h-[90vh] overflow-y-auto py-4 md:py-6 bg-white shadow-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg'>
+        <div className='w-[95%] md:w-[85%] lg:w-[60%] xl:w-[40%] px-4 md:px-8 lg:px-14 h-max max-h-[95vh] overflow-y-auto py-4 md:py-6 bg-white shadow-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg'>
             {
                 loadingforModal && <div className='mx-auto animate-spin border-l-0 grid place-self-center scale-125 border-2 w-12 h-12 md:w-[3vw] md:h-[3vw] rounded-full border-blue-600'></div> ||
                 <>
-
+                    <button className='absolute top-2.5 right-2.5 cursor-pointer  ' onClick={close}><img src="/modal/close.svg" alt="" /></button>
                     <div className='flex gap-2 md:gap-3 items-center'>
                         <span className='cursor-pointer' onClick={() => { alert("back") }}> <img src="/back.svg" alt="" className='w-5 h-5 md:w-6 md:h-6' /></span>
                         <h1 className='p-2 md:p-3 text-lg md:text-xl lg:text-2xl font-bold'>
                             Maandag 14 Aug - { lesson?.start_time }
                         </h1>
                     </div>
-                    <div className='border-t-1 border-[#D9D9D9]' />
-                    <div className='flex flex-col md:flex-row justify-between items-start md:items-center p-2 md:p-3 gap-2 md:gap-0'>
-                        <span className='text-sm md:text-base'>
-                            {lesson?.date}
+                  
+                    <div className='flex flex-col md:flex-row bg-[#F4F4F4] rounded-lg  justify-between items-start md:items-center p-2 md:p-3 gap-2 md:gap-0'>
+                        <span className='text-sm md:text-base flex gap-1 items-center'>
+                           <img src="/modal/calendar.svg" alt="" /> <span>&lt;{lesson?.date.split("-").reverse().join("/")}&gt;</span>
                         </span>
                         <span className='text-sm md:text-base'>
-                           { lesson?.start_time } - { lesson?.end_time }
+                            &lt;{ lesson?.start_time.split(":")[0] }:
+                            { lesson?.start_time.split(":")[1] } - { lesson?.end_time.split(":")[0] }:
+                            { lesson?.end_time.split(":")[1] }&gt;
                         </span>
                     </div>
-                    <div className='border-t-1 border-[#D9D9D9]' />
+      
                     <div className='p-2 md:p-3'>
-                        <div className='text-lg md:text-xl font-semibold'>{lesson?.lesson_cards?.[0]?.vehicleType?.name}</div>
+                        <div className='text-lg  font-semibold flex gap-2'> <img src="/car.auto.svg" alt="" /> {lesson?.lesson_cards?.[0]?.vehicleType?.name}</div>
                         <span className='text-xs text-[#8D8D8D] ml-2 md:ml-4'>{lesson?.lesson_cards.map(card => card.name).join(", ")}</span>
                     </div>
                     <div className='border-t-1 border-[#D9D9D9]' />
                     <div>
                         <div className='p-2 md:p-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0'>
                             <div className='items-center'>
-                                <div className='text-lg md:text-xl font-semibold'>Ophaallocatie:</div>
+                                <div className='text-lg  font-semibold flex items-center gap-2'><img src="/map.lessons.svg" alt="" /> <span>Ophaallocatie:</span></div>
                                 <div className='text-sm text-[#8D8D8D] ml-2 md:ml-4'>{lesson?.adress}</div>
                             </div>
                             <CustmButton 
-                                className='bg-[#4CB4E7] flex items-center gap-2 md:gap-3 text-white text-sm md:text-base px-3 py-2 w-full md:w-auto justify-center'
+                                className='bg-[#4CB4E7] flex items-center gap-2 md:gap-3 scale-75 text-white text-sm md:text-base px-3 py-2 w-full md:w-auto justify-center'
                                 onClick={() => {
                                     if (lesson?.adress) {
                                         const encodedAddress = encodeURIComponent(lesson.adress);
@@ -123,24 +125,23 @@ const LessonsModal = forwardRef<LessonsModalRef, LessonsModalProps>(({ id, statu
                         </div>
 
                     </div>
-                    <div className='border-t-1 border-[#D9D9D9]' />
                     <div className="map p-2 md:p-3">
                       <AddressModal isOpen={isOpen} close={close} address={lesson?.adress} />
                     </div>
                     <div className='border-t-1 border-[#D9D9D9]' />
                     <div className='flex flex-col md:flex-row justify-between px-3 md:px-6 py-2 items-start md:items-center gap-2 md:gap-0'>
-                        <span className='w-full md:w-[50%] p-2 text-sm md:text-base'>{lesson?.student}</span>
-                        <span className='w-full md:w-[50%] border-t-1 md:border-t-0 md:border-l-1 border-[#D9D9D9] p-2 text-sm md:text-base'>{lesson?.Studentphone}</span>
+                        <span className='w-full md:w-[50%] p-2 text-lg  font-semibold flex gap-2 items-center'><img src="/student.lessons.svg"/>{lesson?.student}</span>
+                        <span className='w-full md:w-[50%] text-lg font-semibold flex gap-2 items-center border-[#D9D9D9] p-2'><img src="/phone.lessons.svg"/>{lesson?.Studentphone}</span>
                     </div>
                     <div className='border-t-1 border-[#D9D9D9]' />
-                    <div className="status flex flex-col md:flex-row justify-around items-center p-2 md:p-3 gap-3 md:gap-0">
-                        <div className='flex flex-col items-center w-full md:w-auto'>
+                    <div className="status flex flex-col md:flex-row justify-between items-center p-2 md:p-3 gap-3 md:gap-0">
+                        <div className='flex flex-col  items-center w-full md:w-auto'>
                             <span className='text-xs md:text-sm'>Betaalstatus</span>
-                            <span className='rounded-lg p-1 mt-1 text-xs md:text-sm' style={{ background: mapColorToStatus(lesson?.payment_status!)?.colorbg, color: mapColorToStatus(lesson?.payment_status!)?.colortext }} >{mapColorToStatus(lesson?.payment_status!)?.status}</span>
+                            <span className='rounded-lg p-1 mt-1 text-xs md:text-sm scale-125' style={{ background: mapColorToStatus(lesson?.payment_status!)?.colorbg, color: mapColorToStatus(lesson?.payment_status!)?.colortext }} >{mapColorToStatus(lesson?.payment_status!)?.status}</span>
                         </div>
                         <div className='flex flex-col items-center w-full md:w-auto'>
                             <span className='text-xs md:text-sm'>Rijlesstatus</span>
-                            <span className='rounded-lg p-1 mt-1 text-xs md:text-sm' style={{ background: mapColorToStatus(lesson?.lesson_status!)?.colorbg, color: mapColorToStatus(lesson?.lesson_status!)?.colortext }}>{mapColorToStatus(lesson?.lesson_status!)?.status}</span>
+                            <span className='rounded-lg p-1 mt-1 text-xs md:text-sm scale-125' style={{ background: mapColorToStatus(lesson?.lesson_status!)?.colorbg, color: mapColorToStatus(lesson?.lesson_status!)?.colortext }}>{mapColorToStatus(lesson?.lesson_status!)?.status}</span>
                         </div>
                     </div>
 

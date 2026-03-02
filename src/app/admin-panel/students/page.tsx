@@ -16,6 +16,7 @@ import LeftSide from '@/components/admin/LeftSide'
 import CustomSearch from "@/components/admin/ui/CustomSearch"
 import CustomSelect from "@/components/admin/ui/CustomSelect"
 import StudentTable, { Data_Student } from '@/components/admin/ui/tables/StudentTable'
+import { parseStudents } from '@/lib/studentUtils'
 import CreateModal, { CreateModalRef } from '@/components/admin/ui/CreateModal'
 import CusTomDate from '@/components/admin/ui/CustomDateModal'
 
@@ -167,10 +168,10 @@ export default function StudentsPage() {
 
                         {/* Custom Date Input that opens modal */}
                         {/* Add New Student Button */}
-                        <Link href="./students/new-student" className='text-white rounded-lg  bg-dark-blue w-full md:w-auto text-center'>
-                            <div className='flex gap-2 p-2.5  items-center'>
-                                <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
-                                Student toevoegen
+                        <Link href="./students/new-student" className='text-white rounded-lg  bg-blue-800 hover:bg-blue-800/80 w-full md:w-auto text-center'>
+                            <div className='flex gap-2 p-2.5  items-center  '>
+                                <PlusIcon color='white' w='15' h='15' className='border-2  text-white rounded border-white' />
+                                <span  className='text-sm'>Student toevoegen</span>
                             </div>
                         </Link>
                         <div className='cursor-pointer flex items-center gap-1 text-[#667085] p-2 rounded-lg border-gray-300 border-1'>
@@ -208,28 +209,3 @@ export default function StudentsPage() {
         </div>
     )
 }
- export const parseStudents = (student : any[] ) => {
- 
-        const s: Data_Student[] = student?.map(item => ({
-            
-            id: item?.id,
-            student: item?.name,
-            bsn_nummer: "_",
-            email: item?.email,
-            date_birth: item?.birthdate,
-            city: item?.city,
-            post_code: item?.zipCode,
-            street: item?.street,
-            house_number: item?.houseNumber,
-            phone_number: item?.phone,
-            status: item?.active ? 'Actief' : 'Inactief',
-            driving_license_category: "_",
-            theory_exam: "_",
-            practical_exam: "_",
-            number_of_lessons: 0,
-            last_lesson: "_",
-            instructor: "_",
-            remarks: "_",
-        }))
-        return s == null ? [] : s
-    }

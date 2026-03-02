@@ -6,7 +6,7 @@ import { Data_Student } from '@/components/admin/ui/tables/StudentTable';
 import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
 import useStudent from '@/app/hooks/useStudent';
-import { parseStudents } from '../page';
+import { parseStudents } from '@/lib/studentUtils';
 import Breadcrumb from '@/components/admin/Breadcrumb';
 import CustomFullCalendar, { CalendarEvent } from '@/components/admin/ui/CustomFullCalendar';
 import Spinner from '@/components/ui/Spinner';

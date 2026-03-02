@@ -16,7 +16,7 @@ import studentsData from "@/data/students.json"
 import CustmButton from '@/components/admin/ui/CustmButton';
 import { useRouter } from 'next/navigation';
 import useStudent from '@/app/hooks/useStudent';
-import { parseStudents } from '../../page';
+import { parseStudents } from '@/lib/studentUtils';
 import { DiVim } from 'react-icons/di';
 import Breadcrumb from '@/components/admin/Breadcrumb';
 

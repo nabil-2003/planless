@@ -35,12 +35,14 @@ const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  c
   useImperativeHandle(ref, () => ({
     open: () => {
       if (refModal.current) {
-        refModal.current.style.display = "block";
+        refModal.current.style.display = "flex";
+        refModal.current.classList.remove('hidden');
       }
     },
     close: () => {
       if (refModal.current) {
         refModal.current.style.display = "none";
+        refModal.current.classList.add('hidden');
       }
     },
     get firstDateMs() {
@@ -145,6 +147,7 @@ const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  c
     selectDateRange([]);
     if (refModal.current) {
       refModal.current.style.display = "none";
+      refModal.current.classList.add('hidden');
     }
   };
 
@@ -166,6 +169,7 @@ const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  c
       
       if (refModal.current) {
         refModal.current.style.display = "none";
+        refModal.current.classList.add('hidden');
       }
       
       return result;
@@ -183,6 +187,7 @@ const CusTomDate = forwardRef<CustomDateRef, PropsDate>(({ singleUse = false,  c
       
       if (refModal.current) {
         refModal.current.style.display = "none";
+        refModal.current.classList.add('hidden');
       }
       
       return result;
@@ -331,11 +336,25 @@ const MapDays = useCallback((month : number , year : number) : DateWithDay[] => 
 
 // 
   return (
-    <div 
-      ref={refModal} 
-      className='fixed z-50 p-6 bg-white rounded-lg shadow-xl left-4 right-4 md:left-auto md:right-[25%] top-10 w-[90vw] md:w-[35vw] lg:w-[28vw] max-h-[80vh] overflow-y-auto hidden'
-      style={{ display: 'none' }}
-    >
+    <>
+      {/* Dark backdrop overlay */}
+      <div 
+        ref={refModal}
+        className='fixed inset-0 bg-black/50 z-40 hidden'
+        style={{ display: 'none' }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            if (refModal.current) {
+              refModal.current.style.display = 'none';
+            }
+          }
+        }}
+      >
+        {/* Modal content */}
+        <div 
+          className='fixed z-50 p-6 bg-white rounded-lg shadow-2xl left-4 right-4 md:left-auto md:right-[25%] top-10 w-[90vw] md:w-[35vw] lg:w-[28vw] max-h-[80vh] overflow-y-auto'
+          onClick={(e) => e.stopPropagation()}
+        >
       <div className='flex justify-between items-center gap-2 mt-2'>
         <CustmButton 
           onClick={selectLast7Days}
@@ -423,7 +442,8 @@ const MapDays = useCallback((month : number , year : number) : DateWithDay[] => 
       </div>
 
     </div>
-
+    </div>
+    </>
   )
 })
 

@@ -9,7 +9,7 @@ import { ParsedLesson } from '@/store/LessonsSlices';
 import useLessons from '@/app/hooks/useLessons';
 import useInvoice from '@/app/hooks/useInvoice';
 import { mapColorToStatus } from './finanTable';
-import { timeToHoursRounded } from '@/app/admin-panel/instructors/[details]/page';
+import { timeToHoursRounded } from '@/lib/timeUtils';
 
 // Data types
 export type Data_Lessons = {

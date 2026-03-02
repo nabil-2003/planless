@@ -29,7 +29,7 @@ export default function DecicionModal({action , table  , content , isOpen , titl
             }
     }
   return createPortal(<>
-       <div  id={'action_confirm'} className={`fixed ${isOpen ? 'grid' : 'hidden'} place-items-center  select-none   inset-0  `}>
+       <div  id={'action_confirm'} className={`fixed ${isOpen ? 'grid' : 'hidden'} place-items-center  select-none   inset-0 bg-black/50 z-50 `}>
               
                       <div  className='rounded-lg border-gray-100 shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
                           <button>+</button>

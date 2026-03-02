@@ -48,7 +48,7 @@ const hide= forwardRef<Modalref , props>(({id, table}, ref)=>{
 
         }))
     return (
-        <div  id={'action_confirm'} className='fixed  hidden   place-items-center    inset-0  '  ref={refDiv}>
+        <div  id={'action_confirm'} className='fixed  hidden   place-items-center    inset-0 bg-black/50 z-50 '  ref={refDiv}>
          
                  <div  className='rounded-lg border-gray-100 bg shadow-lg bg-white border-2 p-3 w-[90vw] md:w-auto confirm'>
                  <img src="/hide.svg" alt="" className='w-[50vw] md:w-[20vw] h-[10vh] mx-auto mt-4' />

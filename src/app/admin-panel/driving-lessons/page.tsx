@@ -215,8 +215,8 @@ export default function DrivingLessonsPage() {
                             placeholder='Zoeken...'
                         />
                            {/* Add New Lesson Button */}
-                        <CustmButton onClick={openCreateModal} className=' rounded-2xl  bg-dark-blue p-0.5 text-white outline-none w-full md:w-auto' >
-                            <div className='flex gap-2 items-center'>
+                        <CustmButton onClick={openCreateModal} className='  rounded-2xl  bg-blue-800 p-0.5 hover:bg-blue-800/80 transition-colors text-white outline-none w-full md:w-auto' >
+                            <div className='flex gap-2 items-center  '>
                                 <PlusIcon color='white' w='15' h='15' className='border-2 text-white rounded border-white' />
                                 Rijles toevoegen
                             </div>
@@ -225,7 +225,7 @@ export default function DrivingLessonsPage() {
                         <div className='relative w-full   bg-white h-full  md:w-auto'>
                             <div
                                 onClick={openDateModal}
-                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-400 transition-colors'
+                                className='flex items-center bg-white   border border-gray-300 rounded-lg px-3 py-2 w-full md:w-48 cursor-pointer hover:border-blue-800 transition-colors'
                             >
                                 {/* Calendar Icon */}
                                 <svg

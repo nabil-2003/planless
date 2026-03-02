@@ -89,14 +89,15 @@ currentTap? : string
             <div className='flex w-max bg-transparent border-b-1 border-gray-200 items-center' style={{ height: '56px' }}>
               <div className='w-[13vw]  min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Instructeur</div>
               <div className='w-[7vw] min-w-[120px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Student</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Begintijd</div>
-              <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Eindtijd</div>
+              <div className='w-[7vw] min-w-[110px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Datum rijles</div>
+              <div className='w-[7vw] min-w-[100px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Begintijd</div>
+              <div className='w-[7vw] min-w-[100px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Eindtijd</div>
               <div className='w-[6vw] min-w-[90px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Lesduur</div>
               <div className='w-[12vw] min-w-[160px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Factuur bedrag</div>
                  <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Betalingsstatus</div>
               <div className='w-[9vw] min-w-[140px] py-4 flex items-center justify-center text-md px-2 whitespace-nowrap truncate'>Rijles status</div>
  {
-                ( currentTap == "all" || currentTap == "cancelled")  &&
+                ( currentTap == "Alle" || currentTap == "Geanuleerd")  &&
               <div className='w-[11vw] min-w-[160px] py-4 flex items-center  text-md  px-2 whitespace-nowrap truncate'>Annuleringstijd</div>
               }
             </div>
@@ -205,10 +206,11 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
     return timePart || dateTimeStr;
   }
    const order = ele.order as Order
+   console.log("currentTap:", currentTap)
   return (
     <div className='flex relative w-max border-b-1 hover:bg-blue-100/10 border-gray-200 items-center' style={{ height: '52px' }}>
   <div className='w-[13vw] min-w-[120px] flex items-center   relative  justify-center   text-sm text-gray-700 px-2 truncate  gap-3 overflow-hidden' title={ele?.instructor!}>
-      <span className=''>{ele?.instructor}</span> 
+      <span className='' title={ele?.instructor!}>{ele?.instructor?.substring(0,13) + (ele?.instructor?.length! > 13 ? '...' : '')}</span> 
       <span 
         className='transition-all duration-300'
       onClick={(e : React.MouseEvent<HTMLSpanElement>) => {
@@ -218,8 +220,9 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
          <SelectInstructorModal ref={instructorModalRef} orderId={order.id} instructorId={ele.id} />
       </div>
   <div className='w-[7vw] min-w-[120px] flex items-center justify-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.student!}>{ele?.student}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95  text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.start_time}>{ele?.date+"."+ele?.start_time.substring(0,5)}</div>
-  <div className='w-[9vw] min-w-[140px] flex items-center justify-center whitespace-nowrap scale-95 text-sm text-gray-700 px-2' title={ele?.date+"."+ele?.end_time}>{ele?.date+"."+ele?.end_time.substring(0,5)}</div>
+  <div className='w-[7vw] min-w-[110px] flex items-center justify-center whitespace-nowrap text-sm text-gray-700 px-2' title={ele?.date}>{ele?.date.split('-').reverse().join('/')}</div>
+  <div className='w-[7vw] min-w-[100px] flex items-center justify-center whitespace-nowrap text-sm text-gray-700 px-2' title={ele?.start_time}>{ele?.start_time.substring(0,5)}</div>
+  <div className='w-[7vw] min-w-[100px] flex items-center justify-center whitespace-nowrap text-sm text-gray-700 px-2' title={ele?.end_time}>{ele?.end_time.substring(0,5)}</div>
   <div className='w-[6vw] min-w-[90px] flex items-center justify-center  text-sm text-gray-700 px-2 truncate overflow-hidden' title={ele?.lesson_duration}>{ele?.lesson_duration}</div>
   <div className='w-[12vw] min-w-[160px] flex items-center  justify-center text-sm text-gray-700 px-2'>
         <button
@@ -270,7 +273,7 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
         </span>
       </div>
 {
-      (     currentTap == "all" || currentTap == "cancelled")  &&
+      (     currentTap == "Alle" || currentTap == "Geanuleerd")  &&
       <div className='w-[11vw] min-w-[160px] flex items-center  text-md text-gray-800 opacity-55 px-2 truncate overflow-hidden  ' title={ele.cancellation_time!}>{ele.cancellation_time}</div>
 
 }    

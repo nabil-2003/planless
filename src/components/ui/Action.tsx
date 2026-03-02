@@ -687,11 +687,12 @@ const financeActions = (status: { payment: string},  orderId : string , classNam
                   <>
                 <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap transform translate-y-8  -left-1.5  rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
                    
-                    <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
-                    </span>
+                  
                     <span onClick={() => {navigate()}} className='cursor-pointer'>
                         <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
+                    </span>
+                    <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
+                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
                     </span>
                     {
                         downloadLoading ? (
@@ -711,11 +712,12 @@ const financeActions = (status: { payment: string},  orderId : string , classNam
                   <>
                 <div ref={modalRef} className={'  hidden bg-white gap-2 tria px-1 py-2 max-w-[7vw] flex-wrap transform translate-y-8  -left-1.5  rounded-lg z-10  w-max border-1 border-gray-300 h-max  min-h-[6vh] absolute  justify-center items-center hover:shadow-md hover:scale-105 transition-all ' + className}>
                    
-                    <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
-                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
-                    </span>
+                 
                      <span onClick={() => {navigate()}} className='cursor-pointer'>
                         <img width={22} height={22} src="/actions/show_icon.svg" alt="" />
+                    </span>
+                       <span onClick={() => openModalAction(modalRefs.hideModal.current)} className='cursor-pointer'>
+                        <img width={22} height={22} src="/actions/hide_icon.svg" alt="" />
                     </span>
                       </div >
                    

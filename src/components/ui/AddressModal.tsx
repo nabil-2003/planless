@@ -148,7 +148,7 @@ export default function AddressModal({ isOpen, close, address, lat, lng }: Props
    
       
       {/* Map with dynamic coordinates */}
-      <div className='w-full h-[300px] rounded-lg overflow-hidden border border-gray-200'>
+      <div className='w-full h-[21vh] rounded-lg overflow-hidden border border-gray-200'>
         <GoogleMap
           key={`${markerPosition.lat}-${markerPosition.lng}`}
           mapContainerStyle={containerStyle}
@@ -163,10 +163,6 @@ export default function AddressModal({ isOpen, close, address, lat, lng }: Props
           <Marker position={markerPosition} />
         </GoogleMap>
       </div>
-      
-      <p className='mt-2 text-xs text-gray-500 text-center'>
-        Locatie: {markerPosition.lat.toFixed(4)}, {markerPosition.lng.toFixed(4)}
-      </p>
     </div>
   );
 }
