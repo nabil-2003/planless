@@ -142,9 +142,10 @@ const InstructorListModal: React.FC<InstructorListModalProps> = ({
   return (
     <>
       {filteredInstructors.map((e) => {
-        const displayName = e.instructor?.length > 25 
-          ? e.instructor.substring(0, 25) + '...' 
-          : e.instructor;
+        const instructorName = e.instructor ;
+        const displayName = instructorName && instructorName.length > 25 
+          ? instructorName.substring(0, 25) + '...' 
+          : instructorName;
         
         return (
           <span
