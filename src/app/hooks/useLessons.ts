@@ -34,7 +34,7 @@ const fetchLessonById = async (id : string) => {
     console.log("fetchAllLessons called with:", { pageN, pageSize, search, s, e, status });
       // Dispatch the thunk and unwrap the result so errors are thrown here
    await dispatch(getAllLessons({ pageN, pageSize ,search, startDate : s , endDate : e , status  })).unwrap();
- 
+       
     } catch (error: any) {
       console.error('An error occurred while fetching lessons:', error);
       // If unauthorized, clear session and redirect to login
@@ -77,6 +77,7 @@ const fetchLessonById = async (id : string) => {
 
   // 🔧 FIX: Memoize parsed lesson to prevent new object creation on every render
   const parsedLesson = useMemo(() => {
+      console.log("useLessons: parsing lesson for selector.lesson:", selector);
     return getparsedLesson(selector.lesson as any);
   }, [selector.lesson]);
 

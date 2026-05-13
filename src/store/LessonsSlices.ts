@@ -34,6 +34,7 @@ const  getAllLessons= createAsyncThunk(
                 }
             }
             );
+            console.log("reeee",response.data)
             dispatch(setTotal(response.data.total))
             return response.data.result;
             

@@ -138,10 +138,11 @@ const InstructorListModal: React.FC<InstructorListModalProps> = ({
   const filteredInstructors = parseInsructor(instructors).filter(
     e => e.id.toString() !== currentInstructorId
   );
+  console.log("Filtered Instructors:", filteredInstructors);
   return (
     <>
       {filteredInstructors.map((e) => {
-        const displayName = e.instructor.length > 25 
+        const displayName = e.instructor?.length > 25 
           ? e.instructor.substring(0, 25) + '...' 
           : e.instructor;
         

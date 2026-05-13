@@ -215,6 +215,7 @@ const TableElementScrollable = ({ ele, currentTap = "pending" }: { ele: ParsedLe
         className='transition-all duration-300'
       onClick={(e : React.MouseEvent<HTMLSpanElement>) => {
         instructorModalRef.current?.toggle(e); 
+        console.log("Clicked instructor: , order", ele.instructor , order);
         e.currentTarget.classList.toggle('rotate-180');
       }}><img  className='transform rotate-180    p-2 hover:bg-blue-900/10 rounded-full cursor-pointer' src="/selectFlech.svg" /></span>  
          <SelectInstructorModal ref={instructorModalRef} orderId={order.id} instructorId={ele.id} />
